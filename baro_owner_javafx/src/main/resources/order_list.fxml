@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXTabPane?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="sample.Controller"
+           prefHeight="432.0" prefWidth="661.0">
+
+    <children>
+        <JFXTabPane fx:id="tabContainer" prefHeight="128.0" prefWidth="308.0" side="LEFT" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab fx:id="orderListTab" closable="false" text="주 문">
+                    <content>
+                        <AnchorPane fx:id="orderListContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+
+                <Tab fx:id="inventoryManagementTab" closable="false" text="재고관리">
+                    <content>
+                        <AnchorPane fx:id="inventoryManagementContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+
+                <Tab fx:id="infoChangeTab" closable="false" text="정보변경">
+                    <content>
+                        <AnchorPane fx:id="infoChangeContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+
+                <Tab fx:id="calculateTab" closable="false" text="정 산">
+                    <content>
+                        <AnchorPane fx:id="calculateContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+
+                <Tab fx:id="statisticsTab" closable="false" text="통 계">
+                    <content>
+                        <AnchorPane fx:id="statisticsContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+
+                <Tab fx:id="settingsTab" closable="false" text="설 정">
+                    <content>
+                        <AnchorPane fx:id="settingsContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+
+            </tabs>
+        </JFXTabPane>
+    </children>
+
+</StackPane>
