@@ -60,12 +60,12 @@ public class Main extends Application {
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-
+                System.out.println("close! reaseon :" + reason);
             }
 
             @Override
             public void onError(Exception ex) {
-
+                System.out.println("error! :" + ex);
             }
         };
         webSocketClient.connect();
