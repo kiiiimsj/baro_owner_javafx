@@ -1,6 +1,7 @@
 package sample;
 
 import com.baro.JsonParsing.LoginParsing;
+
 import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +25,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.*;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
+
 
 public class LoginController implements Initializable {
 
@@ -31,6 +34,9 @@ public class LoginController implements Initializable {
     @FXML private TextField phone_tf;
     @FXML private PasswordField password_tf;
     @FXML private Button login_btn;
+
+    //데이터 저장을 위한 preferences
+    Preferences preferences = Preferences.userRoot();
 
     LoginParsing loginParsing;
 
@@ -76,11 +82,10 @@ public class LoginController implements Initializable {
 
            System.out.println("response" + bf.toString());
 
-           loginjsonParsing(bf.toString());
-
+           boolean result = loginjsonParsing(bf.toString());
 
            //서버에서 response가 true 일때를 분기문에 추가시켜주기.
-           if(true){
+           if(result){
                Stage primaryStage = (Stage)login_btn.getScene().getWindow();
                Parent parent = FXMLLoader.load(getClass().getResource("/order_list.fxml"));
                Scene scene = new Scene(parent);
@@ -97,8 +102,20 @@ public class LoginController implements Initializable {
        }
     }
 
-    private void loginjsonParsing(String result){
+    private boolean loginjsonParsing(String result){
        Gson gson = new Gson();
         loginParsing = gson.fromJson(result, LoginParsing.class);
+        boolean result1 = loginParsing.isResult();
+        //result1 = true;
+        if(result1) {
+            //store_id, nick, store_name, email, is_open 저장
+            preferences.put("store_id", loginParsing.getStore_id());
+            preferences.put("nick", loginParsing.getNick());
+            preferences.put("store_name", loginParsing.getStore_name());
+            preferences.put("email", loginParsing.getEmail());
+            preferences.put("is_open", loginParsing.getIs_open());
+            //꺼낼때는 get 으로 써주고 두번째 파라미터에는 null 넣어주면 됨. 모르겠으면 물어봐
+        }
+        return result1;
     }
 }
