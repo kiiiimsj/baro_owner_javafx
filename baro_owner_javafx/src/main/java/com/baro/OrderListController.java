@@ -27,6 +27,7 @@ public class OrderListController {
 
     @FXML
     private Tab inventoryManagementTab;
+
     @FXML
     private AnchorPane inventoryManagementContainer;
 
