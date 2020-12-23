@@ -61,10 +61,11 @@ public class OrderListController {
     public void initialize() {
 
         configureSideView();
-        configureMainView();
+        configureOrderListView();
     }
 
-    private void configureMainView(){
+    //주문 들어온 리스트 찍기
+    private void configureOrderListView(){
 
     }
 

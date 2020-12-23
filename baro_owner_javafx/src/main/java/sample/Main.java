@@ -19,7 +19,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("바로(BARO) 포스기");
 
         //connect(); //웹소켓 잘 들어옴
 

@@ -31,18 +31,7 @@
                                   <Label text="10 : 00 PM" />
                                   <Button text="주문 접수" />
                               </VBox>
-                  
-                             <VBox>
-                                  <HBox>
-                                      <Label text="4개 주문" />
-                                      <Button text="상세" />
-                                  </HBox>
-                                  <Label text="회원번호 : 01012341234" />
-                                  <Label text="총 결제 금액 : 8700원" />
-                                  <Label text="10 : 00 PM" />
-                                  <Button text="주문 접수" />
-                              </VBox>
-                  
+
                          </TilePane>
                      </children>
                   </AnchorPane>
