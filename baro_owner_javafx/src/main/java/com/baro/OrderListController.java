@@ -9,8 +9,10 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.text.TextAlignment;
 import java.io.IOException;
 import java.net.URL;
@@ -23,7 +25,7 @@ public class OrderListController {
     @FXML
     private Tab orderListTab;
     @FXML
-    private AnchorPane orderListContainer;
+    private AnchorPane orderListSideContainer;
 
     @FXML
     private Tab inventoryManagementTab;
@@ -57,10 +59,17 @@ public class OrderListController {
     /// Life cycle
     @FXML
     public void initialize() {
-        configureView();
+
+        configureSideView();
+        configureMainView();
     }
+
+    private void configureMainView(){
+
+    }
+
     /// Private
-    private void configureView() {
+    private void configureSideView() {
         tabContainer.setTabMinWidth(tabWidth);
         tabContainer.setTabMaxWidth(tabWidth);
         tabContainer.setTabMinHeight(tabWidth);
@@ -79,13 +88,10 @@ public class OrderListController {
             Tab currentTab = (Tab) event.getTarget();
             if (currentTab.isSelected()) {
                 tabContainer.getSelectionModel().select(lastSelectedTabIndex);
-                //System.out.println("Logging out!");
             }
         };
 
-
-
-        configureTab(orderListTab, "주 문", orderListContainer, getClass().getResource("order_list.fxml"), replaceBackgroundColorHandler);
+        configureTab(orderListTab, "주 문", orderListSideContainer, getClass().getResource("order_list.fxml"), replaceBackgroundColorHandler);
         configureTab(inventoryManagementTab, "재고관리", inventoryManagementContainer, getClass().getResource("/inventory_management.fxml"), replaceBackgroundColorHandler);
         configureTab(infoChangeTab, "정보변경", infoChangeContainer, getClass().getResource("/info_change.fxml"), replaceBackgroundColorHandler);
         configureTab(calculateTab, "정 산", calculateContainer, getClass().getResource("/calculate.fxml"), replaceBackgroundColorHandler);
@@ -104,7 +110,7 @@ public class OrderListController {
         Label label = new Label(title);
         label.setMaxWidth(tabWidth - 20);
         label.setPadding(new Insets(5, 0, 0, 0));
-        //label.setStyle("-fx-text-fill: black; -fx-font-size: 8pt; -fx-font-weight: normal;");
+        label.setStyle("-fx-text-fill: black; -fx-font-size: 8pt; -fx-font-weight: normal;");
         label.setTextAlignment(TextAlignment.CENTER);
         BorderPane tabPane = new BorderPane();
         tabPane.setRotate(90.0);
