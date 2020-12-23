@@ -1,5 +1,7 @@
 package sample;
 
+import com.baro.JsonParsing.LoginParsing;
+import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,6 +31,8 @@ public class LoginController implements Initializable {
     @FXML private TextField phone_tf;
     @FXML private PasswordField password_tf;
     @FXML private Button login_btn;
+
+    LoginParsing loginParsing;
 
    @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -72,6 +76,9 @@ public class LoginController implements Initializable {
 
            System.out.println("response" + bf.toString());
 
+           loginjsonParsing(bf.toString());
+
+
            //서버에서 response가 true 일때를 분기문에 추가시켜주기.
            if(true){
                Stage primaryStage = (Stage)login_btn.getScene().getWindow();
@@ -88,5 +95,10 @@ public class LoginController implements Initializable {
        } catch (IOException e) {
            e.printStackTrace();
        }
+    }
+
+    private void loginjsonParsing(String result){
+       Gson gson = new Gson();
+        loginParsing = gson.fromJson(result, LoginParsing.class);
     }
 }
