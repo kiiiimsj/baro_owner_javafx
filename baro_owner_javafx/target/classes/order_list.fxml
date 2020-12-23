@@ -9,7 +9,7 @@
 <?import com.jfoenix.controls.JFXTabPane?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="sample.Controller"
+           fx:controller="com.baro.OrderListController"
            prefHeight="432.0" prefWidth="661.0">
 
     <children>

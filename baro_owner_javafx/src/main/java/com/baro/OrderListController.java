@@ -1,4 +1,4 @@
-package sample;
+package com.baro;
 
 import com.jfoenix.controls.JFXTabPane;
 import javafx.event.Event;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 
 
-public class Controller {
+public class OrderListController {
     @FXML
     private JFXTabPane tabContainer;
 
