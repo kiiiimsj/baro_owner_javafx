@@ -30,10 +30,10 @@
 
     <LineChart fx:id="line_chart" AnchorPane.leftAnchor="0.5" AnchorPane.topAnchor="120">
         <xAxis>
-            <NumberAxis side="BOTTOM" fx:id="x_axis"/>
+            <CategoryAxis fx:id="x_axis"/>
         </xAxis>
         <yAxis>
-            <CategoryAxis side="LEFT" fx:id="y_axis"/>
+            <NumberAxis fx:id="y_axis"/>
         </yAxis>
     </LineChart>
 

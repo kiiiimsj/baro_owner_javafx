@@ -1,5 +1,6 @@
 package sample;
 
+import com.baro.JsonParsing.Category;
 import com.baro.JsonParsing.Statistics;
 import com.baro.JsonParsing.StatisticsParsing;
 import com.google.gson.Gson;
@@ -37,9 +38,9 @@ public class StatisticsController implements Initializable {
     @FXML private JFXButton look_up_button;
     @FXML private Text total_sales;
     @FXML private Text total_number_of_sales;
-    @FXML private LineChart<Number, String> line_chart;
-    @FXML private NumberAxis x_axis;
-    @FXML private CategoryAxis y_axis;
+    @FXML private LineChart<String, Number> line_chart;
+    @FXML private CategoryAxis x_axis;
+    @FXML private NumberAxis y_axis;
     private StringConverter dateConverter;
     private StatisticsParsing statisticsParsing;
 
@@ -181,23 +182,19 @@ public class StatisticsController implements Initializable {
     }
 
     private void setStatisticsData() {
-        ObservableList<XYChart.Series<Number, String>> list = FXCollections.observableArrayList();
-
-        XYChart.Series series = new XYChart.Series();
-        series.setName("날짜");
-
-        XYChart.Series series2 = new XYChart.Series();
-        series2.setName("판매액");
+        line_chart.getData().clear();
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("총 판매액");
         int totalPrice = 0;
         for (int i = 0; i < statisticsParsing.statistics.size() ; i++) {
             Statistics statisticsData = statisticsParsing.statistics.get(i);
             totalPrice += statisticsData.price;
-            series.getData().add(new XYChart.Data(i, statisticsData.date));
-            series2.getData().add(new XYChart.Data(i, String.valueOf(statisticsData.price)));
+            String date = statisticsData.date.substring(5);
+            series.getData().add(new XYChart.Data<>(date, statisticsData.price));
         }
         total_sales.setText(totalPrice + " 원");
-
-        list.addAll(series, series2);
-        line_chart.setData(list);
+        y_axis.setLabel("판매액");
+        x_axis.setLabel("날짜");
+        line_chart.getData().add(series);
     }
 }
