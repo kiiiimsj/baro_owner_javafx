@@ -24,9 +24,9 @@
     <Text fx:id="total_number_of_sales" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="95"/>
 
     <HBox AnchorPane.rightAnchor="0.0">
-        <JFXDatePicker prefHeight="50" fx:id="end_date_picker"/>
-        <Text text="-" style="-fx-font: 24 arial" textAlignment="CENTER"/>
         <JFXDatePicker prefHeight="50" fx:id="start_date_picker"/>
+        <Text text="-" style="-fx-font: 24 arial" textAlignment="CENTER"/>
+        <JFXDatePicker prefHeight="50" fx:id="end_date_picker"/>
         <JFXButton fx:id="look_up_button" text="조회" alignment="CENTER_RIGHT"/>
     </HBox>
 
