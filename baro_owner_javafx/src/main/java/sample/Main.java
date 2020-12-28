@@ -15,21 +15,22 @@ public class Main extends Application {
 
     //websocket 변수 선언
     private WebSocketClient webSocketClient;
-
+    private static Stage pStage;
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
         primaryStage.setTitle("바로(BARO) 포스기");
-
+        setPrimaryStage(primaryStage);
         //connect(); //웹소켓 잘 들어옴
 
         primaryStage.setScene(new Scene(root, 1000, 700));
         primaryStage.show();
     }
-
-
-    public static void main(String[] args) {
-        launch(args);
+    public static Stage getPrimaryStage() {
+        return pStage;
+    }
+    private void setPrimaryStage(Stage pStage) {
+        Main.pStage = pStage;
     }
 
     //================================================================
