@@ -10,6 +10,8 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import com.jfoenix.controls.JFXScrollPane?>
+<?import javafx.scene.control.ScrollPane?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="sample.StatisticsController"
@@ -22,9 +24,9 @@
     <Text fx:id="total_number_of_sales" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="95"/>
 
     <HBox AnchorPane.rightAnchor="0.0">
-        <JFXDatePicker prefHeight="50" fx:id="start_date_picker"/>
-        <Text text="-" style="-fx-font: 24 arial" textAlignment="CENTER"/>
         <JFXDatePicker prefHeight="50" fx:id="end_date_picker"/>
+        <Text text="-" style="-fx-font: 24 arial" textAlignment="CENTER"/>
+        <JFXDatePicker prefHeight="50" fx:id="start_date_picker"/>
         <JFXButton fx:id="look_up_button" text="조회" alignment="CENTER_RIGHT"/>
     </HBox>
 
@@ -37,4 +39,5 @@
         </yAxis>
     </LineChart>
 
+    <ScrollPane fx:id="menu_scroll_view" AnchorPane.rightAnchor="0.5" AnchorPane.topAnchor="60" prefWidth="350" style="-fx-background-color: white"/>
 </AnchorPane>
