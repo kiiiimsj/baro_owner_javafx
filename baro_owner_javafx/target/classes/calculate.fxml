@@ -6,12 +6,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.text.Text?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
+            fx:controller="sample.CalculateController"
             prefHeight="400.0" prefWidth="600.0">
-
-    <children>
-        <Label layoutX="100.0" layoutY="100.0" text="CALCULATE" />
-    </children>
-
+    <Label text="총 결제 금액" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="5.0"/>
+    <Text fx:id="this_week_total_price" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="150.0"/>
+    <Label text="총 쿠폰 금액" AnchorPane.topAnchor="40.0" AnchorPane.leftAnchor="5.0"/>
+    <Text fx:id="coupon_price" AnchorPane.topAnchor="40.0" AnchorPane.leftAnchor="150.0"/>
+    <Label text="입금 받을 금액" AnchorPane.topAnchor="60.0" AnchorPane.leftAnchor="5.0"/>
+    <Text fx:id="menu_total_price" AnchorPane.topAnchor="60.0" AnchorPane.leftAnchor="150.0"/>
 </AnchorPane>
