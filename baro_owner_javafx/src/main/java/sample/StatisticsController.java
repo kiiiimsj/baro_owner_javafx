@@ -87,7 +87,6 @@ public class StatisticsController implements Initializable {
         look_up_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                getStatisticsTotalPrice();
                 getStatisticsSalesValue();
                 getStatisticsMenusData();
             }
@@ -127,52 +126,6 @@ public class StatisticsController implements Initializable {
             //서버에서 response가 true 일때를 분기문에 추가시켜주기.
             if(new JSONObject(bf.toString()).getBoolean("result")){
                 parsingStatisticsData(bf.toString());
-            }
-        }
-        catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    private void getStatisticsTotalPrice() {
-        if(start_date_picker.getValue() == null && end_date_picker.getValue() == null) {
-            return;
-        }
-        try{
-            URL url = new URL("http://3.35.180.57:8080/OwnerSetstatistics.do");
-            URLConnection con = url.openConnection();
-            HttpURLConnection http = (HttpURLConnection) con;
-            http.setRequestMethod("POST");
-            http.setRequestProperty("Content-Type","application/json;utf-8");
-            http.setRequestProperty("Accept","application/json");
-            http.setDoOutput(true);
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("store_id", owner_store_id);
-            jsonObject.put("start_date", start_date_picker.getValue());
-            jsonObject.put("end_date", end_date_picker.getValue());
-            OutputStream os = http.getOutputStream();
-
-            byte[] input = jsonObject.toString().getBytes("utf-8");
-            os.write(input, 0, input.length);
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String line;
-            StringBuffer bf = new StringBuffer();
-
-            while((line = br.readLine()) != null) {
-                bf.append(line);
-            }
-            br.close();
-
-            System.out.println("response" + bf.toString());
-
-            //서버에서 response가 true 일때를 분기문에 추가시켜주기.
-            if(new JSONObject(bf.toString()).getBoolean("result")){
-                JSONArray data = new JSONObject( (bf.toString()) ).getJSONArray("statistics");
-                total_sales.setText(data.getJSONObject(0).getInt("price")+" 원");
-
             }
         }
         catch (MalformedURLException e) {
@@ -233,9 +186,12 @@ public class StatisticsController implements Initializable {
 
     }
     private void setMenuStatisticsData() {
-
+        int totalCount = 0;
+        int totalPrice = 0;
         for (int i = 0; i < statisticsMenuParsing.menuStatisticsList.size(); i++) {
             MenuStatistics menuStatistics = statisticsMenuParsing.menuStatisticsList.get(i);
+            totalCount += menuStatistics.menu_count;
+            totalPrice += menuStatistics.menu_count;
             TextFlow cell = new TextFlow();
             Text menuName = new Text(menuStatistics.menu_name+"\n");
             Text menuTotalCount = new Text(menuStatistics.menu_count+" 개\n");
@@ -244,6 +200,8 @@ public class StatisticsController implements Initializable {
             cell.setLayoutY(i * 60);
             scrollContent.getChildren().add(cell);
         }
+        total_sales.setText(totalPrice+" 원");
+        total_number_of_sales.setText(totalCount+" 개");
         menu_scroll_view.setContent(scrollContent);
     }
 
