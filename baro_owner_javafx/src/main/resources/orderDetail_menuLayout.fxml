@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.OrderDetailMenuController">
+   <spacing>10</spacing>
+    <children>
+      <HBox>
+          <spacing>10</spacing>
+         <children>
+            <Label fx:id="menuNameLabel" text="아메리카노" />
+            <Label fx:id="defaultPriceLabel" text="디폴트 가격" />
+         </children>
+      </HBox>
+        <VBox fx:id="extraBox" />
+      <HBox >
+          <spacing>10</spacing>
+         <children>
+            <Label fx:id="eachPriceLabel" text="옵션포함가격" />
+            <Label fx:id="countLabel" text="개수" />
+            <Label text="합계 : " />
+            <Label fx:id="totalPriceLabel" text="총가격" />
+         </children>
+      </HBox>
+        <HBox style="-fx-background-color: #111010" prefHeight="1"></HBox>
+   </children>
+</VBox>
