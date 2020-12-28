@@ -1,5 +1,8 @@
 package com.baro;
 
+import com.baro.JsonParsing.OrderList;
+import com.baro.controllers.OrderController;
+import com.google.gson.Gson;
 import com.jfoenix.controls.JFXTabPane;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -9,13 +12,17 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStreamReader;
+import java.net.*;
 
 
 public class OrderListController {
@@ -52,7 +59,10 @@ public class OrderListController {
     private Tab settingsTab;
     @FXML
     private AnchorPane settingsContainer;
+    @FXML
+    private TilePane orderListContainer;
 
+    public OrderList orderList;
 
     private double tabWidth = 90.0;
     public static int lastSelectedTabIndex = 0;
@@ -66,9 +76,63 @@ public class OrderListController {
 
     //주문 들어온 리스트 찍기
     private void configureOrderListView(){
+        try{
+            URL url = new URL("http://3.35.180.57:8080/OrderFindByStoreId.do?store_id=1");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("GET");
+            http.setRequestProperty("Content-Type","application/json;utf-8");
+            http.setRequestProperty("Accept","application/json");
+            http.setDoOutput(true);
 
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer bf = new StringBuffer();
+
+            while((line = br.readLine()) != null) {
+                bf.append(line);
+            }
+            br.close();
+
+            System.out.println("response" + bf.toString());
+            boolean result = menuUpdateSaveSoldOutParsing(bf.toString());
+
+            //서버에서 response가 true 일때를 분기문에 추가시켜주기.
+            if(result){
+                parsingOrders(bf.toString());
+            }
+
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    private void parsingOrders(String toString) {
+        orderList = new Gson().fromJson(toString,OrderList.class);
+
+        try {
+            for (int i = 0; i < orderList.orders.size();i++) {
+                FXMLLoader loader =new FXMLLoader(getClass().getResource("/order.fxml"));
+                VBox vBox = loader.load();
+                OrderController controller = loader.<OrderController>getController();
+                controller.setData(orderList.orders.get(i));
+                controller.configureUI();
+                orderListContainer.getChildren().add(vBox);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean menuUpdateSaveSoldOutParsing(String toString) {
+        JSONObject jsonObject = new JSONObject(toString);
+        return (jsonObject.getBoolean("result"));
+    }
     /// Private
     private void configureSideView() {
         tabContainer.setTabMinWidth(tabWidth);

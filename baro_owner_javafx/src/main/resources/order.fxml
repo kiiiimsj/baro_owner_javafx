@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="105.0" prefWidth="210.0" style="-fx-padding: 10; -fx-border-color: #434343;         -fx-border-width: 1; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.OrderController">
+    <spacing>10</spacing>
+    <HBox>
+        <spacing>50</spacing>
+        <Label fx:id="order_count" text="4개 주문" />
+        <Button alignment="CENTER" text="상세" textAlignment="CENTER" visible="true">
+            <HBox.hgrow>
+                <Priority fx:constant="ALWAYS" />
+            </HBox.hgrow>
+            <maxWidth>
+                <Double fx:constant="MAX_VALUE" />
+            </maxWidth>
+        </Button>
+    </HBox>
+    <Label fx:id="customer" text="회원번호 : 01012341234" />
+    <Label fx:id="price" text="총 결제 금액 : 8700원" />
+    <Label fx:id="order_time" text="10 : 00 PM" wrapText="true" />
+    <Button fx:id="acceptBtn" alignment="CENTER" contentDisplay="CENTER" onAction="#clickAccept" style="-fx-background-color: #8333e6" text="주문 접수" textFill="WHITE" wrapText="true">
+        <VBox.margin><Insets left="30" right="30" /> </VBox.margin>
+        <maxWidth>
+            <Double fx:constant="MAX_VALUE" />
+        </maxWidth>
+        <minHeight>30</minHeight>
+      <font>
+         <Font size="14.0" />
+      </font>
+    </Button>
+
+</VBox>
