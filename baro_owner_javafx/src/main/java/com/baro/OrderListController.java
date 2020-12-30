@@ -1,9 +1,14 @@
 package com.baro;
 
+import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderList;
 import com.baro.controllers.OrderController;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXTabPane;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,20 +17,25 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.drafts.Draft_17;
+import org.java_websocket.handshake.ServerHandshake;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.*;
+import java.util.prefs.Preferences;
 
 
 public class OrderListController {
+
+    private final String TAG = this.getClass().getSimpleName();
+
     @FXML
     private JFXTabPane tabContainer;
 
@@ -61,35 +71,107 @@ public class OrderListController {
     private AnchorPane settingsContainer;
     @FXML
     private TilePane orderListContainer;
+    @FXML
+    private ToggleButton isOpenBtn;
+    private WebSocketClient webSocketClient;
 
-    public OrderList orderList;
+    public static OrderList orderList;
 
     private double tabWidth = 90.0;
     public static int lastSelectedTabIndex = 0;
+    String store_id;
+    Preferences preferences = Preferences.userRoot();
+
     /// Life cycle
     @FXML
     public void initialize() {
-
+        isOpenBtn.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                System.out.println(newValue);
+                store_is_open_change(newValue);
+            }
+        });
+        store_id = preferences.get("store_id", null);
+        connect();
         configureSideView();
         configureOrderListView();
     }
 
+    public void store_is_open_change(boolean is_open) {
+        try {
+
+            URL url = new URL("http://3.35.180.57:8080/OwnerSetStoreStatus.do");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("PUT");
+            http.setRequestProperty("Content-Type", "application/json;utf-8");
+            http.setRequestProperty("Accept", "application/json");
+            http.setDoOutput(true);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("store_id", store_id);
+            if (is_open) {
+                jsonObject.put("is_open", "Y");
+                isOpenBtn.setText("영업 중");
+                isOpenBtn.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+            } else {
+                jsonObject.put("is_open", "N");
+                isOpenBtn.setText("영업 종료");
+                isOpenBtn.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            }
+
+            OutputStream os = http.getOutputStream();
+
+            byte[] input = jsonObject.toString().getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer bf = new StringBuffer();
+
+            while ((line = br.readLine()) != null) {
+                bf.append(line);
+            }
+            br.close();
+            System.out.println("response" + bf.toString());
+            boolean result = getBool(bf.toString());
+
+            if (result) {
+                System.out.println("성공");
+            } else {
+                System.out.println("실패");
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean getBool(String toString) {
+        JSONObject jsonObject = new JSONObject(toString);
+        return (jsonObject.getBoolean("result"));
+    }
+
     //주문 들어온 리스트 찍기
-    private void configureOrderListView(){
-        try{
+    private void configureOrderListView() {
+        try {
             URL url = new URL("http://3.35.180.57:8080/OrderFindByStoreId.do?store_id=1");
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection) con;
             http.setRequestMethod("GET");
-            http.setRequestProperty("Content-Type","application/json;utf-8");
-            http.setRequestProperty("Accept","application/json");
+            http.setRequestProperty("Content-Type", "application/json;utf-8");
+            http.setRequestProperty("Accept", "application/json");
             http.setDoOutput(true);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String line;
             StringBuffer bf = new StringBuffer();
 
-            while((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 bf.append(line);
             }
             br.close();
@@ -98,12 +180,11 @@ public class OrderListController {
             boolean result = menuUpdateSaveSoldOutParsing(bf.toString());
 
             //서버에서 response가 true 일때를 분기문에 추가시켜주기.
-            if(result){
+            if (result) {
                 parsingOrders(bf.toString());
             }
 
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (ProtocolException e) {
             e.printStackTrace();
@@ -113,19 +194,29 @@ public class OrderListController {
     }
 
     private void parsingOrders(String toString) {
-        orderList = new Gson().fromJson(toString,OrderList.class);
+        orderList = new Gson().fromJson(toString, OrderList.class);
 
+        setList();
+    }
+
+    private VBox makeCell(int index) {
+        VBox vBox = null;
         try {
-            for (int i = 0; i < orderList.orders.size();i++) {
-                FXMLLoader loader =new FXMLLoader(getClass().getResource("/order.fxml"));
-                VBox vBox = loader.load();
-                OrderController controller = loader.<OrderController>getController();
-                controller.setData(orderList.orders.get(i));
-                controller.configureUI();
-                orderListContainer.getChildren().add(vBox);
-            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/order.fxml"));
+            vBox = loader.load();
+            OrderController controller = loader.<OrderController>getController();
+            controller.setData(orderList.orders.get(index));
+            controller.configureUI();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        return vBox;
+    }
+
+    private void setList() {
+
+        for (int i = orderList.orders.size() - 1; i >= 0; i--) {
+            orderListContainer.getChildren().add(makeCell(i));
         }
     }
 
@@ -133,6 +224,7 @@ public class OrderListController {
         JSONObject jsonObject = new JSONObject(toString);
         return (jsonObject.getBoolean("result"));
     }
+
     /// Private
     private void configureSideView() {
         tabContainer.setTabMinWidth(tabWidth);
@@ -197,5 +289,55 @@ public class OrderListController {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void connect() {
+        System.out.println("aaa");
+        URI uri;
+        try {
+            uri = new URI("ws://3.35.180.57:8080/websocket");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        webSocketClient = new WebSocketClient(uri, new Draft_17()) {
+            @Override
+            public void onOpen(ServerHandshake handshakedata) {
+
+                webSocketClient.send("connect:::" + 1);
+                System.out.println("open!!");
+            }
+
+            @Override
+            public void onMessage(String message) {
+                System.out.println("message!!");
+                System.out.println(message);
+                JSONObject jsonObject = new JSONObject(message);
+//                JSONObject orderJsonObject = jsonObject.getJSONObject(orders);
+                Order order = new Gson().fromJson(message, Order.class);
+                order.order_state = Order.PREPARING;
+                orderList.orders.add(order);
+                System.out.println(orderList.orders.size());
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        orderListContainer.getChildren().add(0, makeCell(orderList.orders.size() - 1));
+                    }
+                });
+
+            }
+
+            @Override
+            public void onClose(int code, String reason, boolean remote) {
+                System.out.println("close! reaseon :" + reason);
+            }
+
+            @Override
+            public void onError(Exception ex) {
+                System.out.println("error! :" + ex);
+            }
+        };
+        webSocketClient.connect();
     }
 }
