@@ -2,9 +2,11 @@ package com.baro.controllers;
 
 import com.baro.JsonParsing.OrderDetail;
 import com.baro.JsonParsing.OrderDetailParsing;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -44,7 +46,9 @@ public class OrderDetailsController implements Initializable {
     private String date;
     private int pay;
     private int discount;
-    double pos;
+    private String receipt_id;
+    private double pos;
+    private final SimpleBooleanProperty changeToAccept = new SimpleBooleanProperty();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         pos = splitPane.getDividers().get(0).getPosition();
@@ -54,14 +58,19 @@ public class OrderDetailsController implements Initializable {
                 splitPane.getDividers().get(0).setPosition(pos);
             }
         });
+
+    }
+    public SimpleBooleanProperty getChangeToAccept(){
+        return changeToAccept;
     }
 
-    public void setData(OrderDetailParsing data,String phone,String date,int pay,int discount) {
+    public void setData(OrderDetailParsing data,String phone,String date,int pay,int discount,String receipt_id) {
         this.data = data;
         this.phone = phone;
         this.date = date;
         this.pay = pay;
         this.discount = discount;
+        this.receipt_id = receipt_id;
     }
     public void configureLeftUI(){
         phoneLabel.setText(phone);
@@ -95,11 +104,22 @@ public class OrderDetailsController implements Initializable {
             stage.initOwner(Main.getPrimaryStage());
             stage.setTitle("시간 설정");
             Parent parent = loader.load();
+            SettingTimerController controller = loader.<SettingTimerController>getController();
+            controller.getChangeToAccept().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if (newValue == true){
+                        changeToAccept.set(newValue);
+                        stage.close();
+                        OrderController.DetailsStage.close();
+                    }
+                }
+            });
+            controller.setData(receipt_id);
             Scene scene = new Scene(parent);
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
-            OrderController.DetailsStage.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
