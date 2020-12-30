@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:controller="com.baro.controllers.SettingTimerController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox prefHeight="32.0" prefWidth="400.0">
          <children>
-            <Button fx:id="reset" mnemonicParsing="false" text="시간 초기화" />
+            <Button fx:id="reset" mnemonicParsing="false" text="시간 초기화" onAction="#resetTimer"/>
          </children>
       </HBox>
       <GridPane prefHeight="183.0" prefWidth="400.0">
@@ -28,12 +28,12 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="button1" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="1" GridPane.halignment="CENTER" />
-            <Button fx:id="button3" mnemonicParsing="false" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-            <Button fx:id="button5" mnemonicParsing="false" text="5" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-            <Button fx:id="button10" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" text="10" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Button fx:id="button30" mnemonicParsing="false" text="30" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Button fx:id="button60" mnemonicParsing="false" text="60" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Button fx:id="button1" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="1" GridPane.halignment="CENTER" onAction="#add1"/>
+            <Button fx:id="button3" mnemonicParsing="false" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER" onAction="#add3"/>
+            <Button fx:id="button5" mnemonicParsing="false" text="5" GridPane.columnIndex="2" GridPane.halignment="CENTER" onAction="#add5" />
+            <Button fx:id="button10" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" text="10" GridPane.halignment="CENTER" GridPane.rowIndex="1" onAction="#add10"/>
+            <Button fx:id="button30" mnemonicParsing="false" text="30" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" onAction="#add30"/>
+            <Button fx:id="button60" mnemonicParsing="false" text="60" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" onAction="#add60"/>
          </children>
       </GridPane>
       <AnchorPane prefHeight="86.0" prefWidth="400.0">
@@ -45,7 +45,7 @@
                   <Label text="분" />
                </children>
             </HBox>
-            <Button layoutX="158.0" layoutY="43.0" mnemonicParsing="false" text="제조 시작" />
+            <Button layoutX="158.0" layoutY="43.0" mnemonicParsing="false" text="제조 시작" onAction="#orderAccept"/>
          </children>
       </AnchorPane>
    </children>

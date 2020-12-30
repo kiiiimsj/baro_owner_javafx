@@ -4,6 +4,9 @@ import com.baro.JsonParsing.OrderList;
 import com.baro.controllers.OrderController;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXTabPane;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,6 +20,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.drafts.Draft_17;
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -26,6 +32,9 @@ import java.net.*;
 
 
 public class OrderListController {
+
+    private final String TAG = this.getClass().getSimpleName();
+
     @FXML
     private JFXTabPane tabContainer;
 
@@ -62,14 +71,16 @@ public class OrderListController {
     @FXML
     private TilePane orderListContainer;
 
-    public OrderList orderList;
+    private WebSocketClient webSocketClient;
+
+    public static OrderList orderList;
 
     private double tabWidth = 90.0;
     public static int lastSelectedTabIndex = 0;
     /// Life cycle
     @FXML
     public void initialize() {
-
+        connect();
         configureSideView();
         configureOrderListView();
     }
@@ -115,8 +126,12 @@ public class OrderListController {
     private void parsingOrders(String toString) {
         orderList = new Gson().fromJson(toString,OrderList.class);
 
+        setList();
+    }
+
+    private void setList() {
         try {
-            for (int i = 0; i < orderList.orders.size();i++) {
+            for (int i = orderList.orders.size()-1 ; i >= 0;i--) {
                 FXMLLoader loader =new FXMLLoader(getClass().getResource("/order.fxml"));
                 VBox vBox = loader.load();
                 OrderController controller = loader.<OrderController>getController();
@@ -197,5 +212,42 @@ public class OrderListController {
                 e.printStackTrace();
             }
         }
+    }
+    private void connect() {
+        System.out.println("aaa");
+        URI uri;
+        try {
+            uri = new URI("ws://3.35.180.57:8080/websocket");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return;
+        }
+
+        webSocketClient = new WebSocketClient(uri, new Draft_17()) {
+            @Override
+            public void onOpen(ServerHandshake handshakedata) {
+
+                webSocketClient.send("connect:::" + 1);
+                System.out.println("open!!");
+            }
+
+            @Override
+            public void onMessage(String message) {
+                System.out.println("message!!");
+                System.out.println(message);
+            }
+
+            @Override
+            public void onClose(int code, String reason, boolean remote) {
+                System.out.println("close! reaseon :" + reason);
+            }
+
+            @Override
+            public void onError(Exception ex) {
+                System.out.println("error! :" + ex);
+            }
+        };
+        webSocketClient.connect();
     }
 }
