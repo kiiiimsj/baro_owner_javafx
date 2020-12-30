@@ -21,7 +21,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
         primaryStage.setTitle("바로(BARO) 포스기");
         setPrimaryStage(primaryStage);
-        //connect(); //웹소켓 잘 들어옴
+//        connect(); //웹소켓 잘 들어옴
 
         primaryStage.setScene(new Scene(root, 1000, 700));
         primaryStage.show();
