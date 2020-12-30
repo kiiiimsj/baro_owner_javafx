@@ -129,10 +129,9 @@ public class InventoryController implements Initializable {
                             }
                         });
                         cell.getChildren().addAll(menuName, menuInfo, menuPrice);
-
+                        cell.getChildren().add(toggleButton);
                         menuList.getItems().add(cell);
                         System.out.println("getListView :" + menuList.getPrefWidth());
-                        cell.getChildren().get(3).setTranslateX(menuList.getPrefWidth());
                     }
                 }
             }
