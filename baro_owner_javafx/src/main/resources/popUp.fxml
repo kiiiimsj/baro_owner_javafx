@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane style="-fx-background-color: white" prefHeight="100.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.PopUpController">
+   <children>
+      <HBox alignment="CENTER" layoutY="42.0" minHeight="0.0" minWidth="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+
+         <children>
+            <Label text="현재 접수되지 않은 주문이 " />
+            <Label fx:id="count" text="1" />
+            <Label text=" 건 있습니다" />
+         </children>
+      </HBox>
+      <Button layoutX="160.0" layoutY="64.0" mnemonicParsing="false" onAction="#toTopPostion" prefHeight="20.0" prefWidth="80.0" text="확 인" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-2.0" layoutY="-1.0" prefHeight="22.0" prefWidth="68.0" text="BARO" />
+   </children>
+</AnchorPane>
