@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 import org.json.JSONString;
