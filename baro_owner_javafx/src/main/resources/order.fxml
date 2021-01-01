@@ -11,7 +11,7 @@
     <HBox>
         <spacing>50</spacing>
         <Label fx:id="order_count" text="4개 주문" />
-        <Button fx:id="showDetailBtn" alignment="CENTER" text="상세" textAlignment="CENTER" visible="false">
+        <Button fx:id="showDetailBtn" alignment="CENTER" text="상세" textAlignment="CENTER" visible="false" onAction="#showDetail">
             <HBox.hgrow>
                 <Priority fx:constant="ALWAYS" />
             </HBox.hgrow>
@@ -23,7 +23,7 @@
     <Label fx:id="customer" text="회원번호 : 01012341234" />
     <Label fx:id="price" text="총 결제 금액 : 8700원" />
     <Label fx:id="order_time" text="10 : 00 PM" wrapText="true" />
-    <Button fx:id="acceptBtn" alignment="CENTER" contentDisplay="CENTER" onAction="#clickAccept" style="-fx-background-color: #8333e6" text="주문 접수" textFill="WHITE" wrapText="true">
+    <Button fx:id="bottomBtn" alignment="CENTER" contentDisplay="CENTER" onAction="#clickBottomBtn" style="-fx-background-color: #8333e6" text="주문 접수" textFill="WHITE" wrapText="true">
         <VBox.margin><Insets left="30" right="30" /> </VBox.margin>
         <maxWidth>
             <Double fx:constant="MAX_VALUE" />

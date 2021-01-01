@@ -4,6 +4,7 @@ import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.OrderListController;
 import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,12 +32,16 @@ import sample.Main;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.*;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 public class OrderController implements Initializable{
     @FXML
-    private Button acceptBtn;
+    private Button bottomBtn;
+    @FXML
+    private Button cancelBtn;
     @FXML
     private Button showDetailBtn;
     @FXML
@@ -51,35 +56,36 @@ public class OrderController implements Initializable{
     public  VBox shell;
     private Order orderData ;
     private OrderDetailParsing orderDetailParsing;
+    public SimpleBooleanProperty is_Done = new SimpleBooleanProperty();
+    public SimpleBooleanProperty is_Cancel = new SimpleBooleanProperty();
     public static Stage DetailsStage;
+    public int index;
+    Preferences preferences = Preferences.userRoot();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
 
     }
-    public static void changeBackGround(){
-
-    }
     public void configureUI() {
         order_time.setText(orderData.order_date);
-        price.setText(orderData.total_price+" 원");
+        price.setText(orderData.total_price+" 원 " + index);
         customer.setText(orderData.phone);
         order_count.setText(orderData.order_count+" 개의 주문");
         if (orderData.order_state.equals(Order.ACCEPT)){
             shell.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             showDetailBtn.setVisible(true);
-        }else if (orderData.order_state == Order.PREPARING) {
+            bottomBtn.setText("완료");
+        }else if (orderData.order_state.equals(Order.PREPARING)) {
 
         }
         System.out.println(orderData.order_state);
     }
-
-    public void setData(Order data) {
+    public void setData(Order data,int index) {
         orderData = data;
+        this.index = index;
     }
-
-    public void clickAccept(ActionEvent event){
+    public void getDetail(){
         try{
             URL url = new URL("http://3.35.180.57:8080/OrderListDoneOrCancelForOwner.do?receipt_id="+orderData.receipt_id);
             URLConnection con = url.openConnection();
@@ -114,8 +120,6 @@ public class OrderController implements Initializable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
     private boolean getRequestSuccess(String toString) {
         JSONObject jsonObject = new JSONObject(toString);
@@ -135,7 +139,7 @@ public class OrderController implements Initializable{
             stage.setScene(scene);
             stage.setResizable(false);
             OrderDetailsController controller = loader.<OrderDetailsController>getController();
-            controller.setData(orderDetailParsing,orderData.phone,orderData.order_date,orderData.total_price,orderData.discount_price,orderData.receipt_id);
+            controller.setData(orderDetailParsing,orderData);
             controller.configureLeftUI();
             controller.configureRightUI();
             controller.getChangeToAccept().addListener(new ChangeListener<Boolean>() {
@@ -143,7 +147,14 @@ public class OrderController implements Initializable{
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     shell.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                     showDetailBtn.setVisible(true);
-                    acceptBtn.setText("완료");
+                    bottomBtn.setText("완료");
+                    orderData.order_state = Order.ACCEPT;
+                }
+            });
+            controller.getChangeToCancel().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    is_Cancel.set(true);
                 }
             });
             stage.show();
@@ -153,5 +164,100 @@ public class OrderController implements Initializable{
             e.printStackTrace();
         }
     }
+    public void showDetail(ActionEvent event) {
+        getDetail();
+    }
+    public void clickBottomBtn(ActionEvent event) {
+        if (orderData.order_state.equals(Order.ACCEPT)){
+            setOrderDone();
+        }else if (orderData.order_state.equals(Order.PREPARING)){
+            getDetail();
+        }
+    }
+    public void setOrderDone(){
+        try{
+            URL url = new URL("http://3.35.180.57:8080/OwnerSetOrderStatusComplete.do");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("PUT");
+            http.setRequestProperty("Content-Type","application/json;utf-8");
+            http.setRequestProperty("Accept","application/json");
+            http.setDoOutput(true);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("receipt_id", orderData.receipt_id);
+            jsonObject.put("store_id", preferences.get("store_id",null));
+            OutputStream os = http.getOutputStream();
 
+            byte[] input = jsonObject.toString().getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer bf = new StringBuffer();
+
+            while((line = br.readLine()) != null) {
+                bf.append(line);
+            }
+            br.close();
+            System.out.println("response" + bf.toString());
+            boolean result = getRequestSuccess(bf.toString());
+
+            if (result) {
+                System.out.println("성공");
+                is_Done.set(true);
+                sendCustomerMessage();
+            }else{
+                System.out.println("실패");
+            }
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void sendCustomerMessage() {
+        try{
+            URL url = new URL("http://3.35.180.57:8080/OwnerSendMessage.do");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("POST");
+            http.setRequestProperty("Content-Type","application/json;utf-8");
+            http.setRequestProperty("Accept","application/json");
+            http.setDoOutput(true);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("phone", orderData.phone);
+            jsonObject.put("title", "제조 완료");
+            jsonObject.put("content", "고객님의 주문이 완료되었습니다. 수령해가세요!");
+
+            OutputStream os = http.getOutputStream();
+
+            byte[] input = jsonObject.toString().getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer bf = new StringBuffer();
+
+            while((line = br.readLine()) != null) {
+                bf.append(line);
+            }
+            br.close();
+            System.out.println("response" + bf.toString());
+            boolean result = getRequestSuccess(bf.toString());
+
+            if (result) {
+                System.out.println("성공");
+            }else{
+                System.out.println("실패");
+            }
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
