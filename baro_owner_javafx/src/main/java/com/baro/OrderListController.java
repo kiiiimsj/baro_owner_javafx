@@ -216,8 +216,27 @@ public class OrderListController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/order.fxml"));
             vBox = loader.load();
+            vBox.setId(orderList.orders.get(index).receipt_id+"");
             OrderController controller = loader.<OrderController>getController();
-            controller.setData(orderList.orders.get(index));
+            controller.setData(orderList.orders.get(index),index);
+            controller.is_Done.addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if (newValue) {
+                        orderListContainer.getChildren().remove(orderListContainer.lookup("#"+orderList.orders.get(index).receipt_id));
+                        orderList.orders.remove(index);
+                    }
+                }
+            });
+            controller.is_Cancel.addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if (newValue) {
+                        orderListContainer.getChildren().remove(orderListContainer.lookup("#"+orderList.orders.get(index).receipt_id));
+                        orderList.orders.remove(index);
+                    }
+                }
+            });
             controller.configureUI();
         } catch (IOException e) {
             e.printStackTrace();
@@ -310,8 +329,6 @@ public class OrderListController {
                 int i = 0;
                 webSocketClient.send("ping:::"+store_id);
                 while (i<180){
-                    System.out.println("시간 : "+ i);
-
                     i++;
                     try {
                         Thread.sleep(1000);
