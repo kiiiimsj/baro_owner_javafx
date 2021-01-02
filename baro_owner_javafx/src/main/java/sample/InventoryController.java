@@ -14,6 +14,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.Toggle;
@@ -103,9 +104,7 @@ public class InventoryController implements Initializable {
         categoryTabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
             public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
-                System.out.println("tab : " + newTab.getText());
                 menuList.getItems().clear();
-                JFXListCell<TextFlow> row = new JFXListCell<>();
                 for (int i = 0; i < menuParsing.menu.size(); i++) {
                     Menu menu = menuParsing.menu.get(i);
                     TextFlow cell = new TextFlow();
@@ -129,10 +128,10 @@ public class InventoryController implements Initializable {
                                 }
                             }
                         });
-                        cell.setMaxWidth(Double.MAX_VALUE);
                         cell.getChildren().addAll(menuName, menuInfo, menuPrice);
                         cell.getChildren().add(toggleButton);
                         menuList.getItems().add(cell);
+                        System.out.println("getListView :" + menuList.getPrefWidth());
                     }
                 }
             }
