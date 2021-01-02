@@ -24,7 +24,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" text="주문취소">
+            <Button fx:id="cancelBtn" mnemonicParsing="false" text="주문취소" onAction="#clickCancel">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>

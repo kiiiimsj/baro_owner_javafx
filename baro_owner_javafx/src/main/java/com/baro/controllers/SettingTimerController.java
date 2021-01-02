@@ -50,9 +50,10 @@ public class SettingTimerController implements Initializable {
     private Label time;
     private String receipt_id;
     private String store_id;
+    private String phone;
     Preferences preferences = Preferences.userRoot();
     private final SimpleBooleanProperty changeToAccept = new SimpleBooleanProperty();
-//    private WebSocketClient webSocketClient;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -84,7 +85,6 @@ public class SettingTimerController implements Initializable {
     public void resetTimer(ActionEvent event) {
         time.setText(String.valueOf(0));
     }
-
     public void orderAccept(ActionEvent event) {
         try{
             URL url = new URL("http://3.35.180.57:8080/OwnerSetOrderStatus.do");
@@ -114,8 +114,7 @@ public class SettingTimerController implements Initializable {
 
             if (result) {
                 changeToAccept.set(true);
-//                OrderController.observer.setValue(result);
-//                OrderController.me.shell.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                sendCustomerMessage(time.getText());
                 System.out.println("성공");
             }else{
                 System.out.println("실패");
@@ -129,49 +128,57 @@ public class SettingTimerController implements Initializable {
             e.printStackTrace();
         }
     }
+    private void sendCustomerMessage(String time) {
+        try{
+            URL url = new URL("http://3.35.180.57:8080/OwnerSendMessage.do");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("POST");
+            http.setRequestProperty("Content-Type","application/json;utf-8");
+            http.setRequestProperty("Accept","application/json");
+            http.setDoOutput(true);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("phone", phone);
+            jsonObject.put("title", "주문 접수 완료");
+            jsonObject.put("content", "고객님의 소중한 주문이 접수되어 " + time+ "분 뒤에 완성될 예정입니다");
+
+            OutputStream os = http.getOutputStream();
+
+            byte[] input = jsonObject.toString().getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer bf = new StringBuffer();
+
+            while((line = br.readLine()) != null) {
+                bf.append(line);
+            }
+            br.close();
+            System.out.println("response" + bf.toString());
+            boolean result = getBool(bf.toString());
+
+            if (result) {
+                System.out.println("성공");
+            }else{
+                System.out.println("실패");
+            }
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean getBool(String toString) {
         JSONObject jsonObject = new JSONObject(toString);
         return (jsonObject.getBoolean("result"));
     }
-    public void setData(String receipt_id){
+    public void setData(String receipt_id,String phone){
         this.receipt_id = receipt_id;
+        this.phone = phone;
         store_id = preferences.get("store_id",null);
     }
-//    private void connect() {
-//        System.out.println("aaa");
-//        URI uri;
-//        try {
-//            uri = new URI("ws://3.35.180.57:8080/websocket");
-//        }
-//        catch(Exception e){
-//            e.printStackTrace();
-//            return;
-//        }
-//
-//        webSocketClient = new WebSocketClient(uri, new Draft_17()) {
-//            @Override
-//            public void onOpen(ServerHandshake handshakedata) {
-//
-//                webSocketClient.send("connect:::" + 1);
-//                System.out.println("open!!");
-//            }
-//
-//            @Override
-//            public void onMessage(String message) {
-//                System.out.println(message);
-//            }
-//
-//            @Override
-//            public void onClose(int code, String reason, boolean remote) {
-//                System.out.println("close! reaseon :" + reason);
-//            }
-//
-//            @Override
-//            public void onError(Exception ex) {
-//                System.out.println("error! :" + ex);
-//            }
-//        };
-//        webSocketClient.connect();
-//    }
-
 }

@@ -3,10 +3,12 @@ package com.baro;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderList;
 import com.baro.controllers.OrderController;
+import com.baro.controllers.PopUpController;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXTabPane;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -21,11 +23,14 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Popup;
+import javafx.stage.Screen;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import sample.Main;
 
 import java.io.*;
 import java.net.*;
@@ -79,9 +84,10 @@ public class OrderListController {
 
     private double tabWidth = 90.0;
     public static int lastSelectedTabIndex = 0;
+    private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
     String store_id;
     Preferences preferences = Preferences.userRoot();
-
+    AlarmPopUp popUp = new AlarmPopUp();
     /// Life cycle
     @FXML
     public void initialize() {
@@ -90,6 +96,12 @@ public class OrderListController {
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 System.out.println(newValue);
                 store_is_open_change(newValue);
+            }
+        });
+        notReadedOrder.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                popUp.controller.changeCount((int)newValue);
             }
         });
         store_id = preferences.get("store_id", null);
@@ -204,8 +216,27 @@ public class OrderListController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/order.fxml"));
             vBox = loader.load();
+            vBox.setId(orderList.orders.get(index).receipt_id+"");
             OrderController controller = loader.<OrderController>getController();
-            controller.setData(orderList.orders.get(index));
+            controller.setData(orderList.orders.get(index),index);
+            controller.is_Done.addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if (newValue) {
+                        orderListContainer.getChildren().remove(orderListContainer.lookup("#"+orderList.orders.get(index).receipt_id));
+                        orderList.orders.remove(index);
+                    }
+                }
+            });
+            controller.is_Cancel.addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if (newValue) {
+                        orderListContainer.getChildren().remove(orderListContainer.lookup("#"+orderList.orders.get(index).receipt_id));
+                        orderList.orders.remove(index);
+                    }
+                }
+            });
             controller.configureUI();
         } catch (IOException e) {
             e.printStackTrace();
@@ -291,9 +322,27 @@ public class OrderListController {
         }
     }
 
+    private Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (true){
+                int i = 0;
+                webSocketClient.send("ping:::"+store_id);
+                while (i<180){
+                    i++;
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    });
     private void connect() {
         System.out.println("aaa");
         URI uri;
+
         try {
             uri = new URI("ws://3.35.180.57:8080/websocket");
         } catch (Exception e) {
@@ -307,25 +356,42 @@ public class OrderListController {
 
                 webSocketClient.send("connect:::" + 1);
                 System.out.println("open!!");
+                thread.start();
             }
 
             @Override
             public void onMessage(String message) {
                 System.out.println("message!!");
                 System.out.println(message);
-                JSONObject jsonObject = new JSONObject(message);
-//                JSONObject orderJsonObject = jsonObject.getJSONObject(orders);
-                Order order = new Gson().fromJson(message, Order.class);
-                order.order_state = Order.PREPARING;
-                orderList.orders.add(order);
-                System.out.println(orderList.orders.size());
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        orderListContainer.getChildren().add(0, makeCell(orderList.orders.size() - 1));
-                    }
-                });
+                if (message.charAt(0) != '{'){
 
+                } else {
+
+                    JSONObject jsonObject = new JSONObject(message);
+                    Order order = new Gson().fromJson(message, Order.class);
+                    order.order_state = Order.PREPARING;
+                    orderList.orders.add(order);
+                    System.out.println(orderList.orders.size());
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            orderListContainer.getChildren().add(0, makeCell(orderList.orders.size() - 1));
+                            int temp = notReadedOrder.get() + 1;
+                            notReadedOrder.set(temp);
+                            popUp.show();
+                            popUp.popup.showingProperty().addListener(new ChangeListener<Boolean>() {
+                                @Override
+                                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                                    if (newValue) {
+                                        popUp.controller.changeCount(notReadedOrder.get());
+                                    }else{
+                                        notReadedOrder.set(0);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
             }
 
             @Override
@@ -339,5 +405,28 @@ public class OrderListController {
             }
         };
         webSocketClient.connect();
+    }
+    public class AlarmPopUp{
+        Popup popup;
+        PopUpController controller;
+        public AlarmPopUp() {
+            try {
+                popup = new Popup();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/popUp.fxml"));
+                AnchorPane parent = loader.load();
+                controller = loader.<PopUpController>getController();
+                popup.getContent().add(parent);
+                popup.setX(Screen.getScreens().get(0).getBounds().getMaxX()-popup.getWidth());
+                popup.setY(Screen.getScreens().get(0).getBounds().getMaxY()-popup.getHeight());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        private void show(){
+            popup.show(Main.getPrimaryStage());
+        }
+        private void hide(){
+            popup.hide();
+        }
     }
 }
