@@ -51,6 +51,13 @@
             <artifactId>jfoenix</artifactId>
             <version>8.0.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.fazecast/jSerialComm -->
+        <dependency>
+            <groupId>com.fazecast</groupId>
+            <artifactId>jSerialComm</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+
     </dependencies>
     
 </project>
