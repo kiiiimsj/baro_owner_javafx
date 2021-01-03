@@ -1,5 +1,6 @@
 package sample;
 
+import com.baro.Printer.TestPrint;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,6 +24,9 @@ public class Main extends Application {
         setPrimaryStage(primaryStage);
 //        connect(); //웹소켓 잘 들어옴
 
+
+//        TestPrint print = new TestPrint();
+//        print.printTest();
         primaryStage.setScene(new Scene(root, 1000, 700));
         primaryStage.show();
     }
