@@ -50,15 +50,15 @@ public class LoginController implements Initializable {
     public void loginAction(ActionEvent event) {
 
        //점주의 휴대폰번호 및 비밀번호
-        String owner_phone = phone_tf.getText();
+        String id = phone_tf.getText();
         String owner_pass = password_tf.getText();
 
-        System.out.println("phone1" + owner_phone);
+        System.out.println("phone1" + id);
         System.out.println("pass1" + owner_pass);
 
        System.out.println("로그인 버튼 클릭!!");
        try{
-           URL url = new URL("http://3.35.180.57:8080/OwnerLogin.do");
+           URL url = new URL("http://localhost:8080/OwnerLogin.do");
            URLConnection con = url.openConnection();
            HttpURLConnection http = (HttpURLConnection) con;
            http.setRequestMethod("POST");
@@ -66,7 +66,7 @@ public class LoginController implements Initializable {
            http.setRequestProperty("Accept","application/json");
            http.setDoOutput(true);
            JSONObject jsonObject = new JSONObject();
-           jsonObject.put("phone", owner_phone);
+           jsonObject.put("id", id);
            jsonObject.put("pass", owner_pass);
            OutputStream os = http.getOutputStream();
 
@@ -111,7 +111,7 @@ public class LoginController implements Initializable {
         if(result1) {
             //store_id, nick, store_name, email, is_open 저장
             preferences.put("store_id", loginParsing.getStore_id());
-            preferences.put("nick", loginParsing.getNick());
+            preferences.put("phone", loginParsing.getPhone());
             preferences.put("store_name", loginParsing.getStore_name());
             preferences.put("email", loginParsing.getEmail());
             preferences.put("is_open", loginParsing.getIs_open());

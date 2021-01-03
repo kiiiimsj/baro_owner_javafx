@@ -2,6 +2,7 @@ package com.baro.JsonParsing;
 
 public class LoginParsing {
     private boolean result;
+    private String phone;
     private String store_id;
     private String nick;
     private String store_name;
@@ -10,6 +11,14 @@ public class LoginParsing {
     private String is_open;
 
     public boolean isResult() { return result; }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public void setResult(boolean result) { this.result = result; }
     public String getStore_id() { return store_id; }
