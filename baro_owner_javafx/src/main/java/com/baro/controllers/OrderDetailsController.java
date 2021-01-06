@@ -1,13 +1,14 @@
 package com.baro.controllers;
 
 import com.baro.JsonParsing.Order;
-import com.baro.JsonParsing.OrderDetail;
 import com.baro.JsonParsing.OrderDetailParsing;
+import com.baro.Printer.ReceiptPrint;
+import com.itextpdf.text.DocumentException;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -49,6 +50,8 @@ public class OrderDetailsController implements Initializable {
     @FXML
     public Button setTime;
     @FXML
+    public Button printButton;
+    @FXML
     private SplitPane splitPane;
     private OrderDetailParsing data;
     private Order order;
@@ -89,6 +92,23 @@ public class OrderDetailsController implements Initializable {
         }else if (order.order_state.equals(Order.ACCEPT)){
             setTime.setVisible(false);
         }
+        printButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ReceiptPrint print = new ReceiptPrint();
+                print.menus = data.orders;
+                print.requirements_spec = data.requests;
+                print.order_date = order.order_date;
+                print.customer_phone = order.phone;
+                print.coupon = order.discount_price;
+                print.totalPriceStr = order.total_price - order.discount_price;
+                try {
+                    print.printReceipt();
+                } catch (IOException | DocumentException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
     public void configureRightUI(){
         for (int i = 0;i<data.orders.size();i++){

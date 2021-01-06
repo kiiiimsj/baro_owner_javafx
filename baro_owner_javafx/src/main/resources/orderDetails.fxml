@@ -100,7 +100,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" text="영수증 인쇄" GridPane.halignment="RIGHT" />
+            <Button fx:id="printButton" mnemonicParsing="false" text="영수증 인쇄" GridPane.halignment="RIGHT" />
             <Button fx:id="setTime" mnemonicParsing="false" onAction="#clickSettingTimes" text="시간 설정" GridPane.columnIndex="1" />
          </children>
       </GridPane>
