@@ -12,7 +12,7 @@
             <PasswordField fx:id="password_tf" layoutX="110.0" layoutY="190.0" />
             <Label layoutX="32.0" layoutY="114.0" text="아이디" />
             <Label layoutX="32.0" layoutY="195.0" text="비밀번호" />
-            <CheckBox layoutX="32.0" layoutY="238.0" mnemonicParsing="false" text="아이디/비밀번호 저장" />
+            <CheckBox fx:id="save_id_pw" layoutX="32.0" layoutY="238.0" mnemonicParsing="false" text="아이디/비밀번호 저장" onAction="#saveUserInfo" />
          </children>
       </AnchorPane>
       <Label layoutX="101.0" layoutY="86.0" text="BARO" />

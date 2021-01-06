@@ -1,6 +1,6 @@
 package sample;
 
-import com.baro.Printer.TestPrint;
+import com.baro.Printer.ReceiptPrint;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,10 +23,9 @@ public class Main extends Application {
         primaryStage.setTitle("바로(BARO) 포스기");
         setPrimaryStage(primaryStage);
 //        connect(); //웹소켓 잘 들어옴
-
-
-//        TestPrint print = new TestPrint();
-//        print.printTest();
+//
+//        ReceiptPrint print = new ReceiptPrint();
+//        print.printReceipt();
         primaryStage.setScene(new Scene(root, 1000, 700));
         primaryStage.show();
     }

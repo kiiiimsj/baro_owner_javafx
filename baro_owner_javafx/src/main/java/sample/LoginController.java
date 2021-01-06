@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -35,6 +36,7 @@ public class LoginController implements Initializable {
     @FXML private TextField phone_tf;
     @FXML private PasswordField password_tf;
     @FXML private Button login_btn;
+    @FXML private CheckBox save_id_pw;
 
     //데이터 저장을 위한 preferences
     Preferences preferences = Preferences.userRoot();
@@ -44,7 +46,13 @@ public class LoginController implements Initializable {
    @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("로그인 컨트롤러 실행!!");
-
+       if(preferences.getBoolean("isSave", false)) {
+           save_id_pw.setSelected(true);
+           phone_tf.setText(preferences.get("userId", ""));
+           password_tf.setText(preferences.get("userPw", ""));
+       }else {
+           save_id_pw.setSelected(false);
+       }
     }
 
     public void loginAction(ActionEvent event) {
@@ -58,7 +66,7 @@ public class LoginController implements Initializable {
 
        System.out.println("로그인 버튼 클릭!!");
        try{
-           URL url = new URL("http://localhost:8080/OwnerLogin.do");
+           URL url = new URL("http://3.35.180.57:8080/OwnerLogin.do");
            URLConnection con = url.openConnection();
            HttpURLConnection http = (HttpURLConnection) con;
            http.setRequestMethod("POST");
@@ -87,6 +95,16 @@ public class LoginController implements Initializable {
 
            //서버에서 response가 true 일때를 분기문에 추가시켜주기.
            if(result){
+               if(save_id_pw.isSelected()) {
+                   preferences.putBoolean("isSave", true);
+                   preferences.put("userId", id);
+                   preferences.put("userPw", owner_pass);
+               }
+               else {
+                   preferences.remove("isSave");
+                   preferences.remove("userId");
+                   preferences.remove("userPw");
+               }
                Stage primaryStage = (Stage)login_btn.getScene().getWindow();
                Parent parent = FXMLLoader.load(getClass().getResource("/order_list.fxml"));
                Scene scene = new Scene(parent);
@@ -118,5 +136,16 @@ public class LoginController implements Initializable {
             //꺼낼때는 get 으로 써주고 두번째 파라미터에는 null 넣어주면 됨. 모르겠으면 물어봐
         }
         return result1;
+    }
+
+    public void saveUserInfo(ActionEvent actionEvent) {
+       if(actionEvent.getEventType() == ActionEvent.ACTION) {
+            if(save_id_pw.isSelected()) {
+                System.out.println("selected!");
+            }
+            else {
+                System.out.println("deselected!");
+            }
+        }
     }
 }
