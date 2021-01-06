@@ -188,10 +188,12 @@ public class StatisticsController implements Initializable {
     private void setMenuStatisticsData() {
         int totalCount = 0;
         int totalPrice = 0;
+        scrollContent.getChildren().clear();
+
         for (int i = 0; i < statisticsMenuParsing.menuStatisticsList.size(); i++) {
             MenuStatistics menuStatistics = statisticsMenuParsing.menuStatisticsList.get(i);
             totalCount += menuStatistics.menu_count;
-            totalPrice += menuStatistics.menu_count;
+            totalPrice += menuStatistics.menu_total_price;
             TextFlow cell = new TextFlow();
             Text menuName = new Text(menuStatistics.menu_name+"\n");
             Text menuTotalCount = new Text(menuStatistics.menu_count+" 개\n");
