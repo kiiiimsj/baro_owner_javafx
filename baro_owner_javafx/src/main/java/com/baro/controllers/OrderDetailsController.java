@@ -95,16 +95,27 @@ public class OrderDetailsController implements Initializable {
         printButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                ReceiptPrint print = new ReceiptPrint();
-                print.menus = data.orders;
-                print.requirements_spec = data.requests;
-                print.order_date = order.order_date;
-                print.customer_phone = order.phone;
-                print.coupon = order.discount_price;
-                print.totalPriceStr = order.total_price - order.discount_price;
                 try {
-                    print.printReceipt();
-                } catch (IOException | DocumentException e) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
+                    Stage stage = new Stage(StageStyle.UTILITY);
+                    stage.initModality(Modality.WINDOW_MODAL);
+                    stage.setTitle("프린터 옵션");
+
+                    Parent parent = loader.load();
+                    Scene scene = new Scene(parent);
+                    stage.setScene(scene);
+                    stage.setResizable(false);
+
+                    ReceiptPrint print =loader.getController();
+                    print.menus = data.orders;
+                    print.requirements_spec = data.requests;
+                    print.order_date = order.order_date;
+                    print.customer_phone = order.phone;
+                    print.coupon = order.discount_price;
+                    print.totalPriceStr = order.total_price - order.discount_price;
+
+                    stage.show();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }

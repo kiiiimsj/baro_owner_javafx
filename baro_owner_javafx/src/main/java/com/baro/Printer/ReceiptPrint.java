@@ -6,12 +6,24 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.beans.Visibility;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class ReceiptPrint {
+public class ReceiptPrint implements Initializable {
     public String customer_phone;
     public String order_date;
 
@@ -23,22 +35,108 @@ public class ReceiptPrint {
 
     public int totalPriceStr;
 
+    @FXML
+    private ComboBox<String> select_com_port_combo;
+    public ArrayList<String> makePortList = new ArrayList<>();
+    @FXML
+    private ComboBox<Integer> select_baud_rate_combo;
+    public ArrayList<Integer> makeBaudRateList = new ArrayList<Integer>() {{
+        add(110); add(300); add(1200); add(2400); add(4800); add(9600); add(19200); add(38400);
+    }};
 
-    public void printReceipt() throws IOException, DocumentException {
-        String portName = "COM9";
-        Integer baudrate = 57600;
+    @FXML
+    private ComboBox<Integer> select_data_bit_combo;
+    private ArrayList<Integer> makeDataBit = new ArrayList<Integer>() {{
+       add(5); add(6); add(7); add(8);
+    }};
+    @FXML
+    private Label select_data_bit_combo_text;
+    @FXML
+    private Label select_baud_rate_combo_text;
+    @FXML private Button print;
+
+    @FXML
+    private Button this_port_okay;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        select_baud_rate_combo.setVisible(false);
+        select_baud_rate_combo_text.setVisible(false);
+
+        select_data_bit_combo.setVisible(false);
+        select_data_bit_combo_text.setVisible(false);
+
+        print.setVisible(false);
+        setSpinner();
+    }
+    public void setSpinner() {
+        makePortList.add("선택");
+        if (SerialPort.getCommPorts().length != 0 ) {
+            for (SerialPort port: SerialPort.getCommPorts()) {
+                makePortList.add(port.getSystemPortName());
+            }
+            ObservableList<String> list = FXCollections.observableList(makePortList);
+            select_com_port_combo.setItems(list);
+        }
+        select_com_port_combo.setValue("선택");
+
+
+        ObservableList<Integer> list = FXCollections.observableList(makeBaudRateList);
+        select_baud_rate_combo.setItems(list);
+
+        ObservableList<Integer> list2 = FXCollections.observableList(makeDataBit);
+        select_data_bit_combo.setItems(list2);
+
+        this_port_okay.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(event.getEventType() == ActionEvent.ACTION) {
+                    System.out.println("buttonClick");
+                    if(select_com_port_combo.getValue().equals("선택")) {
+
+                    }else {
+                        select_baud_rate_combo.setVisible(true);
+                        select_baud_rate_combo_text.setVisible(true);
+
+                        select_data_bit_combo.setVisible(true);
+                        select_data_bit_combo_text.setVisible(true);
+
+                        print.setVisible(true);
+                    }
+                }
+            }
+        });
+        select_baud_rate_combo.setValue(9600);
+        select_data_bit_combo.setValue(8);
+
+        print.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(event.getEventType() == ActionEvent.ACTION) {
+                    try {
+                        printReceipt(select_com_port_combo.getValue(), select_baud_rate_combo.getValue(), select_data_bit_combo.getValue());
+
+                    } catch (DocumentException | IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    public void printReceipt(String portName, int baudrate, int dataBit) throws IOException, DocumentException {
         Integer timeout = 1000;
-        System.out.println("printStart");
+
         SerialPort serialPort = SerialPort.getCommPort(portName);
-        if(SerialPort.getCommPort("COM9").isOpen()) {
+        if(SerialPort.getCommPort(portName).isOpen()) {
             System.out.println("isOpen");
             return;
         }
+
         serialPort.openPort();
-        System.out.println("OpenPort" + serialPort.isOpen()+"");
         serialPort.setBaudRate(baudrate);
         serialPort.setParity(SerialPort.EVEN_PARITY);
-        serialPort.setNumDataBits(8);
+        serialPort.setNumDataBits(dataBit);
         serialPort.setNumStopBits(SerialPort.ONE_STOP_BIT);
         serialPort.setComPortTimeouts(SerialPort.TIMEOUT_NONBLOCKING, timeout, timeout);
 
@@ -160,8 +258,9 @@ public class ReceiptPrint {
         Font header_font = new Font(base_font, 15);
         header_font.setColor(BaseColor.BLACK);
         
-        File dir = new File("E:/");
-        String file_name = "receipt.pdf";
+        File dir = new File("C:/baro_receipt");
+        if(!dir.exists()) dir.mkdirs(); //파일경로 없으면 생성
+        String file_name = phone + orderDate + "_baro_receipt.pdf";
 
         Paragraph headerParagraph = new Paragraph(headerContent, header_font);
         Paragraph phoneParagraph = new Paragraph(phone, header_font);
@@ -179,7 +278,7 @@ public class ReceiptPrint {
         texCouponParagraph.setAlignment(Paragraph.ALIGN_LEFT);
         customerRequestParagraph.setAlignment(Paragraph.ALIGN_LEFT);
         
-        //if(!dir.exists()) dir.mkdirs(); //파일경로 없으면 생성
+
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(dir + "/" + file_name));
 
@@ -198,4 +297,6 @@ public class ReceiptPrint {
 
         document.close();
     }
+
+
 }
