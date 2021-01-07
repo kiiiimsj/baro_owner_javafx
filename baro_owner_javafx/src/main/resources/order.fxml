@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="shell" prefHeight="105.0" prefWidth="210.0" style="-fx-padding: 10; -fx-border-color: #434343;         -fx-border-width: 1; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.OrderController">
+<VBox fx:id="shell" prefHeight="105.0" prefWidth="210.0" style="-fx-padding: 10; -fx-border-color: #434343; -fx-border-width: 1; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.OrderController">
     <spacing>10</spacing>
     <HBox>
         <spacing>50</spacing>

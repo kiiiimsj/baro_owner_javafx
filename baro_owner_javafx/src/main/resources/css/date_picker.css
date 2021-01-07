@@ -1,0 +1,8 @@
+.jfx-date-picker > .arrow-button > .jfx-svg-glyph{
+    -fx-background-color: #8333e6;
+}
+.jfx-date-picker .input-line{
+    -fx-pref-height:1;
+    -fx-translate-y: -15;
+    -fx-background-color: #8333e6;
+}

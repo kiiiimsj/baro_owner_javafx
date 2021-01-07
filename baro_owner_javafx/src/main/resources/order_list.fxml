@@ -14,11 +14,10 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToggleButton?>
 <StackPane prefHeight="700" prefWidth="1000" xmlns="http://javafx.com/javafx/8.0.171"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.OrderListController">
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.OrderListController" stylesheets="css/order_list_sheets.css">
 
     <children>
-        <JFXTabPane fx:id="tabContainer" prefHeight="128.0" prefWidth="308.0" side="LEFT"
-                    tabClosingPolicy="UNAVAILABLE">
+        <JFXTabPane fx:id="tabContainer" side="LEFT">
             <tabs>
                 <Tab fx:id="orderListTab" closable="false" text="주 문">
                     <content>
@@ -26,7 +25,7 @@
                             <AnchorPane fx:id="orderListSideContainer" minHeight="0.0" minWidth="0.0"
                                         prefWidth="200.0">
                                 <children>
-                                    <ToggleButton fx:id="isOpenBtn" text="영업 종료"  alignment="TOP_RIGHT" ></ToggleButton>
+                                    <ToggleButton fx:id="isOpenBtn" prefWidth="100" prefHeight="15" textAlignment="CENTER"/>
                                     <TilePane fx:id="orderListContainer"  layoutY="30.0" prefWidth="970.0" hgap="10" vgap="10" style="-fx-padding: 10">
                                         <children></children>
                                     </TilePane>
@@ -38,8 +37,8 @@
 
                 <Tab fx:id="inventoryManagementTab" closable="false" text="재고관리">
                     <content>
-                        <AnchorPane fx:id="inventoryManagementContainer" minHeight="0.0" minWidth="0.0"
-                                    prefHeight="180.0" prefWidth="200.0"/>
+                        <AnchorPane fx:id="inventoryManagementContainer"
+                                    prefHeight="1000.0" prefWidth="1000.0"/>
                     </content>
                 </Tab>
 

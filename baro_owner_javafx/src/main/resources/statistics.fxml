@@ -12,22 +12,43 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import com.jfoenix.controls.JFXScrollPane?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.JFXListView?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="sample.StatisticsController"
             prefHeight="400.0" prefWidth="600.0">
-    <Label text="통계" style="-fx-font: 35 arial" alignment="TOP_LEFT" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0"/>
-    <Label text="총 매출 : " AnchorPane.leftAnchor="0.5" AnchorPane.topAnchor="50"/>
-    <Text fx:id="total_sales" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="65"/>
+    <Label text="통계" style="-fx-font-size: 35; -fx-font-family: '맑은 고딕 Semilight'; -fx-font-smoothing-type: true" alignment="TOP_LEFT" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0"/>
+    <Label text="총 매출 : " AnchorPane.leftAnchor="10" AnchorPane.topAnchor="60"/>
+    <Text fx:id="total_sales" AnchorPane.leftAnchor="70" AnchorPane.topAnchor="60"/>
 
-    <Label text="총 건수 : " AnchorPane.leftAnchor="0.5" AnchorPane.topAnchor="80"/>
-    <Text fx:id="total_number_of_sales" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="95"/>
+    <Label text="총 건수 : " AnchorPane.leftAnchor="10" AnchorPane.topAnchor="80"/>
+    <Text fx:id="total_number_of_sales" AnchorPane.leftAnchor="70" AnchorPane.topAnchor="80"/>
 
     <HBox AnchorPane.rightAnchor="0.0">
-        <JFXDatePicker prefHeight="50" fx:id="start_date_picker"/>
-        <Text text="-" style="-fx-font: 24 arial" textAlignment="CENTER"/>
-        <JFXDatePicker prefHeight="50" fx:id="end_date_picker"/>
-        <JFXButton fx:id="look_up_button" text="조회" alignment="CENTER_RIGHT"/>
+        <padding>
+            <Insets top="10" right="10"/>
+        </padding>
+        <JFXDatePicker prefHeight="50" fx:id="start_date_picker" stylesheets="css/date_picker.css">
+            <HBox.margin>
+                <Insets top="15"/>
+            </HBox.margin>
+        </JFXDatePicker>
+        <Text text="-" style="-fx-font: 30 arial; -fx-text-fill: #8333e6" textAlignment="CENTER">
+            <HBox.margin>
+                <Insets top="20" left="10" right="10"/>
+            </HBox.margin>
+        </Text>
+        <JFXDatePicker prefHeight="50" fx:id="end_date_picker" stylesheets="css/date_picker.css">
+            <HBox.margin>
+                <Insets top="15"/>
+            </HBox.margin>
+        </JFXDatePicker>
+        <JFXButton fx:id="look_up_button" text="조회" alignment="CENTER" style="-fx-background-color: #8333e6; -fx-text-fill: white" prefWidth="50" prefHeight="30">
+            <HBox.margin>
+                <Insets top="20" left="10" right="10"/>
+            </HBox.margin>
+        </JFXButton>
     </HBox>
 
     <LineChart fx:id="line_chart" AnchorPane.leftAnchor="0.5" AnchorPane.topAnchor="120">
@@ -38,6 +59,6 @@
             <NumberAxis fx:id="y_axis"/>
         </yAxis>
     </LineChart>
-
-    <ScrollPane fx:id="menu_scroll_view" AnchorPane.rightAnchor="0.5" AnchorPane.topAnchor="60" prefWidth="350" style="-fx-background-color: white"/>
+    <JFXListView fx:id="menuList" AnchorPane.leftAnchor="500" AnchorPane.topAnchor="130" prefWidth="300" prefHeight="365" >
+    </JFXListView>
 </AnchorPane>

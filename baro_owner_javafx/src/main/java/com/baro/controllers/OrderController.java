@@ -134,6 +134,7 @@ public class OrderController implements Initializable{
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(Main.getPrimaryStage());
             stage.setTitle("주문상세");
+
             Parent parent = loader.load();
             Scene scene = new Scene(parent);
             stage.setScene(scene);

@@ -3,11 +3,14 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      prefHeight="400.0" prefWidth="600.0"
-      fx:controller="sample.InventoryController">
-    <JFXTabPane fx:id="categoryTabPane" prefWidth="600.0" prefHeight="100.0"/>
-    <JFXListView fx:id="menuList" prefWidth="600.0">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="700.0" prefWidth="910.0"
+            fx:controller="sample.InventoryController">
+    <JFXTabPane fx:id="categoryTabPane" prefWidth="910" prefHeight="80">
+    </JFXTabPane>
+    <JFXListView fx:id="menuList" prefWidth="910" prefHeight="650" AnchorPane.topAnchor="50" AnchorPane.leftAnchor="0">
     </JFXListView>
-</VBox>
+</AnchorPane>

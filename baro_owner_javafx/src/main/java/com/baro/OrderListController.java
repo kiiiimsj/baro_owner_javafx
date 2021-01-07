@@ -82,15 +82,26 @@ public class OrderListController {
 
     public static OrderList orderList;
 
-    private double tabWidth = 90.0;
+    private double tabWidth = 120.0;
+    private double tabHeight = 90.0;
     public static int lastSelectedTabIndex = 0;
     private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
     String store_id;
     Preferences preferences = Preferences.userRoot();
     AlarmPopUp popUp = new AlarmPopUp();
+    boolean isOpen = preferences.getBoolean("is_open", false);
     /// Life cycle
     @FXML
     public void initialize() {
+        if(isOpen) {
+            isOpenBtn.setText("영업종료 하기");
+            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff");
+        } else {
+            isOpenBtn.setText("영업게시 하기");
+            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff");
+        }
+
+
         isOpenBtn.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -104,6 +115,7 @@ public class OrderListController {
                 popUp.controller.changeCount((int)newValue);
             }
         });
+
         store_id = preferences.get("store_id", null);
         connect();
         configureSideView();
@@ -112,7 +124,6 @@ public class OrderListController {
 
     public void store_is_open_change(boolean is_open) {
         try {
-
             URL url = new URL("http://3.35.180.57:8080/OwnerSetStoreStatus.do");
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection) con;
@@ -124,12 +135,15 @@ public class OrderListController {
             jsonObject.put("store_id", store_id);
             if (is_open) {
                 jsonObject.put("is_open", "Y");
-                isOpenBtn.setText("영업 중");
-                isOpenBtn.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                isOpenBtn.setText("영업종료 하기");
+                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff");
+                //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.color(131.0, 51.0, 230.0, 1.0), CornerRadii.EMPTY, Insets.EMPTY)));
+
             } else {
                 jsonObject.put("is_open", "N");
-                isOpenBtn.setText("영업 종료");
-                isOpenBtn.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+                isOpenBtn.setText("영업게시 하기");
+                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff");
+                //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             }
 
             OutputStream os = http.getOutputStream();
@@ -245,7 +259,6 @@ public class OrderListController {
     }
 
     private void setList() {
-
         for (int i = orderList.orders.size() - 1; i >= 0; i--) {
             orderListContainer.getChildren().add(makeCell(i));
         }
@@ -260,16 +273,16 @@ public class OrderListController {
     private void configureSideView() {
         tabContainer.setTabMinWidth(tabWidth);
         tabContainer.setTabMaxWidth(tabWidth);
-        tabContainer.setTabMinHeight(tabWidth);
-        tabContainer.setTabMaxHeight(tabWidth);
+        tabContainer.setTabMinHeight(tabHeight);
+        tabContainer.setTabMaxHeight(tabHeight);
         tabContainer.setRotateGraphic(true);
         EventHandler<Event> replaceBackgroundColorHandler = event -> {
             lastSelectedTabIndex = tabContainer.getSelectionModel().getSelectedIndex();
             Tab currentTab = (Tab) event.getTarget();
             if (currentTab.isSelected()) {
-                currentTab.setStyle("-fx-background-color: -fx-focus-color;");
+                currentTab.setStyle("-fx-background-color: #8333e6");
             } else {
-                currentTab.setStyle("-fx-background-color: -fx-accent;");
+                currentTab.setStyle("-fx-background-color: #8D45E7");
             }
         };
         EventHandler<Event> logoutHandler = event -> {
@@ -286,7 +299,7 @@ public class OrderListController {
         configureTab(statisticsTab, "통 계", statisticsContainer, getClass().getResource("/statistics.fxml"), replaceBackgroundColorHandler);
         configureTab(settingsTab, "설 정", settingsContainer, getClass().getResource("/settings.fxml"), replaceBackgroundColorHandler);
 
-        orderListTab.setStyle("-fx-background-color: -fx-focus-color;");
+        orderListTab.setStyle("-fx-background-color: #8333e6");
     }
 
     //이미지경로 넣기 위한 title 뒤에 String iconPath 뺏음
@@ -298,7 +311,7 @@ public class OrderListController {
         Label label = new Label(title);
         label.setMaxWidth(tabWidth - 20);
         label.setPadding(new Insets(5, 0, 0, 0));
-        label.setStyle("-fx-text-fill: black; -fx-font-size: 8pt; -fx-font-weight: normal;");
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 10pt; -fx-font-weight: normal; -fx-font-family: '맑은 고딕 Semilight'");
         label.setTextAlignment(TextAlignment.CENTER);
         BorderPane tabPane = new BorderPane();
         tabPane.setRotate(90.0);
