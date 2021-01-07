@@ -15,11 +15,15 @@ import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.Tab;
 import javafx.scene.control.Toggle;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import org.json.JSONObject;
 
@@ -34,7 +38,7 @@ import java.util.prefs.Preferences;
 public class InventoryController implements Initializable {
 
     @FXML private JFXTabPane categoryTabPane;
-    @FXML private JFXListView<TextFlow> menuList;
+    @FXML private JFXListView<AnchorPane> menuList;
     Preferences preferences = Preferences.userRoot();
 
     private String owner_store_id;
@@ -46,7 +50,7 @@ public class InventoryController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 //        Scene scene = new Scene(new Group(), 500, 400);
-//        scene.getStylesheets().add("path/inventory_style.css");
+//        scene.getStylesheets().add("path/login_sheets.css");
         owner_store_id = preferences.get("store_id", "");
         getOwnerStoreCategory();
         getOwnerStoreMenu();
@@ -107,7 +111,7 @@ public class InventoryController implements Initializable {
                 menuList.getItems().clear();
                 for (int i = 0; i < menuParsing.menu.size(); i++) {
                     Menu menu = menuParsing.menu.get(i);
-                    TextFlow cell = new TextFlow();
+                    AnchorPane cell = new AnchorPane();
                     if(newTab.getId().equals(menu.category_id+"")) {
                         Text menuName = new Text(menu.menu_name+"\n");
                         Text menuInfo = new Text(menu.menu_info+"\t\t");
@@ -130,6 +134,11 @@ public class InventoryController implements Initializable {
                         });
                         cell.getChildren().addAll(menuName, menuInfo, menuPrice);
                         cell.getChildren().add(toggleButton);
+                        cell.getChildren().get(0).setLayoutY(20);
+                        cell.getChildren().get(1).setLayoutY(40);
+                        cell.getChildren().get(2).setLayoutY(35);
+                        cell.getChildren().get(2).setLayoutX(700);
+                        cell.getChildren().get(3).setLayoutX(800);
                         menuList.getItems().add(cell);
                         System.out.println("getListView :" + menuList.getPrefWidth());
                     }
@@ -191,6 +200,8 @@ public class InventoryController implements Initializable {
             tab.setId(category.category_id+"");
             categoryTabPane.getTabs().add(tab);
         }
+        categoryTabPane.setTabMaxHeight(50);
+        categoryTabPane.setTabMinHeight(50);
     }
 
     public void menuUpdateSaveSoldOut(int menuId) {

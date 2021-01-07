@@ -7,6 +7,8 @@ import com.baro.JsonParsing.StatisticsParsing;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXListCell;
+import com.jfoenix.controls.JFXListView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,10 +17,14 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,7 +50,7 @@ public class StatisticsController implements Initializable {
     @FXML private LineChart<String, Number> line_chart;
     @FXML private CategoryAxis x_axis;
     @FXML private NumberAxis y_axis;
-    @FXML private ScrollPane menu_scroll_view;
+    @FXML private JFXListView<AnchorPane> menuList;
     private Pane scrollContent = new Pane();
 
     private StringConverter dateConverter;
@@ -188,23 +194,42 @@ public class StatisticsController implements Initializable {
     private void setMenuStatisticsData() {
         int totalCount = 0;
         int totalPrice = 0;
+        StringBuilder space = new StringBuilder("\t\t\t");
         scrollContent.getChildren().clear();
-
+        AnchorPane header = new AnchorPane();
+        header.setId("header");
+        Text name = new Text("메뉴이름" + space);
+        Text count = new Text("메뉴개수" + space);
+        Text price = new Text("메뉴가격");
+        header.getChildren().addAll(name, count, price);
+        header.getChildren().get(1).setLayoutX(100);
+        header.getChildren().get(2).setLayoutX(200);
+        menuList.getItems().add(header);
+        menuList.getItems().get(0).setStyle("-fx-background-color: #8333e6");
+        int layoutY = 20;
         for (int i = 0; i < statisticsMenuParsing.menuStatisticsList.size(); i++) {
+
             MenuStatistics menuStatistics = statisticsMenuParsing.menuStatisticsList.get(i);
             totalCount += menuStatistics.menu_count;
             totalPrice += menuStatistics.menu_total_price;
-            TextFlow cell = new TextFlow();
-            Text menuName = new Text(menuStatistics.menu_name+"\n");
-            Text menuTotalCount = new Text(menuStatistics.menu_count+" 개\n");
-            Text menuTotalPrice = new Text(menuStatistics.menu_total_price+" 원\n");
+            AnchorPane cell = new AnchorPane();
+            cell.setLayoutY(layoutY);
+            Text menuName = new Text(menuStatistics.menu_name+ space.toString());
+            if(menuStatistics.menu_name.length() <= 2) {
+                space.append("\t\t");
+            }
+            Text menuTotalCount = new Text(menuStatistics.menu_count+"");
+            Text menuTotalPrice = new Text(menuStatistics.menu_total_price+"원");
             cell.getChildren().addAll(menuName, menuTotalCount, menuTotalPrice);
-            cell.setLayoutY(i * 60);
-            scrollContent.getChildren().add(cell);
+            layoutY+=40;
+            menuList.getItems().add(cell);
         }
         total_sales.setText(totalPrice+" 원");
         total_number_of_sales.setText(totalCount+" 개");
-        menu_scroll_view.setContent(scrollContent);
+
+        menuList.getItems().get(0).setMouseTransparent(true);
+        menuList.getItems().get(0).setFocusTraversable(false);
+        menuList.getItems().get(0).setDisable(true);
     }
 
     private void parsingStatisticsData(String toString) {
@@ -226,3 +251,5 @@ public class StatisticsController implements Initializable {
         line_chart.getData().add(series);
     }
 }
+
+

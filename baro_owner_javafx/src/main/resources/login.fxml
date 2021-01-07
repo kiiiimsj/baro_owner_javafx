@@ -3,18 +3,54 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LoginController">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.Group?>
+<AnchorPane fx:id="anchorPane" stylesheets="css/login_sheets.css" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LoginController">
+   <padding>
+      <Insets right="10" left="10" bottom="10" top="10"/>
+   </padding>
+
+   <VBox prefWidth="300" alignment="TOP_CENTER" AnchorPane.topAnchor="8">
+      <Text text="주문을 바로잡다" fx:id="subtext" textAlignment="CENTER"/>
+      <Text text="BARO" fx:id="baro_logo" textAlignment="CENTER"/>
+   </VBox>
    <children>
-      <AnchorPane layoutX="271.0" layoutY="30.0" prefHeight="340.0" prefWidth="298.0">
+      <VBox prefHeight="300.0" prefWidth="300.0" AnchorPane.topAnchor="70" >
+         <padding>
+            <Insets right="10" left="10" bottom="10" top="10"/>
+         </padding>
+
          <children>
-            <Button fx:id="login_btn" layoutX="82.0" layoutY="272.0" mnemonicParsing="false" text="로그인" onAction="#loginAction" />
-            <TextField fx:id="phone_tf" layoutX="110.0" layoutY="109.0" />
-            <PasswordField fx:id="password_tf" layoutX="110.0" layoutY="190.0" />
-            <Label layoutX="32.0" layoutY="114.0" text="아이디" />
-            <Label layoutX="32.0" layoutY="195.0" text="비밀번호" />
-            <CheckBox fx:id="save_id_pw" layoutX="32.0" layoutY="238.0" mnemonicParsing="false" text="아이디/비밀번호 저장" onAction="#saveUserInfo" />
+            <HBox>
+               <padding>
+                  <Insets right="10" left="10" bottom="10" top="10"/>
+               </padding>
+               <Label  text="아이디" prefWidth="80"/>
+               <TextField fx:id="phone_tf"/>
+            </HBox>
+
+            <HBox>
+               <padding>
+                  <Insets right="10" left="10" bottom="10" top="10"/>
+               </padding>
+               <Label  text="비밀번호" prefWidth="80">
+
+               </Label>
+               <PasswordField fx:id="password_tf"/>
+            </HBox>
          </children>
-      </AnchorPane>
-      <Label layoutX="101.0" layoutY="86.0" text="BARO" />
+      </VBox>
    </children>
+   <CheckBox fx:id="save_id_pw" mnemonicParsing="false" text="아이디/비밀번호 저장" onAction="#saveUserInfo" AnchorPane.bottomAnchor="40" AnchorPane.leftAnchor="5">
+      <padding>
+         <Insets right="10"  bottom="10" />
+      </padding>
+   </CheckBox>
+   <Button fx:id="login_btn"  alignment="CENTER" mnemonicParsing="false" text="로그인"  style="-fx-font-size: 20; -fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-family: sans-serif; -fx-font-smoothing-type: true; -fx-font-style: bold"
+           prefWidth="300" onAction="#loginAction" AnchorPane.bottomAnchor="5" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5">
+      <padding>
+         <Insets right="10" left="10" bottom="10"/>
+      </padding>
+   </Button>
 </AnchorPane>

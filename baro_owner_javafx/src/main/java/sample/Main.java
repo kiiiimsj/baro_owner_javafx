@@ -26,7 +26,7 @@ public class Main extends Application {
 //
 //        ReceiptPrint print = new ReceiptPrint();
 //        print.printReceipt();
-        primaryStage.setScene(new Scene(root, 1000, 700));
+        primaryStage.setScene(new Scene(root, 300, 300));
         primaryStage.show();
     }
     public static Stage getPrimaryStage() {
