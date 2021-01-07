@@ -206,14 +206,12 @@ public class StatisticsController implements Initializable {
         header.getChildren().get(2).setLayoutX(200);
         menuList.getItems().add(header);
         menuList.getItems().get(0).setStyle("-fx-background-color: #8333e6");
-        int layoutY = 20;
         for (int i = 0; i < statisticsMenuParsing.menuStatisticsList.size(); i++) {
 
             MenuStatistics menuStatistics = statisticsMenuParsing.menuStatisticsList.get(i);
             totalCount += menuStatistics.menu_count;
             totalPrice += menuStatistics.menu_total_price;
             AnchorPane cell = new AnchorPane();
-            cell.setLayoutY(layoutY);
             Text menuName = new Text(menuStatistics.menu_name+ space.toString());
             if(menuStatistics.menu_name.length() <= 2) {
                 space.append("\t\t");
@@ -221,7 +219,8 @@ public class StatisticsController implements Initializable {
             Text menuTotalCount = new Text(menuStatistics.menu_count+"");
             Text menuTotalPrice = new Text(menuStatistics.menu_total_price+"원");
             cell.getChildren().addAll(menuName, menuTotalCount, menuTotalPrice);
-            layoutY+=40;
+            cell.getChildren().get(1).setLayoutX(100);
+            cell.getChildren().get(2).setLayoutX(200);
             menuList.getItems().add(cell);
         }
         total_sales.setText(totalPrice+" 원");
@@ -251,5 +250,6 @@ public class StatisticsController implements Initializable {
         line_chart.getData().add(series);
     }
 }
+
 
 
