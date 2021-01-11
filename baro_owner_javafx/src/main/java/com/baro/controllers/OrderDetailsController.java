@@ -21,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import org.json.JSONObject;
 import sample.Main;
 
@@ -115,6 +116,23 @@ public class OrderDetailsController implements Initializable {
                     print.totalPriceStr = order.total_price - order.discount_price;
 
                     stage.show();
+
+                    stage.onCloseRequestProperty().set(new EventHandler<WindowEvent>() {
+                        @Override
+                        public void handle(WindowEvent event) {
+                            if(event.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST) {
+                                System.out.println("close interface");
+                                if(print.serialPort.isOpen()) {
+                                    try {
+                                        print.printOutput.close();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    print.serialPort.closePort();
+                                }
+                            }
+                        }
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

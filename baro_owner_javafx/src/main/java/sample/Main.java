@@ -10,7 +10,9 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.lang.reflect.Field;
 import java.net.URI;
+import java.nio.charset.Charset;
 
 public class Main extends Application {
 
@@ -19,6 +21,11 @@ public class Main extends Application {
     private static Stage pStage;
     @Override
     public void start(Stage primaryStage) throws Exception{
+        System.setProperty("file.encoding","UTF-8");
+        Field charset = Charset.class.getDeclaredField("defaultCharset");
+        charset.setAccessible(true);
+        charset.set(null,null);
+
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
         primaryStage.setTitle("바로(BARO) 포스기");
         setPrimaryStage(primaryStage);
