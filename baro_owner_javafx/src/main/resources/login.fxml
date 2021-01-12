@@ -47,7 +47,7 @@
          <Insets right="10"  bottom="10" />
       </padding>
    </CheckBox>
-   <Button fx:id="login_btn"  alignment="CENTER" mnemonicParsing="false" text="로그인"  style="-fx-font-size: 20; -fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-family: sans-serif; -fx-font-smoothing-type: true; -fx-font-style: bold"
+   <Button fx:id="login_btn"  alignment="CENTER" mnemonicParsing="false" text="로그인"  style="-fx-font-size: 20; -fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-family: sans-serif; -fx-font-smoothing-type: true;"
            prefWidth="300" onAction="#loginAction" AnchorPane.bottomAnchor="5" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5">
       <padding>
          <Insets right="10" left="10" bottom="10"/>

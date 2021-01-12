@@ -1,12 +1,13 @@
 package com.baro.Printer;
 
 import com.baro.JsonParsing.Extras;
+import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetail;
+import com.baro.JsonParsing.OrderDetailParsing;
 import com.fazecast.jSerialComm.SerialPort;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,10 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 public class ReceiptPrint implements Initializable {
-    public String customer_phone;
-    public String order_date;
     public static final byte[] CTL_LF          = {0x0a};          // Print and line feed
 
     // Beeper
@@ -126,13 +126,16 @@ public class ReceiptPrint implements Initializable {
     public static final byte[] SET_WIDTH_79_180DPI = {0x1d,0x57,0x00,0x02};
     public static final byte[] SET_WIDTH_79_203DPI = {0x1d,0x57,0x40,0x02};
 
-    public ArrayList<OrderDetail> menus;
+    public String customer_phone;
+    public String order_date;
+    public int totalPriceStr;
     //menu_name, menu_count menu_price
     public int coupon;
-
     public String requirements_spec;
 
-    public int totalPriceStr;
+
+    public OrderDetailParsing order;
+    public Order orderInfo;
 
     @FXML
     private ComboBox<String> select_com_port_combo;
@@ -159,9 +162,14 @@ public class ReceiptPrint implements Initializable {
 
     public SerialPort serialPort;
     public OutputStream printOutput;
+    private Preferences preferences = Preferences.userRoot();
+    public boolean isFromSetting = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+    }
+    public void startPrint() {
         select_baud_rate_combo.setVisible(false);
         select_baud_rate_combo_text.setVisible(false);
 
@@ -169,62 +177,77 @@ public class ReceiptPrint implements Initializable {
         select_data_bit_combo_text.setVisible(false);
 
         print.setVisible(false);
+
         setSpinner();
     }
     public void setSpinner() {
-        makePortList.add("선택");
-        if (SerialPort.getCommPorts().length != 0 ) {
-            for (SerialPort port: SerialPort.getCommPorts()) {
-                makePortList.add(port.getSystemPortName());
+        if(!isFromSetting && preferences.getBoolean("printBefore", false) ) {
+            String getPortName = preferences.get("savePortName", "");
+            int getBaudRate = preferences.getInt("saveBaudRate", 0);
+            int getDataBit = preferences.getInt("saveDataBit", 0);
+            System.out.println("getSaveInfo port : " + getPortName + " baudrate : " + getBaudRate + " databit : " + getDataBit);
+            try {
+                printReceipt(getPortName, getBaudRate, getDataBit);
+            } catch (DocumentException | IOException e) {
+                e.printStackTrace();
             }
-            ObservableList<String> list = FXCollections.observableList(makePortList);
-            select_com_port_combo.setItems(list);
         }
-        select_com_port_combo.setValue("선택");
+
+        else {
+            makePortList.add("선택");
+            if (SerialPort.getCommPorts().length != 0 ) {
+                for (SerialPort port: SerialPort.getCommPorts()) {
+                    makePortList.add(port.getSystemPortName());
+                }
+                ObservableList<String> list = FXCollections.observableList(makePortList);
+                select_com_port_combo.setItems(list);
+            }
+            select_com_port_combo.setValue("선택");
 
 
-        ObservableList<Integer> list = FXCollections.observableList(makeBaudRateList);
-        select_baud_rate_combo.setItems(list);
+            ObservableList<Integer> list = FXCollections.observableList(makeBaudRateList);
+            select_baud_rate_combo.setItems(list);
 
-        ObservableList<Integer> list2 = FXCollections.observableList(makeDataBit);
-        select_data_bit_combo.setItems(list2);
+            ObservableList<Integer> list2 = FXCollections.observableList(makeDataBit);
+            select_data_bit_combo.setItems(list2);
 
-        this_port_okay.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(event.getEventType() == ActionEvent.ACTION) {
-                    System.out.println("buttonClick");
-                    if(select_com_port_combo.getValue().equals("선택")) {
+            this_port_okay.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if(event.getEventType() == ActionEvent.ACTION) {
+                        System.out.println("buttonClick");
+                        if(select_com_port_combo.getValue().equals("선택")) {
 
-                    }else {
-                        select_baud_rate_combo.setVisible(true);
-                        select_baud_rate_combo_text.setVisible(true);
+                        }else {
+                            select_baud_rate_combo.setVisible(true);
+                            select_baud_rate_combo_text.setVisible(true);
 
-                        select_data_bit_combo.setVisible(true);
-                        select_data_bit_combo_text.setVisible(true);
+                            select_data_bit_combo.setVisible(true);
+                            select_data_bit_combo_text.setVisible(true);
 
-                        print.setVisible(true);
+                            print.setVisible(true);
+                        }
                     }
                 }
-            }
-        });
-        select_baud_rate_combo.setValue(9600);
-        select_data_bit_combo.setValue(8);
+            });
+            select_baud_rate_combo.setValue(9600);
+            select_data_bit_combo.setValue(8);
 
-        print.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(event.getEventType() == ActionEvent.ACTION) {
-                    try {
-                        System.out.println(select_com_port_combo.getValue() + " : " +select_baud_rate_combo.getValue() + " : " + select_data_bit_combo.getValue());
-                        printReceipt(select_com_port_combo.getValue(), select_baud_rate_combo.getValue(), select_data_bit_combo.getValue());
+            print.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if(event.getEventType() == ActionEvent.ACTION) {
+                        try {
+                            System.out.println(select_com_port_combo.getValue() + " : " +select_baud_rate_combo.getValue() + " : " + select_data_bit_combo.getValue());
+                            printReceipt(select_com_port_combo.getValue(), select_baud_rate_combo.getValue(), select_data_bit_combo.getValue());
 
-                    } catch (DocumentException | IOException e) {
-                        e.printStackTrace();
+                        } catch (DocumentException | IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     public void printReceipt(String portName, int baudrate, int dataBit) throws IOException, DocumentException {
@@ -260,14 +283,14 @@ public class ReceiptPrint implements Initializable {
         printOutput.write(orderGetTextContent.toString().getBytes("EUC-KR"));
 
         System.out.println(headerContent.toString());
-        StringBuilder customerPhone = new StringBuilder("고객번호:").append(customer_phone, 7, customer_phone.length()).append("\n");
+        StringBuilder customerPhone = new StringBuilder("고객번호:").append(orderInfo.phone, 7, orderInfo.phone.length()).append("\n");
 
         printOutput.write(TXT_2WIDTH);
         printOutput.write(TXT_ALIGN_LT);
         printOutput.write(customerPhone.toString().getBytes("EUC-KR"));
 
 
-        StringBuilder orderDateContent = new StringBuilder("주문시간:").append(order_date.substring(0, order_date.length() - 1)).append("\n");
+        StringBuilder orderDateContent = new StringBuilder("주문시간:").append(orderInfo.order_date.substring(0, orderInfo.order_date.length() - 1)).append("\n");
 
         printOutput.write(TXT_NORMAL);
         printOutput.write(TXT_ALIGN_LT);
@@ -279,9 +302,9 @@ public class ReceiptPrint implements Initializable {
         StringBuilder customerRequest = new StringBuilder();
         StringBuilder content = new StringBuilder("-------------------------------------\n")
                                           .append("메뉴명\t\t수량\t\t금액\n");
-        if(menus != null) {
-            for (int i = 0; i < menus.size(); i++) {
-                OrderDetail menu = menus.get(i);
+        if(order != null || order.orders != null) {
+            for (int i = 0; i < order.orders.size(); i++) {
+                OrderDetail menu = order.orders.get(i);
                 content.append(menu.menu_name);
                 //int lent1 = lineNumber - (menu.menu_name.length() + String.valueOf(menu.order_count).length()+1 + String.valueOf(menu.menu_defaultprice).length()+1) ;
                 int lent1 = 9 - menu.menu_name.length();
@@ -335,7 +358,7 @@ public class ReceiptPrint implements Initializable {
         printOutput.write(TXT_ALIGN_RT);
         printOutput.write(texTitleText.toString().getBytes("EUC-KR"));
 
-        String texPrice = coupon+"원\n";
+        String texPrice = orderInfo.discount_price+"원\n";
 
         printOutput.write(TXT_NORMAL);
         printOutput.write(TXT_ALIGN_RT);
@@ -346,7 +369,7 @@ public class ReceiptPrint implements Initializable {
         totalTitleText.append("------------------\n")
                 .append("결제 금액:");
 
-        String totalPrice = totalPriceStr + "원\n\n";
+        String totalPrice = (orderInfo.total_price - orderInfo.discount_price) + "원\n\n";
 
         printOutput.write(TXT_2WIDTH);
         printOutput.write(TXT_ALIGN_RT);
@@ -358,7 +381,7 @@ public class ReceiptPrint implements Initializable {
 
         customerRequest.append("요청사항\n")
                 .append("  -")
-                .append(requirements_spec)
+                .append(order.requests)
                 .append("\n");
 
         System.out.println(customerRequest.toString());
@@ -375,6 +398,11 @@ public class ReceiptPrint implements Initializable {
         serialPort.closePort();
 
         System.out.println("serialPort close " +serialPort.isOpen() + "");
+
+        preferences.put("savePortName", portName);
+        preferences.putInt("saveBaudRate", baudrate);
+        preferences.putInt("saveDataBit", dataBit);
+        preferences.putBoolean("printBefore", true);
 //        exportToPdf(headerContent.toString(), customerPhone.toString(), orderDateContent.toString(),
 //                content.toString(), totalPrice.toString(), texCoupon.toString(), customerRequest.toString());
 
