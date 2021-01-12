@@ -6,6 +6,7 @@ import com.baro.controllers.OrderController;
 import com.baro.controllers.PopUpController;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXTabPane;
+import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -77,13 +78,13 @@ public class OrderListController {
     @FXML
     private TilePane orderListContainer;
     @FXML
-    private ToggleButton isOpenBtn;
+    private JFXToggleButton isOpenBtn;
     private WebSocketClient webSocketClient;
 
     public static OrderList orderList;
 
-    private double tabWidth = 120.0;
-    private double tabHeight = 90.0;
+    private double tabWidth = 200.0;
+    private double tabHeight = 250.0;
     public static int lastSelectedTabIndex = 0;
     private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
     String store_id;
@@ -311,7 +312,7 @@ public class OrderListController {
         Label label = new Label(title);
         label.setMaxWidth(tabWidth - 20);
         label.setPadding(new Insets(5, 0, 0, 0));
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 10pt; -fx-font-weight: normal; -fx-font-family: '맑은 고딕 Semilight'");
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 30pt; -fx-font-weight: normal; -fx-font-family: 'Noto Sans Korean Regular'");
         label.setTextAlignment(TextAlignment.CENTER);
         BorderPane tabPane = new BorderPane();
         tabPane.setRotate(90.0);

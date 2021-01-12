@@ -99,7 +99,7 @@ public class OrderDetailsController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/settings.fxml"));
                     Stage stage = new Stage(StageStyle.UTILITY);
                     stage.initModality(Modality.WINDOW_MODAL);
 
