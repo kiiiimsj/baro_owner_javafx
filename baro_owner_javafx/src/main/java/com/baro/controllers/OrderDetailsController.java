@@ -3,7 +3,6 @@ package com.baro.controllers;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.Printer.ReceiptPrint;
-import com.itextpdf.text.DocumentException;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -59,6 +58,9 @@ public class OrderDetailsController implements Initializable {
     private double pos;
     private final SimpleBooleanProperty changeToAccept = new SimpleBooleanProperty();
     private final SimpleBooleanProperty changeToCancel = new SimpleBooleanProperty();
+
+    private Preferences preferences = Preferences.userRoot();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         pos = splitPane.getDividers().get(0).getPosition();
@@ -100,6 +102,7 @@ public class OrderDetailsController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
                     Stage stage = new Stage(StageStyle.UTILITY);
                     stage.initModality(Modality.WINDOW_MODAL);
+
                     stage.setTitle("프린터 옵션");
 
                     Parent parent = loader.load();
@@ -107,16 +110,15 @@ public class OrderDetailsController implements Initializable {
                     stage.setScene(scene);
                     stage.setResizable(false);
 
-                    ReceiptPrint print =loader.getController();
-                    print.menus = data.orders;
-                    print.requirements_spec = data.requests;
-                    print.order_date = order.order_date;
-                    print.customer_phone = order.phone;
-                    print.coupon = order.discount_price;
-                    print.totalPriceStr = order.total_price - order.discount_price;
+                    ReceiptPrint print = loader.getController();
 
-                    stage.show();
+                    print.order = data;
+                    print.orderInfo = order;
 
+                    print.startPrint();
+                    if(!preferences.getBoolean("printBefore", false)) {
+                        stage.show();
+                    }
                     stage.onCloseRequestProperty().set(new EventHandler<WindowEvent>() {
                         @Override
                         public void handle(WindowEvent event) {
