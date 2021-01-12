@@ -1,10 +1,10 @@
 #subtext {
     -fx-font-size: 15px;
-    -fx-font-family: "맑은 고딕 Semilight";
+    -fx-font-family:'Noto Sans Korean Regular';
     -fx-fill: #8333e6;
 }
 #baro_logo {
     -fx-font-size: 50px;
-    -fx-font-family: "맑은 고딕 Semilight";
+    -fx-font-family: 'Noto Sans Korean Bold';
     -fx-fill: #8333e6;
 }

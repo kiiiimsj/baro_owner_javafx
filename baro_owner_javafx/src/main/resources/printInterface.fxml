@@ -1,39 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<!--<?import java.lang.*?>-->
+<!--<?import java.util.*?>-->
+<!--<?import javafx.scene.*?>-->
+<!--<?import javafx.scene.control.*?>-->
+<!--<?import javafx.scene.layout.*?>-->
 
-<?import com.jfoenix.controls.JFXSpinner?>
-<?import javafx.geometry.Insets?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.baro.Printer.ReceiptPrint"
-            prefHeight="300.0" prefWidth="400.0">
-        <Label text="포트선택:" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10"/>
-        <ComboBox fx:id="select_com_port_combo" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="10"/>
-        <Button fx:id="this_port_okay" text="포트선택" AnchorPane.leftAnchor="200" AnchorPane.topAnchor="10"/>
-        <VBox prefWidth="400" AnchorPane.topAnchor="80">
-                <HBox alignment="CENTER">
-                        <padding>
-                                <Insets left="10" right="10" bottom="10"/>
-                        </padding>
-                        <Label text="비트/초(B)" fx:id="select_baud_rate_combo_text" prefWidth="100"/>
-                        <ComboBox fx:id="select_baud_rate_combo" prefWidth="300"/>
-                </HBox>
-                <HBox alignment="CENTER">
-                        <padding>
-                                <Insets left="10" right="10" bottom="10"/>
-                        </padding>
-                        <Label text="데이터 비트(D)" fx:id="select_data_bit_combo_text"  prefWidth="100"/>
-                        <ComboBox fx:id="select_data_bit_combo" prefWidth="300"/>
-                </HBox>
-        </VBox>
-        <Button fx:id="print" text="프린트" style="-fx-font-size: 30" alignment="CENTER" prefWidth="380" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10">
-                <padding>
+<!--<?import com.jfoenix.controls.JFXSpinner?>-->
+<!--<?import javafx.geometry.Insets?>-->
+<!--<AnchorPane xmlns="http://javafx.com/javafx"-->
+<!--            xmlns:fx="http://javafx.com/fxml"-->
+<!--            fx:controller="com.baro.Printer.ReceiptPrint"-->
+<!--            prefHeight="300.0" prefWidth="400.0">-->
+<!--        <Label text="포트선택:" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10"/>-->
+<!--        <ComboBox fx:id="select_com_port_combo" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="10"/>-->
+<!--        <Button fx:id="this_port_okay" text="포트선택" AnchorPane.leftAnchor="200" AnchorPane.topAnchor="10"/>-->
+<!--        <VBox prefWidth="400" AnchorPane.topAnchor="80">-->
+<!--                <HBox alignment="CENTER">-->
+<!--                        <padding>-->
+<!--                                <Insets left="10" right="10" bottom="10"/>-->
+<!--                        </padding>-->
+<!--                        <Label text="비트/초(B)" fx:id="select_baud_rate_combo_text" prefWidth="100"/>-->
+<!--                        <ComboBox fx:id="select_baud_rate_combo" prefWidth="300"/>-->
+<!--                </HBox>-->
+<!--                <HBox alignment="CENTER">-->
+<!--                        <padding>-->
+<!--                                <Insets left="10" right="10" bottom="10"/>-->
+<!--                        </padding>-->
+<!--                        <Label text="데이터 비트(D)" fx:id="select_data_bit_combo_text"  prefWidth="100"/>-->
+<!--                        <ComboBox fx:id="select_data_bit_combo" prefWidth="300"/>-->
+<!--                </HBox>-->
+<!--        </VBox>-->
+<!--        <Button fx:id="print" text="프린트" style="-fx-font-size: 30" alignment="CENTER" prefWidth="380" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10">-->
+<!--                <padding>-->
 
-                </padding>
-        </Button>
-</AnchorPane>
+<!--                </padding>-->
+<!--        </Button>-->
+<!--</AnchorPane>-->

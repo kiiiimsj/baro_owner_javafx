@@ -49,8 +49,6 @@ public class InventoryController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        Scene scene = new Scene(new Group(), 500, 400);
-//        scene.getStylesheets().add("path/login_sheets.css");
         owner_store_id = preferences.get("store_id", "");
         getOwnerStoreCategory();
         getOwnerStoreMenu();
@@ -109,6 +107,17 @@ public class InventoryController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
                 menuList.getItems().clear();
+                AnchorPane header = new AnchorPane();
+                Text menuInfoText = new Text("메뉴 정보");
+                Text menuPriceText = new Text("메뉴 가격");
+                Text setCanSellText = new Text("재고 관리");
+                header.getChildren().addAll(menuInfoText, menuPriceText, setCanSellText);
+                header.getChildren().get(0).setLayoutY(50);
+                header.getChildren().get(1).setLayoutX(750);
+                header.getChildren().get(1).setLayoutY(50);
+                header.getChildren().get(2).setLayoutX(920);
+                header.getChildren().get(2).setLayoutY(50);
+                menuList.getItems().add(header);
                 for (int i = 0; i < menuParsing.menu.size(); i++) {
                     Menu menu = menuParsing.menu.get(i);
                     AnchorPane cell = new AnchorPane();
@@ -117,8 +126,12 @@ public class InventoryController implements Initializable {
                         Text menuInfo = new Text(menu.menu_info+"\t\t");
                         Text menuPrice = new Text(menu.menu_defaultprice+" 원");
                         JFXToggleButton toggleButton = new JFXToggleButton();
+                        toggleButton.setText("판매중");
+                        toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: black");
                         toggleButton.toggleColorProperty().set(Paint.valueOf("#ff0000"));
                         if(menu.is_soldout.equals("Y")) {
+                            toggleButton.setText("품절");
+                            toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: red");
                             toggleButton.setSelected(true);
                         }
                         toggleButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -126,19 +139,26 @@ public class InventoryController implements Initializable {
                             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                                 if(newValue) {
                                     menuUpdateSaveSoldOut(menu.menu_id);
+                                    toggleButton.setText("품절");
+                                    toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: red");
                                 }
                                 else {
                                     menuUpdateSaveInStoke(menu.menu_id);
+                                    toggleButton.setText("판매중");
+                                    toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: black");
                                 }
                             }
                         });
                         cell.getChildren().addAll(menuName, menuInfo, menuPrice);
                         cell.getChildren().add(toggleButton);
-                        cell.getChildren().get(0).setLayoutY(20);
-                        cell.getChildren().get(1).setLayoutY(40);
-                        cell.getChildren().get(2).setLayoutY(35);
-                        cell.getChildren().get(2).setLayoutX(700);
-                        cell.getChildren().get(3).setLayoutX(800);
+                        cell.getChildren().get(0).setLayoutY(50);
+                        cell.getChildren().get(1).setLayoutY(90);
+                        cell.getChildren().get(2).setLayoutY(60);
+                        cell.getChildren().get(2).setLayoutX(750);
+                        cell.getChildren().get(3).setLayoutX(900);
+                        cell.getChildren().get(3).setLayoutY(15);
+                        cell.getChildren().get(3).setScaleX(2);
+                        cell.getChildren().get(3).setScaleY(2);
                         menuList.getItems().add(cell);
                         System.out.println("getListView :" + menuList.getPrefWidth());
                     }
@@ -200,8 +220,8 @@ public class InventoryController implements Initializable {
             tab.setId(category.category_id+"");
             categoryTabPane.getTabs().add(tab);
         }
-        categoryTabPane.setTabMaxHeight(50);
-        categoryTabPane.setTabMinHeight(50);
+        categoryTabPane.setTabMaxHeight(100);
+        categoryTabPane.setTabMinHeight(100);
     }
 
     public void menuUpdateSaveSoldOut(int menuId) {

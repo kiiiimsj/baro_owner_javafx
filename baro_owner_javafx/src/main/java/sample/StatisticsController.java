@@ -7,8 +7,9 @@ import com.baro.JsonParsing.StatisticsParsing;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,16 +18,11 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -50,7 +46,8 @@ public class StatisticsController implements Initializable {
     @FXML private LineChart<String, Number> line_chart;
     @FXML private CategoryAxis x_axis;
     @FXML private NumberAxis y_axis;
-    @FXML private JFXListView<AnchorPane> menuList;
+    @FXML private JFXListView<AnchorPane> totalMenuList;
+    @FXML private JFXListView<AnchorPane> dailySales;
     private Pane scrollContent = new Pane();
 
     private StringConverter dateConverter;
@@ -195,17 +192,19 @@ public class StatisticsController implements Initializable {
         int totalCount = 0;
         int totalPrice = 0;
         StringBuilder space = new StringBuilder("\t\t\t");
-        scrollContent.getChildren().clear();
+        //scrollContent.getChildren().clear();
+        totalMenuList.getItems().clear();
         AnchorPane header = new AnchorPane();
         header.setId("header");
         Text name = new Text("메뉴이름" + space);
         Text count = new Text("메뉴개수" + space);
         Text price = new Text("메뉴가격");
         header.getChildren().addAll(name, count, price);
-        header.getChildren().get(1).setLayoutX(100);
-        header.getChildren().get(2).setLayoutX(200);
-        menuList.getItems().add(header);
-        menuList.getItems().get(0).setStyle("-fx-background-color: #8333e6");
+        header.getChildren().get(1).setLayoutX(150);
+        header.getChildren().get(2).setLayoutX(300);
+
+        totalMenuList.getItems().add(header);
+
         for (int i = 0; i < statisticsMenuParsing.menuStatisticsList.size(); i++) {
 
             MenuStatistics menuStatistics = statisticsMenuParsing.menuStatisticsList.get(i);
@@ -219,21 +218,27 @@ public class StatisticsController implements Initializable {
             Text menuTotalCount = new Text(menuStatistics.menu_count+"");
             Text menuTotalPrice = new Text(menuStatistics.menu_total_price+"원");
             cell.getChildren().addAll(menuName, menuTotalCount, menuTotalPrice);
-            cell.getChildren().get(1).setLayoutX(100);
-            cell.getChildren().get(2).setLayoutX(200);
-            menuList.getItems().add(cell);
+            cell.getChildren().get(1).setLayoutX(150);
+            cell.getChildren().get(2).setLayoutX(300);
+            totalMenuList.getItems().add(cell);
         }
-        total_sales.setText(totalPrice+" 원");
-        total_number_of_sales.setText(totalCount+" 개");
+        totalMenuList.getItems().get(0).setStyle("-fx-background-color: #8333e6");
 
-        menuList.getItems().get(0).setMouseTransparent(true);
-        menuList.getItems().get(0).setFocusTraversable(false);
-        menuList.getItems().get(0).setDisable(true);
+        total_sales.setText(totalPrice+"원");
+
+        total_number_of_sales.setText(totalCount+"개");
+
+        totalMenuList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("clicked on" + totalMenuList.getSelectionModel().getSelectedItem());
+            }
+        });
     }
-
     private void parsingStatisticsData(String toString) {
         statisticsParsing = new Gson().fromJson(toString, StatisticsParsing.class);
         setStatisticsData();
+        setDailySalesStatisticsData();
     }
 
     private void setStatisticsData() {
@@ -248,6 +253,38 @@ public class StatisticsController implements Initializable {
         y_axis.setLabel("판매액");
         x_axis.setLabel("날짜");
         line_chart.getData().add(series);
+    }
+    private void setDailySalesStatisticsData() {
+        StringBuilder space = new StringBuilder("\t\t\t");
+        dailySales.getItems().clear();
+
+        AnchorPane header = new AnchorPane();
+        header.setId("header");
+        Text dateText = new Text("날짜/일" + space);
+        Text dayPriceText = new Text("일 판매액");
+        header.getChildren().addAll(dateText, dayPriceText);
+        header.getChildren().get(1).setLayoutX(200);
+
+        dailySales.getItems().add(header);
+
+        for (int i = 0; i < statisticsParsing.statistics.size(); i++) {
+            Statistics dailyStatistics = statisticsParsing.statistics.get(i);
+            AnchorPane cell = new AnchorPane();
+
+            Text dailyDate = new Text(dailyStatistics.date+ space.toString());
+            Text dailyPrice = new Text(dailyStatistics.price+"원");
+
+            cell.getChildren().addAll(dailyDate, dailyPrice);
+            cell.getChildren().get(1).setLayoutX(200);
+            dailySales.getItems().add(cell);
+        }
+        dailySales.getItems().get(0).setStyle("-fx-background-color: #8333e6");
+        dailySales.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("clicked on" + dailySales.getSelectionModel().getSelectedItem());
+            }
+        });
     }
 }
 
