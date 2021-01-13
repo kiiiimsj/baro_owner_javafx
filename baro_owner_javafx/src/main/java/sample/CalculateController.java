@@ -2,7 +2,9 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.text.Text;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.text.TextAlignment;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -19,9 +21,9 @@ public class CalculateController implements Initializable {
     private int menuTotalPrice;
     private int thisWeekTotalPrice;
 
-    @FXML public Text this_week_total_price;
-    @FXML public Text menu_total_price;
-    @FXML public Text coupon_price;
+    @FXML public Label this_week_total_price;
+    @FXML public Label menu_total_price;
+    @FXML public Label coupon_price;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         owner_store_id = preferences.get("store_id", "");
@@ -70,7 +72,18 @@ public class CalculateController implements Initializable {
         thisWeekTotalPrice = menuTotalPrice - couponPrice;
 
         this_week_total_price.setText(thisWeekTotalPrice + " 원");
-        coupon_price.setText("- " + couponPrice + " 원");
+        coupon_price.setText(couponPrice + " 원");
         menu_total_price.setText("= " +menuTotalPrice + " 원");
+
+        this_week_total_price.setAlignment(Pos.BASELINE_RIGHT);
+        coupon_price.setAlignment(Pos.BASELINE_RIGHT);
+        menu_total_price.setAlignment(Pos.BASELINE_RIGHT);
+
+        this_week_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans Korean Regular';" +
+                " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
+        coupon_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans Korean Regular';" +
+                " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
+        menu_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans Korean Regular';" +
+                " -fx-text-fill: black; -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
     }
 }

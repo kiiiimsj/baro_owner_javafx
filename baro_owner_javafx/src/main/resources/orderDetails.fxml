@@ -18,26 +18,6 @@
       xmlns:fx="http://javafx.com/fxml/1"
       stylesheets="css/order_detail.css"
       fx:controller="com.baro.controllers.OrderDetailsController">
-   <children>
-      <GridPane prefHeight="50.0" prefWidth="600.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-
-         <children>
-            <Button fx:id="cancelBtn" mnemonicParsing="false" text="주문취소" onAction="#clickCancel">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </Button>
-         </children>
-      </GridPane>
       <SplitPane fx:id="splitPane" dividerPositions="0.5" prefHeight="700.0" prefWidth="1200.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="600.0">
@@ -46,20 +26,14 @@
                      <children>
                         <HBox prefHeight="28.0" prefWidth="295.0">
                            <children>
-                              <Label text="회원 전화번호 :" />
+                              <Label text="고객번호 :" />
                               <Label fx:id="phoneLabel" text="010" />
                            </children>
                         </HBox>
                         <HBox prefHeight="28.0" prefWidth="295.0">
                            <children>
-                              <Label text="주문 일시 :" />
+                              <Label text="주문시간 :" />
                               <Label fx:id="dateLabel" text="010" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="28.0" prefWidth="295.0">
-                           <children>
-                              <Label text="요청 사항 :" />
-                              <Label fx:id="requestLabel" text="010" />
                            </children>
                         </HBox>
                         <HBox prefHeight="28.0" prefWidth="295.0">
@@ -79,38 +53,48 @@
                               <Insets left="10.0" right="10.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox prefHeight="28.0" prefWidth="295.0">
-                           <children>
-                              <Label fx:id="finalPriceLabel" text="결제 금액 :" />
-                           </children>
-                        </HBox>
+
+                         <HBox prefHeight="28.0" prefWidth="295.0">
+                             <children>
+                                 <Label fx:id="finalPriceLabel" text="결제 금액 :" />
+                             </children>
+                         </HBox>
+
+                         <HBox prefHeight="28.0" prefWidth="295.0">
+                             <children>
+                                 <Label text="요청 사항 :" />
+                                 <Label fx:id="requestLabel" text="010" />
+                             </children>
+                         </HBox>
                      </children>
                   </VBox>
-               </children></AnchorPane>
-
+               </children>
+          </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="600.0">
                <children>
                   <Button mnemonicParsing="false" text="Button" />
-                  <ScrollPane prefHeight="700.0" prefWidth="600.0">
-                     <content>
-                        <VBox fx:id="orderBox" prefHeight="700.0" prefWidth="600.0" spacing="10" />
-                     </content>
-                  </ScrollPane>
+                  <ScrollPane fx:id="receipt_preview_scroll" prefHeight="700.0" prefWidth="600.0"/>
                </children></AnchorPane>
         </items>
       </SplitPane>
-      <GridPane hgap="20.0" prefHeight="64.0" prefWidth="602.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Button fx:id="printButton" mnemonicParsing="false" text="영수증 인쇄" GridPane.halignment="RIGHT" />
-            <Button fx:id="setTime" mnemonicParsing="false" onAction="#clickSettingTimes" text="시간 설정" GridPane.columnIndex="1" />
-         </children>
-      </GridPane>
-   </children>
+       <HBox prefWidth="1200" prefHeight="100">
+           <Button prefWidth="400" prefHeight="100" fx:id="cancelBtn" mnemonicParsing="false" text="주문취소" onAction="#clickCancel"
+                   style="-fx-font-family: 'Noto Sans Korean Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 30pt; -fx-text-fill: white">
+               <HBox.margin>
+                   <Insets right="10" left="10" top="10" bottom="10"/>
+               </HBox.margin>
+           </Button>
+           <Button prefWidth="400" prefHeight="100" fx:id="printButton" mnemonicParsing="false" text="영수증 인쇄"
+                   style="-fx-font-family: 'Noto Sans Korean Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 30pt; -fx-text-fill: white">
+               <HBox.margin>
+                   <Insets right="10" left="10" top="10" bottom="10"/>
+               </HBox.margin>
+           </Button>
+           <Button prefWidth="400" prefHeight="100" fx:id="setTime" mnemonicParsing="false" onAction="#clickSettingTimes" text="시간 설정"
+                   style="-fx-font-family: 'Noto Sans Korean Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 30pt; -fx-text-fill: white">
+               <HBox.margin>
+                   <Insets right="10" left="10" top="10" bottom="10"/>
+               </HBox.margin>
+           </Button>
+       </HBox>
 </VBox>

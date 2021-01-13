@@ -6,9 +6,9 @@
 
 
 <HBox fx:controller="com.baro.controllers.OrderDetailExtraController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-   <spacing>10</spacing>
+   <spacing>120</spacing>
     <children>
-       <Label fx:id="extraNameLabel" text="엑스트라" />
-       <Label fx:id="extraPriceLabel" text="가격" />
+       <Label fx:id="extraNameLabel" text="엑스트라" style="-fx-font-size: 20pt"/>
+       <Label fx:id="extraPriceLabel" text="가격" style="-fx-font-size: 20pt"/>
    </children>
 </HBox>

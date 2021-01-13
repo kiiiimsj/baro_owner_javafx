@@ -18,6 +18,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -41,8 +42,8 @@ public class StatisticsController implements Initializable {
     @FXML private JFXDatePicker start_date_picker;
     @FXML private JFXDatePicker end_date_picker;
     @FXML private JFXButton look_up_button;
-    @FXML private Text total_sales;
-    @FXML private Text total_number_of_sales;
+    @FXML private Label total_sales;
+    @FXML private Label total_number_of_sales;
     @FXML private LineChart<String, Number> line_chart;
     @FXML private CategoryAxis x_axis;
     @FXML private NumberAxis y_axis;
@@ -194,11 +195,17 @@ public class StatisticsController implements Initializable {
         StringBuilder space = new StringBuilder("\t\t\t");
         //scrollContent.getChildren().clear();
         totalMenuList.getItems().clear();
+        totalMenuList.setStyle("-fx-font-size:15pt; -fx-text-fill: black; -fx-background-color: #ff000000");
         AnchorPane header = new AnchorPane();
         header.setId("header");
         Text name = new Text("메뉴이름" + space);
         Text count = new Text("메뉴개수" + space);
         Text price = new Text("메뉴가격");
+
+        name.setStyle("-fx-font-size: 15pt; -fx-text-fill: black");
+        count.setStyle("-fx-font-size: 15pt; -fx-text-fill: black");
+        price.setStyle("-fx-font-size: 15pt; -fx-text-fill: black");
+
         header.getChildren().addAll(name, count, price);
         header.getChildren().get(1).setLayoutX(150);
         header.getChildren().get(2).setLayoutX(300);
@@ -217,6 +224,10 @@ public class StatisticsController implements Initializable {
             }
             Text menuTotalCount = new Text(menuStatistics.menu_count+"");
             Text menuTotalPrice = new Text(menuStatistics.menu_total_price+"원");
+
+            menuName.setStyle("-fx-font-size: 15pt; -fx-text-fill: black");
+            menuTotalCount.setStyle("-fx-font-size: 15pt; -fx-text-fill: black");
+            menuTotalPrice.setStyle("-fx-font-size: 15pt; -fx-text-fill: black");
             cell.getChildren().addAll(menuName, menuTotalCount, menuTotalPrice);
             cell.getChildren().get(1).setLayoutX(150);
             cell.getChildren().get(2).setLayoutX(300);
@@ -227,7 +238,6 @@ public class StatisticsController implements Initializable {
         total_sales.setText(totalPrice+"원");
 
         total_number_of_sales.setText(totalCount+"개");
-
         totalMenuList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -252,16 +262,21 @@ public class StatisticsController implements Initializable {
         }
         y_axis.setLabel("판매액");
         x_axis.setLabel("날짜");
+
         line_chart.getData().add(series);
     }
     private void setDailySalesStatisticsData() {
         StringBuilder space = new StringBuilder("\t\t\t");
         dailySales.getItems().clear();
-
+        dailySales.setStyle("-fx-font-size:15pt; -fx-text-fill: black; -fx-background-color: #ff000000");
         AnchorPane header = new AnchorPane();
         header.setId("header");
         Text dateText = new Text("날짜/일" + space);
         Text dayPriceText = new Text("일 판매액");
+
+        dateText.setStyle("-fx-font-size: 15pt");
+        dayPriceText.setStyle("-fx-font-size: 15pt");
+
         header.getChildren().addAll(dateText, dayPriceText);
         header.getChildren().get(1).setLayoutX(200);
 
@@ -273,6 +288,9 @@ public class StatisticsController implements Initializable {
 
             Text dailyDate = new Text(dailyStatistics.date+ space.toString());
             Text dailyPrice = new Text(dailyStatistics.price+"원");
+
+            dailyDate.setStyle("-fx-font-size: 15pt");
+            dailyPrice.setStyle("-fx-font-size: 15pt");
 
             cell.getChildren().addAll(dailyDate, dailyPrice);
             cell.getChildren().get(1).setLayoutX(200);

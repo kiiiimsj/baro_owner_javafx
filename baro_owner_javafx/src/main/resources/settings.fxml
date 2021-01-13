@@ -10,30 +10,50 @@
 <?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.baro.Printer.ReceiptPrint"
-            prefHeight="300.0" prefWidth="400.0">
-    <Label text="포트선택:" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10"/>
-    <ComboBox fx:id="select_com_port_combo" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="10"/>
-    <Button fx:id="this_port_okay" text="포트선택" AnchorPane.leftAnchor="200" AnchorPane.topAnchor="10"/>
-    <VBox prefWidth="400" AnchorPane.topAnchor="80">
-        <HBox alignment="CENTER">
-            <padding>
-                <Insets left="10" right="10" bottom="10"/>
-            </padding>
-            <Label text="비트/초(B)" fx:id="select_baud_rate_combo_text" prefWidth="100"/>
-            <ComboBox fx:id="select_baud_rate_combo" prefWidth="300"/>
-        </HBox>
-        <HBox alignment="CENTER">
-            <padding>
-                <Insets left="10" right="10" bottom="10"/>
-            </padding>
-            <Label text="데이터 비트(D)" fx:id="select_data_bit_combo_text"  prefWidth="100"/>
-            <ComboBox fx:id="select_data_bit_combo" prefWidth="300"/>
-        </HBox>
-    </VBox>
-    <Button fx:id="print" text="프린트" style="-fx-font-size: 30" alignment="CENTER" prefWidth="380" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10">
-        <padding>
+            fx:controller="sample.SettingController">
+    <HBox AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+        <VBox>
 
-        </padding>
-    </Button>
+            <Label text="포트선택 : " prefWidth="250" fx:id="select_com_port_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans Korean Regular'; -fx-text-fill: #8333e6">
+                <padding>
+                    <Insets top="12" bottom="12"/>
+                </padding>
+            </Label>
+            <Label text="데이터 비트(D) : " prefWidth="250" fx:id="select_data_bit_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans Korean Regular'; -fx-text-fill: #8333e6;">
+                <padding>
+                    <Insets top="12" bottom="12"/>
+                </padding>
+            </Label>
+            <Label text="비트/초(B) : " prefWidth="250" fx:id="select_baud_rate_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans Korean Regular'; -fx-text-fill: #8333e6">
+                <padding>
+                    <Insets top="12" bottom="12"/>
+                </padding>
+            </Label>
+        </VBox>
+        <VBox>
+            <ComboBox fx:id="select_com_port_combo" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans Korean Regular'; -fx-text-fill: #8333e6">
+                <VBox.margin>
+                    <Insets bottom="10"/>
+                </VBox.margin>
+            </ComboBox>
+            <ComboBox fx:id="select_baud_rate_combo"  prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans Korean Regular'; -fx-text-fill: #8333e6">
+                <VBox.margin>
+                    <Insets bottom="10"/>
+                </VBox.margin>
+            </ComboBox>
+            <ComboBox fx:id="select_data_bit_combo" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans Korean Regular'; -fx-text-fill: #8333e6">
+                <VBox.margin>
+                    <Insets bottom="10"/>
+                </VBox.margin>
+            </ComboBox>
+        </VBox>
+        <VBox>
+            <padding>
+                <Insets left="10" right="10" bottom="10"/>
+            </padding>
+            <Button fx:id="this_port_okay" text="포트선택" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans Korean Regular'; -fx-text-fill: #8333e6"/>
+        </VBox>
+    </HBox>
+    <Button fx:id="save_print" text="저장하기" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans Korean Bold'; -fx-text-fill: #8333e6" alignment="CENTER" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10"/>
+    <Button fx:id="test_print" text="프린트 테스트" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans Korean Bold'; -fx-text-fill: #8333e6" alignment="CENTER" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10"/>
 </AnchorPane>

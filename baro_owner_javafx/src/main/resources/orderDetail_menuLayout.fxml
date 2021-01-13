@@ -3,26 +3,49 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.OrderDetailMenuController">
-   <spacing>10</spacing>
+<VBox prefWidth="600"
+      prefHeight="700"
+      xmlns="http://javafx.com/javafx/11.0.2"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.baro.controllers.OrderDetailMenuController">
     <children>
-      <HBox>
-          <spacing>10</spacing>
+      <Label text="[BARO]" alignment="CENTER" prefWidth="Infinity" style="-fx-font-size: 40pt"/>
+        <Label text="주문이" alignment="CENTER" prefWidth="Infinity" style="-fx-font-size: 30pt"/>
+        <Label text="접수되었습니다." alignment="CENTER" prefWidth="Infinity" style="-fx-font-size: 30pt"/>
+        <HBox>
+            <spacing>10</spacing>
+            <Label text="고객번호 :" style="-fx-font-size: 30pt"/>
+            <Label fx:id="phone" text="01093756927"  style="-fx-font-size: 30pt"/>
+        </HBox>
+        <HBox>
+            <spacing>10</spacing>
+            <Label text="주문시간 :" style="-fx-font-size: 20pt"/>
+            <Label fx:id="orderTime" text="2020-1-6-9-40-13"  style="-fx-font-size: 20pt"/>
+        </HBox>
+        <HBox prefHeight="1" style="-fx-background-color: #111010" />
+        <HBox>
+            <spacing>200</spacing>
+            <Label text="메뉴명" style="-fx-font-size: 20pt"/>
+            <Label text="수량" style="-fx-font-size: 20pt"/>
+            <Label text="금액" style="-fx-font-size: 20pt"/>
+        </HBox>
+        <HBox>
+          <spacing>150</spacing>
          <children>
-            <Label fx:id="menuNameLabel" text="아메리카노" />
-            <Label fx:id="defaultPriceLabel" text="디폴트 가격" />
+            <Label fx:id="menuNameLabel" text="아메리카노" style="-fx-font-size: 20pt"/>
+            <Label fx:id="defaultPriceLabel" text="디폴트 가격" style="-fx-font-size: 20pt"/>
          </children>
-      </HBox>
+        </HBox>
         <VBox fx:id="extraBox" />
-      <HBox >
-          <spacing>10</spacing>
+      <HBox>
+          <spacing>80</spacing>
          <children>
-            <Label fx:id="eachPriceLabel" text="옵션포함가격" />
-            <Label fx:id="countLabel" text="개수" />
-            <Label text="합계 : " />
-            <Label fx:id="totalPriceLabel" text="총가격" />
+            <Label fx:id="eachPriceLabel" text="옵션포함가격" style="-fx-font-size: 20pt"/>
+            <Label fx:id="countLabel" text="개수" style="-fx-font-size: 20pt"/>
+            <Label text="합계 : " style="-fx-font-size: 20pt"/>
+            <Label fx:id="totalPriceLabel" text="총가격" style="-fx-font-size: 20pt"/>
          </children>
       </HBox>
-        <HBox style="-fx-background-color: #111010" prefHeight="1"></HBox>
+        <HBox prefHeight="1" style="-fx-background-color: #111010" />
    </children>
 </VBox>

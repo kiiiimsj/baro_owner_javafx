@@ -11,10 +11,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -46,13 +48,13 @@ public class OrderDetailsController implements Initializable {
     @FXML
     private Label finalPriceLabel;
     @FXML
-    private VBox orderBox;
-    @FXML
     public Button setTime;
     @FXML
     public Button printButton;
     @FXML
     private SplitPane splitPane;
+    @FXML
+    private ScrollPane receipt_preview_scroll;
     private OrderDetailParsing data;
     private Order order;
     private double pos;
@@ -61,8 +63,21 @@ public class OrderDetailsController implements Initializable {
 
     private Preferences preferences = Preferences.userRoot();
 
+    private FXMLLoader print_fxml_loader;
+    private ReceiptPrint print;
+    private Parent printParent;
+    private Scene printScene;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        print_fxml_loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
+        try {
+            printParent = print_fxml_loader.load();
+            printScene = new Scene(printParent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        print = print_fxml_loader.<ReceiptPrint>getController();
+
         pos = splitPane.getDividers().get(0).getPosition();
         splitPane.getDividers().get(0).positionProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -89,7 +104,7 @@ public class OrderDetailsController implements Initializable {
         requestLabel.setText(data.requests);
         totalPriceLabel.setText(order.total_price+" 원");
         discountPriceLabel.setText(order.discount_price + " 원");
-        finalPriceLabel.setText((order.total_price - order.discount_price) + " 원");
+        finalPriceLabel.setText("결제 금액 : "+(order.total_price - order.discount_price) + " 원");
         if (order.order_state.equals(Order.PREPARING)){
             setTime.setVisible(true);
         }else if (order.order_state.equals(Order.ACCEPT)){
@@ -98,63 +113,88 @@ public class OrderDetailsController implements Initializable {
         printButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/settings.fxml"));
-                    Stage stage = new Stage(StageStyle.UTILITY);
-                    stage.initModality(Modality.WINDOW_MODAL);
+                Stage stage = new Stage(StageStyle.UTILITY);
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.setTitle("프린터 옵션");
+                stage.setResizable(false);
 
-                    stage.setTitle("프린터 옵션");
+                stage.setScene(printScene);
 
-                    Parent parent = loader.load();
-                    Scene scene = new Scene(parent);
-                    stage.setScene(scene);
-                    stage.setResizable(false);
-
-                    ReceiptPrint print = loader.getController();
-
-                    print.order = data;
-                    print.orderInfo = order;
-
+                if(!preferences.getBoolean("printBefore", false)) {
+                    stage.show();
+                } else {
                     print.startPrint();
-                    if(!preferences.getBoolean("printBefore", false)) {
-                        stage.show();
-                    }
-                    stage.onCloseRequestProperty().set(new EventHandler<WindowEvent>() {
-                        @Override
-                        public void handle(WindowEvent event) {
-                            if(event.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST) {
-                                System.out.println("close interface");
-                                if(print.serialPort.isOpen()) {
-                                    try {
-                                        print.printOutput.close();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    print.serialPort.closePort();
+                }
+                stage.onCloseRequestProperty().set(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent event) {
+                        if(event.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST) {
+                            System.out.println("close interface");
+                            if(print.serialPort.isOpen()) {
+                                try {
+                                    print.printOutput.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
+                                print.serialPort.closePort();
                             }
                         }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    }
+                });
             }
         });
     }
-    public void configureRightUI(){
-        for (int i = 0;i<data.orders.size();i++){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetail_menuLayout.fxml"));
-            try {
-                VBox vBox = loader.load();
-                OrderDetailMenuController controller = loader.<OrderDetailMenuController>getController();
-                controller.setData(data.orders.get(i));
-                controller.configureUI();
-                orderBox.getChildren().add(vBox);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public void makeReceiptPreView(){
+        print.makeString(data, order);
+        System.out.println(print.headerContent.toString() +""+ print.orderGetTextContent.toString() +""+ print.customerPhone.toString() +""+ print.orderDateContent.toString()
+                +""+ print.content.toString() +""+ print.texTitleText.toString() +""+ print.totalTitleText.toString() +""+ print.customerRequest.toString());
 
-        }
+        String header = print.headerContent.toString();
+        String orderGetTextContent = print.orderGetTextContent.toString();
+        String customerPhone = print.customerPhone.toString();
+        String orderDataContent = print.orderDateContent.toString();
+        String content = print.content.toString();
+        String texTitleText = print.texTitleText.toString();
+        String totalTitleText = print.totalTitleText.toString();
+        String customerRequest = print.customerRequest.toString();
+
+        VBox scrollContent = new VBox();
+
+        Label headerText = new Label(header);
+        Label orderGetTextContentOrderText = new Label("주문이");
+        Label orderGetTextContentText = new Label(orderGetTextContent.substring(3, orderGetTextContent.length()));
+        Label customerPhoneText = new Label(customerPhone);
+        Label orderDataContentText = new Label(orderDataContent);
+        Label contentText = new Label(content);
+        Label texTitleTextText = new Label(texTitleText);
+        Label totalTitleTextText = new Label(totalTitleText);
+        Label customerRequestText = new Label(customerRequest);
+
+        headerText.setMaxWidth(600);
+        headerText.setAlignment(Pos.CENTER);
+        headerText.setStyle("-fx-font-size: 30pt");
+
+        orderGetTextContentOrderText.setMaxWidth(600);
+        orderGetTextContentOrderText.setAlignment(Pos.CENTER);
+        orderGetTextContentOrderText.setStyle("-fx-font-size: 30pt");
+
+        orderGetTextContentText.setMaxWidth(600);
+        orderGetTextContentText.setAlignment(Pos.CENTER);
+        orderGetTextContentText.setStyle("-fx-font-size: 30pt");
+
+        customerPhoneText.setAlignment(Pos.CENTER);
+        customerPhoneText.setStyle("-fx-font-size: 30pt");
+
+        totalTitleTextText.setAlignment(Pos.CENTER);
+        totalTitleTextText.setStyle("-fx-font-size: 30pt");
+
+
+        scrollContent.getChildren().addAll(headerText, orderGetTextContentOrderText, orderGetTextContentText, customerPhoneText, orderDataContentText
+        ,contentText, texTitleTextText, totalTitleTextText, customerRequestText);
+
+
+
+        receipt_preview_scroll.setContent(scrollContent);
     }
     public void clickSettingTimes(ActionEvent event) {
         try {
@@ -200,7 +240,7 @@ public class OrderDetailsController implements Initializable {
             http.setDoOutput(true);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("nick", "하태영");
-            jsonObject.put("cancel_reason", "고객님의 소중한 주문이 가게의 사정으로인해 취소되었습니다");
+            jsonObject.put("cancel_reason", "고객님의 주문이 가게사정에 의해 취소처리 되었습니다");
             jsonObject.put("receipt_id", order.receipt_id);
             jsonObject.put("store_name", Preferences.userRoot().get("store_name",null));
             OutputStream os = http.getOutputStream();
@@ -247,7 +287,7 @@ public class OrderDetailsController implements Initializable {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("phone",order.phone);
             jsonObject.put("title", "주문 취소");
-            jsonObject.put("content", "고객님의 소중한 주문이 가게의 사정으로인해 취소되었습니다");
+            jsonObject.put("content", "고객님의 주문이 가게사정에 의해 취소처리 되었습니다");
 
             OutputStream os = http.getOutputStream();
 
