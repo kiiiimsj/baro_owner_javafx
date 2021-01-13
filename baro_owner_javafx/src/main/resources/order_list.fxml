@@ -15,7 +15,7 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <StackPane prefHeight="900" prefWidth="1400" xmlns="http://javafx.com/javafx/8.0.171"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.OrderListController" stylesheets="@css/order_list_sheets.css">
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.OrderListController" stylesheets="css/order_list_sheets.css">
     <children>
         <JFXTabPane fx:id="tabContainer" side="LEFT" >
             <tabs>

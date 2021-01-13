@@ -127,8 +127,8 @@ public class ReceiptPrint implements Initializable {
     public static final byte[] SET_WIDTH_79_203DPI = {0x1d,0x57,0x40,0x02};
 
 
-    public OrderDetailParsing order;
-    public Order orderInfo;
+//    public OrderDetailParsing order;
+//    public Order orderInfo;
 
     @FXML
     private ComboBox<String> select_com_port_combo;
@@ -156,6 +156,15 @@ public class ReceiptPrint implements Initializable {
     public OutputStream printOutput;
     private Preferences preferences = Preferences.userRoot();
     public boolean isFromSetting = false;
+
+    public StringBuilder headerContent = new StringBuilder();
+    public StringBuilder orderGetTextContent = new StringBuilder();
+    public StringBuilder customerPhone = new StringBuilder("고객번호:");
+    public StringBuilder orderDateContent = new StringBuilder("주문시간:");
+    public StringBuilder texTitleText = new StringBuilder();
+    public StringBuilder totalTitleText = new StringBuilder();
+    public StringBuilder customerRequest = new StringBuilder();
+    public StringBuilder content = new StringBuilder("-------------------------------------\n");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -238,71 +247,23 @@ public class ReceiptPrint implements Initializable {
             }
         });
     }
+    public void makeString(OrderDetailParsing order, Order orderInfo){
+        headerContent.append("[BARO]\n");
+        orderGetTextContent.append("주문이\n접수되었습니다.\n\n");
+        customerPhone.append(orderInfo.phone, 7, orderInfo.phone.length()).append("\n");
+        orderDateContent.append(orderInfo.order_date.substring(0, orderInfo.order_date.length() - 1)).append("\n");
+        content.append("메뉴명\t\t수량\t\t금액\n");
 
-    public void printReceipt(String portName, int baudrate, int dataBit) throws IOException, DocumentException {
-        Integer timeout = 1000;
-
-        serialPort = SerialPort.getCommPort(portName);
-        if(SerialPort.getCommPort(portName).isOpen()) {
-            System.out.println("isOpen");
-            return;
-        }
-
-        serialPort.openPort();
-        serialPort.setBaudRate(baudrate);
-        serialPort.setParity(SerialPort.EVEN_PARITY);
-        serialPort.setNumDataBits(dataBit);
-        serialPort.setNumStopBits(SerialPort.ONE_STOP_BIT);
-        serialPort.setComPortTimeouts(SerialPort.TIMEOUT_NONBLOCKING, timeout, timeout);
-
-        printOutput = serialPort.getOutputStream();
-
-        StringBuilder headerContent = new StringBuilder("[BARO]\n");
-        StringBuilder orderGetTextContent = new StringBuilder("주문이\n 접수되었습니다.\n\n");
-
-        printOutput.write(SET_WIDTH_57_203DPI);
-        printOutput.write(TXT_FONT_A);
-
-        printOutput.write(TXT_4SQUARE);
-        printOutput.write(TXT_ALIGN_CT);
-        printOutput.write(headerContent.toString().getBytes("EUC-KR"));
-
-        printOutput.write(TXT_2WIDTH);
-        printOutput.write(TXT_ALIGN_CT);
-        printOutput.write(orderGetTextContent.toString().getBytes("EUC-KR"));
-
-        System.out.println(headerContent.toString());
-        StringBuilder customerPhone = new StringBuilder("고객번호:").append(orderInfo.phone, 7, orderInfo.phone.length()).append("\n");
-
-        printOutput.write(TXT_2WIDTH);
-        printOutput.write(TXT_ALIGN_LT);
-        printOutput.write(customerPhone.toString().getBytes("EUC-KR"));
-
-
-        StringBuilder orderDateContent = new StringBuilder("주문시간:").append(orderInfo.order_date.substring(0, orderInfo.order_date.length() - 1)).append("\n");
-
-        printOutput.write(TXT_NORMAL);
-        printOutput.write(TXT_ALIGN_LT);
-        printOutput.write(orderDateContent.toString().getBytes("EUC-KR"));
-
-
-        StringBuilder texTitleText = new StringBuilder();
-        StringBuilder totalTitleText = new StringBuilder();
-        StringBuilder customerRequest = new StringBuilder();
-        StringBuilder content = new StringBuilder("-------------------------------------\n")
-                                          .append("메뉴명\t\t수량\t\t금액\n");
         if(order != null || order.orders != null) {
             for (int i = 0; i < order.orders.size(); i++) {
                 OrderDetail menu = order.orders.get(i);
                 content.append(menu.menu_name);
-                //int lent1 = lineNumber - (menu.menu_name.length() + String.valueOf(menu.order_count).length()+1 + String.valueOf(menu.menu_defaultprice).length()+1) ;
                 int lent1 = 9 - menu.menu_name.length();
                 System.out.println("lent1 : " + lent1);
                 for (int j = 0; j <lent1 ; j++) {
                     content.append("  ");
                 }
                 content.append(menu.order_count);
-                //int lent2 = lineNumber - (String.valueOf(menu.order_count).length()+1 + menu.menu_name.length() + String.valueOf(menu.menu_defaultprice).length()+1 + lent1);
                 int lent2 = 12 - (String.valueOf(menu.order_count).length() + String.valueOf(menu.menu_defaultprice).length()+1);
                 for (int l = 0; l < lent2 ; l++) {
                     content.append("  ");
@@ -336,44 +297,70 @@ public class ReceiptPrint implements Initializable {
             }
 
         }
-        printOutput.write(TXT_NORMAL);
-        printOutput.write(TXT_ALIGN_LT);
-        printOutput.write(content.toString().getBytes("EUC-KR"));
-
-        System.out.println(content.toString());
-        texTitleText.append("-------------------------------------\n").append("쿠폰");
-
-        printOutput.write(TXT_NORMAL);
-        printOutput.write(TXT_ALIGN_RT);
-        printOutput.write(texTitleText.toString().getBytes("EUC-KR"));
-
-        String texPrice = orderInfo.discount_price+"원\n";
-
-        printOutput.write(TXT_NORMAL);
-        printOutput.write(TXT_ALIGN_RT);
-        printOutput.write("          ".getBytes("EUC-KR"));
-        printOutput.write(texPrice.getBytes("EUC-KR"));
-
+        texTitleText.append("-------------------------------------\n").append("쿠폰 : ")
+                .append(orderInfo.discount_price)
+                .append("원")
+                .append("\n");
 
         totalTitleText.append("------------------\n")
-                .append("결제 금액:");
-
-        String totalPrice = (orderInfo.total_price - orderInfo.discount_price) + "원\n\n";
-
-        printOutput.write(TXT_2WIDTH);
-        printOutput.write(TXT_ALIGN_RT);
-        printOutput.write(totalTitleText.toString().getBytes("EUC-KR"));
-
-        printOutput.write(TXT_2WIDTH);
-        printOutput.write(TXT_ALIGN_RT);
-        printOutput.write(totalPrice.getBytes("EUC-KR"));
+                .append("결제 금액:")
+                .append(orderInfo.total_price - orderInfo.discount_price)
+                .append("원")
+                .append("\n\n");
 
         customerRequest.append("요청사항\n")
                 .append("  -")
                 .append(order.requests)
                 .append("\n");
+    }
+    public void printReceipt(String portName, int baudrate, int dataBit) throws IOException, DocumentException {
+        Integer timeout = 1000;
 
-        System.out.println(customerRequest.toString());
+        serialPort = SerialPort.getCommPort(portName);
+        if(SerialPort.getCommPort(portName).isOpen()) {
+            System.out.println("isOpen");
+            return;
+        }
+
+        serialPort.openPort();
+        serialPort.setBaudRate(baudrate);
+        serialPort.setParity(SerialPort.EVEN_PARITY);
+        serialPort.setNumDataBits(dataBit);
+        serialPort.setNumStopBits(SerialPort.ONE_STOP_BIT);
+        serialPort.setComPortTimeouts(SerialPort.TIMEOUT_NONBLOCKING, timeout, timeout);
+
+        printOutput = serialPort.getOutputStream();
+
+        printOutput.write(SET_WIDTH_57_203DPI);
+        printOutput.write(TXT_FONT_A);
+
+        printOutput.write(TXT_4SQUARE);
+        printOutput.write(TXT_ALIGN_CT);
+        printOutput.write(headerContent.toString().getBytes("EUC-KR"));
+
+        printOutput.write(TXT_2WIDTH);
+        printOutput.write(TXT_ALIGN_LT);
+        printOutput.write(customerPhone.toString().getBytes("EUC-KR"));
+
+        printOutput.write(TXT_NORMAL);
+        printOutput.write(TXT_ALIGN_LT);
+        printOutput.write(orderDateContent.toString().getBytes("EUC-KR"));
+
+        printOutput.write(TXT_2WIDTH);
+        printOutput.write(TXT_ALIGN_CT);
+        printOutput.write(orderGetTextContent.toString().getBytes("EUC-KR"));
+
+        printOutput.write(TXT_NORMAL);
+        printOutput.write(TXT_ALIGN_LT);
+        printOutput.write(content.toString().getBytes("EUC-KR"));
+
+        printOutput.write(TXT_NORMAL);
+        printOutput.write(TXT_ALIGN_RT);
+        printOutput.write(texTitleText.toString().getBytes("EUC-KR"));
+
+        printOutput.write(TXT_2WIDTH);
+        printOutput.write(TXT_ALIGN_RT);
+        printOutput.write(totalTitleText.toString().getBytes("EUC-KR"));
 
         printOutput.write(TXT_NORMAL);
         printOutput.write(TXT_ALIGN_LT);

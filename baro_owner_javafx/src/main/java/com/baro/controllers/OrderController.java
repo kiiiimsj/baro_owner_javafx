@@ -2,13 +2,10 @@ package com.baro.controllers;
 
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
-import com.baro.OrderListController;
 import com.google.gson.Gson;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -142,7 +139,7 @@ public class OrderController implements Initializable{
             OrderDetailsController controller = loader.<OrderDetailsController>getController();
             controller.setData(orderDetailParsing,orderData);
             controller.configureLeftUI();
-            controller.configureRightUI();
+            controller.makeReceiptPreView();
             controller.getChangeToAccept().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
