@@ -99,7 +99,7 @@ public class OrderDetailsController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/settings.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
                     Stage stage = new Stage(StageStyle.UTILITY);
                     stage.initModality(Modality.WINDOW_MODAL);
 
@@ -115,9 +115,10 @@ public class OrderDetailsController implements Initializable {
                     print.order = data;
                     print.orderInfo = order;
 
-                    print.startPrint();
                     if(!preferences.getBoolean("printBefore", false)) {
                         stage.show();
+                    } else {
+                        print.startPrint();
                     }
                     stage.onCloseRequestProperty().set(new EventHandler<WindowEvent>() {
                         @Override

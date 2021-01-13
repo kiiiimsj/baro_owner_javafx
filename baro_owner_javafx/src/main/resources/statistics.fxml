@@ -16,7 +16,6 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sample.StatisticsController"
             stylesheets="css/statistics.css">
-    <Label fx:id="statistics_label" alignment="TOP_LEFT" text="통계" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
     <HBox AnchorPane.rightAnchor="0.0">
         <padding>
             <Insets right="10" top="10" />
@@ -36,16 +35,16 @@
                 <Insets top="15" />
             </HBox.margin>
         </JFXDatePicker>
-        <JFXButton fx:id="look_up_button" alignment="CENTER" prefHeight="30" prefWidth="50" text="조회">
+        <JFXButton fx:id="look_up_button" alignment="CENTER" prefHeight="50" prefWidth="100" text="조회" style="-fx-font-size: 20pt;-fx-text-fill: white; -fx-background-color: #8333e6">
             <HBox.margin>
                 <Insets left="10" right="10" top="20" />
             </HBox.margin>
         </JFXButton>
     </HBox>
 
-    <Label fx:id="daily_label" text="일별 판매액" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="100" />
+    <Label fx:id="daily_label" text="일별 판매액" style="-fx-font-size: 40" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="90" />
 
-    <LineChart fx:id="line_chart" prefHeight="500" prefWidth="600" AnchorPane.leftAnchor="5" AnchorPane.topAnchor="120">
+    <LineChart fx:id="line_chart" prefHeight="500" prefWidth="600" AnchorPane.leftAnchor="5" AnchorPane.topAnchor="130">
         <xAxis>
             <CategoryAxis animated="false" fx:id="x_axis" />
         </xAxis>
@@ -54,18 +53,18 @@
         </yAxis>
     </LineChart>
 
-    <JFXListView fx:id="dailySales" prefWidth="500" prefHeight="330" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="120"/>
+    <JFXListView fx:id="dailySales" prefWidth="500" prefHeight="330" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="130" />
     <VBox AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="40">
         <HBox>
-            <Label fx:id="total_sales_text" text="총 매출 : "/>
-            <Text fx:id="total_sales"/>
+            <Label fx:id="total_sales_text" style="-fx-font-size: 50; -fx-text-fill: black" text="총 매출 : "/>
+            <Label fx:id="total_sales" style="-fx-font-size: 50; -fx-text-fill: black"/>
         </HBox>
         <HBox>
-            <Label fx:id="total_number_of_sales_text" text="총 건수 : " />
-            <Text fx:id="total_number_of_sales"/>
+            <Label fx:id="total_number_of_sales_text" style="-fx-font-size: 50; -fx-text-fill: black"  text="총 건수 : " />
+            <Label fx:id="total_number_of_sales" style="-fx-font-size: 50; -fx-text-fill: black"/>
         </HBox>
     </VBox>
 
-    <Label fx:id="menu_label" text="메뉴 별 판매액" AnchorPane.rightAnchor="325" AnchorPane.bottomAnchor="350"/>
-    <JFXListView fx:id="totalMenuList" prefWidth="500" prefHeight="320" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10"/>
+    <Label fx:id="menu_label" text="메뉴 별 판매액" style="-fx-font-size: 40" AnchorPane.rightAnchor="270" AnchorPane.bottomAnchor="350"/>
+    <JFXListView fx:id="totalMenuList" prefWidth="500" prefHeight="320" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" />
 </AnchorPane>

@@ -126,13 +126,6 @@ public class ReceiptPrint implements Initializable {
     public static final byte[] SET_WIDTH_79_180DPI = {0x1d,0x57,0x00,0x02};
     public static final byte[] SET_WIDTH_79_203DPI = {0x1d,0x57,0x40,0x02};
 
-    public String customer_phone;
-    public String order_date;
-    public int totalPriceStr;
-    //menu_name, menu_count menu_price
-    public int coupon;
-    public String requirements_spec;
-
 
     public OrderDetailParsing order;
     public Order orderInfo;
@@ -145,7 +138,6 @@ public class ReceiptPrint implements Initializable {
     public ArrayList<Integer> makeBaudRateList = new ArrayList<Integer>() {{
         add(110); add(300); add(1200); add(2400); add(4800); add(9600); add(19200); add(38400);
     }};
-
     @FXML
     private ComboBox<Integer> select_data_bit_combo;
     private ArrayList<Integer> makeDataBit = new ArrayList<Integer>() {{
@@ -192,62 +184,59 @@ public class ReceiptPrint implements Initializable {
                 e.printStackTrace();
             }
         }
-
-        else {
-            makePortList.add("선택");
-            if (SerialPort.getCommPorts().length != 0 ) {
-                for (SerialPort port: SerialPort.getCommPorts()) {
-                    makePortList.add(port.getSystemPortName());
-                }
-                ObservableList<String> list = FXCollections.observableList(makePortList);
-                select_com_port_combo.setItems(list);
+        makePortList.add("선택");
+        if (SerialPort.getCommPorts().length != 0 ) {
+            for (SerialPort port: SerialPort.getCommPorts()) {
+                makePortList.add(port.getSystemPortName());
             }
-            select_com_port_combo.setValue("선택");
-
-
-            ObservableList<Integer> list = FXCollections.observableList(makeBaudRateList);
-            select_baud_rate_combo.setItems(list);
-
-            ObservableList<Integer> list2 = FXCollections.observableList(makeDataBit);
-            select_data_bit_combo.setItems(list2);
-
-            this_port_okay.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    if(event.getEventType() == ActionEvent.ACTION) {
-                        System.out.println("buttonClick");
-                        if(select_com_port_combo.getValue().equals("선택")) {
-
-                        }else {
-                            select_baud_rate_combo.setVisible(true);
-                            select_baud_rate_combo_text.setVisible(true);
-
-                            select_data_bit_combo.setVisible(true);
-                            select_data_bit_combo_text.setVisible(true);
-
-                            print.setVisible(true);
-                        }
-                    }
-                }
-            });
-            select_baud_rate_combo.setValue(9600);
-            select_data_bit_combo.setValue(8);
-
-            print.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    if(event.getEventType() == ActionEvent.ACTION) {
-                        try {
-                            System.out.println(select_com_port_combo.getValue() + " : " +select_baud_rate_combo.getValue() + " : " + select_data_bit_combo.getValue());
-                            printReceipt(select_com_port_combo.getValue(), select_baud_rate_combo.getValue(), select_data_bit_combo.getValue());
-
-                        } catch (DocumentException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
+            ObservableList<String> list = FXCollections.observableList(makePortList);
+            select_com_port_combo.setItems(list);
         }
+        select_com_port_combo.setValue("선택");
+
+
+        ObservableList<Integer> list = FXCollections.observableList(makeBaudRateList);
+        select_baud_rate_combo.setItems(list);
+
+        ObservableList<Integer> list2 = FXCollections.observableList(makeDataBit);
+        select_data_bit_combo.setItems(list2);
+
+        this_port_okay.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(event.getEventType() == ActionEvent.ACTION) {
+                    System.out.println("buttonClick");
+                    if(select_com_port_combo.getValue().equals("선택")) {
+
+                    }else {
+                        select_baud_rate_combo.setVisible(true);
+                        select_baud_rate_combo_text.setVisible(true);
+
+                        select_data_bit_combo.setVisible(true);
+                        select_data_bit_combo_text.setVisible(true);
+
+                        print.setVisible(true);
+                    }
+                }
+            }
+        });
+        select_baud_rate_combo.setValue(9600);
+        select_data_bit_combo.setValue(8);
+
+        print.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(event.getEventType() == ActionEvent.ACTION) {
+                    try {
+                        System.out.println(select_com_port_combo.getValue() + " : " +select_baud_rate_combo.getValue() + " : " + select_data_bit_combo.getValue());
+                        printReceipt(select_com_port_combo.getValue(), select_baud_rate_combo.getValue(), select_data_bit_combo.getValue());
+
+                    } catch (DocumentException | IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     public void printReceipt(String portName, int baudrate, int dataBit) throws IOException, DocumentException {

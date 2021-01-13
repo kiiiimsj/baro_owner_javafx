@@ -27,7 +27,6 @@
                                 <children>
                                     <JFXToggleButton fx:id="isOpenBtn" prefWidth="300" prefHeight="15" textAlignment="CENTER"/>
                                     <TilePane fx:id="orderListContainer"  layoutY="80.0" prefWidth="1150.0" hgap="10" vgap="10">
-                                        <children></children>
                                     </TilePane>
                                 </children>
                             </AnchorPane>

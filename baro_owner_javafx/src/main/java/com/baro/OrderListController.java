@@ -96,10 +96,10 @@ public class OrderListController {
     public void initialize() {
         if(isOpen) {
             isOpenBtn.setText("영업종료 하기");
-            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff");
+            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 25pt; -fx-font-family: 'Noto Sans Korean Regular'");
         } else {
             isOpenBtn.setText("영업게시 하기");
-            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff");
+            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 25pt; -fx-font-family: 'Noto Sans Korean Regular'");
         }
 
 
@@ -137,13 +137,13 @@ public class OrderListController {
             if (is_open) {
                 jsonObject.put("is_open", "Y");
                 isOpenBtn.setText("영업종료 하기");
-                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff");
+                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 25pt; -fx-font-family: 'Noto Sans Korean Regular'");
                 //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.color(131.0, 51.0, 230.0, 1.0), CornerRadii.EMPTY, Insets.EMPTY)));
 
             } else {
                 jsonObject.put("is_open", "N");
                 isOpenBtn.setText("영업게시 하기");
-                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff");
+                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 25pt; -fx-font-family: 'Noto Sans Korean Regular'");
                 //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             }
 
