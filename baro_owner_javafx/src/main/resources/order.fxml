@@ -12,7 +12,7 @@
     <spacing>10</spacing>
     <HBox>
         <spacing>50</spacing>
-        <Label fx:id="order_count" text="4개 주문" style="-fx-font-size: 25"/>
+        <Label fx:id="order_count" text="4개 주문" style="-fx-font-size: 20"/>
         <Button fx:id="showDetailBtn" alignment="CENTER" text="상세" textAlignment="CENTER" visible="false" onAction="#showDetail">
             <HBox.hgrow>
                 <Priority fx:constant="ALWAYS" />

@@ -2,6 +2,7 @@ package com.baro.controllers;
 
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
+import com.baro.controllers.orderDetail.OrderDetailsController;
 import com.google.gson.Gson;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;

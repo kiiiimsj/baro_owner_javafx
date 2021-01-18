@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,16 +19,13 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Screen;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import sample.Main;
 
@@ -96,10 +92,10 @@ public class OrderListController {
     public void initialize() {
         if(isOpen) {
             isOpenBtn.setText("영업종료 하기");
-            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 25pt; -fx-font-family: 'Noto Sans Korean Regular'");
+            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
         } else {
             isOpenBtn.setText("영업게시 하기");
-            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 25pt; -fx-font-family: 'Noto Sans Korean Regular'");
+            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
         }
 
 
@@ -137,13 +133,13 @@ public class OrderListController {
             if (is_open) {
                 jsonObject.put("is_open", "Y");
                 isOpenBtn.setText("영업종료 하기");
-                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 25pt; -fx-font-family: 'Noto Sans Korean Regular'");
+                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
                 //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.color(131.0, 51.0, 230.0, 1.0), CornerRadii.EMPTY, Insets.EMPTY)));
 
             } else {
                 jsonObject.put("is_open", "N");
                 isOpenBtn.setText("영업게시 하기");
-                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 25pt; -fx-font-family: 'Noto Sans Korean Regular'");
+                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
                 //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             }
 
@@ -293,12 +289,12 @@ public class OrderListController {
             }
         };
 
-        configureTab(orderListTab, "주 문", orderListSideContainer, getClass().getResource("order_list.fxml"), replaceBackgroundColorHandler);
+        configureTab(orderListTab, "주문", orderListSideContainer, getClass().getResource("order_list.fxml"), replaceBackgroundColorHandler);
         configureTab(inventoryManagementTab, "재고관리", inventoryManagementContainer, getClass().getResource("/inventory_management.fxml"), replaceBackgroundColorHandler);
-        configureTab(infoChangeTab, "정보변경", infoChangeContainer, getClass().getResource("/info_change.fxml"), replaceBackgroundColorHandler);
-        configureTab(calculateTab, "정 산", calculateContainer, getClass().getResource("/calculate.fxml"), replaceBackgroundColorHandler);
-        configureTab(statisticsTab, "통 계", statisticsContainer, getClass().getResource("/statistics.fxml"), replaceBackgroundColorHandler);
-        configureTab(settingsTab, "설 정", settingsContainer, getClass().getResource("/settings.fxml"), replaceBackgroundColorHandler);
+        configureTab(infoChangeTab, "주문내역", infoChangeContainer, getClass().getResource("/orderHistory.fxml"), replaceBackgroundColorHandler);
+        configureTab(calculateTab, "정산", calculateContainer, getClass().getResource("/calculate.fxml"), replaceBackgroundColorHandler);
+        configureTab(statisticsTab, "통계", statisticsContainer, getClass().getResource("/statistics.fxml"), replaceBackgroundColorHandler);
+        configureTab(settingsTab, "설정", settingsContainer, getClass().getResource("/settings.fxml"), replaceBackgroundColorHandler);
 
         orderListTab.setStyle("-fx-background-color: #8333e6");
     }
@@ -312,7 +308,7 @@ public class OrderListController {
         Label label = new Label(title);
         label.setMaxWidth(tabWidth - 20);
         label.setPadding(new Insets(5, 0, 0, 0));
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 30pt; -fx-font-weight: normal; -fx-font-family: 'Noto Sans Korean Regular'");
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 28pt; -fx-font-weight: normal; -fx-font-family: 'Noto Sans Korean Regular'");
         label.setTextAlignment(TextAlignment.CENTER);
         BorderPane tabPane = new BorderPane();
         tabPane.setRotate(90.0);

@@ -1,4 +1,4 @@
-package sample;
+package com.baro.controllers;
 
 import com.baro.JsonParsing.MenuStatistics;
 import com.baro.JsonParsing.Statistics;
