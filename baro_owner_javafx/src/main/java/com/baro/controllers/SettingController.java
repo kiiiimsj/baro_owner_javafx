@@ -1,4 +1,4 @@
-package sample;
+package com.baro.controllers;
 
 import com.baro.Printer.ReceiptPrint;
 import com.fazecast.jSerialComm.SerialPort;

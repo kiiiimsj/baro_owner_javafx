@@ -7,7 +7,7 @@
       prefHeight="700"
       xmlns="http://javafx.com/javafx/11.0.2"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.baro.controllers.OrderDetailMenuController">
+      fx:controller="com.baro.controllers.orderDetail.OrderDetailMenuController">
     <children>
       <Label text="[BARO]" alignment="CENTER" prefWidth="Infinity" style="-fx-font-size: 40pt"/>
         <Label text="주문이" alignment="CENTER" prefWidth="Infinity" style="-fx-font-size: 30pt"/>

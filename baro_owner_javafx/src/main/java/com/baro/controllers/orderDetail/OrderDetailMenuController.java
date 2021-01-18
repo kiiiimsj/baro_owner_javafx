@@ -1,4 +1,4 @@
-package com.baro.controllers;
+package com.baro.controllers.orderDetail;
 
 import com.baro.JsonParsing.OrderDetail;
 import javafx.fxml.FXML;

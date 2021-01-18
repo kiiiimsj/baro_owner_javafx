@@ -1,4 +1,4 @@
-package sample;
+package com.baro.controllers;
 
 import com.baro.JsonParsing.Category;
 import com.baro.JsonParsing.CategoryParsing;

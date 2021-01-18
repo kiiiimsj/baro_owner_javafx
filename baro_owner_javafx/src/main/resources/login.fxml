@@ -6,7 +6,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.Group?>
-<AnchorPane fx:id="anchorPane" stylesheets="css/login_sheets.css" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LoginController">
+<AnchorPane fx:id="anchorPane" stylesheets="css/login_sheets.css" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.LoginController">
    <padding>
       <Insets right="10" left="10" bottom="10" top="10"/>
    </padding>

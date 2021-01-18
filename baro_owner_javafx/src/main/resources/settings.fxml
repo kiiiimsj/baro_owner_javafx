@@ -10,7 +10,7 @@
 <?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="sample.SettingController">
+            fx:controller="com.baro.controllers.SettingController">
     <HBox AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
         <VBox>
 

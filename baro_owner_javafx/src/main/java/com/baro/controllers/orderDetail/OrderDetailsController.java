@@ -1,8 +1,10 @@
-package com.baro.controllers;
+package com.baro.controllers.orderDetail;
 
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.Printer.ReceiptPrint;
+import com.baro.controllers.OrderController;
+import com.baro.controllers.SettingTimerController;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -35,6 +38,9 @@ import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 public class OrderDetailsController implements Initializable {
+    public Button cancelBtn;
+    public HBox button_area;
+    public VBox base;
     @FXML
     private Label phoneLabel;
     @FXML
@@ -67,6 +73,8 @@ public class OrderDetailsController implements Initializable {
     private ReceiptPrint print;
     private Parent printParent;
     private Scene printScene;
+
+    public boolean withOutButton;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         print_fxml_loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
@@ -85,7 +93,6 @@ public class OrderDetailsController implements Initializable {
                 splitPane.getDividers().get(0).setPosition(pos);
             }
         });
-
     }
     public SimpleBooleanProperty getChangeToAccept(){
         return changeToAccept;
@@ -99,6 +106,23 @@ public class OrderDetailsController implements Initializable {
         this.order = order;
     }
     public void configureLeftUI(){
+        System.out.println("withoutbutton : " + withOutButton);
+        if(withOutButton) {
+            //button_area.setVisible(false);
+            //button_area.setMaxHeight(0);
+            base.getChildren().remove(1);
+            splitPane.getItems().remove(0);
+            splitPane.setMaxHeight(700);
+            splitPane.setMaxWidth(700);
+
+
+            receipt_preview_scroll.setMaxHeight(700);
+            receipt_preview_scroll.setMinWidth(700);
+
+            base.setMaxWidth(700);
+            base.setMaxHeight(700);
+        }
+
         phoneLabel.setText(order.phone);
         dateLabel.setText(order.order_date);
         requestLabel.setText(data.requests);
