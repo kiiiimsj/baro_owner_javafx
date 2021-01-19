@@ -2,6 +2,7 @@ package com.baro;
 
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderList;
+import com.baro.controllers.NewOrderController;
 import com.baro.controllers.OrderController;
 import com.baro.controllers.PopUpController;
 import com.google.gson.Gson;
@@ -11,12 +12,14 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.*;
@@ -31,6 +34,8 @@ import sample.Main;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.prefs.Preferences;
 
 
@@ -75,6 +80,10 @@ public class OrderListController {
     private TilePane orderListContainer;
     @FXML
     private JFXToggleButton isOpenBtn;
+    @FXML
+    private TilePane childContainer;
+    @FXML
+    private Button pagingButton;
     private WebSocketClient webSocketClient;
 
     public static OrderList orderList;
@@ -82,6 +91,11 @@ public class OrderListController {
     private double tabWidth = 200.0;
     private double tabHeight = 250.0;
     public static int lastSelectedTabIndex = 0;
+    public final static int ONEPAGEORDER = 7; // 한 페이지에 들어가는 갯수
+    public static int CURRNETPAGE = 1; // 현재 페이지
+    public static int ENTIREPAGE = 1; // 전체페이지 수
+    public static Boolean LASTPAGEFULL = false; // 마지막페이지가 가득찼냐
+
     private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
     String store_id;
     Preferences preferences = Preferences.userRoot();
@@ -205,6 +219,13 @@ public class OrderListController {
             //서버에서 response가 true 일때를 분기문에 추가시켜주기.
             if (result) {
                 parsingOrders(bf.toString());
+                getPageCount();
+                if (orderList.orders.size() < ONEPAGEORDER){
+                    setList(0,orderList.orders.size() % ONEPAGEORDER);
+                }else{
+                    setList(0,7);
+                }
+
             }
 
         } catch (MalformedURLException e) {
@@ -218,47 +239,49 @@ public class OrderListController {
 
     private void parsingOrders(String toString) {
         orderList = new Gson().fromJson(toString, OrderList.class);
-
-        setList();
+        Collections.reverse(orderList.orders);
     }
 
-    private VBox makeCell(int index) {
-        VBox vBox = null;
+    private HBox makeCell(int index) {
+        HBox hBox = null;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/order.fxml"));
-            vBox = loader.load();
-            vBox.setId(orderList.orders.get(index).receipt_id+"");
-            OrderController controller = loader.<OrderController>getController();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/new_order.fxml"));
+            hBox = loader.load();
+            hBox.setId(orderList.orders.get(index).receipt_id+"");
+            NewOrderController controller = loader.<NewOrderController>getController();
             controller.setData(orderList.orders.get(index),index);
-            controller.is_Done.addListener(new ChangeListener<Boolean>() {
-                @Override
-                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    if (newValue) {
-                        orderListContainer.getChildren().remove(orderListContainer.lookup("#"+orderList.orders.get(index).receipt_id));
-                        orderList.orders.remove(index);
-                    }
-                }
-            });
-            controller.is_Cancel.addListener(new ChangeListener<Boolean>() {
-                @Override
-                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    if (newValue) {
-                        orderListContainer.getChildren().remove(orderListContainer.lookup("#"+orderList.orders.get(index).receipt_id));
-                        orderList.orders.remove(index);
-                    }
-                }
-            });
+//            controller.is_Done.addListener(new ChangeListener<Boolean>() {
+//                @Override
+//                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+//                    if (newValue) {
+//                        orderListContainer.getChildren().remove(orderListContainer.lookup("#"+orderList.orders.get(index).receipt_id));
+//                        orderList.orders.remove(index);
+//                    }
+//                }
+//            });
+//            controller.is_Cancel.addListener(new ChangeListener<Boolean>() {
+//                @Override
+//                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+//                    if (newValue) {
+//                        orderListContainer.getChildren().remove(orderListContainer.lookup("#"+orderList.orders.get(index).receipt_id));
+//                        orderList.orders.remove(index);
+//                    }
+//                }
+//            });
             controller.configureUI();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return vBox;
+        return hBox;
     }
 
-    private void setList() {
-        for (int i = orderList.orders.size() - 1; i >= 0; i--) {
-            orderListContainer.getChildren().add(makeCell(i));
+    private void setList(int startIndex,int endIndex) {
+        childContainer.getChildren().remove(0,childContainer.getChildren().size());
+        for (int i = startIndex; i < endIndex; i++) {
+            HBox hBox = makeCell(i);
+            childContainer.getChildren().add(hBox);
         }
+
     }
 
     private boolean menuUpdateSaveSoldOutParsing(String toString) {
@@ -439,4 +462,37 @@ public class OrderListController {
             popup.hide();
         }
     }
+
+    ///////// 페이징 처리
+
+    public void getPageCount(){
+        ArrayList<Order> orders = orderList.orders;
+        if (orders.size() % 7 == 0){
+            ENTIREPAGE = orders.size() / 7;
+        }else{
+            ENTIREPAGE = orders.size() / 7 + 1;
+        }
+        pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
+    }
+    public void tapPrevPage(ActionEvent event) {
+        if (CURRNETPAGE == 1){
+            return;
+        }
+        CURRNETPAGE--;
+        pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
+        setList((CURRNETPAGE - 1) * ONEPAGEORDER,(CURRNETPAGE - 1) * ONEPAGEORDER + 7);
+    }
+    public void tapNextPage(ActionEvent event) {
+        if (CURRNETPAGE == ENTIREPAGE){
+            return;
+        }
+        CURRNETPAGE++;
+        pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
+        if (CURRNETPAGE == ENTIREPAGE){
+            setList((CURRNETPAGE - 1) * ONEPAGEORDER,(CURRNETPAGE - 1) * ONEPAGEORDER + orderList.orders.size() % ONEPAGEORDER);
+        }else{
+            setList((CURRNETPAGE - 1) * ONEPAGEORDER,(CURRNETPAGE - 1) * ONEPAGEORDER + 7);
+        }
+    }
+
 }
