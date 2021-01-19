@@ -128,6 +128,7 @@ public class OrderListController {
         });
 
         store_id = preferences.get("store_id", null);
+        System.out.println("store_id" + store_id);
         connect();
         configureSideView();
         configureOrderListView();
@@ -196,7 +197,7 @@ public class OrderListController {
     //주문 들어온 리스트 찍기
     private void configureOrderListView() {
         try {
-            URL url = new URL("http://3.35.180.57:8080/OrderFindByStoreId.do?store_id=1");
+            URL url = new URL("http://3.35.180.57:8080/OrderFindByStoreId.do?store_id="+store_id);
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection) con;
             http.setRequestMethod("GET");
