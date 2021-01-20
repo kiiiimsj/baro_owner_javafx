@@ -164,8 +164,12 @@ public class ReceiptPrint implements Initializable {
     public StringBuilder texTitleText = new StringBuilder();
     public StringBuilder totalTitleText = new StringBuilder();
     public StringBuilder customerRequest = new StringBuilder();
-    public StringBuilder content = new StringBuilder("-------------------------------------\n");
+    public StringBuilder content = new StringBuilder("=====================================\n");
 
+    final int MENU_AREA = 25;
+    final int COUNT_AREA = 4;
+    final int PRICE_AREA = 8;
+    //TOTAL WIDTH AREA = 37
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -252,21 +256,48 @@ public class ReceiptPrint implements Initializable {
         orderGetTextContent.append("주문이\n접수되었습니다.\n\n");
         customerPhone.append(orderInfo.phone, 7, orderInfo.phone.length()).append("\n");
         orderDateContent.append(orderInfo.order_date.substring(0, orderInfo.order_date.length() - 1)).append("\n");
-        content.append("메뉴명\t\t수량\t\t금액\n");
-
+        content.append("메뉴명                 수량      금액\n")
+        .append("-------------------------------------\n");
         if(order != null || order.orders != null) {
             for (int i = 0; i < order.orders.size(); i++) {
                 OrderDetail menu = order.orders.get(i);
-                content.append(menu.menu_name);
-                int lent1 = 9 - menu.menu_name.length();
-                System.out.println("lent1 : " + lent1);
-                for (int j = 0; j <lent1 ; j++) {
-                    content.append("  ");
+
+
+                int menuLength = 0;
+                String menuName;
+
+                for (int j = 0; j < menu.menu_name.length(); j++) {
+                    if(menu.menu_name.charAt(j) >= 44032) {
+                        menuLength += 2;
+                    }
+                    else {
+                        menuLength += 1;
+                    }
+                }
+
+                if(menuLength > 20) {
+                    menuName = menu.menu_name.substring(0, 10);
+                    menuName += "...";
+                    menuLength = 23;
+
+                }else {
+                    menuName = menu.menu_name;
+                }
+                content.append(menuName);
+
+                int MENU_TEXT_PADDING = MENU_AREA - menuLength;
+                for (int j = 0; j <MENU_TEXT_PADDING ; j++) {
+                    content.append(" ");
                 }
                 content.append(menu.order_count);
-                int lent2 = 12 - (String.valueOf(menu.order_count).length() + String.valueOf(menu.menu_defaultprice).length()+1);
-                for (int l = 0; l < lent2 ; l++) {
-                    content.append("  ");
+                int COUNT_TEXT_PADDING = COUNT_AREA - (String.valueOf(menu.order_count).length());
+                for (int l = 0; l < COUNT_TEXT_PADDING ; l++) {
+                    content.append(" ");
+                }
+
+                int PRICE_TEXT_PADDING = PRICE_AREA - (String.valueOf(menu.menu_defaultprice).length()+2);
+                for (int y = 0; y < PRICE_TEXT_PADDING; y ++) {
+                    content.append(" ");
                 }
                 content.append(menu.menu_defaultprice+"원\n");
 
@@ -274,25 +305,34 @@ public class ReceiptPrint implements Initializable {
 
                 for (int j = 0; j < menu.extras.size(); j++) {
                     Extras extras = menu.extras.get(j);
-                    content.append("   -").append(extras.extra_name);
+                    content.append("-").append(extras.extra_name);
+                    int extraNameLength = 1;
 
-                    int lent3 = 9  - (extras.extra_name.length()+3);
-
-                    for (int k = 0; k <lent3 ; k++) {
-                        content.append("  ");
-                    }
-                    if (extras.extra_count > 1) {
-                        int lent4 = 12 - (String.valueOf(extras.extra_price).length()+1 + String.valueOf(extras.extra_count).length()+1);
-
-                        content.append("X").append(extras.extra_count);
-                        for (int k = 0; k <lent4 ; k++) {
-                            content.append("  ");
+                    for (int t = 0; t < extras.extra_name.length(); t++) {
+                        if(extras.extra_name.charAt(t) >= 44032) {
+                            extraNameLength += 2;
                         }
-                        content.append((extras.extra_price * extras.extra_count)+"원\n");
-
-                    } else {
-                        content.append("\n");
+                        else {
+                            extraNameLength += 1;
+                        }
                     }
+
+
+                    int EXTRA_MENU_PADDING = MENU_AREA - extraNameLength;
+                    for (int k = 0; k <EXTRA_MENU_PADDING ; k++) {
+                        content.append(" ");
+                    }
+                    content.append(extras.extra_count);
+                    int EXTRA_COUNT_PADDING = COUNT_AREA - (String.valueOf(extras.extra_count).length());
+                    for (int k = 0; k <EXTRA_COUNT_PADDING ; k++) {
+                        content.append(" ");
+                    }
+                    int EXTRA_PRICE_PADDING = PRICE_AREA - (String.valueOf(extras.extra_price).length()+2);
+                    for (int k = 0; k <EXTRA_PRICE_PADDING ; k++) {
+                        content.append(" ");
+                    }
+                    content.append((extras.extra_price * extras.extra_count)+"원\n");
+
                 }
             }
 
@@ -306,12 +346,13 @@ public class ReceiptPrint implements Initializable {
                 .append("결제 금액:")
                 .append(orderInfo.total_price - orderInfo.discount_price)
                 .append("원")
-                .append("\n\n");
+                .append("\n\n")
+                .append("------------------\n");
 
         customerRequest.append("요청사항\n")
                 .append("  -")
                 .append(order.requests)
-                .append("\n");
+                .append("\n\n\n\n\n\n\n\n\n");
     }
     public void printReceipt(String portName, int baudrate, int dataBit) throws IOException, DocumentException {
         Integer timeout = 1000;
@@ -338,17 +379,17 @@ public class ReceiptPrint implements Initializable {
         printOutput.write(TXT_ALIGN_CT);
         printOutput.write(headerContent.toString().getBytes("EUC-KR"));
 
-        printOutput.write(TXT_2WIDTH);
-        printOutput.write(TXT_ALIGN_LT);
-        printOutput.write(customerPhone.toString().getBytes("EUC-KR"));
+        printOutput.write(TXT_2HEIGHT);
+        printOutput.write(TXT_ALIGN_CT);
+        printOutput.write(orderGetTextContent.toString().getBytes("EUC-KR"));
 
         printOutput.write(TXT_NORMAL);
         printOutput.write(TXT_ALIGN_LT);
         printOutput.write(orderDateContent.toString().getBytes("EUC-KR"));
 
-        printOutput.write(TXT_2WIDTH);
-        printOutput.write(TXT_ALIGN_CT);
-        printOutput.write(orderGetTextContent.toString().getBytes("EUC-KR"));
+        printOutput.write(TXT_2HEIGHT);
+        printOutput.write(TXT_ALIGN_LT);
+        printOutput.write(customerPhone.toString().getBytes("EUC-KR"));
 
         printOutput.write(TXT_NORMAL);
         printOutput.write(TXT_ALIGN_LT);
@@ -358,7 +399,7 @@ public class ReceiptPrint implements Initializable {
         printOutput.write(TXT_ALIGN_RT);
         printOutput.write(texTitleText.toString().getBytes("EUC-KR"));
 
-        printOutput.write(TXT_2WIDTH);
+        printOutput.write(TXT_4SQUARE);
         printOutput.write(TXT_ALIGN_RT);
         printOutput.write(totalTitleText.toString().getBytes("EUC-KR"));
 

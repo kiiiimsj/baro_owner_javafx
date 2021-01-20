@@ -87,8 +87,8 @@ public class SettingController implements Initializable {
             public void handle(ActionEvent event) {
                 if(event.getEventType() == ActionEvent.ACTION) {
                     preferences.put("savePortName", select_com_port_combo.getValue());
-                    preferences.putInt("saveBaudRate", 0);
-                    preferences.putInt("saveDataBit", 0);
+                    preferences.putInt("saveBaudRate", select_baud_rate_combo.getValue());
+                    preferences.putInt("saveDataBit", select_data_bit_combo.getValue());
                 }
             }
         });

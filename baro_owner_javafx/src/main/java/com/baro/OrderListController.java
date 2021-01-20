@@ -100,11 +100,11 @@ public class OrderListController {
     String store_id;
     Preferences preferences = Preferences.userRoot();
     AlarmPopUp popUp = new AlarmPopUp();
-    boolean isOpen = preferences.getBoolean("is_open", false);
+    String isOpen = preferences.get("is_open", "");
     /// Life cycle
     @FXML
     public void initialize() {
-        if(isOpen) {
+        if(isOpen.equals("Y")) {
             isOpenBtn.setText("영업종료 하기");
             isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
         } else {
