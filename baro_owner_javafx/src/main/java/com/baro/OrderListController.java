@@ -100,11 +100,11 @@ public class OrderListController {
     String store_id;
     Preferences preferences = Preferences.userRoot();
     AlarmPopUp popUp = new AlarmPopUp();
-    boolean isOpen = preferences.getBoolean("is_open", false);
+    String isOpen = preferences.get("is_open", "");
     /// Life cycle
     @FXML
     public void initialize() {
-        if(isOpen) {
+        if(isOpen.equals("Y")) {
             isOpenBtn.setText("영업종료 하기");
             isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
         } else {
@@ -128,6 +128,7 @@ public class OrderListController {
         });
 
         store_id = preferences.get("store_id", null);
+        System.out.println("store_id" + store_id);
         connect();
         configureSideView();
         configureOrderListView();
@@ -196,7 +197,7 @@ public class OrderListController {
     //주문 들어온 리스트 찍기
     private void configureOrderListView() {
         try {
-            URL url = new URL("http://3.35.180.57:8080/OrderFindByStoreId.do?store_id=1");
+            URL url = new URL("http://3.35.180.57:8080/OrderFindByStoreId.do?store_id="+store_id);
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection) con;
             http.setRequestMethod("GET");
