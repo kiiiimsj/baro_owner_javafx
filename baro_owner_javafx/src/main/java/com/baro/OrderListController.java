@@ -18,6 +18,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -45,33 +46,26 @@ public class OrderListController {
 
     @FXML
     private JFXTabPane tabContainer;
-
     @FXML
     private Tab orderListTab;
     @FXML
     private AnchorPane orderListSideContainer;
-
     @FXML
     private Tab inventoryManagementTab;
-
     @FXML
     private AnchorPane inventoryManagementContainer;
-
     @FXML
     private Tab infoChangeTab;
     @FXML
     private AnchorPane infoChangeContainer;
-
     @FXML
     private Tab calculateTab;
     @FXML
     private AnchorPane calculateContainer;
-
     @FXML
     private Tab statisticsTab;
     @FXML
     private AnchorPane statisticsContainer;
-
     @FXML
     private Tab settingsTab;
     @FXML
@@ -292,67 +286,88 @@ public class OrderListController {
 
     /// Private
     private void configureSideView() {
+        setTabs(orderListTab, "주문");
+        setTabs(inventoryManagementTab, "재고관리");
+        setTabs(infoChangeTab, "주문내역");
+        setTabs(calculateTab, "정산");
+        setTabs(statisticsTab, "통계");
+        setTabs(settingsTab, "설정");
+
         tabContainer.setTabMinWidth(tabWidth);
         tabContainer.setTabMaxWidth(tabWidth);
         tabContainer.setTabMinHeight(tabHeight);
         tabContainer.setTabMaxHeight(tabHeight);
         tabContainer.setRotateGraphic(true);
-        EventHandler<Event> replaceBackgroundColorHandler = event -> {
-            lastSelectedTabIndex = tabContainer.getSelectionModel().getSelectedIndex();
-            Tab currentTab = (Tab) event.getTarget();
-            if (currentTab.isSelected()) {
-                currentTab.setStyle("-fx-background-color: #8333e6");
-            } else {
-                currentTab.setStyle("-fx-background-color: #8D45E7");
+        tabContainer.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+            @Override
+            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+                switch (observable.getValue().getId()) {
+                    case "orderListTab":
+                        configureTab(orderListTab, orderListSideContainer, null);
+                        break;
+                    case "inventoryManagementTab":
+                        configureTab(inventoryManagementTab, inventoryManagementContainer, getClass().getResource("/inventory_management.fxml") );
+                        break;
+                    case "infoChangeTab":
+                        configureTab(infoChangeTab, infoChangeContainer, getClass().getResource("/orderHistory.fxml"));
+                        break;
+                    case "calculateTab":
+                        configureTab(calculateTab,  calculateContainer, getClass().getResource("/calculate.fxml") );
+                        break;
+                    case "statisticsTab":
+                        configureTab(statisticsTab,  statisticsContainer, getClass().getResource("/statistics.fxml"));
+                        break;
+                    case "settingsTab":
+                        configureTab(settingsTab,  settingsContainer, getClass().getResource("/settings.fxml"));
+                        break;
+                    default:
+                        break;
+                }
+                oldValue.setStyle("-fx-background-color: #8D45E7");
             }
-        };
-        EventHandler<Event> logoutHandler = event -> {
-            Tab currentTab = (Tab) event.getTarget();
-            if (currentTab.isSelected()) {
-                tabContainer.getSelectionModel().select(lastSelectedTabIndex);
-            }
-        };
-
-        configureTab(orderListTab, "주문", orderListSideContainer, getClass().getResource("order_list.fxml"), replaceBackgroundColorHandler);
-        configureTab(inventoryManagementTab, "재고관리", inventoryManagementContainer, getClass().getResource("/inventory_management.fxml"), replaceBackgroundColorHandler);
-        configureTab(infoChangeTab, "주문내역", infoChangeContainer, getClass().getResource("/orderHistory.fxml"), replaceBackgroundColorHandler);
-        configureTab(calculateTab, "정산", calculateContainer, getClass().getResource("/calculate.fxml"), replaceBackgroundColorHandler);
-        configureTab(statisticsTab, "통계", statisticsContainer, getClass().getResource("/statistics.fxml"), replaceBackgroundColorHandler);
-        configureTab(settingsTab, "설정", settingsContainer, getClass().getResource("/settings.fxml"), replaceBackgroundColorHandler);
-
+        });
         orderListTab.setStyle("-fx-background-color: #8333e6");
     }
-
-    //이미지경로 넣기 위한 title 뒤에 String iconPath 뺏음
-    private void configureTab(Tab tab, String title, AnchorPane containerPane, URL resourceURL, EventHandler<Event> onSelectionChangedEvent) {
+    private void setTabs(Tab tab, String title) {
         double imageWidth = 40.0;
-        //ImageView imageView = new ImageView(new Image(iconPath));
-        //imageView.setFitHeight(imageWidth);
-        //imageView.setFitWidth(imageWidth);
+//        ImageView imageView = new ImageView(new Image());
+//        imageView.setFitHeight(imageWidth);
+//        imageView.setFitWidth(imageWidth);
+//        tabPane.setCenter(imageView);
         Label label = new Label(title);
-        label.setMaxWidth(tabWidth - 20);
-        label.setPadding(new Insets(5, 0, 0, 0));
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 28pt; -fx-font-weight: normal; -fx-font-family: 'Noto Sans Korean Regular'");
-        label.setTextAlignment(TextAlignment.CENTER);
+        label.setMaxWidth(tabHeight/2);
+        label.setMinWidth(tabHeight/2);
+        label.setPadding(new Insets(0, 0, 0, 0));
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: normal; -fx-font-family: 'Noto Sans Korean Regular'");
+        label.setAlignment(Pos.CENTER);
+
         BorderPane tabPane = new BorderPane();
         tabPane.setRotate(90.0);
-        tabPane.setMaxWidth(tabWidth);
-        //tabPane.setCenter(imageView);
-        tabPane.setBottom(label);
-        tab.setText("");
+        tabPane.setMaxWidth(tabHeight/2);
+        tabPane.setMinWidth(tabHeight/2);
+        tabPane.setCenter(label);
         tab.setGraphic(tabPane);
-        tab.setOnSelectionChanged(onSelectionChangedEvent);
-        if (containerPane != null && resourceURL != null) {
-            try {
+    }
+    //이미지경로 넣기 위한 title 뒤에 String iconPath 뺏음
+    private void configureTab(Tab tab, AnchorPane containerPane, URL resourceURL) {
+        tab.setStyle("-fx-background-color: #8333e6");
+        try {
+            if(resourceURL == null) {
+                containerPane.getChildren().removeAll();
+            }else {
                 Parent contentView = FXMLLoader.load(resourceURL);
+                if(containerPane.getChildren().size() != 0) {
+                    containerPane.getChildren().remove(0);
+                }
                 containerPane.getChildren().add(contentView);
                 AnchorPane.setTopAnchor(contentView, 0.0);
                 AnchorPane.setBottomAnchor(contentView, 0.0);
                 AnchorPane.setRightAnchor(contentView, 0.0);
                 AnchorPane.setLeftAnchor(contentView, 0.0);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
