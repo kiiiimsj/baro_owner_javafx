@@ -305,8 +305,9 @@ public class ReceiptPrint implements Initializable {
 
                 for (int j = 0; j < menu.extras.size(); j++) {
                     Extras extras = menu.extras.get(j);
-                    content.append("-").append(extras.extra_name);
                     int extraNameLength = 1;
+                    String extraName;
+                    content.append("-");
 
                     for (int t = 0; t < extras.extra_name.length(); t++) {
                         if(extras.extra_name.charAt(t) >= 44032) {
@@ -316,8 +317,14 @@ public class ReceiptPrint implements Initializable {
                             extraNameLength += 1;
                         }
                     }
-
-
+                    if(extraNameLength > 19) {
+                        extraName = extras.extra_name.substring(0, 10);
+                        extraName += "...";
+                        extraNameLength = 22;
+                    }else {
+                        extraName = extras.extra_name;
+                    }
+                    content.append(extraName);
                     int EXTRA_MENU_PADDING = MENU_AREA - extraNameLength;
                     for (int k = 0; k <EXTRA_MENU_PADDING ; k++) {
                         content.append(" ");
@@ -420,59 +427,5 @@ public class ReceiptPrint implements Initializable {
         preferences.putInt("saveBaudRate", baudrate);
         preferences.putInt("saveDataBit", dataBit);
         preferences.putBoolean("printBefore", true);
-//        exportToPdf(headerContent.toString(), customerPhone.toString(), orderDateContent.toString(),
-//                content.toString(), totalPrice.toString(), texCoupon.toString(), customerRequest.toString());
-
-    }
-    public void exportToPdf(String headerContent, String phone, String orderDate, String content,
-                            String totalPrice, String texCoupon, String customerRequest) throws IOException, DocumentException {
-
-        BaseFont base_font = BaseFont.createFont("/font/NotoSansCJKkr-Regular.otf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        Font font = new Font(base_font, 10);
-        Font header_font = new Font(base_font, 15);
-        header_font.setColor(BaseColor.BLACK);
-        Date date = new Date();
-
-        File dir = new File("C:/baro_receipt");
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        if(!dir.exists()) dir.mkdirs();
-
-        String file_name =  sdf.format(date)+"_baro_receipt.pdf";
-
-        Paragraph headerParagraph = new Paragraph(headerContent, header_font);
-        Paragraph phoneParagraph = new Paragraph(phone, header_font);
-        Paragraph orderDateParagraph = new Paragraph(orderDate, font);
-        Paragraph contentParagraph = new Paragraph(content, font);
-        Paragraph totalPriceParagraph = new Paragraph(totalPrice, font);
-        Paragraph texCouponParagraph = new Paragraph(texCoupon, header_font);
-        Paragraph customerRequestParagraph = new Paragraph(customerRequest, font);
-
-        headerParagraph.setAlignment(Paragraph.ALIGN_CENTER);
-        phoneParagraph.setAlignment(Paragraph.ALIGN_LEFT);
-        orderDateParagraph.setAlignment(Paragraph.ALIGN_LEFT);
-        contentParagraph.setAlignment(Paragraph.ALIGN_LEFT);
-        totalPriceParagraph.setAlignment(Paragraph.ALIGN_LEFT);
-        texCouponParagraph.setAlignment(Paragraph.ALIGN_LEFT);
-        customerRequestParagraph.setAlignment(Paragraph.ALIGN_LEFT);
-        
-
-        Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream(dir + "/" + file_name));
-
-        document.open();
-        document.setPageSize(new Rectangle(200, 1000));
-        document.setMargins(10,10,10,10);
-        document.newPage();
-
-        document.add(headerParagraph);
-        document.add(phoneParagraph);
-        document.add(orderDateParagraph);
-        document.add(contentParagraph);
-        document.add(totalPriceParagraph);
-        document.add(texCouponParagraph);
-        document.add(customerRequestParagraph);
-
-        document.close();
     }
 }
