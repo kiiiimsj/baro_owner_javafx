@@ -87,8 +87,8 @@ public class OrderListController {
 
     public static OrderList orderList;
 
-    private double tabWidth = 200.0;
-    private double tabHeight = 250.0;
+    private double tabWidth = 150.0;
+    private double tabHeight = 150.0;
     public static int lastSelectedTabIndex = 0;
     public final static int ONEPAGEORDER = 7; // 한 페이지에 들어가는 갯수
     public static int CURRNETPAGE = 1; // 현재 페이지
@@ -104,11 +104,11 @@ public class OrderListController {
     @FXML
     public void initialize() {
         if(isOpen.equals("Y")) {
-            isOpenBtn.setText("영업종료 하기");
-            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
+//            isOpenBtn.setText("영업종료 하기");
+//            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
         } else {
-            isOpenBtn.setText("영업게시 하기");
-            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
+//            isOpenBtn.setText("영업게시 하기");
+//            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
         }
 
 
@@ -147,14 +147,14 @@ public class OrderListController {
             jsonObject.put("store_id", store_id);
             if (is_open) {
                 jsonObject.put("is_open", "Y");
-                isOpenBtn.setText("영업종료 하기");
-                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
+//                isOpenBtn.setText("영업종료 하기");
+//                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
                 //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.color(131.0, 51.0, 230.0, 1.0), CornerRadii.EMPTY, Insets.EMPTY)));
 
             } else {
                 jsonObject.put("is_open", "N");
-                isOpenBtn.setText("영업게시 하기");
-                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
+//                isOpenBtn.setText("영업게시 하기");
+//                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
                 //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             }
 
@@ -390,16 +390,16 @@ public class OrderListController {
 //        imageView.setFitWidth(imageWidth);
 //        tabPane.setCenter(imageView);
         Label label = new Label(title);
-        label.setMaxWidth(tabHeight/2);
-        label.setMinWidth(tabHeight/2);
+        label.setMaxWidth(tabHeight);
+        label.setMinWidth(tabHeight);
         label.setPadding(new Insets(0, 0, 0, 0));
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: normal; -fx-font-family: 'Noto Sans Korean Regular'");
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: normal; -fx-font-family: 'Noto Sans Korean Regular'");
         label.setAlignment(Pos.CENTER);
 
         BorderPane tabPane = new BorderPane();
         tabPane.setRotate(90.0);
-        tabPane.setMaxWidth(tabHeight/2);
-        tabPane.setMinWidth(tabHeight/2);
+        tabPane.setMaxWidth(tabHeight);
+        tabPane.setMinWidth(tabHeight);
         tabPane.setCenter(label);
         tab.setGraphic(tabPane);
     }

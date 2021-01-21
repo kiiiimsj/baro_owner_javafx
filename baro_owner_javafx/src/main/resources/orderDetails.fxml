@@ -9,14 +9,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="base" prefHeight="800.0" prefWidth="830.0" stylesheets="css/order_detail.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.orderDetail.OrderDetailsController">
+<VBox fx:id="base" prefHeight="800.0" prefWidth="930.0" stylesheets="css/order_detail.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.orderDetail.OrderDetailsController">
    <HBox prefHeight="100.0" prefWidth="417.0">
       <children>
          <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
          <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="30.0" HBox.hgrow="ALWAYS">
             <children>
-               <Button fx:id="cancelBtn" onAction="#clickCancel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="결제취소" HBox.hgrow="ALWAYS" />
-               <Button fx:id="completeBtn" onAction="#clickDone" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="완료처리" HBox.hgrow="ALWAYS" />
+               <Button fx:id="cancelBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickCancel" text="결제취소" HBox.hgrow="ALWAYS" />
+               <Button fx:id="completeBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickDone" text="완료처리" HBox.hgrow="ALWAYS" />
             </children>
             <HBox.margin>
                <Insets />
@@ -31,30 +31,33 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="600.0">
                <children>
-                  <VBox prefHeight="700.0" prefWidth="400.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                  <VBox prefHeight="700.0" prefWidth="400.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="30.0">
                      <children>
                         <HBox prefHeight="28.0" prefWidth="295.0">
                            <children>
-                              <Label text="고객번호 :" />
-                              <Label fx:id="phoneLabel" text="010" />
+                              <Label styleClass="label-left" text="고객번호 :" />
+                              <Label fx:id="phoneLabel" styleClass="label-left" text="010" />
                            </children>
                         </HBox>
                         <HBox prefHeight="28.0" prefWidth="295.0">
                            <children>
-                              <Label text="주문시간 :" />
-                              <Label fx:id="dateLabel" text="010" />
+                              <Label styleClass="label-left" text="주문시간 :" />
+                              <Label fx:id="dateLabel" styleClass="label-left" text="010" />
                            </children>
                         </HBox>
                         <HBox prefHeight="28.0" prefWidth="295.0">
                            <children>
-                              <Label text="합계 :" />
-                              <Label fx:id="totalPriceLabel" text="010" />
+                              <Label styleClass="label-left" text="합계 :" />
+                              <Label fx:id="totalPriceLabel" styleClass="label-left" text="010" />
                            </children>
+                        <VBox.margin>
+                           <Insets top="30.0" />
+                        </VBox.margin>
                         </HBox>
                         <HBox prefHeight="28.0" prefWidth="295.0">
                            <children>
-                              <Label text="쿠폰 :" />
-                              <Label fx:id="discountPriceLabel" text="010" />
+                              <Label styleClass="label-left" text="쿠폰 :" />
+                              <Label fx:id="discountPriceLabel" styleClass="label-left" text="010" />
                            </children>
                         </HBox>
                         <HBox prefHeight="2.0" prefWidth="295.0" style="-fx-background-color: black;">
@@ -65,15 +68,18 @@
 
                          <HBox prefHeight="28.0" prefWidth="295.0">
                              <children>
-                                 <Label fx:id="finalPriceLabel" text="결제 금액 :" />
+                                 <Label fx:id="finalPriceLabel" styleClass="label-left" text="결제 금액 :" />
                              </children>
                          </HBox>
 
                          <HBox prefHeight="28.0" prefWidth="295.0">
                              <children>
-                                 <Label text="요청 사항 :" />
-                                 <Label fx:id="requestLabel" text="010" />
+                                 <Label styleClass="label-left" text="요청 사항 :" />
+                                 <Label fx:id="requestLabel" styleClass="label-left" text="010" />
                              </children>
+                        <VBox.margin>
+                           <Insets top="30.0" />
+                        </VBox.margin>
                          </HBox>
                      </children>
                   </VBox>
