@@ -59,7 +59,7 @@ public class NewOrderController implements Initializable{
 
     }
     public void configureUI() {
-        customer.setText(orderData.phone);
+        customer.setText(orderData.phone + " " + index);
         order_count.setText("메뉴 " + orderData.order_count + "개");
         price.setText(orderData.total_price+"원");
         if (orderData.order_state.equals(Order.ACCEPT)){
