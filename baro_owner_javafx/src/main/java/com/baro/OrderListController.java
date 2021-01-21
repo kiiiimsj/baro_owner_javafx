@@ -271,8 +271,27 @@ public class OrderListController {
                                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                                     if (newValue) {
                                         orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
-                                        orderListContainer.getChildren().remove(orderListContainer.lookup("#"+orderList.orders.get(index).receipt_id));
-
+                                        orderList.orders.remove(index);
+                                        whenDelete();
+                                    }
+                                }
+                            });
+                            detailcontroller.getChangeToAccept().addListener(new ChangeListener<Boolean>() {
+                                @Override
+                                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                                    if (newValue) {
+                                        controller.changeToAccept();
+//                                        detailcontroller.changeToAccept();
+                                    }
+                                }
+                            });
+                            detailcontroller.getChangeToDone().addListener(new ChangeListener<Boolean>() {
+                                @Override
+                                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                                    if (newValue) {
+                                        orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
+                                        orderList.orders.remove(index);
+                                        whenDelete();
                                     }
                                 }
                             });
@@ -462,7 +481,17 @@ public class OrderListController {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            orderListContainer.getChildren().add(0, makeCell(orderList.orders.size() - 1));
+//                            orderListContainer.getChildren().add(makeCell(orderList.orders.size() - 1));
+                            getPageCount();
+                            if (CURRNETPAGE == ENTIREPAGE){
+                                if (orderList.orders.size() % ONEPAGEORDER != 0 ) {
+                                    setList(-1,(orderList.orders.size()-1) % ONEPAGEORDER);
+                                }else{
+                                    setList(-1,ONEPAGEORDER-1);
+                                }
+                            }else{
+                                setList((orderList.orders.size()-1) - CURRNETPAGE * ONEPAGEORDER,(orderList.orders.size()-1) - CURRNETPAGE * ONEPAGEORDER + ONEPAGEORDER);
+                            }
                             int temp = notReadedOrder.get() + 1;
                             notReadedOrder.set(temp);
                             popUp.show();
@@ -526,6 +555,9 @@ public class OrderListController {
         }else{
             ENTIREPAGE = orders.size() / ONEPAGEORDER + 1;
         }
+        if (ENTIREPAGE<CURRNETPAGE){
+            CURRNETPAGE--;
+        }
         pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
     }
     public void tapPrevPage(ActionEvent event) {
@@ -550,6 +582,22 @@ public class OrderListController {
             }
         }else{
             setList((orderList.orders.size()-1) - CURRNETPAGE * ONEPAGEORDER,(orderList.orders.size()-1) - CURRNETPAGE * ONEPAGEORDER + ONEPAGEORDER);
+        }
+    }
+    public void whenDelete(){
+        getPageCount();
+        if (CURRNETPAGE == 1 && ENTIREPAGE == 1){
+            if (orderList.orders.size() % ONEPAGEORDER != 0 ) {
+                setList(-1,(orderList.orders.size()-1) % ONEPAGEORDER);
+            }else{
+                if (orderList.orders.size() == 0 ){
+                    //아무것도안함
+                }else {
+                    setList(-1, ONEPAGEORDER - 1);
+                }
+            }
+        }else {
+            setList((orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER - ONEPAGEORDER,(orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER );
         }
     }
 

@@ -68,6 +68,10 @@ public class NewOrderController implements Initializable{
 
         }
     }
+    public void changeToAccept(){
+        orderData.order_state = Order.ACCEPT;
+        shell.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
     public void setData(Order data,int index) {
         this.orderData = data;
         this.index = index;

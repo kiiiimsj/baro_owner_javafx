@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,8 +21,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -58,6 +59,8 @@ public class OrderDetailsController implements Initializable {
     @FXML
     public Button printButton;
     @FXML
+    public Button completeBtn;
+    @FXML
     private SplitPane splitPane;
     @FXML
     private ScrollPane receipt_preview_scroll;
@@ -66,6 +69,7 @@ public class OrderDetailsController implements Initializable {
     private double pos;
     private final SimpleBooleanProperty changeToAccept = new SimpleBooleanProperty();
     private final SimpleBooleanProperty changeToCancel = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty changeToDone = new SimpleBooleanProperty();
 
     private Preferences preferences = Preferences.userRoot();
 
@@ -100,12 +104,19 @@ public class OrderDetailsController implements Initializable {
     public SimpleBooleanProperty getChangeToCancel(){
         return changeToCancel;
     }
+    public SimpleBooleanProperty getChangeToDone(){
+        return changeToDone;
+    }
+    public void changeToAccept(){
 
+    }
     public void setData(OrderDetailParsing data,Order order) {
         this.data = data;
         this.order = order;
         if (order.order_state.equals(Order.ACCEPT)) {
             changeToAccept.set(true);
+        }else{
+            completeBtn.setVisible(false);
         }
     }
     public void configureLeftUI(){
@@ -237,8 +248,10 @@ public class OrderDetailsController implements Initializable {
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     if (newValue == true){
                         changeToAccept.set(newValue);
+                        order.order_state = Order.ACCEPT;
+                        setTime.setVisible(false);
+                        completeBtn.setVisible(true);
                         stage.close();
-                        OrderController.DetailsStage.close();
                     }
                 }
             });
@@ -287,7 +300,6 @@ public class OrderDetailsController implements Initializable {
 
             if (result) {
                 System.out.println("성공");
-                OrderController.DetailsStage.close();
                 changeToCancel.set(true);
                 sendCustomerMessage();
             }else{
@@ -333,6 +345,93 @@ public class OrderDetailsController implements Initializable {
 
             if (result) {
                 System.out.println("성공");
+            }else{
+                System.out.println("실패");
+            }
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void sendCustomerDoneMessage() {
+        try{
+            URL url = new URL("http://3.35.180.57:8080/OwnerSendMessage.do");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("POST");
+            http.setRequestProperty("Content-Type","application/json;utf-8");
+            http.setRequestProperty("Accept","application/json");
+            http.setDoOutput(true);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("phone", order.phone);
+            jsonObject.put("title", "제조 완료");
+            jsonObject.put("content", "고객님의 주문이 완료되었습니다. 수령해가세요!");
+
+            OutputStream os = http.getOutputStream();
+
+            byte[] input = jsonObject.toString().getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer bf = new StringBuffer();
+
+            while((line = br.readLine()) != null) {
+                bf.append(line);
+            }
+            br.close();
+            System.out.println("response" + bf.toString());
+            boolean result = getRequestSuccess(bf.toString());
+
+            if (result) {
+                System.out.println("성공");
+            }else{
+                System.out.println("실패");
+            }
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clickDone(ActionEvent event) {
+        try{
+            URL url = new URL("http://3.35.180.57:8080/OwnerSetOrderStatusComplete.do");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("PUT");
+            http.setRequestProperty("Content-Type","application/json;utf-8");
+            http.setRequestProperty("Accept","application/json");
+            http.setDoOutput(true);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("receipt_id", order.receipt_id);
+            jsonObject.put("store_id", preferences.get("store_id",null));
+            OutputStream os = http.getOutputStream();
+
+            byte[] input = jsonObject.toString().getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer bf = new StringBuffer();
+
+            while((line = br.readLine()) != null) {
+                bf.append(line);
+            }
+            br.close();
+            System.out.println("response" + bf.toString());
+            boolean result = getRequestSuccess(bf.toString());
+
+            if (result) {
+                System.out.println("성공");
+                changeToDone.set(true);
+                sendCustomerDoneMessage();
             }else{
                 System.out.println("실패");
             }
