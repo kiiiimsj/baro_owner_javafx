@@ -1,10 +1,13 @@
 package com.baro;
 
 import com.baro.JsonParsing.Order;
+import com.baro.JsonParsing.OrderDetail;
+import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.JsonParsing.OrderList;
 import com.baro.controllers.NewOrderController;
 import com.baro.controllers.OrderController;
 import com.baro.controllers.PopUpController;
+import com.baro.controllers.orderDetail.OrderDetailsController;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXToggleButton;
@@ -23,10 +26,10 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Popup;
-import javafx.stage.Screen;
+import javafx.stage.*;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
@@ -78,6 +81,8 @@ public class OrderListController {
     private TilePane childContainer;
     @FXML
     private Button pagingButton;
+    @FXML
+    private AnchorPane orderDetailsContainer;
     private WebSocketClient webSocketClient;
 
     public static OrderList orderList;
@@ -126,6 +131,7 @@ public class OrderListController {
         connect();
         configureSideView();
         configureOrderListView();
+
     }
 
     public void store_is_open_change(boolean is_open) {
@@ -245,6 +251,36 @@ public class OrderListController {
             hBox.setId(orderList.orders.get(index).receipt_id+"");
             NewOrderController controller = loader.<NewOrderController>getController();
             controller.setData(orderList.orders.get(index),index);
+            hBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
+                    OrderDetailParsing details = controller.getDetail();
+                    if (details != null){
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetails.fxml"));
+                        try {
+                            Parent parent = loader.load();
+                            orderDetailsContainer.getChildren().add(parent);
+                            OrderDetailsController detailcontroller = loader.<OrderDetailsController>getController();
+                            detailcontroller.setData(details,controller.orderData);
+                            detailcontroller.configureLeftUI();
+                            detailcontroller.makeReceiptPreView();
+                            detailcontroller.getChangeToCancel().addListener(new ChangeListener<Boolean>() {
+                                @Override
+                                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                                    if (newValue) {
+                                        orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
+                                        orderListContainer.getChildren().remove(orderListContainer.lookup("#"+orderList.orders.get(index).receipt_id));
+                                        orderList.orders.remove()
+                                    }
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
 //            controller.is_Done.addListener(new ChangeListener<Boolean>() {
 //                @Override
 //                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -276,7 +312,6 @@ public class OrderListController {
             HBox hBox = makeCell(i);
             childContainer.getChildren().add(hBox);
         }
-
     }
 
     private boolean menuUpdateSaveSoldOutParsing(String toString) {
@@ -396,6 +431,8 @@ public class OrderListController {
             uri = new URI("ws://3.35.180.57:8080/websocket");
         } catch (Exception e) {
             e.printStackTrace();
+            ArrayList<Integer> arrayList = new ArrayList<>();
+//            arrayList.remov
             return;
         }
 

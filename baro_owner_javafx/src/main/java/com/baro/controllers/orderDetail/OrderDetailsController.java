@@ -104,6 +104,9 @@ public class OrderDetailsController implements Initializable {
     public void setData(OrderDetailParsing data,Order order) {
         this.data = data;
         this.order = order;
+        if (order.order_state.equals(Order.ACCEPT)) {
+            changeToAccept.set(true);
+        }
     }
     public void configureLeftUI(){
         System.out.println("withoutbutton : " + withOutButton);
