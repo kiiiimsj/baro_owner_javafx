@@ -182,6 +182,7 @@ public class OrderDetailsController implements Initializable {
             }
         });
     }
+    
     public void makeReceiptPreView(){
         print.makeString(data, order);
         System.out.println(print.headerContent.toString() +""+ print.orderGetTextContent.toString() +""+ print.customerPhone.toString() +""+ print.orderDateContent.toString()
