@@ -80,7 +80,7 @@ public class OrderController implements Initializable{
         System.out.println(orderData.order_state);
     }
     public void setData(Order data,int index) {
-        orderData = data;
+        this.orderData = data;
         this.index = index;
     }
     public void getDetail(){
@@ -109,7 +109,6 @@ public class OrderController implements Initializable{
             if(result){
                 parsingOrders(bf.toString());
             }
-
         }
         catch (MalformedURLException e) {
             e.printStackTrace();

@@ -18,7 +18,7 @@
                 <Tab fx:id="orderListTab" closable="false" text="주 문">
                     <content>
                         <ScrollPane>
-                            <AnchorPane fx:id="orderListSideContainer" minHeight="0.0" minWidth="0.0" prefWidth="200.0">
+                            <AnchorPane fx:id="orderListSideContainer" minHeight="0.0" minWidth="0.0" prefHeight="899.0" prefWidth="1258.0">
                                 <children>
                                     <JFXToggleButton fx:id="isOpenBtn" prefHeight="15" prefWidth="300" textAlignment="CENTER" />
                                     <TilePane fx:id="orderListContainer" hgap="10" layoutY="80.0" prefWidth="1150.0" vgap="10">
@@ -28,18 +28,19 @@
                                     </ScrollPane>
                                     <HBox layoutY="780" prefHeight="119.0" prefWidth="300" style="-fx-background-color: #8333e6">
                               <children>
-                                 <Button disable="true" fx:id="pagingButton" alignment="CENTER" mnemonicParsing="false" prefHeight="120.0" prefWidth="100.0" text="1 / 3" />
-                                 <Button onAction="#tapPrevPage" alignment="CENTER" mnemonicParsing="false" prefHeight="120.0" prefWidth="100.0" text="&lt;">
+                                 <Button fx:id="pagingButton" alignment="CENTER" disable="true" mnemonicParsing="false" prefHeight="120.0" prefWidth="100.0" text="1 / 3" />
+                                 <Button alignment="CENTER" mnemonicParsing="false" onAction="#tapPrevPage" prefHeight="120.0" prefWidth="100.0" text="&lt;">
                                     <font>
                                        <Font size="30.0" />
                                     </font>
                                  </Button>
-                                 <Button onAction="#tapNextPage" alignment="CENTER" mnemonicParsing="false" prefHeight="120.0" prefWidth="100.0" text="&gt;">
+                                 <Button alignment="CENTER" mnemonicParsing="false" onAction="#tapNextPage" prefHeight="120.0" prefWidth="100.0" text="&gt;">
                                     <font>
                                        <Font size="30.0" />
                                     </font>
                                  </Button>
                               </children></HBox>
+                           <AnchorPane fx:id="orderDetailsContainer" layoutX="300.0" layoutY="80.0" prefHeight="820.0" prefWidth="920.0" />
                                 </children>
                             </AnchorPane>
                         </ScrollPane>

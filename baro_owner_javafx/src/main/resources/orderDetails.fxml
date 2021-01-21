@@ -6,20 +6,28 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox
-      prefHeight="800.0" prefWidth="1200.0"
-      xmlns="http://javafx.com/javafx/8.0.171"
-      xmlns:fx="http://javafx.com/fxml/1"
-      stylesheets="css/order_detail.css"
-      fx:id="base"
-      fx:controller="com.baro.controllers.orderDetail.OrderDetailsController">
-      <SplitPane fx:id="splitPane" dividerPositions="0.5" prefHeight="700.0" prefWidth="1200.0">
+<VBox fx:id="base" prefHeight="800.0" prefWidth="830.0" stylesheets="css/order_detail.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.orderDetail.OrderDetailsController">
+   <HBox prefHeight="100.0" prefWidth="417.0">
+      <children>
+         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="30.0" HBox.hgrow="ALWAYS">
+            <children>
+               <Button fx:id="cancelBtn" onAction="#clickCancel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="결제취소" HBox.hgrow="ALWAYS" />
+               <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="완료처리" HBox.hgrow="ALWAYS" />
+            </children>
+            <HBox.margin>
+               <Insets />
+            </HBox.margin>
+            <padding>
+               <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+            </padding>
+         </HBox>
+      </children>
+   </HBox>
+      <SplitPane fx:id="splitPane" dividerPositions="0.5" prefHeight="600.0" prefWidth="1200.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="600.0">
                <children>
@@ -74,28 +82,23 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="600.0">
                <children>
                   <Button mnemonicParsing="false" text="Button" />
-                  <ScrollPane fx:id="receipt_preview_scroll" prefHeight="700.0" prefWidth="600.0"/>
+                  <ScrollPane fx:id="receipt_preview_scroll" prefHeight="700.0" prefWidth="600.0" />
                </children></AnchorPane>
         </items>
       </SplitPane>
-       <HBox fx:id="button_area" prefWidth="1200" prefHeight="100">
-           <Button prefWidth="400" prefHeight="100" fx:id="cancelBtn" mnemonicParsing="false" text="주문취소" onAction="#clickCancel"
-                   style="-fx-font-family: 'Noto Sans Korean Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 30pt; -fx-text-fill: white">
+       <HBox fx:id="button_area" prefHeight="100" prefWidth="1200" spacing="30.0">
+           <Button fx:id="printButton" mnemonicParsing="false" prefHeight="100" prefWidth="400" style="-fx-font-family: 'Noto Sans Korean Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 25pt; -fx-text-fill: white" text="영수증 인쇄">
                <HBox.margin>
-                   <Insets right="10" left="10" top="10" bottom="10"/>
+                   <Insets bottom="10" left="10" right="10" top="10" />
                </HBox.margin>
            </Button>
-           <Button prefWidth="400" prefHeight="100" fx:id="printButton" mnemonicParsing="false" text="영수증 인쇄"
-                   style="-fx-font-family: 'Noto Sans Korean Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 30pt; -fx-text-fill: white">
+           <Button fx:id="setTime" mnemonicParsing="false" onAction="#clickSettingTimes" prefHeight="100" prefWidth="400" style="-fx-font-family: 'Noto Sans Korean Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 30pt; -fx-text-fill: white" text="시간 설정">
                <HBox.margin>
-                   <Insets right="10" left="10" top="10" bottom="10"/>
+                   <Insets bottom="10" left="10" right="10" top="10" />
                </HBox.margin>
            </Button>
-           <Button prefWidth="400" prefHeight="100" fx:id="setTime" mnemonicParsing="false" onAction="#clickSettingTimes" text="시간 설정"
-                   style="-fx-font-family: 'Noto Sans Korean Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 30pt; -fx-text-fill: white">
-               <HBox.margin>
-                   <Insets right="10" left="10" top="10" bottom="10"/>
-               </HBox.margin>
-           </Button>
+      <VBox.margin>
+         <Insets left="30.0" right="30.0" />
+      </VBox.margin>
        </HBox>
 </VBox>
