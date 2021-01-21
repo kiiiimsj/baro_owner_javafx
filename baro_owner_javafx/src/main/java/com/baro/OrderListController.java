@@ -222,9 +222,9 @@ public class OrderListController {
                 parsingOrders(bf.toString());
                 getPageCount();
                 if (orderList.orders.size() < ONEPAGEORDER){
-                    setList(0,orderList.orders.size() % ONEPAGEORDER);
+                    setList(0, orderList.orders.size() % ONEPAGEORDER);
                 }else{
-                    setList(0,7);
+                    setList( orderList.orders.size() - 1 - ONEPAGEORDER,orderList.orders.size() - 1);
                 }
 
             }
@@ -240,7 +240,8 @@ public class OrderListController {
 
     private void parsingOrders(String toString) {
         orderList = new Gson().fromJson(toString, OrderList.class);
-        Collections.reverse(orderList.orders);
+        System.out.println(orderList.orders.size()+"");
+//        Collections.reverse(orderList.orders);
     }
 
     private HBox makeCell(int index) {
@@ -271,7 +272,7 @@ public class OrderListController {
                                     if (newValue) {
                                         orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
                                         orderListContainer.getChildren().remove(orderListContainer.lookup("#"+orderList.orders.get(index).receipt_id));
-                                        orderList.orders.remove()
+
                                     }
                                 }
                             });
@@ -308,7 +309,7 @@ public class OrderListController {
 
     private void setList(int startIndex,int endIndex) {
         childContainer.getChildren().remove(0,childContainer.getChildren().size());
-        for (int i = startIndex; i < endIndex; i++) {
+        for (int i = endIndex; i > startIndex; i--) {
             HBox hBox = makeCell(i);
             childContainer.getChildren().add(hBox);
         }
@@ -520,10 +521,10 @@ public class OrderListController {
 
     public void getPageCount(){
         ArrayList<Order> orders = orderList.orders;
-        if (orders.size() % 7 == 0){
-            ENTIREPAGE = orders.size() / 7;
+        if (orders.size() % ONEPAGEORDER == 0){
+            ENTIREPAGE = orders.size() / ONEPAGEORDER;
         }else{
-            ENTIREPAGE = orders.size() / 7 + 1;
+            ENTIREPAGE = orders.size() / ONEPAGEORDER + 1;
         }
         pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
     }
@@ -533,7 +534,7 @@ public class OrderListController {
         }
         CURRNETPAGE--;
         pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
-        setList((CURRNETPAGE - 1) * ONEPAGEORDER,(CURRNETPAGE - 1) * ONEPAGEORDER + 7);
+        setList((orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER - ONEPAGEORDER,(orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER );
     }
     public void tapNextPage(ActionEvent event) {
         if (CURRNETPAGE == ENTIREPAGE){
@@ -542,9 +543,13 @@ public class OrderListController {
         CURRNETPAGE++;
         pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
         if (CURRNETPAGE == ENTIREPAGE){
-            setList((CURRNETPAGE - 1) * ONEPAGEORDER,(CURRNETPAGE - 1) * ONEPAGEORDER + orderList.orders.size() % ONEPAGEORDER);
+            if (orderList.orders.size() % ONEPAGEORDER != 0 ) {
+                setList(-1,(orderList.orders.size()-1) % ONEPAGEORDER);
+            }else{
+                setList(-1,ONEPAGEORDER-1);
+            }
         }else{
-            setList((CURRNETPAGE - 1) * ONEPAGEORDER,(CURRNETPAGE - 1) * ONEPAGEORDER + 7);
+            setList((orderList.orders.size()-1) - CURRNETPAGE * ONEPAGEORDER,(orderList.orders.size()-1) - CURRNETPAGE * ONEPAGEORDER + ONEPAGEORDER);
         }
     }
 
