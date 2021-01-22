@@ -156,7 +156,13 @@ public class OrderHistoryController implements Initializable {
             dailySales.getItems().clear();
         }
         dailySales.setStyle("-fx-font-size:15pt; -fx-text-fill: black; -fx-background-color: #ff000000");
-
+        if(orderList.orders.size() == 0) {
+            AnchorPane empty = new AnchorPane();
+            Label emptyLabel = new Label("불러 올 정보가 없습니다.");
+            emptyLabel.setStyle("-fx-font-size: 30px");
+            empty.getChildren().add(emptyLabel);
+            dailySales.getItems().add(empty);
+        }
         AnchorPane header = new AnchorPane();
         header.setId("header");
         Label orderDateLabel = new Label("주문날짜");
@@ -182,10 +188,14 @@ public class OrderHistoryController implements Initializable {
         header.getChildren().get(3).setLayoutX(700);
         header.getChildren().get(4).setLayoutX(800);
         header.getChildren().get(5).setLayoutX(1000);
-        
+        header.setMinHeight(50);
 
-        dailySales.getItems().add(header);
+        header.setTranslateX(0);
+        header.setTranslateY(0);
 
+        header.setStyle("-fx-background-color: #8333e6");
+
+        dailySales.setTranslateY(50);
         for (int i = 0; i < orderList.orders.size(); i++) {
             if(clickSearch) {
                 if(!orderList.orders.get(i).phone.equals(searchByPhone(search_by_phone.getText()))) {
@@ -214,11 +224,14 @@ public class OrderHistoryController implements Initializable {
             cell.getChildren().get(3).setLayoutX(750);
             cell.getChildren().get(4).setLayoutX(820);
             cell.getChildren().get(5).setLayoutX(1000);
-            getDetail(order.receipt_id, order, cell);
-
+            cell.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    getDetail(order.receipt_id, order, cell);
+                }
+            });
             dailySales.getItems().add(cell);
         }
-        dailySales.getItems().get(0).setStyle("-fx-background-color: #8333e6");
     }
 
     private String searchByPhone(String text) {
@@ -274,32 +287,25 @@ public class OrderHistoryController implements Initializable {
         if(!orderDetailParsing.result || orderDetailParsing.orders == null) {
             return;
         }
-        cell.onMouseClickedProperty().set(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetails.fxml"));
-                    Stage stage = new Stage(StageStyle.UTILITY);
-                    stage.initModality(Modality.WINDOW_MODAL);
-                    stage.initOwner(Main.getPrimaryStage());
-                    stage.setTitle("주문상세");
-
-                    Parent parent = loader.load();
-                    Scene scene = new Scene(parent);
-                    stage.setScene(scene);
-                    stage.setResizable(false);
-                    OrderDetailsController controller = loader.<OrderDetailsController>getController();
-                    System.out.println("setVisible");
-                    controller.withOutButton = true;
-                    controller.setData(orderDetailParsing,order);
-                    controller.configureLeftUI();
-                    controller.makeReceiptPreView();
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        makeDetail(orderDetailParsing, order);
+    }
+    private void makeDetail(OrderDetailParsing orderDetailParsing, Order order) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetails.fxml"));
+            Parent parent = loader.load();
+            OrderDetailsController detailcontroller = loader.<OrderDetailsController>getController();
+            detailcontroller.withOutButton = true;
+            detailcontroller.setData(orderDetailParsing ,order);
+            detailcontroller.configureLeftUI();
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setTitle("세부정보");
+            //stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

@@ -3,7 +3,6 @@ package com.baro.controllers.orderDetail;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.Printer.ReceiptPrint;
-import com.baro.controllers.OrderController;
 import com.baro.controllers.SettingTimerController;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -13,8 +12,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,7 +21,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -81,15 +79,6 @@ public class OrderDetailsController implements Initializable {
     public boolean withOutButton;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        print_fxml_loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
-        try {
-            printParent = print_fxml_loader.load();
-            printScene = new Scene(printParent);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        print = print_fxml_loader.<ReceiptPrint>getController();
-
         pos = splitPane.getDividers().get(0).getPosition();
         splitPane.getDividers().get(0).positionProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -118,31 +107,49 @@ public class OrderDetailsController implements Initializable {
         }else{
             completeBtn.setVisible(false);
         }
+        
+        //OrderHistory에서 결제취소 버튼 없얘기
+        if(withOutButton) {
+            cancelBtn.setVisible(false);
+        }
     }
     public void configureLeftUI(){
-        System.out.println("withoutbutton : " + withOutButton);
-        if(withOutButton) {
-            //button_area.setVisible(false);
-            //button_area.setMaxHeight(0);
-            base.getChildren().remove(1);
-            splitPane.getItems().remove(0);
-            splitPane.setMaxHeight(700);
-            splitPane.setMaxWidth(700);
+        //2021-01-22 주석사유 : OrderHistory에서 상세보기 띄울때 해당 코드 사용 현재 미사용
+//        System.out.println("withoutbutton : " + withOutButton);
+//        if(withOutButton) {
+//            //button_area.setVisible(false);
+//            //button_area.setMaxHeight(0);
+//            base.getChildren().remove(1);
+//            splitPane.getItems().remove(0);
+//            splitPane.setMaxHeight(700);
+//            splitPane.setMaxWidth(700);
+//
+//
+//            receipt_preview_scroll.setMaxHeight(700);
+//            receipt_preview_scroll.setMinWidth(700);
+//
+//            base.setMaxWidth(700);
+//            base.setMaxHeight(700);
+//        }
 
-
-            receipt_preview_scroll.setMaxHeight(700);
-            receipt_preview_scroll.setMinWidth(700);
-
-            base.setMaxWidth(700);
-            base.setMaxHeight(700);
+        //order detail의 오른쪽 페이지에 추가할 내용 fxml 가져오기
+        FXMLLoader rightSideMenuDetailFXMLLoader = new FXMLLoader(getClass().getResource("/orderDetail_menuLayout.fxml"));
+        try {
+            Parent rightSideMenuDetailParent = rightSideMenuDetailFXMLLoader.load();
+            OrderDetailMenuController orderDetailMenuController = rightSideMenuDetailFXMLLoader.<OrderDetailMenuController>getController();
+            orderDetailMenuController.setData(data.orders);
+            orderDetailMenuController.configureUI();
+            receipt_preview_scroll.setContent((Node)rightSideMenuDetailParent);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
         phoneLabel.setText(order.phone);
         dateLabel.setText(order.order_date);
         requestLabel.setText(data.requests);
         totalPriceLabel.setText(order.total_price+" 원");
         discountPriceLabel.setText(order.discount_price + " 원");
         finalPriceLabel.setText("결제 금액 : "+(order.total_price - order.discount_price) + " 원");
+
         if (order.order_state.equals(Order.PREPARING)){
             setTime.setVisible(true);
         }else if (order.order_state.equals(Order.ACCEPT)){
@@ -151,12 +158,21 @@ public class OrderDetailsController implements Initializable {
         printButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                print_fxml_loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
+                try {
+                    printParent = print_fxml_loader.load();
+                    printScene = new Scene(printParent);
+                    print = print_fxml_loader.<ReceiptPrint>getController();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Stage stage = new Stage(StageStyle.UTILITY);
                 stage.initModality(Modality.WINDOW_MODAL);
                 stage.setTitle("프린터 옵션");
                 stage.setResizable(false);
-
                 stage.setScene(printScene);
+
+                print.makeReceiptString(data, order);
 
                 if(!preferences.getBoolean("printBefore", false)) {
                     stage.show();
@@ -184,7 +200,6 @@ public class OrderDetailsController implements Initializable {
     }
     
     public void makeReceiptPreView(){
-        print.makeString(data, order);
         System.out.println(print.headerContent.toString() +""+ print.orderGetTextContent.toString() +""+ print.customerPhone.toString() +""+ print.orderDateContent.toString()
                 +""+ print.content.toString() +""+ print.texTitleText.toString() +""+ print.totalTitleText.toString() +""+ print.customerRequest.toString());
 
@@ -233,7 +248,7 @@ public class OrderDetailsController implements Initializable {
 
 
 
-        receipt_preview_scroll.setContent(scrollContent);
+        //receipt_preview_scroll.setContent(scrollContent);
     }
     public void clickSettingTimes(ActionEvent event) {
         try {

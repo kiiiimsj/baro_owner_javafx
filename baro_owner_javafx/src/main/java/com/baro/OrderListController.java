@@ -1,11 +1,9 @@
 package com.baro;
 
 import com.baro.JsonParsing.Order;
-import com.baro.JsonParsing.OrderDetail;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.JsonParsing.OrderList;
 import com.baro.controllers.NewOrderController;
-import com.baro.controllers.OrderController;
 import com.baro.controllers.PopUpController;
 import com.baro.controllers.orderDetail.OrderDetailsController;
 import com.google.gson.Gson;
@@ -16,7 +14,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,9 +24,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
+import javafx.stage.Popup;
+import javafx.stage.Screen;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
@@ -39,7 +39,6 @@ import sample.Main;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.prefs.Preferences;
 
 
@@ -265,7 +264,7 @@ public class OrderListController {
                             OrderDetailsController detailcontroller = loader.<OrderDetailsController>getController();
                             detailcontroller.setData(details,controller.orderData);
                             detailcontroller.configureLeftUI();
-                            detailcontroller.makeReceiptPreView();
+                            //detailcontroller.makeReceiptPreView();
                             detailcontroller.getChangeToCancel().addListener(new ChangeListener<Boolean>() {
                                 @Override
                                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
