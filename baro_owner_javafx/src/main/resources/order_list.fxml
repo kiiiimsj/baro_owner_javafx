@@ -17,7 +17,7 @@
     <children>
         <JFXTabPane fx:id="tabContainer" side="LEFT">
             <tabs>
-                <Tab fx:id="orderListTab" closable="false" text="주 문">
+                <Tab fx:id="orderListTab" closable="false">
                     <content>
                         <ScrollPane>
                             <AnchorPane fx:id="orderListSideContainer" minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1250.0">
@@ -61,31 +61,31 @@
                </graphic>
                 </Tab>
 
-                <Tab fx:id="inventoryManagementTab" closable="false" text="재고관리">
+                <Tab fx:id="inventoryManagementTab" closable="false">
                     <content>
                         <AnchorPane fx:id="inventoryManagementContainer" prefHeight="1000.0" prefWidth="1000.0" />
                     </content>
                 </Tab>
 
-                <Tab fx:id="infoChangeTab" closable="false" text="정보변경">
+                <Tab fx:id="infoChangeTab" closable="false">
                     <content>
                         <AnchorPane fx:id="infoChangeContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                 </Tab>
 
-                <Tab fx:id="calculateTab" closable="false" text="정 산">
+                <Tab fx:id="calculateTab" closable="false">
                     <content>
                         <AnchorPane fx:id="calculateContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                 </Tab>
 
-                <Tab fx:id="statisticsTab" closable="false" text="통 계">
+                <Tab fx:id="statisticsTab" closable="false">
                     <content>
                         <AnchorPane fx:id="statisticsContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                 </Tab>
 
-                <Tab fx:id="settingsTab" closable="false" text="설 정">
+                <Tab fx:id="settingsTab" closable="false">
                     <content>
                         <AnchorPane fx:id="settingsContainer" minHeight="0.0" minWidth="0.0" prefHeight="383.0" prefWidth="586.0" />
                     </content>
