@@ -5,10 +5,23 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<HBox fx:controller="com.baro.controllers.orderDetail.OrderDetailExtraController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-   <spacing>120</spacing>
-    <children>
-       <Label fx:id="extraNameLabel" text="엑스트라" style="-fx-font-size: 20pt"/>
-       <Label fx:id="extraPriceLabel" text="가격" style="-fx-font-size: 20pt"/>
-   </children>
-</HBox>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<GridPane fx:controller="com.baro.controllers.orderDetail.OrderDetailExtraController"
+          maxHeight="-Infinity" maxWidth="460" minHeight="-Infinity" minWidth="460" xmlns="http://javafx.com/javafx/8.0.171"
+          xmlns:fx="http://javafx.com/fxml/1"
+
+>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="153"/>
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="153" halignment="CENTER" />
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="153" halignment="RIGHT" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints vgrow="ALWAYS"/>
+    </rowConstraints>
+   <Label fx:id="extraNameLabel" text="엑스트라" style="-fx-font-size: 20pt" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+   <Label fx:id="extraCountLabel" text="개수" style="-fx-font-size: 20pt"  GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+   <Label fx:id="extraPriceLabel" text="가격" style="-fx-font-size: 20pt" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+</GridPane>

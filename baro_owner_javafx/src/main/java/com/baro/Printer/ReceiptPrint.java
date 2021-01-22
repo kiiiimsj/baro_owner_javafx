@@ -251,7 +251,7 @@ public class ReceiptPrint implements Initializable {
             }
         });
     }
-    public void makeString(OrderDetailParsing order, Order orderInfo){
+    public void makeReceiptString(OrderDetailParsing order, Order orderInfo){
         headerContent.append("[BARO]\n");
         orderGetTextContent.append("주문이\n접수되었습니다.\n\n");
         customerPhone.append(orderInfo.phone, 7, orderInfo.phone.length()).append("\n");
