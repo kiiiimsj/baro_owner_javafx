@@ -12,6 +12,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.baro.controllers.StatisticsController"
@@ -52,8 +55,10 @@
             <NumberAxis fx:id="y_axis" />
         </yAxis>
     </LineChart>
+    <VBox fx:id="daily_sales_vbox" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="130">
+        <JFXListView fx:id="dailySales" prefWidth="500" prefHeight="330"/>
+    </VBox>
 
-    <JFXListView fx:id="dailySales" prefWidth="500" prefHeight="330" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="130" />
     <VBox AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="40">
         <HBox>
             <Label fx:id="total_sales_text" style="-fx-font-size: 50; -fx-text-fill: black" text="총 매출 : "/>
@@ -65,6 +70,18 @@
         </HBox>
     </VBox>
 
-    <Label fx:id="menu_label" text="메뉴 별 판매액" style="-fx-font-size: 40" AnchorPane.rightAnchor="270" AnchorPane.bottomAnchor="350"/>
-    <JFXListView fx:id="totalMenuList" prefWidth="500" prefHeight="320" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" />
+    <VBox fx:id="total_menu_vbox" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" prefWidth="500">
+        <Label fx:id="menu_label" text="메뉴 별 판매액" style="-fx-font-size: 40"/>
+        <GridPane fx:id="menu_list_header" >
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints hgrow="ALWAYS" halignment="CENTER"/>
+                <ColumnConstraints hgrow="ALWAYS"  halignment="CENTER"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS"/>
+            </rowConstraints>
+        </GridPane>
+        <JFXListView fx:id="totalMenuList" prefHeight="320"  />
+    </VBox>
 </AnchorPane>

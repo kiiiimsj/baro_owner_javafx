@@ -4,10 +4,12 @@ import com.baro.JsonParsing.Extras;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetail;
 import com.baro.JsonParsing.OrderDetailParsing;
+import com.baro.OrderListController;
 import com.fazecast.jSerialComm.SerialPort;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sun.deploy.util.WinRegistry;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,7 +19,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,8 +33,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ReceiptPrint implements Initializable {
+    /**
+     * 프린터 출력 세부 설정 바이트 값
+     * **/
     public static final byte[] CTL_LF          = {0x0a};          // Print and line feed
 
     // Beeper
@@ -126,37 +136,56 @@ public class ReceiptPrint implements Initializable {
     public static final byte[] SET_WIDTH_79_180DPI = {0x1d,0x57,0x00,0x02};
     public static final byte[] SET_WIDTH_79_203DPI = {0x1d,0x57,0x40,0x02};
 
-
-//    public OrderDetailParsing order;
-//    public Order orderInfo;
-
+    /**
+     * 프린터 출력 선택 스피너
+     * **/
     @FXML
     private ComboBox<String> select_com_port_combo;
     public ArrayList<String> makePortList = new ArrayList<>();
     @FXML
     private ComboBox<Integer> select_baud_rate_combo;
-    public ArrayList<Integer> makeBaudRateList = new ArrayList<Integer>() {{
+    final private ArrayList<Integer> makeBaudRateList = new ArrayList<Integer>() {{
         add(110); add(300); add(1200); add(2400); add(4800); add(9600); add(19200); add(38400);
     }};
     @FXML
     private ComboBox<Integer> select_data_bit_combo;
-    private ArrayList<Integer> makeDataBit = new ArrayList<Integer>() {{
+    final private ArrayList<Integer> makeDataBit = new ArrayList<Integer>() {{
        add(5); add(6); add(7); add(8);
     }};
     @FXML
-    private Label select_data_bit_combo_text;
+    private ComboBox<String> select_parity_combo;
+    final private ArrayList<String> makeParity = new ArrayList<String>() {{
+       add("짝수"); add("홀수"); add("없음"); add("표시"); add("공백");
+    }};
     @FXML
-    private Label select_baud_rate_combo_text;
-    @FXML private Button print;
+    private ComboBox<String> select_stop_bit_combo;
+    final private ArrayList<String> makeStopBit = new ArrayList<String>() {{
+        add("1"); add("1.5"); add("2");
+    }};
+    @FXML
+    private ComboBox<String> select_flow_controller_combo;
+    final private ArrayList<String> makeFlowController = new ArrayList<String>() {{
+        add("Xon/Xoff"); add("DSR"); add("DTR"); add("RTS"); add("CTS"); add("없음");
+    }};
 
+    @FXML
+    private Button print;
     @FXML
     private Button this_port_okay;
+    @FXML
+    private VBox bottom_area;
 
+    /**
+     * jSerialComm과 입력 스트림 
+     * 저장된 프린터 설정값 읽어오는 preferences
+     * **/
     public SerialPort serialPort;
     public OutputStream printOutput;
-    private Preferences preferences = Preferences.userRoot();
-    public boolean isFromSetting = false;
+    private final Preferences preferences = Preferences.userRoot();
 
+    /**
+     * Output으로 출력되는 문자열 
+     * **/
     public StringBuilder headerContent = new StringBuilder();
     public StringBuilder orderGetTextContent = new StringBuilder();
     public StringBuilder customerPhone = new StringBuilder("고객번호:");
@@ -170,33 +199,47 @@ public class ReceiptPrint implements Initializable {
     final int COUNT_AREA = 4;
     final int PRICE_AREA = 8;
     //TOTAL WIDTH AREA = 37
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
     public void startPrint() {
-        select_baud_rate_combo.setVisible(false);
-        select_baud_rate_combo_text.setVisible(false);
-
-        select_data_bit_combo.setVisible(false);
-        select_data_bit_combo_text.setVisible(false);
-
+        bottom_area.setVisible(false);
         print.setVisible(false);
 
         setSpinner();
     }
+
+
+
+    /***************************************************************************
+     *
+     * 스피너 클릭 이벤트 및 저장된 preferences 확인
+     *
+     **************************************************************************/
     public void setSpinner() {
-        if(!isFromSetting && preferences.getBoolean("printBefore", false) ) {
+        System.out.println("setSpinner");
+        if(!preferences.getBoolean("printBefore", false) ) {
+            System.out.println("setSpinnerIn");
             String getPortName = preferences.get("savePortName", "");
             int getBaudRate = preferences.getInt("saveBaudRate", 0);
             int getDataBit = preferences.getInt("saveDataBit", 0);
-            System.out.println("getSaveInfo port : " + getPortName + " baudrate : " + getBaudRate + " databit : " + getDataBit);
-            try {
-                printReceipt(getPortName, getBaudRate, getDataBit);
-            } catch (DocumentException | IOException e) {
-                e.printStackTrace();
+            String getParity = preferences.get("saveParity", "");
+            String getStopBit = preferences.get("saveStopBit", "");
+            String getFlowControll = preferences.get("saveFlowControll", "");
+
+            if(!getPortName.equals("") && getBaudRate != 0 && getDataBit != 0
+            && !getParity.equals("") && !getStopBit.equals("") && !getFlowControll.equals("")) {
+                try {
+                    printReceipt(getPortName, getBaudRate, getDataBit, getParity, getStopBit, getFlowControll);
+                } catch (DocumentException | IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+        System.out.println("setSpinner1");
         makePortList.add("선택");
         if (SerialPort.getCommPorts().length != 0 ) {
             for (SerialPort port: SerialPort.getCommPorts()) {
@@ -214,6 +257,15 @@ public class ReceiptPrint implements Initializable {
         ObservableList<Integer> list2 = FXCollections.observableList(makeDataBit);
         select_data_bit_combo.setItems(list2);
 
+        ObservableList<String> list3 = FXCollections.observableList(makeParity);
+        select_parity_combo.setItems(list3);
+
+        ObservableList<String> list4 = FXCollections.observableList(makeStopBit);
+        select_stop_bit_combo.setItems(list4);
+
+        ObservableList<String> list5 = FXCollections.observableList(makeFlowController);
+        select_flow_controller_combo.setItems(list5);
+        
         this_port_okay.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -222,12 +274,8 @@ public class ReceiptPrint implements Initializable {
                     if(select_com_port_combo.getValue().equals("선택")) {
 
                     }else {
-                        select_baud_rate_combo.setVisible(true);
-                        select_baud_rate_combo_text.setVisible(true);
-
-                        select_data_bit_combo.setVisible(true);
-                        select_data_bit_combo_text.setVisible(true);
-
+                        //port_device_name.setText();
+                        bottom_area.setVisible(true);
                         print.setVisible(true);
                     }
                 }
@@ -235,6 +283,9 @@ public class ReceiptPrint implements Initializable {
         });
         select_baud_rate_combo.setValue(9600);
         select_data_bit_combo.setValue(8);
+        select_parity_combo.setValue("없음");
+        select_stop_bit_combo.setValue("1");
+        select_flow_controller_combo.setValue("DSR");
 
         print.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -242,7 +293,8 @@ public class ReceiptPrint implements Initializable {
                 if(event.getEventType() == ActionEvent.ACTION) {
                     try {
                         System.out.println(select_com_port_combo.getValue() + " : " +select_baud_rate_combo.getValue() + " : " + select_data_bit_combo.getValue());
-                        printReceipt(select_com_port_combo.getValue(), select_baud_rate_combo.getValue(), select_data_bit_combo.getValue());
+                        printReceipt(select_com_port_combo.getValue(), select_baud_rate_combo.getValue(), select_data_bit_combo.getValue()
+                        ,select_parity_combo.getValue(), select_stop_bit_combo.getValue(), select_flow_controller_combo.getValue());
 
                     } catch (DocumentException | IOException e) {
                         e.printStackTrace();
@@ -251,6 +303,14 @@ public class ReceiptPrint implements Initializable {
             }
         });
     }
+
+
+
+    /***************************************************************************
+     *
+     * 주문정보 문자열로 변환
+     *
+     **************************************************************************/
     public void makeReceiptString(OrderDetailParsing order, Order orderInfo){
         headerContent.append("[BARO]\n");
         orderGetTextContent.append("주문이\n접수되었습니다.\n\n");
@@ -258,6 +318,12 @@ public class ReceiptPrint implements Initializable {
         orderDateContent.append(orderInfo.order_date.substring(0, orderInfo.order_date.length() - 1)).append("\n");
         content.append("메뉴명                 수량      금액\n")
         .append("-------------------------------------\n");
+
+        /**
+         *  SET_WIDTH_57 인 경우 전체 길이 37로 잡고 계산
+         *  SET_WIDTH_79 인 경우 전체 길이 59로 잡고 계산
+         * **/
+
         if(order != null || order.orders != null) {
             for (int i = 0; i < order.orders.size(); i++) {
                 OrderDetail menu = order.orders.get(i);
@@ -360,8 +426,18 @@ public class ReceiptPrint implements Initializable {
                 .append("  -")
                 .append(order.requests)
                 .append("\n\n\n\n\n\n\n\n\n");
+        /**
+         * CUT_PAPER시 너무 빠르게 잘려 내용이 잘리는 이슈 - 개행문자 추가로 영수증 내용 위로 올림
+         * **/
     }
-    public void printReceipt(String portName, int baudrate, int dataBit) throws IOException, DocumentException {
+
+
+    /***************************************************************************
+     *
+     * 입력된 문자열 Output으로 변환
+     *
+     **************************************************************************/
+    public void printReceipt(String portName, int baudrate, int dataBit, String parity, String stopBit, String flow) throws IOException, DocumentException {
         Integer timeout = 1000;
 
         serialPort = SerialPort.getCommPort(portName);
@@ -372,9 +448,56 @@ public class ReceiptPrint implements Initializable {
 
         serialPort.openPort();
         serialPort.setBaudRate(baudrate);
-        serialPort.setParity(SerialPort.EVEN_PARITY);
+        switch (parity) {
+            case "짝수":
+                serialPort.setParity(SerialPort.ODD_PARITY);
+                break;
+            case "홀수":
+                serialPort.setParity(SerialPort.EVEN_PARITY);
+                break;
+            case "없음":
+                serialPort.setParity(SerialPort.NO_PARITY);
+                break;
+            case "표시":
+                serialPort.setParity(SerialPort.MARK_PARITY);
+                break;
+            case "공백":
+                serialPort.setParity(SerialPort.SPACE_PARITY);
+                break;
+        }
+        switch (stopBit) {
+            case "1" :
+                serialPort.setNumStopBits(SerialPort.ONE_STOP_BIT);
+                break;
+            case "1.5" :
+                serialPort.setNumStopBits(SerialPort.ONE_POINT_FIVE_STOP_BITS);
+                break;
+            case "2" :
+                serialPort.setNumStopBits(SerialPort.TWO_STOP_BITS);
+                break;
+        }
         serialPort.setNumDataBits(dataBit);
-        serialPort.setNumStopBits(SerialPort.ONE_STOP_BIT);
+
+        switch (flow) {
+            case "Xon/Xoff" :
+                serialPort.setFlowControl(SerialPort.FLOW_CONTROL_XONXOFF_IN_ENABLED);
+                break;
+            case "DSR" :
+                serialPort.setFlowControl(SerialPort.FLOW_CONTROL_DSR_ENABLED);
+                break;
+            case "DTR" :
+                serialPort.setFlowControl(SerialPort.FLOW_CONTROL_DTR_ENABLED);
+                break;
+            case "CTS" :
+                serialPort.setFlowControl(SerialPort.FLOW_CONTROL_CTS_ENABLED);
+                break;
+            case "RTS" :
+                serialPort.setFlowControl(SerialPort.FLOW_CONTROL_RTS_ENABLED);
+                break;
+            case "없음" :
+                serialPort.setFlowControl(SerialPort.FLOW_CONTROL_DISABLED);
+                break;
+        }
         serialPort.setComPortTimeouts(SerialPort.TIMEOUT_NONBLOCKING, timeout, timeout);
 
         printOutput = serialPort.getOutputStream();
@@ -426,6 +549,9 @@ public class ReceiptPrint implements Initializable {
         preferences.put("savePortName", portName);
         preferences.putInt("saveBaudRate", baudrate);
         preferences.putInt("saveDataBit", dataBit);
+        preferences.put("saveParity", parity);
+        preferences.put("saveStopBit", stopBit);
+        preferences.put("saveFlowControll", flow);
         preferences.putBoolean("printBefore", true);
     }
 }

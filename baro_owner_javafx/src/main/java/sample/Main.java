@@ -1,6 +1,5 @@
 package sample;
 
-import com.baro.Printer.ReceiptPrint;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -33,7 +32,17 @@ public class Main extends Application {
 //
 //        ReceiptPrint print = new ReceiptPrint();
 //        print.printReceipt();
-        primaryStage.setScene(new Scene(root, 300, 300));
+
+
+        // 300 -> 500
+        Scene scene =  new Scene(root, 500, 500);
+
+        //외부 폰트 적용을 위해 scene를 따로 빼주었음.
+        //앞으로 폰트 적용은 아래 css 파일에서 해주면됨.
+        scene.getStylesheets().add(getClass().getResource("/fontstyle.css").toExternalForm());
+
+
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
     public static Stage getPrimaryStage() {
@@ -80,5 +89,8 @@ public class Main extends Application {
             }
         };
         webSocketClient.connect();
+    }
+    public static void main(String[] args) {
+        launch(args);
     }
 }

@@ -14,13 +14,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.Tab;
-import javafx.scene.control.Toggle;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -37,21 +35,61 @@ import java.util.prefs.Preferences;
 
 public class InventoryController implements Initializable {
 
+    public GridPane menuList_header;
+    public VBox base;
     @FXML private JFXTabPane categoryTabPane;
-    @FXML private JFXListView<AnchorPane> menuList;
+    @FXML private JFXListView<GridPane> menuList;
     Preferences preferences = Preferences.userRoot();
 
     private String owner_store_id;
     public CategoryParsing categoryParsing;
     public MenuParsing menuParsing;
 
+    ColumnConstraints col1 = new ColumnConstraints();
+    ColumnConstraints col2 = new ColumnConstraints();
+    ColumnConstraints col3 = new ColumnConstraints();
+
+    RowConstraints row1 = new RowConstraints();
+    RowConstraints row2 = new RowConstraints();
+
     private int lastSelectedIndex;
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         owner_store_id = preferences.get("store_id", "");
+        setMenuListHeader();
         getOwnerStoreCategory();
         getOwnerStoreMenu();
+    }
+
+    private void setMenuListHeader() {
+        System.out.println(base.getPrefWidth()/3);
+        col1.setHgrow(Priority.ALWAYS);
+        col1.setMaxWidth(base.getPrefWidth()/3);
+
+        col2.setHgrow(Priority.ALWAYS);
+        col2.setHalignment(HPos.CENTER);
+        col2.setMaxWidth(base.getPrefWidth()/3);
+
+        col3.setHgrow(Priority.ALWAYS);
+        col3.setHalignment(HPos.CENTER);
+        col3.setMaxWidth(base.getPrefWidth()/3);
+
+        row1.setVgrow(Priority.ALWAYS);
+
+        row2.setVgrow(Priority.NEVER);
+        row2.setMaxHeight(20);
+
+        menuList_header.getColumnConstraints().add(0, col2);
+        menuList_header.getColumnConstraints().add(1, col2);
+        menuList_header.getColumnConstraints().add(2, col3);
+        menuList_header.getRowConstraints().add(0, row1);
+
+        Label menuInfoLabel = new Label("메뉴 정보");
+        Label menuPriceLabel = new Label("메뉴 가격");
+        Label setCanSellLabel = new Label("재고 관리");
+
+        menuList_header.addRow(0 , menuInfoLabel, menuPriceLabel, setCanSellLabel);
     }
 
     private void getOwnerStoreMenu() {
@@ -107,28 +145,20 @@ public class InventoryController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
                 menuList.getItems().clear();
-                AnchorPane header = new AnchorPane();
-                Text menuInfoText = new Text("메뉴 정보");
-                Text menuPriceText = new Text("메뉴 가격");
-                Text setCanSellText = new Text("재고 관리");
-                header.getChildren().addAll(menuInfoText, menuPriceText, setCanSellText);
-                header.getChildren().get(0).setLayoutY(50);
-                header.getChildren().get(1).setLayoutX(750);
-                header.getChildren().get(1).setLayoutY(50);
-                header.getChildren().get(2).setLayoutX(920);
-                header.getChildren().get(2).setLayoutY(50);
-                menuList.getItems().add(header);
                 for (int i = 0; i < menuParsing.menu.size(); i++) {
                     Menu menu = menuParsing.menu.get(i);
-                    AnchorPane cell = new AnchorPane();
+                    GridPane cell = new GridPane();
                     if(newTab.getId().equals(menu.category_id+"")) {
-                        Text menuName = new Text(menu.menu_name+"\n");
-                        Text menuInfo = new Text(menu.menu_info+"\t\t");
-                        Text menuPrice = new Text(menu.menu_defaultprice+" 원");
+                        Label menuName = new Label(menu.menu_name);
+                        Label menuInfo = new Label(menu.menu_info);
+                        Label menuPrice = new Label(menu.menu_defaultprice+"원");
+
+                        menuInfo.setStyle("-fx-font-size: 15pt");
                         JFXToggleButton toggleButton = new JFXToggleButton();
                         toggleButton.setText("판매중");
                         toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: black");
                         toggleButton.toggleColorProperty().set(Paint.valueOf("#ff0000"));
+
                         if(menu.is_soldout.equals("Y")) {
                             toggleButton.setText("품절");
                             toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: red");
@@ -149,18 +179,15 @@ public class InventoryController implements Initializable {
                                 }
                             }
                         });
-                        cell.getChildren().addAll(menuName, menuInfo, menuPrice);
-                        cell.getChildren().add(toggleButton);
-                        cell.getChildren().get(0).setLayoutY(50);
-                        cell.getChildren().get(1).setLayoutY(90);
-                        cell.getChildren().get(2).setLayoutY(60);
-                        cell.getChildren().get(2).setLayoutX(750);
-                        cell.getChildren().get(3).setLayoutX(900);
-                        cell.getChildren().get(3).setLayoutY(15);
-                        cell.getChildren().get(3).setScaleX(2);
-                        cell.getChildren().get(3).setScaleY(2);
+                        cell.getColumnConstraints().add(0, col1);
+                        cell.getColumnConstraints().add(1, col2);
+                        cell.getColumnConstraints().add(2, col3);
+
+                        cell.getRowConstraints().add(0, row1);
+                        cell.getRowConstraints().add(1, row2);
+                        cell.addRow(0, menuName, menuPrice, toggleButton);
+                        cell.addRow(1, menuInfo);
                         menuList.getItems().add(cell);
-                        System.out.println("getListView :" + menuList.getPrefWidth());
                     }
                 }
             }

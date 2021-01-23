@@ -1,39 +1,44 @@
-<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<?xml version="1.0" encoding="UTF-8"?>
 
-<!--<?import java.lang.*?>-->
-<!--<?import javafx.geometry.*?>-->
-<!--<?import javafx.scene.control.*?>-->
-<!--<?import javafx.scene.layout.*?>-->
-<!--<?import javafx.scene.text.*?>-->
+<?import java.lang.Double?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 
-<!--<VBox fx:id="shell" prefHeight="310.0" prefWidth="300.0" style="-fx-padding: 10; -fx-border-color: #434343; -fx-border-width: 1; -fx-border-radius: 20;"-->
-<!--      stylesheets="css/order_detail.css"-->
-<!--      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.OrderController">-->
-<!--    <spacing>10</spacing>-->
-<!--    <HBox>-->
-<!--        <spacing>50</spacing>-->
-<!--        <Label fx:id="order_count" text="4개 주문" style="-fx-font-size: 20"/>-->
-<!--        <Button fx:id="showDetailBtn" alignment="CENTER" text="상세" textAlignment="CENTER" visible="false" onAction="#showDetail">-->
-<!--            <HBox.hgrow>-->
-<!--                <Priority fx:constant="ALWAYS" />-->
-<!--            </HBox.hgrow>-->
-<!--            <maxWidth>-->
-<!--                <Double fx:constant="MAX_VALUE" />-->
-<!--            </maxWidth>-->
-<!--        </Button>-->
-<!--    </HBox>-->
-<!--    <Label fx:id="customer" text="회원번호 : 01012341234" />-->
-<!--    <Label fx:id="price" text="총 결제 금액 : 8700원" />-->
-<!--    <Label fx:id="order_time" text="10 : 00 PM" wrapText="true" />-->
-<!--    <Button fx:id="bottomBtn" alignment="CENTER" contentDisplay="CENTER" onAction="#clickBottomBtn" style="-fx-background-color: #8333e6" text="주문 접수" textFill="WHITE" wrapText="true">-->
-<!--        <VBox.margin><Insets left="30" right="30" /> </VBox.margin>-->
-<!--        <maxWidth>-->
-<!--            <Double fx:constant="MAX_VALUE" />-->
-<!--        </maxWidth>-->
-<!--        <minHeight>30</minHeight>-->
-<!--      <font>-->
-<!--         <Font size="14.0" />-->
-<!--      </font>-->
-<!--    </Button>-->
+<HBox fx:id="shell" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100" prefWidth="300" spacing="50.0"
+      style="-fx-border-color: #434343; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.baro.controllers.OrderController">
+   <children>
+      <VBox spacing="10.0">
+         <children>
+            <Label fx:id="customer" text="전화 번호" />
+            <HBox prefHeight="0.0" spacing="10.0">
+               <children>
+                  <Label fx:id="order_count" text="메뉴 1개" />
+                  <Label fx:id="price" text="1000원" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <StackPane prefHeight="0.0" fx:id="timeTable" >
+         <children>
+            <Circle fill="gray" radius="25.0"  strokeType="INSIDE" />
+            <Label alignment="CENTER" prefHeight="50.0" prefWidth="50.0" text="10분">
+               <maxWidth>
+                  <Double fx:constant="MAX_VALUE" />
+               </maxWidth>
+               <maxHeight>
+                  <Double fx:constant="MAX_VALUE" />
+               </maxHeight>
+            </Label>
+         </children>
+      </StackPane>
 
-<!--</VBox>-->
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</HBox>

@@ -1,16 +1,16 @@
 /** {*/
-/*    -fx-font-family: "Noto Sans Korean Regular";*/
+/*    -fx-font-family: "NotoSansRegular";*/
 /*    -fx-font-size: 25px;*/
 /*}*/
 Label {
-    -fx-font-family: "Noto Sans Korean Regular";
+    -fx-font-family: "NotoSansRegular";
     -fx-font-size: 25px;
 }
 Button {
-    -fx-font-family: "Noto Sans Korean Regular";
+    -fx-font-family: "NotoSansRegular";
     -fx-font-size: 25px;
 }
 Label.label-left{
-    -fx-font-family: "Noto Sans Korean Regular";
+    -fx-font-family: "NotoSansRegular";
     -fx-font-size: 20px;
 }
