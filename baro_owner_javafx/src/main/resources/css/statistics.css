@@ -1,5 +1,6 @@
 * {
-    -fx-font-family: "Noto Sans Korean Regular";
+    /*-fx-font-family: "NotoSansRegular";*/
+    -fx-font-family: 'NotoSansRegular';
     -fx-text-fill: #8333e6;
 }
 .chart {

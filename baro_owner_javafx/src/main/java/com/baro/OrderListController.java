@@ -3,7 +3,7 @@ package com.baro;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.JsonParsing.OrderList;
-import com.baro.controllers.NewOrderController;
+import com.baro.controllers.OrderController;
 import com.baro.controllers.PopUpController;
 import com.baro.controllers.orderDetail.OrderDetailsController;
 import com.google.gson.Gson;
@@ -104,10 +104,10 @@ public class OrderListController {
     public void initialize() {
         if(isOpen.equals("Y")) {
 //            isOpenBtn.setText("영업종료 하기");
-//            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
+//            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
         } else {
 //            isOpenBtn.setText("영업게시 하기");
-//            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
+//            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
         }
 
 
@@ -147,13 +147,13 @@ public class OrderListController {
             if (is_open) {
                 jsonObject.put("is_open", "Y");
 //                isOpenBtn.setText("영업종료 하기");
-//                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
+//                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
                 //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.color(131.0, 51.0, 230.0, 1.0), CornerRadii.EMPTY, Insets.EMPTY)));
 
             } else {
                 jsonObject.put("is_open", "N");
 //                isOpenBtn.setText("영업게시 하기");
-//                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans Korean Regular'");
+//                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
                 //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             }
 
@@ -246,10 +246,10 @@ public class OrderListController {
     private HBox makeCell(int index) {
         HBox hBox = null;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/new_order.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/order.fxml"));
             hBox = loader.load();
             hBox.setId(orderList.orders.get(index).receipt_id+"");
-            NewOrderController controller = loader.<NewOrderController>getController();
+            OrderController controller = loader.<OrderController>getController();
             controller.setData(orderList.orders.get(index),index);
             hBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -392,7 +392,7 @@ public class OrderListController {
         label.setMaxWidth(tabHeight);
         label.setMinWidth(tabHeight);
         label.setPadding(new Insets(0, 0, 0, 0));
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: normal; -fx-font-family: 'Noto Sans Korean Regular'");
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: normal; -fx-font-family: 'NotoSansRegular'");
         label.setAlignment(Pos.CENTER);
 
         BorderPane tabPane = new BorderPane();

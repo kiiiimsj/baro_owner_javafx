@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -40,6 +41,7 @@ public class OrderDetailsController implements Initializable {
     public Button cancelBtn;
     public HBox button_area;
     public VBox base;
+    public HBox top_area;
     @FXML
     private Label phoneLabel;
     @FXML
@@ -79,6 +81,12 @@ public class OrderDetailsController implements Initializable {
     public boolean withOutButton;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //영업중, 영업종료 토글 버튼 클릭이 막힘
+        //pane 뒤로 클릭 가능하게 해줌
+        base.setBackground(Background.EMPTY);
+        base.setPickOnBounds(false);
+
+
         pos = splitPane.getDividers().get(0).getPosition();
         splitPane.getDividers().get(0).positionProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -175,6 +183,7 @@ public class OrderDetailsController implements Initializable {
                 print.makeReceiptString(data, order);
 
                 if(!preferences.getBoolean("printBefore", false)) {
+                    print.startPrint();
                     stage.show();
                 } else {
                     print.startPrint();
@@ -184,13 +193,15 @@ public class OrderDetailsController implements Initializable {
                     public void handle(WindowEvent event) {
                         if(event.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST) {
                             System.out.println("close interface");
-                            if(print.serialPort.isOpen()) {
-                                try {
-                                    print.printOutput.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                            if(print != null && print.serialPort != null) {
+                                if(print.serialPort.isOpen()) {
+                                    try {
+                                        print.printOutput.close();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    print.serialPort.closePort();
                                 }
-                                print.serialPort.closePort();
                             }
                         }
                     }
@@ -198,58 +209,58 @@ public class OrderDetailsController implements Initializable {
             }
         });
     }
-    
-    public void makeReceiptPreView(){
-        System.out.println(print.headerContent.toString() +""+ print.orderGetTextContent.toString() +""+ print.customerPhone.toString() +""+ print.orderDateContent.toString()
-                +""+ print.content.toString() +""+ print.texTitleText.toString() +""+ print.totalTitleText.toString() +""+ print.customerRequest.toString());
-
-        String header = print.headerContent.toString();
-        String orderGetTextContent = print.orderGetTextContent.toString();
-        String customerPhone = print.customerPhone.toString();
-        String orderDataContent = print.orderDateContent.toString();
-        String content = print.content.toString();
-        String texTitleText = print.texTitleText.toString();
-        String totalTitleText = print.totalTitleText.toString();
-        String customerRequest = print.customerRequest.toString();
-
-        VBox scrollContent = new VBox();
-
-        Label headerText = new Label(header);
-        Label orderGetTextContentOrderText = new Label("주문이");
-        Label orderGetTextContentText = new Label(orderGetTextContent.substring(3, orderGetTextContent.length()));
-        Label customerPhoneText = new Label(customerPhone);
-        Label orderDataContentText = new Label(orderDataContent);
-        Label contentText = new Label(content);
-        Label texTitleTextText = new Label(texTitleText);
-        Label totalTitleTextText = new Label(totalTitleText);
-        Label customerRequestText = new Label(customerRequest);
-
-        headerText.setMaxWidth(600);
-        headerText.setAlignment(Pos.CENTER);
-        headerText.setStyle("-fx-font-size: 30pt");
-
-        orderGetTextContentOrderText.setMaxWidth(600);
-        orderGetTextContentOrderText.setAlignment(Pos.CENTER);
-        orderGetTextContentOrderText.setStyle("-fx-font-size: 30pt");
-
-        orderGetTextContentText.setMaxWidth(600);
-        orderGetTextContentText.setAlignment(Pos.CENTER);
-        orderGetTextContentText.setStyle("-fx-font-size: 30pt");
-
-        customerPhoneText.setAlignment(Pos.CENTER);
-        customerPhoneText.setStyle("-fx-font-size: 30pt");
-
-        totalTitleTextText.setAlignment(Pos.CENTER);
-        totalTitleTextText.setStyle("-fx-font-size: 30pt");
-
-
-        scrollContent.getChildren().addAll(headerText, orderGetTextContentOrderText, orderGetTextContentText, customerPhoneText, orderDataContentText
-        ,contentText, texTitleTextText, totalTitleTextText, customerRequestText);
-
-
-
-        //receipt_preview_scroll.setContent(scrollContent);
-    }
+    //2021-01-22 주석사유 : 상세보기 띄울때 영수증 미리보기로 해당 코드 사용 현재 미사용
+//    public void makeReceiptPreView(){
+//        System.out.println(print.headerContent.toString() +""+ print.orderGetTextContent.toString() +""+ print.customerPhone.toString() +""+ print.orderDateContent.toString()
+//                +""+ print.content.toString() +""+ print.texTitleText.toString() +""+ print.totalTitleText.toString() +""+ print.customerRequest.toString());
+//
+//        String header = print.headerContent.toString();
+//        String orderGetTextContent = print.orderGetTextContent.toString();
+//        String customerPhone = print.customerPhone.toString();
+//        String orderDataContent = print.orderDateContent.toString();
+//        String content = print.content.toString();
+//        String texTitleText = print.texTitleText.toString();
+//        String totalTitleText = print.totalTitleText.toString();
+//        String customerRequest = print.customerRequest.toString();
+//
+//        VBox scrollContent = new VBox();
+//
+//        Label headerText = new Label(header);
+//        Label orderGetTextContentOrderText = new Label("주문이");
+//        Label orderGetTextContentText = new Label(orderGetTextContent.substring(3, orderGetTextContent.length()));
+//        Label customerPhoneText = new Label(customerPhone);
+//        Label orderDataContentText = new Label(orderDataContent);
+//        Label contentText = new Label(content);
+//        Label texTitleTextText = new Label(texTitleText);
+//        Label totalTitleTextText = new Label(totalTitleText);
+//        Label customerRequestText = new Label(customerRequest);
+//
+//        headerText.setMaxWidth(600);
+//        headerText.setAlignment(Pos.CENTER);
+//        headerText.setStyle("-fx-font-size: 30pt");
+//
+//        orderGetTextContentOrderText.setMaxWidth(600);
+//        orderGetTextContentOrderText.setAlignment(Pos.CENTER);
+//        orderGetTextContentOrderText.setStyle("-fx-font-size: 30pt");
+//
+//        orderGetTextContentText.setMaxWidth(600);
+//        orderGetTextContentText.setAlignment(Pos.CENTER);
+//        orderGetTextContentText.setStyle("-fx-font-size: 30pt");
+//
+//        customerPhoneText.setAlignment(Pos.CENTER);
+//        customerPhoneText.setStyle("-fx-font-size: 30pt");
+//
+//        totalTitleTextText.setAlignment(Pos.CENTER);
+//        totalTitleTextText.setStyle("-fx-font-size: 30pt");
+//
+//
+//        scrollContent.getChildren().addAll(headerText, orderGetTextContentOrderText, orderGetTextContentText, customerPhoneText, orderDataContentText
+//        ,contentText, texTitleTextText, totalTitleTextText, customerRequestText);
+//
+//
+//
+//        //receipt_preview_scroll.setContent(scrollContent);
+//    }
     public void clickSettingTimes(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/SettingTimer.fxml"));

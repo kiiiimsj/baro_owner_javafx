@@ -3,6 +3,7 @@ package com.baro.controllers;
 import com.baro.JsonParsing.LoginParsing;
 
 import com.google.gson.Gson;
+import com.jfoenix.controls.JFXCheckBox;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.json.JSONObject;
@@ -32,11 +34,12 @@ import java.util.prefs.Preferences;
 
 public class LoginController implements Initializable {
 
-    @FXML private AnchorPane anchorPane;
+
+    public VBox base;
     @FXML private TextField phone_tf;
     @FXML private PasswordField password_tf;
     @FXML private Button login_btn;
-    @FXML private CheckBox save_id_pw;
+    @FXML private JFXCheckBox save_id_pw;
 
     //데이터 저장을 위한 preferences
     Preferences preferences = Preferences.userRoot();

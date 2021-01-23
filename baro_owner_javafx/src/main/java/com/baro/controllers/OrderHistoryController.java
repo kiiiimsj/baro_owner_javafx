@@ -52,6 +52,7 @@ public class OrderHistoryController implements Initializable {
     public JFXListView<AnchorPane> dailySales;
     public Button button_search_by_phone;
     public HBox search_hbox;
+    public VBox content_vbox;
 
     private StringConverter dateConverter;
     private OrderDetailParsing orderDetailParsing;
@@ -185,17 +186,12 @@ public class OrderHistoryController implements Initializable {
         header.getChildren().get(0).setLayoutX(100);
         header.getChildren().get(1).setLayoutX(285);
         header.getChildren().get(2).setLayoutX(500);
-        header.getChildren().get(3).setLayoutX(700);
-        header.getChildren().get(4).setLayoutX(800);
+        header.getChildren().get(3).setLayoutX(730);
+        header.getChildren().get(4).setLayoutX(830);
         header.getChildren().get(5).setLayoutX(1000);
-        header.setMinHeight(50);
 
-        header.setTranslateX(0);
-        header.setTranslateY(0);
-
+        content_vbox.getChildren().add(1,header);
         header.setStyle("-fx-background-color: #8333e6");
-
-        dailySales.setTranslateY(50);
         for (int i = 0; i < orderList.orders.size(); i++) {
             if(clickSearch) {
                 if(!orderList.orders.get(i).phone.equals(searchByPhone(search_by_phone.getText()))) {

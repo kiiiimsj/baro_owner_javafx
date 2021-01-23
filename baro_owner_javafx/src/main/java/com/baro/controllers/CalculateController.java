@@ -79,11 +79,11 @@ public class CalculateController implements Initializable {
         coupon_price.setAlignment(Pos.BASELINE_RIGHT);
         menu_total_price.setAlignment(Pos.BASELINE_RIGHT);
 
-        this_week_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans Korean Regular';" +
+        this_week_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'NotoSansRegular';" +
                 " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
-        coupon_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans Korean Regular';" +
+        coupon_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'NotoSansRegular';" +
                 " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
-        menu_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans Korean Regular';" +
+        menu_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'NotoSansRegular';" +
                 " -fx-text-fill: black; -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
     }
 }
