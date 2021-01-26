@@ -28,6 +28,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Popup;
 import javafx.stage.Screen;
 import org.java_websocket.client.WebSocketClient;
@@ -99,9 +101,25 @@ public class OrderListController {
     Preferences preferences = Preferences.userRoot();
     AlarmPopUp popUp = new AlarmPopUp();
     String isOpen = preferences.get("is_open", "");
+
+    MediaPlayer player;
     /// Life cycle
     @FXML
     public void initialize() {
+        try {
+            Media media = new Media(getClass().getResource("/sounds.wav").toURI().toString());
+            player = new MediaPlayer(media);
+            player.setOnEndOfMedia(new Runnable() {
+                @Override
+                public void run() {
+                    player.seek(player.getStartTime());
+                }
+            });
+            player.setCycleCount(MediaPlayer.INDEFINITE);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
         if(isOpen.equals("Y")) {
 //            isOpenBtn.setText("영업종료 하기");
 //            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
@@ -471,10 +489,13 @@ public class OrderListController {
                 if (message.charAt(0) != '{'){
 
                 } else {
+                    player.seek(player.getStartTime());
+                    player.play();
 
                     JSONObject jsonObject = new JSONObject(message);
                     Order order = new Gson().fromJson(message, Order.class);
                     order.order_state = Order.PREPARING;
+                    order.order_count = jsonObject.getInt("each_count");
                     orderList.orders.add(order);
                     System.out.println(orderList.orders.size());
                     Platform.runLater(new Runnable() {
@@ -501,6 +522,7 @@ public class OrderListController {
                                         popUp.controller.changeCount(notReadedOrder.get());
                                     }else{
                                         notReadedOrder.set(0);
+                                        player.stop();
                                     }
                                 }
                             });
@@ -531,8 +553,8 @@ public class OrderListController {
                 AnchorPane parent = loader.load();
                 controller = loader.<PopUpController>getController();
                 popup.getContent().add(parent);
-                popup.setX(Screen.getScreens().get(0).getBounds().getMaxX()-popup.getWidth());
-                popup.setY(Screen.getScreens().get(0).getBounds().getMaxY()-popup.getHeight());
+                popup.setX(Screen.getScreens().get(0).getBounds().getMaxX()-popup.getWidth()-1);
+                popup.setY(Screen.getScreens().get(0).getBounds().getMaxY()-popup.getHeight()-1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
