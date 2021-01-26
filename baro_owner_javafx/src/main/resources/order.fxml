@@ -26,7 +26,7 @@
       <StackPane prefHeight="0.0" fx:id="timeTable" >
          <children>
             <Circle fill="gray" radius="25.0"  strokeType="INSIDE" />
-            <Label alignment="CENTER" prefHeight="50.0" prefWidth="50.0" text="10분">
+            <Label fx:id="timeLabel" alignment="CENTER" prefHeight="50.0" prefWidth="50.0" text="10분">
                <maxWidth>
                   <Double fx:constant="MAX_VALUE" />
                </maxWidth>
