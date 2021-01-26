@@ -5,6 +5,8 @@ import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.JsonParsing.OrderList;
 import com.baro.controllers.orderDetail.OrderDetailsController;
+import com.baro.utils.DateConverter;
+import com.baro.utils.GetState;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -17,6 +19,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,6 +29,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -40,6 +44,7 @@ import java.io.OutputStream;
 import java.net.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.prefs.Preferences;
@@ -49,7 +54,7 @@ public class OrderHistoryController implements Initializable {
     public JFXDatePicker start_date_picker;
     public JFXDatePicker end_date_picker;
     public JFXButton look_up_button;
-    public JFXListView<AnchorPane> dailySales;
+    public JFXListView<HBox> dailySales;
     public Button button_search_by_phone;
     public HBox search_hbox;
     public VBox content_vbox;
@@ -101,6 +106,9 @@ public class OrderHistoryController implements Initializable {
         button_search_by_phone.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                if(search_by_phone.getText().length() < 8) {
+                    return;
+                }
                 clickSearch = true;
                 getOrderCompleteListByDate();
             }
@@ -152,74 +160,103 @@ public class OrderHistoryController implements Initializable {
         if(!orderList.result || orderList.orders == null) {
             return;
         }
+        Collections.reverse(orderList.orders);
         dailySales.setVisible(true);
         if(dailySales.getItems().size() != 0) {
             dailySales.getItems().clear();
         }
-        dailySales.setStyle("-fx-font-size:15pt; -fx-text-fill: black; -fx-background-color: #ff000000");
+        dailySales.setStyle("-selected-color:blue;");
         if(orderList.orders.size() == 0) {
-            AnchorPane empty = new AnchorPane();
+            HBox empty = new HBox();
             Label emptyLabel = new Label("불러 올 정보가 없습니다.");
             emptyLabel.setStyle("-fx-font-size: 30px");
             empty.getChildren().add(emptyLabel);
             dailySales.getItems().add(empty);
         }
-        AnchorPane header = new AnchorPane();
-        header.setId("header");
-        Label orderDateLabel = new Label("주문날짜");
-        Label phoneLabel = new Label("고객번호");
-        Label receiptLabel = new Label("주문번호");
-        Label discountLabel = new Label("할인 금액");
-        Label totalPriceLabel = new Label("총 주문 금액");
-        Label orderStateLabel = new Label("주문상태");
+//        AnchorPane header = new AnchorPane();
+//        header.setId("header");
+//        Label orderDateLabel = new Label("주문날짜");
+//        Label phoneLabel = new Label("고객번호");
+//        Label receiptLabel = new Label("주문번호");
+//        Label discountLabel = new Label("할인 금액");
+//        Label totalPriceLabel = new Label("총 주문 금액");
+//        Label orderStateLabel = new Label("주문상태");
 
 
-        orderDateLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
-        phoneLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
-        receiptLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
-        discountLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
-        totalPriceLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
-        orderStateLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
+//        orderDateLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
+//        phoneLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
+//        receiptLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
+//        discountLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
+//        totalPriceLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
+//        orderStateLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
+//
+//
+//        header.getChildren().addAll(orderDateLabel, phoneLabel, receiptLabel, discountLabel, totalPriceLabel,orderStateLabel );
+//        header.getChildren().get(0).setLayoutX(100);
+//        header.getChildren().get(1).setLayoutX(285);
+//        header.getChildren().get(2).setLayoutX(500);
+//        header.getChildren().get(3).setLayoutX(730);
+//        header.getChildren().get(4).setLayoutX(830);
+//        header.getChildren().get(5).setLayoutX(1000);
 
-
-        header.getChildren().addAll(orderDateLabel, phoneLabel, receiptLabel, discountLabel, totalPriceLabel,orderStateLabel );
-        header.getChildren().get(0).setLayoutX(100);
-        header.getChildren().get(1).setLayoutX(285);
-        header.getChildren().get(2).setLayoutX(500);
-        header.getChildren().get(3).setLayoutX(730);
-        header.getChildren().get(4).setLayoutX(830);
-        header.getChildren().get(5).setLayoutX(1000);
-
-        content_vbox.getChildren().add(1,header);
-        header.setStyle("-fx-background-color: #8333e6");
+//        content_vbox.getChildren().add(1,header);
+//        header.setStyle("-fx-background-color: #8333e6");
         for (int i = 0; i < orderList.orders.size(); i++) {
             if(clickSearch) {
+
                 if(!orderList.orders.get(i).phone.equals(searchByPhone(search_by_phone.getText()))) {
                     continue;
                 }
             }
             Order order = orderList.orders.get(i);
-            AnchorPane cell = new AnchorPane();
-            Text orderDataText = new Text(order.order_date);
-            Text phoneText = new Text(order.phone);
-            Text receiptIdText = new Text(order.receipt_id);
-            Text discountText = new Text(order.discount_price+"");
-            Text totalPriceText = new Text(order.total_price+"");
-            Text orderStateText = new Text(order.order_state);
+            HBox cell = new HBox();
+            cell.setSpacing(20);
+            String[] converteDate = DateConverter.dateConverteToTime(order.order_date);
 
-            orderDataText.setStyle("-fx-font-size: 12pt; -fx-text-fill: black");
-            phoneText.setStyle("-fx-font-size: 12pt; -fx-text-fill: black");
-            receiptIdText.setStyle("-fx-font-size: 12pt; -fx-text-fill: black");
-            discountText.setStyle("-fx-font-size: 12pt; -fx-text-fill: black");
-            totalPriceText.setStyle("-fx-font-size: 12pt; -fx-text-fill: black");
-            orderStateText.setStyle("-fx-font-size: 12pt; -fx-text-fill: black");
+            VBox dateHbox = new VBox();
+            dateHbox.setMinHeight(200);
+            dateHbox.setMinWidth(200);
+            dateHbox.setAlignment(Pos.BASELINE_CENTER);
+            Text orderDateTimeMinuteText = new Text(converteDate[DateConverter.HOUR] + ":" +converteDate[DateConverter.MINUTE]);
+            Text orderDateYearMonthDayText = new Text(converteDate[DateConverter.MONTH] + "/" + converteDate[DateConverter.DAY]);
+
+            dateHbox.getChildren().addAll(orderDateYearMonthDayText, orderDateTimeMinuteText);
+
+
+            orderDateYearMonthDayText.setStyle("-fx-font-size: 30pt;");
+            orderDateTimeMinuteText.setStyle("-fx-font-size: 20pt;");
+
+
+            VBox menuContent = new VBox();
+            menuContent.setSpacing(20);
+            menuContent.setMinWidth(250);
+            menuContent.setAlignment(Pos.BASELINE_LEFT);
+            Text phoneText = new Text("고객번호 : "+order.phone);
+            Text receiptIdText = new Text("영수증번호 : " +order.receipt_id);
+            Text discountText = new Text("할인액 : "+order.discount_price+"");
+            Text totalPriceText = new Text("총 액 : "+order.total_price+"");
+            menuContent.getChildren().addAll(receiptIdText, phoneText, discountText, totalPriceText);
+
+            receiptIdText.setStyle("-fx-font-size: 12pt;");
+            phoneText.setStyle("-fx-font-size: 18pt; ");
+            discountText.setStyle("-fx-font-size: 18pt; ");
+            totalPriceText.setStyle("-fx-font-size: 20pt; ");
+
+
+            VBox state = new VBox();
+            state.setMinWidth(200);
+            state.setMaxWidth(200);
+            state.setAlignment(Pos.BOTTOM_RIGHT);
+            Text orderStateText = new Text(("주문상태 : " + GetState.getState(order.order_state)));
+            orderStateText.setStyle("-fx-font-size: 25pt; ");
+            state.getChildren().add(orderStateText);
             
-            cell.getChildren().addAll(orderDataText, phoneText, receiptIdText, discountText, totalPriceText, orderStateText);
-            cell.getChildren().get(1).setLayoutX(270);
-            cell.getChildren().get(2).setLayoutX(430);
-            cell.getChildren().get(3).setLayoutX(750);
-            cell.getChildren().get(4).setLayoutX(820);
-            cell.getChildren().get(5).setLayoutX(1000);
+            cell.getChildren().addAll(dateHbox, menuContent, state);
+//            cell.getChildren().get(1).setLayoutX(270);
+//            cell.getChildren().get(2).setLayoutX(430);
+//            cell.getChildren().get(3).setLayoutX(750);
+//            cell.getChildren().get(4).setLayoutX(820);
+//            cell.getChildren().get(5).setLayoutX(1000);
             cell.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -231,7 +268,6 @@ public class OrderHistoryController implements Initializable {
     }
 
     private String searchByPhone(String text) {
-        System.out.println(text.length());
         StringBuilder phone = new StringBuilder();
         if(text.length() == 13) {
             StringTokenizer st = new StringTokenizer(text, "-");
@@ -241,11 +277,10 @@ public class OrderHistoryController implements Initializable {
         }else {
             phone.append(text);
         }
-        System.out.println("finalphone " + phone.toString());
         return phone.toString();
     }
 
-    public void getDetail(String receipt_id, Order order, AnchorPane cell){
+    public void getDetail(String receipt_id, Order order, HBox cell){
         try{
             URL url = new URL("http://3.35.180.57:8080/OrderListDoneOrCancelForOwner.do?receipt_id="+receipt_id);
             URLConnection con = url.openConnection();
@@ -278,7 +313,7 @@ public class OrderHistoryController implements Initializable {
             e.printStackTrace();
         }
     }
-    private void parsingOrders(String toString, Order order, AnchorPane cell) {
+    private void parsingOrders(String toString, Order order, HBox cell) {
         orderDetailParsing = new Gson().fromJson(toString, OrderDetailParsing.class);
         if(!orderDetailParsing.result || orderDetailParsing.orders == null) {
             return;

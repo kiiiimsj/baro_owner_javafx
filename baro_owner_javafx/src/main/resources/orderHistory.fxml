@@ -60,6 +60,6 @@
                 </HBox.margin>
             </JFXButton>
         </HBox>
-        <JFXListView fx:id="dailySales" prefHeight="1000"/>
+        <JFXListView fx:id="dailySales" prefHeight="1000" stylesheets="css/list_view.css"/>
     </VBox>
 </AnchorPane>
