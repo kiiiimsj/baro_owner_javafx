@@ -119,7 +119,6 @@ public class OrderDetailsController implements Initializable {
         //OrderHistory에서 결제취소 버튼 없얘기
         if(withOutButton) {
             setTime.setVisible(false);
-            cancelBtn.setVisible(false);
         }
     }
     public void configureLeftUI(){

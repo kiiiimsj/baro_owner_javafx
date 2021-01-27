@@ -42,7 +42,6 @@ style="-fx-background-color: white">
                     <!-- 안쓰는것 같아서 주석처리 -->
                     <!--<TilePane fx:id="orderListContainer" hgap="10" layoutY="80.0" prefWidth="1150.0" vgap="10">-->
                     <!--</TilePane>-->
-
                     <!--layoutY="80.0" 제거 -->
                     <ScrollPane hbarPolicy="NEVER" maxHeight="850.0" minWidth="250" prefHeight="700.0"
                                 prefWidth="300">
