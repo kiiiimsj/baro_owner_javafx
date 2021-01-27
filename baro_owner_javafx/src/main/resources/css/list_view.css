@@ -2,15 +2,19 @@
     -fx-background-color: white;
 }
 .list-cell {
-    -fx-border-width: 2 0 2 0;
-    -fx-border-color: white;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: gray;
 }
-.list-cell:even:hover {
-    -fx-border-color:linear-gradient(to left, white, white) ;
-}
-.list-cell:odd:hover {
-    -fx-border-color:linear-gradient(to left, white, white) ;
-}
+
+
+/*.list-cell:even:hover {*/
+/*    -fx-border-color:linear-gradient(to left, white, white) ;*/
+/*    -fx-text-fill: white;*/
+/*}*/
+/*.list-cell:odd:hover {*/
+/*    -fx-border-color:linear-gradient(to left, white, white) ;*/
+/*    -fx-text-fill: white;*/
+/*}*/
 .list-cell:even:pressed {
     -fx-fill: linear-gradient(to left, white, white);
 }
@@ -23,27 +27,32 @@
 .list-cell:even {
     -fx-background-color: white;
 }
+
+
+.list-cell:hover {
+    -fx-text-fill: white;
+}
 .list-cell:hover:empty {
     -fx-border-color: white;
 }
-
 .list-cell:hover:selected {
-    -fx-border-color:white;
-    -fx-text-fill: white;
+    -fx-border-color:gray;
 }
 .list-cell:selected {
-    -fx-background-color: white;
     -fx-border-color:white;
 }
 .list-cell:focused {
     -fx-background-insets:0px;
 }
+
+
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
-    /* 3:, 4: */
     -fx-background-color: #8333e6;
-    -fx-text-fill: white; /* 5 */
 }
-.list-cell:filled:hover {
-    -fx-background-color: #8D45E7;
-    -fx-text-fill: white;
+/*.list-cell-row:filled:hover {*/
+/*    -fx-background-color: #8D45E7;*/
+/*    -fx-text-fill: -fx-text-inner-color;*/
+/*}*/
+.label {
+    -fx-font-family: NotoSansRegular;
 }

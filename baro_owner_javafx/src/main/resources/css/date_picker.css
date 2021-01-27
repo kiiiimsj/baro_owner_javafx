@@ -6,6 +6,6 @@
 }
 .jfx-date-picker .input-line{
     -fx-pref-height:1;
-    -fx-translate-y: -15;
+    -fx-translate-y: -10;
     -fx-background-color: #8333e6;
 }
