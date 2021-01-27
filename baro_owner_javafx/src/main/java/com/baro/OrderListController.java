@@ -476,7 +476,6 @@ public class OrderListController {
         webSocketClient = new WebSocketClient(uri, new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
-
                 webSocketClient.send("connect:::" + 1);
                 System.out.println("open!!");
                 thread.start();

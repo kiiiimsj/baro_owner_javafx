@@ -4,13 +4,11 @@ import com.baro.JsonParsing.MenuStatistics;
 import com.baro.JsonParsing.Statistics;
 import com.baro.JsonParsing.StatisticsMenuParsing;
 import com.baro.JsonParsing.StatisticsParsing;
+import com.baro.utils.DateConverter;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
-import com.sun.rowset.internal.Row;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,10 +20,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import org.json.JSONObject;
 
@@ -43,7 +38,9 @@ public class StatisticsController implements Initializable {
     public VBox daily_sales_vbox;
     public VBox total_menu_vbox;
     public GridPane menu_list_header;
-    
+    public HBox daily_hbox;
+    public VBox total_price_vbox;
+
     @FXML private JFXDatePicker start_date_picker;
     @FXML private JFXDatePicker end_date_picker;
     @FXML private JFXButton look_up_button;
@@ -81,6 +78,8 @@ public class StatisticsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        total_menu_vbox.setVisible(false);
+        daily_hbox.setVisible(false);
         configuration();
     }
     
@@ -94,28 +93,8 @@ public class StatisticsController implements Initializable {
      **************************************************************************/
     private void configuration() {
         setListViewSetHeader();
-
-        String pattern = "yyyy-MM-dd";
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-        dateConverter = new StringConverter<LocalDate>() {
-            @Override
-            public String toString(LocalDate date) {
-                if (date != null) {
-                    return dateFormatter.format(date);
-                } else {
-                    return "";
-                }
-            }
-
-            @Override
-            public LocalDate fromString(String string) {
-                if (string != null && !string.isEmpty()) {
-                    return LocalDate.parse(string, dateFormatter);
-                } else {
-                    return null;
-                }
-            }
-        };
+;
+        dateConverter = DateConverter.setDateConverter();
         start_date_picker.setConverter(dateConverter);
         end_date_picker.setConverter(dateConverter);
         start_date_picker.setValue(LocalDate.now().minusMonths(1));
@@ -124,6 +103,8 @@ public class StatisticsController implements Initializable {
         look_up_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                total_menu_vbox.setVisible(true);
+                daily_hbox.setVisible(true);
                 getStatisticsSalesValue();
                 getStatisticsMenusData();
             }
@@ -262,6 +243,7 @@ public class StatisticsController implements Initializable {
             jsonObject.put("store_id", owner_store_id);
             jsonObject.put("start_date", start_date_picker.getValue());
             jsonObject.put("end_date", end_date_picker.getValue());
+            System.out.println(start_date_picker.getValue() + " : " + end_date_picker.getValue());
             OutputStream os = http.getOutputStream();
 
             byte[] input = jsonObject.toString().getBytes("utf-8");
@@ -398,8 +380,6 @@ public class StatisticsController implements Initializable {
     private void setDailySalesStatisticsData() {
         dailySales.getItems().clear();
         dailySales.setStyle("-fx-font-size:15pt; -fx-text-fill: black; -fx-background-color: #ff000000");
-
-        //dailySales.getItems().add(header);
 
         for (int i = 0; i < statisticsParsing.statistics.size(); i++) {
             Statistics dailyStatistics = statisticsParsing.statistics.get(i);

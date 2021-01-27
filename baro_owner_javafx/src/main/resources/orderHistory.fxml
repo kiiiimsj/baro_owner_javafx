@@ -32,12 +32,12 @@
                 </Label>
                 <TextField fx:id="search_by_phone" style="-fx-font-size: 10pt">
                     <HBox.margin>
-                        <Insets left="10" right="10" top="20" />
+                        <Insets left="10" right="10" top="20"/>
                     </HBox.margin>
                 </TextField>
                 <Button fx:id="button_search_by_phone" text="검색" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-background-color: #8333e6">
                     <HBox.margin>
-                        <Insets left="10" right="10" top="15" />
+                        <Insets left="10" right="10" top="15"/>
                     </HBox.margin>
                 </Button>
             </HBox>

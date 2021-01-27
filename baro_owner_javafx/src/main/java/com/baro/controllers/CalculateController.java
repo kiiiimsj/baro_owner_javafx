@@ -1,20 +1,26 @@
 package com.baro.controllers;
 
+import com.baro.utils.DateConverter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.text.TextAlignment;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
+import java.text.DateFormatSymbols;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 public class CalculateController implements Initializable {
+    public Label week_sum_money_label;
     Preferences preferences = Preferences.userRoot();
     private String owner_store_id;
     private int couponPrice;
@@ -67,6 +73,9 @@ public class CalculateController implements Initializable {
     }
 
     private void setCalCulateText(String jsonString) {
+        week_sum_money_label.setText("일주일("+LocalDate.now().minusWeeks(1).format(DateTimeFormatter.ofPattern("MM/dd")) + "(" + DateConverter.minusFromTodayName(7).charAt(0) + ")"+
+                " ~ "+ LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd")) + "(" + DateConverter.nameOfDay().charAt(0) + ") )" + " 정산금액");
+
         couponPrice = new JSONObject(jsonString.toString()).getInt("coupon_price");
         menuTotalPrice = new JSONObject(jsonString.toString()).getInt("menu_total_price");
         thisWeekTotalPrice = menuTotalPrice - couponPrice;

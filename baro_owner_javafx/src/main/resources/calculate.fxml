@@ -12,56 +12,59 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.baro.controllers.CalculateController">
     <VBox AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.bottomAnchor="20.0" >
-        <Label text="일주일 총 정산금액"  alignment="TOP_LEFT" prefWidth="Infinity" style="-fx-font-size: 40px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: black;">
+        <Label fx:id="week_sum_money_label"  alignment="TOP_LEFT" prefWidth="Infinity" style="-fx-font-size: 40px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: black;">
             <padding>
                 <Insets top="10" bottom="50" left="50"/>
             </padding>
         </Label>
-        <VBox alignment="TOP_LEFT">
-            <padding>
-                <Insets top="10" bottom="40" left="40"/>
-            </padding>
-                <Label text="총 결제 금액: " prefWidth="600" style="-fx-font-size: 40px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: white;
+        <HBox>
+            <VBox alignment="TOP_LEFT">
+                <padding>
+                    <Insets top="10" bottom="40" left="40"/>
+                </padding>
+                <Label text="총 결제 금액: " prefWidth="500" style="-fx-font-size: 40px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: white;
         -fx-background-color: #8333e6; -fx-background-radius: 10px 10px 0px 0px;">
                     <padding>
                         <Insets top="20" bottom="20" left="20" right="20"/>
                     </padding>
                 </Label>
-                <Label fx:id="this_week_total_price" prefWidth="600">
+                <Label fx:id="this_week_total_price" prefWidth="500">
                     <padding>
                         <Insets top="20" bottom="20" left="20" right="20"/>
                     </padding>
                 </Label>
-        </VBox>
+            </VBox>
 
-        <VBox alignment="CENTER_LEFT">
-            <padding>
-                <Insets top="10" bottom="40" left="40"/>
-            </padding>
-            <Label text="총 쿠폰 금액: " prefWidth="600"  style="-fx-font-size: 40px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: white;
+            <VBox alignment="CENTER_LEFT">
+                <padding>
+                    <Insets top="10" bottom="40" left="40"/>
+                </padding>
+                <Label text="총 쿠폰 금액: " prefWidth="500"  style="-fx-font-size: 40px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: white;
         -fx-background-color: #8333e6; -fx-background-radius: 10px 10px 0px 0px;">
-                <padding>
-                    <Insets top="20" bottom="20" left="20" right="20"/>
-                </padding>
-            </Label>
+                    <padding>
+                        <Insets top="20" bottom="20" left="20" right="20"/>
+                    </padding>
+                </Label>
 
-            <Label fx:id="coupon_price"  prefWidth="600">
-                <padding>
-                    <Insets top="20" bottom="20" left="20" right="20"/>
-                </padding>
-            </Label>
-        </VBox>
+                <Label fx:id="coupon_price"  prefWidth="500">
+                    <padding>
+                        <Insets top="20" bottom="20" left="20" right="20"/>
+                    </padding>
+                </Label>
+            </VBox>
+        </HBox>
+
         <VBox alignment="CENTER_LEFT" >
             <padding>
                 <Insets top="10" bottom="40" left="40"/>
             </padding>
-           <Label text="입금 받을 금액: "  prefWidth="600"  style="-fx-font-size: 40px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: white;
+           <Label text="입금 받을 금액: "  prefWidth="1040"  style="-fx-font-size: 45px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: white;
         -fx-background-color: #8333e6; -fx-background-radius: 10px 10px 0px 0px;">
                <padding>
                    <Insets top="20" bottom="20" left="20" right="20"/>
                </padding>
            </Label>
-           <Label fx:id="menu_total_price" prefWidth="600">
+           <Label fx:id="menu_total_price" prefWidth="1040">
                <padding>
                    <Insets top="20" bottom="20" left="20" right="20"/>
                </padding>
