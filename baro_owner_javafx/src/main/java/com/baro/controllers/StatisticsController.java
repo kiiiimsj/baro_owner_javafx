@@ -4,13 +4,11 @@ import com.baro.JsonParsing.MenuStatistics;
 import com.baro.JsonParsing.Statistics;
 import com.baro.JsonParsing.StatisticsMenuParsing;
 import com.baro.JsonParsing.StatisticsParsing;
+import com.baro.utils.DateConverter;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
-import com.sun.rowset.internal.Row;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,10 +20,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import org.json.JSONObject;
 
@@ -94,28 +89,8 @@ public class StatisticsController implements Initializable {
      **************************************************************************/
     private void configuration() {
         setListViewSetHeader();
-
-        String pattern = "yyyy-MM-dd";
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-        dateConverter = new StringConverter<LocalDate>() {
-            @Override
-            public String toString(LocalDate date) {
-                if (date != null) {
-                    return dateFormatter.format(date);
-                } else {
-                    return "";
-                }
-            }
-
-            @Override
-            public LocalDate fromString(String string) {
-                if (string != null && !string.isEmpty()) {
-                    return LocalDate.parse(string, dateFormatter);
-                } else {
-                    return null;
-                }
-            }
-        };
+;
+        dateConverter = DateConverter.setDateConverter();
         start_date_picker.setConverter(dateConverter);
         end_date_picker.setConverter(dateConverter);
         start_date_picker.setValue(LocalDate.now().minusMonths(1));
