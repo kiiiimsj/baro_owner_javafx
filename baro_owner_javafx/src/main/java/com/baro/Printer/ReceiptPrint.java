@@ -314,7 +314,8 @@ public class ReceiptPrint implements Initializable {
     public void makeReceiptString(OrderDetailParsing order, Order orderInfo){
         headerContent.append("[BARO]\n");
         orderGetTextContent.append("주문이\n접수되었습니다.\n\n");
-        customerPhone.append(orderInfo.phone, 7, orderInfo.phone.length()).append("\n");
+        //customerPhone.append(orderInfo.phone, 7, orderInfo.phone.length()).append("\n");
+        customerPhone.append(orderInfo.phone).append("\n");
         orderDateContent.append(orderInfo.order_date.substring(0, orderInfo.order_date.length() - 1)).append("\n");
         content.append("메뉴명                 수량      금액\n")
         .append("-------------------------------------\n");

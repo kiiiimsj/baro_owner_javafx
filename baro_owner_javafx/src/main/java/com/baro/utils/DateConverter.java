@@ -3,8 +3,11 @@ package com.baro.utils;
 import javafx.util.StringConverter;
 
 import java.text.DateFormatSymbols;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.StringTokenizer;
@@ -85,6 +88,12 @@ public class DateConverter {
         };
         return dateConverter;
     }
+    public static LocalDate getFirstDayOfWeek() {
+//        LocalDate now = LocalDate.now();
+//        LocalDate.
+        LocalDate mondayDate = LocalDate.now().with(WeekFields.of(Locale.FRANCE).getFirstDayOfWeek());
+        return mondayDate;
+    }
 
 
     public static String nameOfDay() {
@@ -99,15 +108,15 @@ public class DateConverter {
     }
 
 
-    public static String minusFromTodayName(int minusInt) {
+    public static String minusDayFromNow(int minusInt) {
         DateFormatSymbols dfs = new DateFormatSymbols(Locale.KOREA);
         String weekdays[] = dfs.getWeekdays();
 
         Calendar cal = Calendar.getInstance();
         int day = cal.get(Calendar.DAY_OF_WEEK);
         int mDay = minusInt + (day - minusInt);
-        String nameOfMDay = weekdays[mDay];
+        String nameOfDay = weekdays[mDay];
 
-        return nameOfMDay;
+        return nameOfDay;
     }
 }

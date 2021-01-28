@@ -24,10 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Popup;
@@ -81,7 +78,7 @@ public class OrderListController {
     @FXML
     private TilePane childContainer;
     @FXML
-    private Button pagingButton;
+    private Label paggingLabel;
     @FXML
     private AnchorPane orderDetailsContainer;
     private WebSocketClient webSocketClient;
@@ -121,9 +118,11 @@ public class OrderListController {
         }
 
         if(isOpen.equals("Y")) {
+            isOpenBtn.setSelected(true);
 //            isOpenBtn.setText("영업종료 하기");
 //            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
         } else {
+            isOpenBtn.setSelected(false);
 //            isOpenBtn.setText("영업게시 하기");
 //            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
         }
@@ -578,14 +577,14 @@ public class OrderListController {
         if (ENTIREPAGE<CURRNETPAGE){
             CURRNETPAGE--;
         }
-        pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
+        paggingLabel.setText(CURRNETPAGE + " / " + ENTIREPAGE);
     }
     public void tapPrevPage(ActionEvent event) {
         if (CURRNETPAGE == 1){
             return;
         }
         CURRNETPAGE--;
-        pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
+        paggingLabel.setText(CURRNETPAGE + " / " + ENTIREPAGE);
         setList((orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER - ONEPAGEORDER,(orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER );
     }
     public void tapNextPage(ActionEvent event) {
@@ -593,7 +592,7 @@ public class OrderListController {
             return;
         }
         CURRNETPAGE++;
-        pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
+        paggingLabel.setText(CURRNETPAGE + " / " + ENTIREPAGE);
         if (CURRNETPAGE == ENTIREPAGE){
             if (orderList.orders.size() % ONEPAGEORDER != 0 ) {
                 setList(-1,(orderList.orders.size()-1) % ONEPAGEORDER);

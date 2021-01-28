@@ -11,11 +11,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
-import java.text.DateFormatSymbols;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Locale;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAccessor;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -73,7 +72,8 @@ public class CalculateController implements Initializable {
     }
 
     private void setCalCulateText(String jsonString) {
-        week_sum_money_label.setText("일주일("+LocalDate.now().minusWeeks(1).format(DateTimeFormatter.ofPattern("MM/dd")) + "(" + DateConverter.minusFromTodayName(7).charAt(0) + ")"+
+        //LocalDate.now().minus().DateTimeFormatter.ofPattern("MM/dd"))
+        week_sum_money_label.setText("일주일 ("+DateConverter.getFirstDayOfWeek().format(DateTimeFormatter.ofPattern("MM/dd"))+"(월)"+
                 " ~ "+ LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd")) + "(" + DateConverter.nameOfDay().charAt(0) + ") )" + " 정산금액");
 
         couponPrice = new JSONObject(jsonString.toString()).getInt("coupon_price");

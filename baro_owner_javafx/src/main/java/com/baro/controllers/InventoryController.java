@@ -147,19 +147,23 @@ public class InventoryController implements Initializable {
                 menuList.getItems().clear();
                 for (int i = 0; i < menuParsing.menu.size(); i++) {
                     Menu menu = menuParsing.menu.get(i);
-                    GridPane cell = new GridPane();
                     if(newTab.getId().equals(menu.category_id+"")) {
+                        GridPane cell = new GridPane();
+//                        cell.setMaxHeight(110);
                         Label menuName = new Label(menu.menu_name);
                         Label menuInfo = new Label(menu.menu_info);
-                        Label menuPrice = new Label(menu.menu_defaultprice+"원");
+                        Label menuPrice = new Label(menu.menu_defaultprice + "원");
 
                         menuInfo.setStyle("-fx-font-size: 15pt");
                         JFXToggleButton toggleButton = new JFXToggleButton();
                         toggleButton.setText("판매중");
-                        toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: black");
-                        toggleButton.toggleColorProperty().set(Paint.valueOf("#ff0000"));
+                        toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: forestgreen;");
+//                        toggleButton.unToggleColorProperty().set((Paint.valueOf("#228B22")));
+                        toggleButton.toggleColorProperty().set((Paint.valueOf("#FF0000")));
+                        toggleButton.setUnToggleColor((Paint.valueOf("#228B22")));
+                        toggleButton.setUnToggleLineColor((Paint.valueOf("#558955")));
 
-                        if(menu.is_soldout.equals("Y")) {
+                        if (menu.is_soldout.equals("Y")) {
                             toggleButton.setText("품절");
                             toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: red");
                             toggleButton.setSelected(true);
@@ -167,15 +171,15 @@ public class InventoryController implements Initializable {
                         toggleButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
                             @Override
                             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                                if(newValue) {
+                                if (newValue) {
                                     menuUpdateSaveSoldOut(menu.menu_id);
                                     toggleButton.setText("품절");
                                     toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: red");
-                                }
-                                else {
+                                } else {
                                     menuUpdateSaveInStoke(menu.menu_id);
                                     toggleButton.setText("판매중");
-                                    toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: black");
+                                    toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: forestgreen");
+//                                    toggleButton.toggleColorProperty().setValue(Paint.valueOf("#228B22"));
                                 }
                             }
                         });
@@ -236,7 +240,6 @@ public class InventoryController implements Initializable {
 
     private void parsingCategory(String toString) {
         categoryParsing = new Gson().fromJson(toString, CategoryParsing.class);
-        System.out.println("categoryParsing : "+ categoryParsing.toString());
         makeCategoryTab();
     }
 

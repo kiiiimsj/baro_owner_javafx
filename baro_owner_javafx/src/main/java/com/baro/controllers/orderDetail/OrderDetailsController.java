@@ -87,13 +87,13 @@ public class OrderDetailsController implements Initializable {
         base.setPickOnBounds(false);
 
 
-        pos = splitPane.getDividers().get(0).getPosition();
-        splitPane.getDividers().get(0).positionProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                splitPane.getDividers().get(0).setPosition(pos);
-            }
-        });
+//        pos = splitPane.getDividers().get(0).getPosition();
+//        splitPane.getDividers().get(0).positionProperty().addListener(new ChangeListener<Number>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//                splitPane.getDividers().get(0).setPosition(pos);
+//            }
+//        });
     }
     public SimpleBooleanProperty getChangeToAccept(){
         return changeToAccept;

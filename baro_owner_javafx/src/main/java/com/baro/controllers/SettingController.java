@@ -12,16 +12,18 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 public class SettingController implements Initializable {
-    
+
     Preferences preferences = Preferences.userRoot();
     private ArrayList<Integer> makeDataBit = new ArrayList<Integer>() {{
         add(5); add(6); add(7); add(8);
@@ -46,6 +48,8 @@ public class SettingController implements Initializable {
     Label select_data_bit_combo_text;
     @FXML
     Label select_baud_rate_combo_text;
+    @FXML
+    private Label insert_print_name_text;
      @FXML
     private Label select_parity_combo_text;
      @FXML
@@ -53,6 +57,8 @@ public class SettingController implements Initializable {
      @FXML
     private Label select_flow_controller_combo_text;
 
+     @FXML
+    public TextField insert_print_name_field;
     @FXML
     private ComboBox<String> select_com_port_combo;
     @FXML
@@ -80,6 +86,7 @@ public class SettingController implements Initializable {
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        insert_print_name_text.setAlignment(Pos.CENTER_RIGHT);
         select_com_port_combo_text.setAlignment(Pos.CENTER_RIGHT);
         select_data_bit_combo_text.setAlignment(Pos.CENTER_RIGHT);
         select_baud_rate_combo_text.setAlignment(Pos.CENTER_RIGHT);
@@ -124,6 +131,9 @@ public class SettingController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 if(event.getEventType() == ActionEvent.ACTION) {
+                    HashMap<String, Object> printSave = new HashMap<>();
+                    //printSave.put("savePrint");
+                    preferences.put("savePrintName", insert_print_name_field.getText());
                     preferences.put("savePortName", select_com_port_combo.getValue());
                     preferences.putInt("saveBaudRate", select_baud_rate_combo.getValue());
                     preferences.putInt("saveDataBit", select_data_bit_combo.getValue());

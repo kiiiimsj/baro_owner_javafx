@@ -8,25 +8,30 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<HBox fx:id="shell" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100" prefWidth="300" spacing="50.0"
-      style="-fx-border-color: #434343; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+<HBox fx:id="shell" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="105" prefWidth="300" spacing="20.0"
+      style="-fx-border-color: gray; -fx-border-insets: 0 0 1 0;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.baro.controllers.OrderController">
    <children>
-      <VBox spacing="10.0">
+      <VBox spacing="5.0" HBox.hgrow="ALWAYS">
          <children>
-            <Label fx:id="customer" text="전화 번호" />
+            <Label fx:id="customer" style="-fx-font-size: 12pt; -fx-text-fill: black" />
             <HBox prefHeight="0.0" spacing="10.0">
                <children>
-                  <Label fx:id="order_count" text="메뉴 1개" />
-                  <Label fx:id="price" text="1000원" />
+                  <Label fx:id="order_count" text="메뉴 1개" style="-fx-font-size: 12pt; -fx-text-fill: black"/>
+                  <Label fx:id="price" text="1000원" style="-fx-font-size: 12pt; -fx-text-fill: black"/>
                </children>
             </HBox>
+            <Label fx:id="state" alignment="CENTER" textAlignment="CENTER">
+               <padding>
+                  <Insets left="5" right="5" top="5" bottom="5"/>
+               </padding>
+            </Label>
          </children>
       </VBox>
-      <StackPane prefHeight="0.0" fx:id="timeTable" >
+      <StackPane fx:id="timeTable">
          <children>
-            <Circle fill="gray" radius="25.0"  strokeType="INSIDE" />
-            <Label fx:id="timeLabel" alignment="CENTER" prefHeight="50.0" prefWidth="50.0" text="10분">
+            <Circle fill="white" stroke="#8333e6"  radius="25.0" strokeType="OUTSIDE"/>
+            <Label fx:id="timeLabel" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" text="10분" style="-fx-text-fill: #8333e6; -fx-font-size: 12pt">
                <maxWidth>
                   <Double fx:constant="MAX_VALUE" />
                </maxWidth>
@@ -39,6 +44,6 @@
 
    </children>
    <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+      <Insets bottom="10.0" left="10" right="10" top="10.0" />
    </padding>
 </HBox>
