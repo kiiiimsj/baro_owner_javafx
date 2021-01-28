@@ -6,14 +6,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
 <VBox xmlns="http://javafx.com/javafx"
       fx:id="base"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="900.0" prefWidth="1150.0"
-            fx:controller="com.baro.controllers.InventoryController"
-            stylesheets="css/inventory_sheet.css"
+      xmlns:fx="http://javafx.com/fxml"
+      prefHeight="900.0" prefWidth="1150.0"
+      fx:controller="com.baro.controllers.InventoryController"
+      stylesheets="css/inventory_sheet.css"
 >
         <JFXTabPane fx:id="categoryTabPane" prefHeight="100" />
         <GridPane fx:id="menuList_header" prefHeight="50"/>
-        <JFXListView fx:id="menuList" prefHeight="750"/>
+        <JFXListView fx:id="menuList" maxHeight="750" stylesheets="css/list_view.css"/>
 </VBox>

@@ -37,6 +37,7 @@ import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 public class OrderController implements Initializable{
+    public Label state;
     @FXML
     private Label customer;
     @FXML
@@ -62,13 +63,15 @@ public class OrderController implements Initializable{
 
     }
     public void configureUI() {
-        customer.setText(orderData.phone + " " + index);
+        customer.setText("고객번호 : "+orderData.phone);
         order_count.setText("메뉴 " + orderData.order_count + "개");
         price.setText(orderData.total_price+"원");
         if (orderData.order_state.equals(Order.ACCEPT)){
-            shell.setBackground(new Background(new BackgroundFill(Color.GREENYELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+            state.setText("제조중");
+            state.setStyle("-fx-background-color: rgb(255,111,0); -fx-background-radius: 5px; -fx-text-fill: white; -fx-font-size: 10pt");
         }else if (orderData.order_state.equals(Order.PREPARING)) {
-            shell.setBackground(new Background(new BackgroundFill(Color.SKYBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+            state.setText("신규");
+            state.setStyle("-fx-background-color: rgba(131,50,230,0.75); -fx-background-radius: 5px;  -fx-text-fill: white; -fx-font-size: 10pt");
         }
         new Thread(new Runnable() {
             @Override
@@ -92,7 +95,8 @@ public class OrderController implements Initializable{
     }
     public void changeToAccept(){
         orderData.order_state = Order.ACCEPT;
-        shell.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+        state.setText("제조중");
+        state.setStyle("-fx-background-color: rgb(255,111,0); -fx-background-radius: 5px; -fx-text-fill: white; -fx-font-size: 10pt");
     }
     public void setData(Order data,int index) {
         this.orderData = data;

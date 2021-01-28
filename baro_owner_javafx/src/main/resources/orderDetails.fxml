@@ -9,8 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="base" prefHeight="800.0" prefWidth="930.0" stylesheets="css/order_detail.css" xmlns="http://javafx.com/javafx/8.0.171"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.orderDetail.OrderDetailsController">
+<VBox fx:id="base" prefHeight="840.0" prefWidth="930.0" stylesheets="css/order_detail.css" xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.orderDetail.OrderDetailsController"
+>
     <!-- 영업중, 영업종료 토글 버튼 클릭이 막혀서 따로 크기 설정-->
    <HBox fx:id="top_area" maxHeight="400" maxWidth="400" prefHeight="100.0" prefWidth="400.0" >
       <children>
@@ -34,78 +35,67 @@
           </HBox>
       </children>
    </HBox>
-      <SplitPane fx:id="splitPane" dividerPositions="0.5" prefHeight="600.0" prefWidth="1200.0" >
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="600.0">
-               <children>
-                  <VBox prefHeight="700.0" prefWidth="400.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="30.0">
-                     <children>
-                        <HBox prefHeight="28.0" prefWidth="295.0">
-                           <children>
-                              <Label styleClass="label-left" text="고객번호 :" />
-                              <Label fx:id="phoneLabel" styleClass="label-left" text="010" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="28.0" prefWidth="295.0">
-                           <children>
-                              <Label styleClass="label-left" text="주문시간 :" />
-                              <Label fx:id="dateLabel" styleClass="label-left" text="010" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="28.0" prefWidth="295.0">
-                           <children>
-                              <Label styleClass="label-left" text="합계 :" />
-                              <Label fx:id="totalPriceLabel" styleClass="label-left" text="010" />
-                           </children>
-                        <VBox.margin>
-                           <Insets top="30.0" />
-                        </VBox.margin>
-                        </HBox>
-                        <HBox prefHeight="28.0" prefWidth="295.0">
-                           <children>
-                              <Label styleClass="label-left" text="쿠폰 :" />
-                              <Label fx:id="discountPriceLabel" styleClass="label-left" text="010" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="2.0" prefWidth="295.0" style="-fx-background-color: black;">
-                           <VBox.margin>
-                              <Insets left="10.0" right="10.0" />
-                           </VBox.margin>
-                        </HBox>
+<!--      <SplitPane fx:id="splitPane" dividerPositions="0.5" prefHeight="600.0" prefWidth="1200.0" >-->
+<!--        <items>-->
+    <HBox minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="600.0" spacing="20">
+        <padding>
+            <Insets left="10" right="10" bottom="10" top="10"/>
+        </padding>
+        <VBox prefHeight="700.0" prefWidth="400.0" spacing="10.0" AnchorPane.leftAnchor="10.0"
+              AnchorPane.rightAnchor="10.0" HBox.hgrow="ALWAYS" style="-fx-border-color: #8D45E7; -fx-border-radius: 5px;
+            -fx-background-color: white">
+            <padding>
+                <Insets top="10" left="10"/>
+            </padding>
+            <HBox prefHeight="28.0" prefWidth="295.0">
+                <Label styleClass="label-left" text="고객번호 :"/>
+                <Label fx:id="phoneLabel" styleClass="label-left" text="010"/>
+            </HBox>
+            <HBox prefHeight="28.0" prefWidth="295.0">
+                <Label styleClass="label-left" text="주문시간 :"/>
+                <Label fx:id="dateLabel" styleClass="label-left" text="010"/>
+            </HBox>
+            <HBox prefHeight="28.0" prefWidth="295.0">
+                <VBox.margin>
+                    <Insets top="30.0"/>
+                </VBox.margin>
+                <Label styleClass="label-left" text="합계 :"/>
+                <Label fx:id="totalPriceLabel" styleClass="label-left" text="010"/>
+            </HBox>
+            <HBox prefHeight="28.0" prefWidth="295.0">
+                <Label styleClass="label-left" text="쿠폰 :"/>
+                <Label fx:id="discountPriceLabel" styleClass="label-left" text="010"/>
+            </HBox>
+            <HBox prefHeight="2.0" prefWidth="295.0" style="-fx-background-color: black;">
+                <VBox.margin>
+                    <Insets left="10.0" right="10.0"/>
+                </VBox.margin>
+            </HBox>
 
-                         <HBox prefHeight="28.0" prefWidth="295.0">
-                             <children>
-                                 <Label fx:id="finalPriceLabel" styleClass="label-left" text="결제 금액 :" />
-                             </children>
-                         </HBox>
+            <HBox prefHeight="28.0" prefWidth="295.0">
+                <Label fx:id="finalPriceLabel" styleClass="label-left" text="결제 금액 :"/>
+            </HBox>
 
-                         <HBox prefHeight="28.0" prefWidth="295.0">
-                             <children>
-                                 <Label styleClass="label-left" text="요청 사항 :" />
-                                 <Label fx:id="requestLabel" styleClass="label-left" text="010" />
-                             </children>
-                        <VBox.margin>
-                           <Insets top="30.0" />
-                        </VBox.margin>
-                         </HBox>
-                     </children>
-                  </VBox>
-               </children>
-          </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="600.0">
-               <children>
-                  <Button mnemonicParsing="false" text="Button" />
-                  <ScrollPane fx:id="receipt_preview_scroll" prefHeight="700.0" prefWidth="600.0" />
-               </children></AnchorPane>
-        </items>
-      </SplitPane>
-       <HBox fx:id="button_area" prefHeight="100" prefWidth="1200" spacing="30.0">
-           <Button fx:id="printButton" mnemonicParsing="false" prefHeight="100" prefWidth="400" style="-fx-font-family: 'NotoSansRegular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 25pt; -fx-text-fill: white" text="영수증 인쇄">
+            <HBox prefHeight="28.0" prefWidth="295.0">
+                <VBox.margin>
+                    <Insets top="30.0"/>
+                </VBox.margin>
+                <Label styleClass="label-left" text="요청 사항 :"/>
+                <Label fx:id="requestLabel" styleClass="label-left" text="010"/>
+            </HBox>
+
+        </VBox>
+        <ScrollPane fx:id="receipt_preview_scroll" HBox.hgrow="ALWAYS" style="-fx-border-color: #8D45E7; -fx-border-radius: 5px"/>
+    </HBox>
+    <!--        </items>-->
+<!--      </SplitPane>-->
+       <HBox fx:id="button_area" spacing="30.0" alignment="BOTTOM_CENTER">
+           <Button fx:id="printButton" mnemonicParsing="false" prefHeight="80" prefWidth="400" style="-fx-font-family: 'NotoSansRegular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 25pt; -fx-text-fill: white" text="영수증 인쇄">
                <HBox.margin>
                    <Insets bottom="10" left="10" right="10" top="10" />
                </HBox.margin>
            </Button>
-           <Button fx:id="setTime" mnemonicParsing="false" onAction="#clickSettingTimes" prefHeight="100" prefWidth="400" style="-fx-font-family: 'NotoSansRegular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 30pt; -fx-text-fill: white" text="시간 설정">
+           <Button fx:id="setTime" mnemonicParsing="false" onAction="#clickSettingTimes" prefHeight="80" prefWidth="400" style="-fx-font-family: 'NotoSansRegular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 30pt; -fx-text-fill: white" text="시간 설정">
                <HBox.margin>
                    <Insets bottom="10" left="10" right="10" top="10" />
                </HBox.margin>

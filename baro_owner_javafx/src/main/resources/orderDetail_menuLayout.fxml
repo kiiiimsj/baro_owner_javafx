@@ -4,14 +4,12 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<VBox
-        prefWidth="460"
-        minWidth="460"
-        maxWidth="460"
-      xmlns="http://javafx.com/javafx/11.0.2"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.baro.controllers.orderDetail.OrderDetailMenuController">
-    <HBox prefHeight="1" style="-fx-background-color: #111010" />
+<VBox prefWidth="460" minWidth="460" maxWidth="460" prefHeight="840"
+      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.baro.controllers.orderDetail.OrderDetailMenuController" style="-fx-background-color: white">
+    <padding>
+        <Insets top="10" left="10" right="10"/>
+    </padding>
     <GridPane >
         <columnConstraints>
             <ColumnConstraints hgrow="ALWAYS" maxWidth="153" />
