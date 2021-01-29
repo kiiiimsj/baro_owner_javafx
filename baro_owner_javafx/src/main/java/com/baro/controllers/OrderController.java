@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -38,6 +39,7 @@ import java.util.prefs.Preferences;
 
 public class OrderController implements Initializable{
     public Label state;
+    public Rectangle timer;
     @FXML
     private Label customer;
     @FXML
@@ -60,7 +62,6 @@ public class OrderController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
     }
     public void configureUI() {
         customer.setText("고객번호 : "+orderData.phone);
@@ -68,22 +69,28 @@ public class OrderController implements Initializable{
         price.setText(orderData.total_price+"원");
         if (orderData.order_state.equals(Order.ACCEPT)){
             state.setText("제조중");
-            state.setStyle("-fx-background-color: rgb(255,111,0); -fx-background-radius: 5px; -fx-text-fill: white; -fx-font-size: 10pt");
+            state.setStyle("-fx-background-color: rgb(255,111,0); -fx-text-fill: white;-fx-background-radius: 5px;");
         }else if (orderData.order_state.equals(Order.PREPARING)) {
             state.setText("신규");
-            state.setStyle("-fx-background-color: rgba(131,50,230,0.75); -fx-background-radius: 5px;  -fx-text-fill: white; -fx-font-size: 10pt");
+            state.setStyle("-fx-background-color: rgba(131,50,230,0.75); -fx-text-fill: white;-fx-background-radius: 5px; ");
         }
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    for (int i = 60;i > 0 ; i--) {
+                    double max = 10.0;
+                    double height = 60.0;
+                    for (double i = max;i > 0 ; --i) {
+                        final double iterator = i;
                         Thread.sleep(1000);
-                        int finalI = i;
+                        double finalI = i;
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                timeLabel.setText(finalI +"초");
+                                timer.setTranslateY(-( ( iterator / max ) * 100.0 ) / 3.3);
+                                timer.setHeight(height - ( ( iterator / max ) * 100.0 ) / 3.3);
+                                System.out.println(-( ( iterator / max ) * 100.0 ) / 3.3 );
+                                timeLabel.setText((int)finalI +"초");
                             }
                         });
                     }
@@ -92,11 +99,12 @@ public class OrderController implements Initializable{
                 }
             }
         }).start();
+
     }
     public void changeToAccept(){
         orderData.order_state = Order.ACCEPT;
         state.setText("제조중");
-        state.setStyle("-fx-background-color: rgb(255,111,0); -fx-background-radius: 5px; -fx-text-fill: white; -fx-font-size: 10pt");
+        state.setStyle("-fx-background-color: rgb(255,111,0);-fx-text-fill: white;-fx-background-radius: 5px;");
     }
     public void setData(Order data,int index) {
         this.orderData = data;

@@ -44,7 +44,6 @@ public class CalculateController implements Initializable {
             http.setRequestProperty("Accept","application/json");
             http.setDoOutput(true);
 
-
             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String line;
             StringBuffer bf = new StringBuffer();
@@ -88,11 +87,11 @@ public class CalculateController implements Initializable {
         coupon_price.setAlignment(Pos.BASELINE_RIGHT);
         menu_total_price.setAlignment(Pos.BASELINE_RIGHT);
 
-        this_week_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'NotoSansRegular';" +
+        this_week_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
                 " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
-        coupon_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'NotoSansRegular';" +
+        coupon_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
                 " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
-        menu_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'NotoSansRegular';" +
+        menu_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
                 " -fx-text-fill: black; -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
     }
 }

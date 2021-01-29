@@ -1,11 +1,11 @@
 #subtext {
     -fx-font-size: 20px;
-    -fx-font-family: NotoSansRegular;
+    -fx-font-family: 'Noto Sans CJK KR Regular';
     -fx-fill: #8333e6;
 }
 #baro_logo {
-    -fx-font-size: 80px;
-    -fx-font-family: NotoSansRegular;
+    -fx-font-size: 50px;
+    -fx-font-family: 'Noto Sans CJK KR Bold';
     -fx-fill: #8333e6;
 }
 .jfx-check-box {

@@ -120,11 +120,11 @@ public class OrderListController {
         if(isOpen.equals("Y")) {
             isOpenBtn.setSelected(true);
 //            isOpenBtn.setText("영업종료 하기");
-//            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
+//            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
         } else {
             isOpenBtn.setSelected(false);
 //            isOpenBtn.setText("영업게시 하기");
-//            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
+//            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
         }
 
 
@@ -164,13 +164,13 @@ public class OrderListController {
             if (is_open) {
                 jsonObject.put("is_open", "Y");
 //                isOpenBtn.setText("영업종료 하기");
-//                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
+//                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
                 //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.color(131.0, 51.0, 230.0, 1.0), CornerRadii.EMPTY, Insets.EMPTY)));
 
             } else {
                 jsonObject.put("is_open", "N");
 //                isOpenBtn.setText("영업게시 하기");
-//                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
+//                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
                 //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             }
 
@@ -409,7 +409,7 @@ public class OrderListController {
         label.setMaxWidth(tabHeight);
         label.setMinWidth(tabHeight);
         label.setPadding(new Insets(0, 0, 0, 0));
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: normal; -fx-font-family: 'NotoSansRegular'");
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: normal;");
         label.setAlignment(Pos.CENTER);
 
         BorderPane tabPane = new BorderPane();
