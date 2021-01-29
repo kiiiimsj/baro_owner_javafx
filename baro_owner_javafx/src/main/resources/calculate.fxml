@@ -12,7 +12,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.baro.controllers.CalculateController">
     <VBox AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.bottomAnchor="20.0" >
-        <Label fx:id="week_sum_money_label"  alignment="TOP_LEFT" prefWidth="Infinity" style="-fx-font-size: 40px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: black;">
+        <Label fx:id="week_sum_money_label"  alignment="TOP_LEFT" prefWidth="Infinity" style="-fx-font-size: 40px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: black;">
             <padding>
                 <Insets top="10" bottom="50" left="50"/>
             </padding>
@@ -22,7 +22,7 @@
                 <padding>
                     <Insets top="10" bottom="40" left="40"/>
                 </padding>
-                <Label text="총 결제 금액: " prefWidth="500" style="-fx-font-size: 40px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: white;
+                <Label text="총 결제 금액: " prefWidth="500" style="-fx-font-size: 40px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white;
         -fx-background-color: #8333e6; -fx-background-radius: 10px 10px 0px 0px;">
                     <padding>
                         <Insets top="20" bottom="20" left="20" right="20"/>
@@ -39,7 +39,7 @@
                 <padding>
                     <Insets top="10" bottom="40" left="40"/>
                 </padding>
-                <Label text="총 쿠폰 금액: " prefWidth="500"  style="-fx-font-size: 40px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: white;
+                <Label text="총 쿠폰 금액: " prefWidth="500"  style="-fx-font-size: 40px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white;
         -fx-background-color: #8333e6; -fx-background-radius: 10px 10px 0px 0px;">
                     <padding>
                         <Insets top="20" bottom="20" left="20" right="20"/>
@@ -58,7 +58,7 @@
             <padding>
                 <Insets top="10" bottom="40" left="40"/>
             </padding>
-           <Label text="입금 받을 금액: "  prefWidth="1040"  style="-fx-font-size: 45px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: white;
+           <Label text="입금 받을 금액: "  prefWidth="1040"  style="-fx-font-size: 45px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white;
         -fx-background-color: #8333e6; -fx-background-radius: 10px 10px 0px 0px;">
                <padding>
                    <Insets top="20" bottom="20" left="20" right="20"/>

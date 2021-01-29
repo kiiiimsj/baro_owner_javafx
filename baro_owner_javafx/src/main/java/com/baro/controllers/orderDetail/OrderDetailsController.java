@@ -39,7 +39,7 @@ import java.util.prefs.Preferences;
 
 public class OrderDetailsController implements Initializable {
     public Button cancelBtn;
-    public HBox button_area;
+    public GridPane button_area;
     public VBox base;
     public HBox top_area;
     @FXML

@@ -13,74 +13,74 @@
             fx:controller="com.baro.controllers.SettingController">
     <HBox AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
         <VBox>
-            <Label text="프린트 명 : " prefWidth="250" fx:id="insert_print_name_text" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <Label text="프린트 명 : " prefWidth="250" fx:id="insert_print_name_text" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
                 <padding>
                     <Insets top="12" bottom="12"/>
                 </padding>
             </Label>
-            <Label text="포트선택 : " prefWidth="250" fx:id="select_com_port_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <Label text="포트선택 : " prefWidth="250" fx:id="select_com_port_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
                 <padding>
                     <Insets top="12" bottom="12"/>
                 </padding>
             </Label>
-            <Label text="데이터 비트(D) : " prefWidth="250" fx:id="select_data_bit_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6;">
+            <Label text="데이터 비트(D) : " prefWidth="250" fx:id="select_data_bit_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6;">
                 <padding>
                     <Insets top="12" bottom="12"/>
                 </padding>
             </Label>
-            <Label text="비트/초(B) : " prefWidth="250" fx:id="select_baud_rate_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <Label text="비트/초(B) : " prefWidth="250" fx:id="select_baud_rate_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
                 <padding>
                     <Insets top="12" bottom="12"/>
                 </padding>
             </Label>
-            <Label text="패리티(P) : " prefWidth="250" fx:id="select_parity_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <Label text="패리티(P) : " prefWidth="250" fx:id="select_parity_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
                 <padding>
                     <Insets top="12" bottom="12"/>
                 </padding>
             </Label>
-            <Label text="정지 비트(S) : " prefWidth="250" fx:id="select_stop_bit_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <Label text="정지 비트(S) : " prefWidth="250" fx:id="select_stop_bit_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
                 <padding>
                     <Insets top="12" bottom="12"/>
                 </padding>
             </Label>
-            <Label text="흐름 제어(F) : " prefWidth="250" fx:id="select_flow_controller_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <Label text="흐름 제어(F) : " prefWidth="250" fx:id="select_flow_controller_combo_text" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
                 <padding>
                     <Insets top="12" bottom="12"/>
                 </padding>
             </Label>
         </VBox>
         <VBox>
-            <TextField fx:id="insert_print_name_field" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <TextField fx:id="insert_print_name_field" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
             <VBox.margin>
                 <Insets bottom="10"/>
             </VBox.margin>
             </TextField>
-            <ComboBox fx:id="select_com_port_combo" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <ComboBox fx:id="select_com_port_combo" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
                 <VBox.margin>
                     <Insets bottom="10"/>
                 </VBox.margin>
             </ComboBox>
-            <ComboBox fx:id="select_baud_rate_combo"  prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <ComboBox fx:id="select_baud_rate_combo"  prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
                 <VBox.margin>
                     <Insets bottom="10"/>
                 </VBox.margin>
             </ComboBox>
-            <ComboBox fx:id="select_data_bit_combo" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <ComboBox fx:id="select_data_bit_combo" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
                 <VBox.margin>
                     <Insets bottom="10"/>
                 </VBox.margin>
             </ComboBox>
-            <ComboBox fx:id="select_parity_combo" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <ComboBox fx:id="select_parity_combo" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
                 <VBox.margin>
                     <Insets bottom="10"/>
                 </VBox.margin>
             </ComboBox>
-            <ComboBox fx:id="select_stop_bit_combo" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <ComboBox fx:id="select_stop_bit_combo" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
                 <VBox.margin>
                     <Insets bottom="10"/>
                 </VBox.margin>
             </ComboBox>
-            <ComboBox fx:id="select_flow_controller_combo" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6">
+            <ComboBox fx:id="select_flow_controller_combo" prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6">
                 <VBox.margin>
                     <Insets bottom="10"/>
                 </VBox.margin>
@@ -90,9 +90,9 @@
             <padding>
                 <Insets left="10" right="10" bottom="10"/>
             </padding>
-            <Button fx:id="this_port_okay" text="포트선택" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6"/>
+            <Button fx:id="this_port_okay" text="포트선택" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6"/>
         </VBox>
     </HBox>
-    <Button fx:id="save_print" text="저장하기" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6" alignment="CENTER" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="10"/>
-    <Button fx:id="test_print" text="프린트 테스트" style="-fx-font-size: 30px; -fx-font-family: 'NotoSansRegular'; -fx-text-fill: #8333e6" alignment="CENTER" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10"/>
+    <Button fx:id="save_print" text="저장하기" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6" alignment="CENTER" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="10"/>
+    <Button fx:id="test_print" text="프린트 테스트" style="-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: #8333e6" alignment="CENTER" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10"/>
 </AnchorPane>
