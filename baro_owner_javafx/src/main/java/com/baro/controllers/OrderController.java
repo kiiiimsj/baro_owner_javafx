@@ -64,8 +64,8 @@ public class OrderController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
     }
     public void configureUI() {
-        customer.setText("고객번호 : "+orderData.phone);
-        order_count.setText("메뉴 " + orderData.order_count + "개");
+        customer.setText("고객번호 "+orderData.phone);
+        order_count.setText("메뉴 " + orderData.order_count + "개 |");
         price.setText(orderData.total_price+"원");
         if (orderData.order_state.equals(Order.ACCEPT)){
             state.setText("제조중");
@@ -87,13 +87,33 @@ public class OrderController implements Initializable{
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                timer.setTranslateY(-( ( iterator / max ) * 100.0 ) / 3.3);
+                                // (일부시간  / 전체시간) * 100 = 일부시간 백분율
+                                // timer는 가로 50, 세로 30의 사각형
+                                // 시간이 늘어 날수록 세로가 길어져 뒤에 원을 가리는 방식
+                                // timer의 처음시작 시 적정 크기는 30 (더 커지면 order h_box를 벗어남)
+                                // 일부시간의 백분율에 3.3 (최대한 근사치가 나오게 하기위해 0.3까지 씀) 나누면
+                                // 100 -> 0 으로 흘르는 백분율이 30 -> 0으로 흐르게 됨.
+                                // timer의 기존 크기는 60으로 두고 백분율의 시작은 30이므로
+                                // timer의 크기 연산은 60 - 30으로 시작해서 60 - 0 까지 흘러가게된다.
                                 timer.setHeight(height - ( ( iterator / max ) * 100.0 ) / 3.3);
-                                System.out.println(-( ( iterator / max ) * 100.0 ) / 3.3 );
+
+                                // (일부시간  / 전체시간) * 100 = 일부시간 백분율
+                                // timer가 원을 가리지 않는 적정 y 위치는 -30
+                                // 완전히 가리게 될때 y 위치는 0
+                                // 크기와 동일하게 -30 - > 0 으로 흘러가게 설정
+                                timer.setTranslateY(-( ( iterator / max ) * 100.0 ) / 3.3);
+                                
+                                // 소수점을 없애기 위한 캐스팅
                                 timeLabel.setText((int)finalI +"초");
                             }
                         });
                     }
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            timeLabel.setText("완료");
+                        }
+                    });
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

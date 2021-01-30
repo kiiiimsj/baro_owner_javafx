@@ -13,8 +13,6 @@ import java.io.InputStreamReader;
 import java.net.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -73,7 +71,7 @@ public class CalculateController implements Initializable {
     private void setCalCulateText(String jsonString) {
         //LocalDate.now().minus().DateTimeFormatter.ofPattern("MM/dd"))
         week_sum_money_label.setText("일주일 ("+DateConverter.getFirstDayOfWeek().format(DateTimeFormatter.ofPattern("MM/dd"))+"(월)"+
-                " ~ "+ LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd")) + "(" + DateConverter.nameOfDay().charAt(0) + ") )" + " 정산금액");
+                " ~ "+ LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd")) + "(" + DateConverter.nameOfToday().charAt(0) + ") )" + " 정산금액");
 
         couponPrice = new JSONObject(jsonString.toString()).getInt("coupon_price");
         menuTotalPrice = new JSONObject(jsonString.toString()).getInt("menu_total_price");
@@ -81,17 +79,17 @@ public class CalculateController implements Initializable {
 
         this_week_total_price.setText(thisWeekTotalPrice + " 원");
         coupon_price.setText(couponPrice + " 원");
-        menu_total_price.setText("= " +menuTotalPrice + " 원");
+        menu_total_price.setText(menuTotalPrice + " 원");
 
         this_week_total_price.setAlignment(Pos.BASELINE_RIGHT);
         coupon_price.setAlignment(Pos.BASELINE_RIGHT);
         menu_total_price.setAlignment(Pos.BASELINE_RIGHT);
 
         this_week_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
-                " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
+                " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6;-fx-background-color: white;-fx-background-radius: 0 0 10 10");
         coupon_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
-                " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
+                " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6; -fx-background-color: white;-fx-background-radius: 0 0 10 10");
         menu_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
-                " -fx-text-fill: black; -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
+                " -fx-text-fill: black; -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6;-fx-background-color: white;-fx-background-radius: 0 0 10 10");
     }
 }

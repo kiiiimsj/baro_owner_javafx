@@ -9,6 +9,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
@@ -40,16 +41,18 @@ public class Main extends Application {
         charset.set(null,null);
 
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("바로(BARO) 포스기");
         setPrimaryStage(primaryStage);
+
 //        connect(); //웹소켓 잘 들어옴
 //
 //        ReceiptPrint print = new ReceiptPrint();
 //        print.printReceipt();
 
 
-        // 300 -> 500
-        Scene scene =  new Scene(root, 500, 500);
+        // 300 -> 500 -> 580
+        Scene scene =  new Scene(root, 500, 580);
 
         //외부 폰트 적용을 위해 scene를 따로 빼주었음.
         //앞으로 폰트 적용은 아래 css 파일에서 해주면됨.

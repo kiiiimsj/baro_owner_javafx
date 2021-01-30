@@ -7,12 +7,31 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.Group?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.scene.image.ImageView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <VBox fx:id="base" stylesheets="css/login_sheets.css"
       xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.baro.controllers.LoginController" >
-   <padding>
-      <Insets right="10" left="10" bottom="10" top="10"/>
-   </padding>
+   <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d">
+      <padding>
+         <Insets top="10" bottom="10" right="10"/>
+      </padding>
+      <FontAwesomeIconView fx:id="minimum" glyphName="MINUS" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
+         <HBox.margin>
+            <Insets top="10"/>
+         </HBox.margin>
+      </FontAwesomeIconView>
+      <FontAwesomeIconView fx:id="maximum" glyphName="SQUARE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
+         <HBox.margin>
+            <Insets top="8"/>
+         </HBox.margin>
+      </FontAwesomeIconView>
+      <FontAwesomeIconView fx:id="close" glyphName="CLOSE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
+         <HBox.margin>
+            <Insets top="7"/>
+         </HBox.margin>
+      </FontAwesomeIconView>
+   </HBox>
    <VBox minWidth="-Infinity" maxWidth="Infinity" alignment="CENTER">
       <Text text="주문을 바로잡다" fx:id="subtext" textAlignment="CENTER" style="-fx-text-fill: #8333e6; " />
       <Text text="BARO" fx:id="baro_logo" textAlignment="CENTER" style="-fx-text-fill: #8333e6"/>
@@ -62,14 +81,14 @@
    <JFXCheckBox fx:id="save_id_pw" mnemonicParsing="false" text="아이디/비밀번호 저장" onAction="#saveUserInfo"
                 style="-fx-font-size: 20px; -fx-text-fill: #8333e6;-fx-font-family: 'Noto Sans CJK KR Regular'">
       <padding>
-         <Insets right="10" bottom="10"/>
+         <Insets left="10" bottom="20"/>
       </padding>
    </JFXCheckBox>
    <Button fx:id="login_btn" alignment="CENTER" mnemonicParsing="false" text="로그인"
            style="-fx-font-size: 40; -fx-background-color: #8333e6; -fx-text-fill: white; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-font-smoothing-type: true;"
-           minWidth="-Infinity" maxWidth="Infinity" onAction="#loginAction">
-      <padding>
-         <Insets right="10" left="10" bottom="10"/>
-      </padding>
+           maxWidth="Infinity" onAction="#loginAction">
+      <VBox.margin>
+         <Insets left="10" right="10" bottom="10"/>
+      </VBox.margin>
    </Button>
 </VBox>

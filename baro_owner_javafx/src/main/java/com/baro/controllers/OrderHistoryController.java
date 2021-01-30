@@ -150,10 +150,12 @@ public class OrderHistoryController implements Initializable {
             String line;
             StringBuffer bf = new StringBuffer();
 
+
             while((line = br.readLine()) != null) {
                 bf.append(line);
             }
             br.close();
+            System.out.println(bf.toString());
             parsingCompleteList(bf.toString());
         }
         catch (MalformedURLException e) {
@@ -186,7 +188,7 @@ public class OrderHistoryController implements Initializable {
 
         int doneCount = 0;
         int cancelCount = 0;
-
+        System.out.println(orderList.orders.size());
         for (int i = 0; i < orderList.orders.size(); i++) {
             Order order = orderList.orders.get(i);
             if(clickSearch) {
@@ -271,7 +273,7 @@ public class OrderHistoryController implements Initializable {
 
         see_done.setText("완료 보기\n"+ doneCount+ "건");
         see_cancel.setText("취소 보기\n"+cancelCount+ "건");
-        totalCount.setText("검색된 총 내역 : "+(doneCount + cancelCount)+"건");
+        totalCount.setText("검색된 총 내역 : "+(orderList.orders.size())+"건");
 
         clickSeeDoneButton = false;
         clickSeeCancelButton = false;

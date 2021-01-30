@@ -4,6 +4,7 @@ import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.Printer.ReceiptPrint;
 import com.baro.controllers.SettingTimerController;
+import com.baro.utils.DateConverter;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -116,9 +117,10 @@ public class OrderDetailsController implements Initializable {
             completeBtn.setVisible(false);
         }
         
-        //OrderHistory에서 결제취소 버튼 없얘기
+        //타이머 설정 버튼 없얘기
         if(withOutButton) {
             setTime.setVisible(false);
+            base.setStyle("-fx-background-color: #3d3d3d");
         }
     }
     public void configureLeftUI(){
@@ -152,7 +154,11 @@ public class OrderDetailsController implements Initializable {
             e.printStackTrace();
         }
         phoneLabel.setText(order.phone);
-        dateLabel.setText(order.order_date);
+        String[] date = DateConverter.dateConverteToTime(order.order_date);
+        dateLabel.setText(date[DateConverter.MONTH]+"/"+date[DateConverter.DAY]+" ("+
+                DateConverter.getNameOfDate(Integer.parseInt(date[DateConverter.YEAR]),Integer.parseInt(date[DateConverter.MONTH]),Integer.parseInt(date[DateConverter.DAY])) +") " +
+                        date[DateConverter.HOUR] + ":" + date[DateConverter.MINUTE]
+                );
         requestLabel.setText(data.requests);
         totalPriceLabel.setText(order.total_price+" 원");
         discountPriceLabel.setText(order.discount_price + " 원");
