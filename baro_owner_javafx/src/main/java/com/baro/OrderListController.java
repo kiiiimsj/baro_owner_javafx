@@ -9,6 +9,10 @@ import com.baro.controllers.orderDetail.OrderDetailsController;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXToggleButton;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -19,16 +23,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Popup;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
@@ -38,12 +46,21 @@ import sample.Main;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.prefs.Preferences;
+
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Node;
 
 
 public class OrderListController {
 
     private final String TAG = this.getClass().getSimpleName();
+    public Label digital_clock;
+    public HBox top_bar;
+    public FontAwesomeIconView minimum;
+    public FontAwesomeIconView maximum;
+    public FontAwesomeIconView close;
 
     @FXML
     private JFXTabPane tabContainer;
@@ -92,6 +109,9 @@ public class OrderListController {
     public static int CURRNETPAGE = 1; // 현재 페이지
     public static int ENTIREPAGE = 1; // 전체페이지 수
     public static Boolean LASTPAGEFULL = false; // 마지막페이지가 가득찼냐
+
+    double initialX;
+    double initialY;
 
     private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
     String store_id;
@@ -147,7 +167,86 @@ public class OrderListController {
         connect();
         configureSideView();
         configureOrderListView();
+        configureTopBar();
+    }
 
+    private void configureTopBar() {
+        final Timeline digitalTime = new Timeline(
+                new KeyFrame(Duration.seconds(0),
+                        new EventHandler<ActionEvent>() {
+                            @Override public void handle(ActionEvent actionEvent) {
+                                Calendar calendar            = GregorianCalendar.getInstance();
+                                String hourString   = pad(2, '0', calendar.get(Calendar.HOUR)   == 0 ? "12" : calendar.get(Calendar.HOUR) + "");
+                                String minuteString = pad(2, '0', calendar.get(Calendar.MINUTE) + "");
+                                //String secondString = pad(2, '0', calendar.get(Calendar.SECOND) + "");
+                                String ampmString   = calendar.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
+
+                                //":" + secondString +
+                                digital_clock.setText(hourString + ":" + minuteString + " " + ampmString);
+                            }
+                        }
+                ),
+                new KeyFrame(Duration.seconds(1))
+        );
+        digitalTime.setCycleCount(Animation.INDEFINITE);
+        digitalTime.play();
+        
+        
+
+        top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (me.getButton() != MouseButton.MIDDLE) {
+                    initialX = me.getSceneX();
+                    initialY = me.getSceneY();
+                }
+            }
+        });
+
+        top_bar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (me.getButton() != MouseButton.MIDDLE) {
+                    top_bar.getScene().getWindow().setX(me.getScreenX() - initialX);
+                    top_bar.getScene().getWindow().setY(me.getScreenY() - initialY);
+                }
+            }
+        });
+        top_bar.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                top_bar.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                        stage.setMaxWidth(1400);
+                        stage.setMaxHeight(900);
+                    }
+                });
+            }
+        });
+        minimum.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                stage.setIconified(true);
+            }
+        });
+        maximum.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                stage.setFullScreenExitHint(" ");
+                stage.setFullScreen(true);
+            }
+        });
+        close.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                stage.close();
+            }
+        });
     }
 
     public void store_is_open_change(boolean is_open) {
@@ -619,5 +718,13 @@ public class OrderListController {
             setList((orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER - ONEPAGEORDER,(orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER );
         }
     }
+    private String pad(int fieldWidth, char padChar, String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = s.length(); i < fieldWidth; i++) {
+            sb.append(padChar);
+        }
+        sb.append(s);
 
+        return sb.toString();
+    }
 }

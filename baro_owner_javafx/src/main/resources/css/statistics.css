@@ -1,12 +1,12 @@
 .chart {
-    -fx-text-fill:  black;
+    -fx-text-fill:  white;
     -fx-font-size: 15pt;
 }
 .chart-legend-item {
-    -fx-text-fill:  black;
+    -fx-text-fill:  white;
     -fx-font-size: 15pt;
 }
 .axis-label {
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 15pt;
 }

@@ -14,18 +14,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <VBox fx:id="base" prefHeight="840.0" prefWidth="950.0" stylesheets="css/order_detail.css" xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.orderDetail.OrderDetailsController"
-      style="-fx-font-family: 'Noto Sans CJK KR Regular'"
+      style="-fx-font-family: 'Noto Sans CJK KR Regular';"
 >
     <padding>
         <Insets left="10" right="10"/>
     </padding>
     <!-- 영업중, 영업종료 토글 버튼 클릭이 막혀서 따로 크기 설정-->
-   <HBox fx:id="top_area" maxHeight="400" maxWidth="400" prefHeight="100.0" prefWidth="400.0" >
+   <HBox fx:id="top_area" prefHeight="100.0" prefWidth="450.0" >
       <children>
           <!-- 오른쪽에서 왼쪽으로 이동, 토글 버튼 가림 -->
 <!--         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />-->
 <!--          <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="30.0" HBox.hgrow="ALWAYS">-->
-          <HBox maxHeight="400" maxWidth="400" prefHeight="100.0" prefWidth="400.0" spacing="30.0" HBox.hgrow="ALWAYS"
+          <HBox maxHeight="400" maxWidth="450" prefHeight="100.0" prefWidth="450.0" HBox.hgrow="ALWAYS"
                 pickOnBounds="false">
 <!--              <HBox.margin>-->
 <!--                  <Insets/>-->
@@ -36,86 +36,90 @@
               <Button fx:id="cancelBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                       mnemonicParsing="false" onAction="#clickCancel" text="결제취소" HBox.hgrow="ALWAYS"
                       style="-fx-text-fill: white; -fx-background-color: #8333e6"/>
-              <Button fx:id="completeBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                      mnemonicParsing="false" onAction="#clickDone" text="완료처리" HBox.hgrow="ALWAYS"
-                      style="-fx-text-fill: white; -fx-background-color: #8333e6"/>
           </HBox>
       </children>
    </HBox>
 <!--      <SplitPane fx:id="splitPane" dividerPositions="0.5" prefHeight="600.0" prefWidth="1200.0" >-->
 <!--        <items>-->
-    <HBox VBox.vgrow="ALWAYS" spacing="10" maxWidth="Infinity">
+    <HBox VBox.vgrow="ALWAYS" spacing="10" maxWidth="Infinity" >
         <padding>
             <Insets bottom="10"/>
         </padding>
-        <VBox maxWidth="Infinity" style="-fx-background-color: white; -fx-background-radius: 5px;">
-            <padding>
-                <Insets right="10" top="10" left="10"/>
-            </padding>
-            <HBox>
-                <Label styleClass="label-left" text="고객번호 :" style="-fx-font-size: 18pt"/>
-                <Label fx:id="phoneLabel" styleClass="label-left" text="010" style="-fx-font-size: 18pt"/>
-            </HBox>
-            <HBox>
-                <Label styleClass="label-left" text="주문시간 :" style="-fx-font-size: 18pt"/>
-                <Label fx:id="dateLabel" styleClass="label-left" text="010" style="-fx-font-size: 18pt"/>
-            </HBox>
-            <HBox>
-                <VBox.margin>
-                    <Insets top="30.0"/>
-                </VBox.margin>
-                <Label styleClass="label-left" text="합계 :" style="-fx-font-size: 18pt"/>
-                <Label fx:id="totalPriceLabel" styleClass="label-left" text="010" style="-fx-font-size: 18pt"/>
-            </HBox>
-            <HBox>
-                <Label styleClass="label-left" text="쿠폰 :" style="-fx-font-size: 18pt"/>
-                <Label fx:id="discountPriceLabel" styleClass="label-left" text="010" style="-fx-font-size: 18pt"/>
-            </HBox>
-            <HBox style="-fx-background-color: black;">
-                <VBox.margin>
-                    <Insets left="10.0" right="10.0"/>
-                </VBox.margin>
-            </HBox>
+        <VBox HBox.hgrow="ALWAYS" maxWidth="Infinity" spacing="10" style="-fx-background-color: #3d3d3d; -fx-background-radius: 5px;">
+            <VBox VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 5px;">
+                <padding>
+                    <Insets right="20" top="20" left="20"/>
+                </padding>
+                <HBox>
+                    <Label styleClass="label-left" text="고객번호 :" style="-fx-font-size: 18pt"/>
+                    <Label fx:id="phoneLabel" styleClass="label-left" text="010" style="-fx-font-size: 18pt"/>
+                </HBox>
+                <HBox>
+                    <Label styleClass="label-left" text="주문시간 :" style="-fx-font-size: 18pt"/>
+                    <Label fx:id="dateLabel" styleClass="label-left" text="010" style="-fx-font-size: 18pt"/>
+                </HBox>
+                <HBox>
+                    <VBox.margin>
+                        <Insets top="30.0"/>
+                    </VBox.margin>
+                    <Label styleClass="label-left" text="합계 :" style="-fx-font-size: 18pt"/>
+                    <Label fx:id="totalPriceLabel" styleClass="label-left" text="010" style="-fx-font-size: 18pt"/>
+                </HBox>
+                <HBox>
+                    <Label styleClass="label-left" text="쿠폰 :" style="-fx-font-size: 18pt"/>
+                    <Label fx:id="discountPriceLabel" styleClass="label-left" text="010" style="-fx-font-size: 18pt"/>
+                </HBox>
+                <HBox prefHeight="1" style="-fx-background-color: black;">
+                    <VBox.margin>
+                        <Insets left="5.0" right="5.0"/>
+                    </VBox.margin>
+                </HBox>
 
-            <HBox >
-                <Label fx:id="finalPriceLabel" styleClass="label-left" text="결제 금액 :" style="-fx-font-size: 18pt"/>
-            </HBox>
+                <HBox >
+                    <Label fx:id="finalPriceLabel" styleClass="label-left" text="결제 금액 :" style="-fx-font-size: 18pt"/>
+                </HBox>
+            </VBox>
 
-            <HBox>
-                <VBox.margin>
-                    <Insets top="30.0"/>
-                </VBox.margin>
-                <Label styleClass="label-left" text="요청 사항 :" style="-fx-font-size: 18pt"/>
+            <VBox VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 5px;">
+                <padding>
+                    <Insets right="20" left="20" top="20"/>
+                </padding>
+                <Label styleClass="label-left" text="요청 사항" style="-fx-font-size: 18pt"/>
                 <Label fx:id="requestLabel" styleClass="label-left" text="010" style="-fx-font-size: 18pt"/>
-            </HBox>
-
+            </VBox>
         </VBox>
-        <ScrollPane fx:id="receipt_preview_scroll" maxWidth="Infinity" style="-fx-background-radius: 5px;-fx-background-color: white">
 
+        <ScrollPane fx:id="receipt_preview_scroll" style="-fx-background-radius: 5px;-fx-background-color: white">
+            <padding>
+                <Insets top="5" left="5" right="5" bottom="5"/>
+            </padding>
         </ScrollPane>
     </HBox>
     <!--        </items>-->
 <!--      </SplitPane>-->
-    <GridPane fx:id="button_area" alignment="BOTTOM_LEFT" hgap="10">
+    <GridPane fx:id="button_area" alignment="BOTTOM_LEFT">
         <padding>
             <Insets bottom="10"/>
         </padding>
         <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS"/>
-            <ColumnConstraints hgrow="ALWAYS"/>
+            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT"/>
         </columnConstraints>
         <rowConstraints>
             <RowConstraints vgrow="ALWAYS"/>
         </rowConstraints>
-        <Button fx:id="printButton" maxWidth="Infinity"  GridPane.columnIndex="0"
+        <Button fx:id="printButton" GridPane.columnIndex="0" prefWidth="450" minWidth="450"
                 style="-fx-font-family: 'Noto Sans CJK KR Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 25pt; -fx-text-fill: white"
                 text="영수증 인쇄">
 
         </Button>
-        <Button fx:id="setTime" maxWidth="Infinity" onAction="#clickSettingTimes" GridPane.columnIndex="1"
+        <Button fx:id="setTime" onAction="#clickSettingTimes" GridPane.columnIndex="1" prefWidth="470" minWidth="470"
                 style="-fx-font-family: 'Noto Sans CJK KR Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 25pt; -fx-text-fill: white"
                 text="시간 설정">
-
         </Button>
+        <Button fx:id="completeBtn" onAction="#clickDone" text="완료처리"
+                GridPane.columnIndex="1" prefWidth="470" minWidth="470"
+                style="-fx-font-family: 'Noto Sans CJK KR Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 25pt; -fx-text-fill: white"/>
+
     </GridPane>
 </VBox>

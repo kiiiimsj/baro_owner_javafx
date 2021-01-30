@@ -22,7 +22,7 @@ public class OrderDetailExtraController implements Initializable {
     public void configureUI(){
         extraPriceLabel.setText(extras.extra_count * extras.extra_price+" 원");
         extraCountLabel.setText(extras.extra_count+"");
-        extraNameLabel.setText("-"+extras.extra_name);
+        extraNameLabel.setText("   -"+extras.extra_name);
     }
     public void setData(Extras extras){
         this.extras = extras;

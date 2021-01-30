@@ -63,7 +63,6 @@ public class InventoryController implements Initializable {
     }
 
     private void setMenuListHeader() {
-        System.out.println(base.getPrefWidth()/3);
         col1.setHgrow(Priority.ALWAYS);
         col1.setMaxWidth(base.getPrefWidth()/3);
 
@@ -88,6 +87,10 @@ public class InventoryController implements Initializable {
         Label menuInfoLabel = new Label("메뉴 정보");
         Label menuPriceLabel = new Label("메뉴 가격");
         Label setCanSellLabel = new Label("재고 관리");
+
+        menuInfoLabel.setStyle("-fx-font-size: 25pt; -fx-text-fill: white");
+        menuPriceLabel.setStyle("-fx-font-size: 25pt; -fx-text-fill: white");
+        setCanSellLabel.setStyle("-fx-font-size: 25pt; -fx-text-fill: white");
 
         menuList_header.addRow(0 , menuInfoLabel, menuPriceLabel, setCanSellLabel);
     }
@@ -148,13 +151,16 @@ public class InventoryController implements Initializable {
                 for (int i = 0; i < menuParsing.menu.size(); i++) {
                     Menu menu = menuParsing.menu.get(i);
                     if(newTab.getId().equals(menu.category_id+"")) {
+                        System.out.println(newTab.getId());
                         GridPane cell = new GridPane();
 //                        cell.setMaxHeight(110);
                         Label menuName = new Label(menu.menu_name);
                         Label menuInfo = new Label(menu.menu_info);
                         Label menuPrice = new Label(menu.menu_defaultprice + "원");
 
-                        menuInfo.setStyle("-fx-font-size: 15pt");
+                        menuName.setStyle("-fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
+                        menuInfo.setStyle("-fx-font-size: 15pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
+                        menuPrice.setStyle("-fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
                         JFXToggleButton toggleButton = new JFXToggleButton();
                         toggleButton.setText("판매중");
                         toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: forestgreen;");

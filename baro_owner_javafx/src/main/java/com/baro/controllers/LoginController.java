@@ -4,6 +4,7 @@ import com.baro.JsonParsing.LoginParsing;
 
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXCheckBox;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,10 +14,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -36,11 +40,17 @@ public class LoginController implements Initializable {
 
 
     public VBox base;
+    public HBox top_bar;
+    public FontAwesomeIconView minimum;
+    public FontAwesomeIconView maximum;
+    public FontAwesomeIconView close;
     @FXML private TextField phone_tf;
     @FXML private PasswordField password_tf;
     @FXML private Button login_btn;
     @FXML private JFXCheckBox save_id_pw;
 
+    double initialX;
+    double initialY;
     //데이터 저장을 위한 preferences
     Preferences preferences = Preferences.userRoot();
 
@@ -56,6 +66,51 @@ public class LoginController implements Initializable {
        }else {
            save_id_pw.setSelected(false);
        }
+       topBarConfigureUI();
+    }
+
+    private void topBarConfigureUI() {
+        top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (me.getButton() != MouseButton.MIDDLE) {
+                    initialX = me.getSceneX();
+                    initialY = me.getSceneY();
+                }
+            }
+        });
+
+        top_bar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (me.getButton() != MouseButton.MIDDLE) {
+                    top_bar.getScene().getWindow().setX(me.getScreenX() - initialX);
+                    top_bar.getScene().getWindow().setY(me.getScreenY() - initialY);
+                }
+            }
+        });
+        minimum.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                stage.setIconified(true);
+            }
+        });
+        maximum.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                stage.setFullScreenExitHint(" ");
+                stage.setFullScreen(true);
+            }
+        });
+        close.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                stage.close();
+            }
+        });
     }
 
     public void loginAction(ActionEvent event) {

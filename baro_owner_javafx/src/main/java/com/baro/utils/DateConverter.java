@@ -3,12 +3,15 @@ package com.baro.utils;
 import javafx.util.StringConverter;
 
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
@@ -89,14 +92,12 @@ public class DateConverter {
         return dateConverter;
     }
     public static LocalDate getFirstDayOfWeek() {
-//        LocalDate now = LocalDate.now();
-//        LocalDate.
         LocalDate mondayDate = LocalDate.now().with(WeekFields.of(Locale.FRANCE).getFirstDayOfWeek());
         return mondayDate;
     }
 
 
-    public static String nameOfDay() {
+    public static String nameOfToday() {
         DateFormatSymbols dfs = new DateFormatSymbols(Locale.KOREA);
         String weekdays[] = dfs.getWeekdays();
 
@@ -118,5 +119,20 @@ public class DateConverter {
         String nameOfDay = weekdays[mDay];
 
         return nameOfDay;
+    }
+
+    public static String getNameOfDate(int year, int month, int day) {
+        String dateString = String.format("%d-%d-%d", year, month, day);
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-M-d").parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String dayOfWeek = new SimpleDateFormat("EEEE", Locale.KOREA).format(date);
+
+        System.out.println(dayOfWeek);
+        return dayOfWeek.substring(0, 1);
     }
 }

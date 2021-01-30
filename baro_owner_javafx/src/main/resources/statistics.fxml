@@ -73,7 +73,7 @@
             <padding>
                 <Insets right="20" left="20"/>
             </padding>
-            <Label fx:id="menu_label" text="메뉴 별 판매액" style="-fx-font-size: 40"/>
+            <Label fx:id="menu_label" text="메뉴 별 판매액" style="-fx-font-size: 40;-fx-text-fill: white"/>
             <GridPane fx:id="menu_list_header" >
                 <columnConstraints>
                     <ColumnConstraints hgrow="ALWAYS" />
@@ -88,12 +88,12 @@
         </VBox>
         <VBox fx:id="total_price_vbox">
             <HBox>
-                <Label fx:id="total_sales_text" style="-fx-font-size: 50; -fx-text-fill: black" text="총 매출 : "/>
-                <Label fx:id="total_sales" style="-fx-font-size: 50; -fx-text-fill: black"/>
+                <Label fx:id="total_sales_text" style="-fx-font-size: 50; -fx-text-fill: white" text="총 매출 : "/>
+                <Label fx:id="total_sales" style="-fx-font-size: 50; -fx-text-fill: white"/>
             </HBox>
             <HBox>
-                <Label fx:id="total_number_of_sales_text" style="-fx-font-size: 50; -fx-text-fill: black"  text="총 건수 : " />
-                <Label fx:id="total_number_of_sales" style="-fx-font-size: 50; -fx-text-fill: black"/>
+                <Label fx:id="total_number_of_sales_text" style="-fx-font-size: 50; -fx-text-fill: white"  text="총 건수 : " />
+                <Label fx:id="total_number_of_sales" style="-fx-font-size: 50; -fx-text-fill: white"/>
             </HBox>
         </VBox>
     </VBox>

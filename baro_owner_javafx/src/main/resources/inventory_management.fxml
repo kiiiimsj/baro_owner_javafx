@@ -13,9 +13,8 @@
       xmlns:fx="http://javafx.com/fxml"
       prefHeight="900.0" prefWidth="1150.0"
       fx:controller="com.baro.controllers.InventoryController"
-      stylesheets="css/inventory_sheet.css"
 >
-        <JFXTabPane fx:id="categoryTabPane" prefHeight="100" />
-        <GridPane fx:id="menuList_header" prefHeight="50"/>
-        <JFXListView fx:id="menuList" maxHeight="750" stylesheets="css/list_view.css"/>
+        <JFXTabPane fx:id="categoryTabPane" stylesheets="css/tab_pane.css" />
+        <GridPane fx:id="menuList_header" prefHeight="50" style="-fx-font-family: 'Noto Sans CJK KR Regular'"/>
+        <JFXListView fx:id="menuList"  VBox.vgrow="SOMETIMES" stylesheets="css/list_view.css"/>
 </VBox>

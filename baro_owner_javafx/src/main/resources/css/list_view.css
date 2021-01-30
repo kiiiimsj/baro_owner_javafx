@@ -5,8 +5,9 @@
     -fx-border-width: 0 0 2 0;
     -fx-border-color: gray;
 }
-
-
+.list-cell:empty {
+    -fx-border-width: 0;
+}
 /*.list-cell:even:hover {*/
 /*    -fx-border-color:linear-gradient(to left, white, white) ;*/
 /*    -fx-text-fill: white;*/
@@ -27,10 +28,8 @@
 .list-cell:even {
     -fx-background-color: white;
 }
-
-
 .list-cell:hover {
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 .list-cell:hover:empty {
     -fx-border-color: white;
@@ -44,10 +43,8 @@
 .list-cell:focused {
     -fx-background-insets:0px;
 }
-
-
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
-    -fx-background-color: #8333e6;
+    -fx-background-color: #3d3d3d;
 }
 /*.list-cell-row:filled:hover {*/
 /*    -fx-background-color: #8D45E7;*/

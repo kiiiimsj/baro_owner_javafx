@@ -1,0 +1,9 @@
+#categoryTabPane .tab {
+    -fx-background-radius: 0;
+    -fx-padding: 5 10 10 10;
+}
+#categoryTabPane .tab-label {
+    -fx-text-fill: white;
+    -fx-font-size: 25px;
+    -fx-font-family: 'Noto Sans CJK KR Regular';
+}
