@@ -8,25 +8,38 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<HBox fx:id="shell" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100" prefWidth="300" spacing="50.0"
-      style="-fx-border-color: #434343; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.baro.controllers.OrderController">
+<?import javafx.scene.control.ProgressBar?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import javafx.scene.control.cell.ProgressBarTableCell?>
+<?import javafx.scene.shape.Rectangle?>
+<HBox fx:id="shell" prefWidth="300" prefHeight="105" spacing="5.0"
+      xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.baro.controllers.OrderController"
+      style="-fx-background-insets: 5; -fx-background-color: rgba(255, 255, 255, 0.5);
+        -fx-background-color: #3d3d3d; -fx-effect: dropshadow(gaussian, #ffffff, 5, 0, 0, 0);
+      -fx-font-family: 'Noto Sans CJK KR Regular'">
    <children>
-      <VBox spacing="10.0">
+      <VBox HBox.hgrow="ALWAYS">
          <children>
-            <Label fx:id="customer" text="전화 번호" />
+            <Label fx:id="customer" style="-fx-font-size: 12pt; -fx-text-fill: white" />
             <HBox prefHeight="0.0" spacing="10.0">
                <children>
-                  <Label fx:id="order_count" text="메뉴 1개" />
-                  <Label fx:id="price" text="1000원" />
+                  <Label fx:id="order_count" text="메뉴 1개" style="-fx-font-size: 12pt; -fx-text-fill: white"/>
+                  <Label fx:id="price" text="1000원" style="-fx-font-size: 12pt; -fx-text-fill: white"/>
                </children>
             </HBox>
+            <Label fx:id="state" alignment="CENTER" textAlignment="CENTER">
+               <padding>
+                  <Insets left="5" right="5" top="5" bottom="5"/>
+               </padding>
+            </Label>
          </children>
       </VBox>
-      <StackPane prefHeight="0.0" fx:id="timeTable" >
+      <StackPane fx:id="timeTable">
          <children>
-            <Circle fill="gray" radius="25.0"  strokeType="INSIDE" />
-            <Label fx:id="timeLabel" alignment="CENTER" prefHeight="50.0" prefWidth="50.0" text="10분">
+            <Circle fill="#8333e6" radius="25.0" />
+            <Rectangle fx:id="timer" fill="#3d3d3d" height="10" width="50" translateY="-30"/>
+            <Label fx:id="timeLabel" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" text="10분" style="-fx-text-fill: white; -fx-font-size: 12pt">
                <maxWidth>
                   <Double fx:constant="MAX_VALUE" />
                </maxWidth>
@@ -39,6 +52,7 @@
 
    </children>
    <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+      <Insets bottom="10.0" left="10" right="10" top="10.0" />
    </padding>
+   <HBox prefHeight="1" style="-fx-background-color: #3d3d3d" maxWidth="Infinity"/>
 </HBox>

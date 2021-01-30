@@ -1,20 +1,25 @@
 package com.baro.controllers;
 
+import com.baro.utils.DateConverter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.text.TextAlignment;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAccessor;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 public class CalculateController implements Initializable {
+    public Label week_sum_money_label;
     Preferences preferences = Preferences.userRoot();
     private String owner_store_id;
     private int couponPrice;
@@ -38,7 +43,6 @@ public class CalculateController implements Initializable {
             http.setRequestProperty("Content-Type","application/json;utf-8");
             http.setRequestProperty("Accept","application/json");
             http.setDoOutput(true);
-
 
             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String line;
@@ -67,6 +71,10 @@ public class CalculateController implements Initializable {
     }
 
     private void setCalCulateText(String jsonString) {
+        //LocalDate.now().minus().DateTimeFormatter.ofPattern("MM/dd"))
+        week_sum_money_label.setText("일주일 ("+DateConverter.getFirstDayOfWeek().format(DateTimeFormatter.ofPattern("MM/dd"))+"(월)"+
+                " ~ "+ LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd")) + "(" + DateConverter.nameOfDay().charAt(0) + ") )" + " 정산금액");
+
         couponPrice = new JSONObject(jsonString.toString()).getInt("coupon_price");
         menuTotalPrice = new JSONObject(jsonString.toString()).getInt("menu_total_price");
         thisWeekTotalPrice = menuTotalPrice - couponPrice;
@@ -79,11 +87,11 @@ public class CalculateController implements Initializable {
         coupon_price.setAlignment(Pos.BASELINE_RIGHT);
         menu_total_price.setAlignment(Pos.BASELINE_RIGHT);
 
-        this_week_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'NotoSansRegular';" +
+        this_week_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
                 " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
-        coupon_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'NotoSansRegular';" +
+        coupon_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
                 " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
-        menu_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'NotoSansRegular';" +
+        menu_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
                 " -fx-text-fill: black; -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6");
     }
 }

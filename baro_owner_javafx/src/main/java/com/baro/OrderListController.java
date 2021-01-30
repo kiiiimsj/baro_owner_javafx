@@ -24,10 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Popup;
@@ -81,7 +78,7 @@ public class OrderListController {
     @FXML
     private TilePane childContainer;
     @FXML
-    private Button pagingButton;
+    private Label paggingLabel;
     @FXML
     private AnchorPane orderDetailsContainer;
     private WebSocketClient webSocketClient;
@@ -121,11 +118,13 @@ public class OrderListController {
         }
 
         if(isOpen.equals("Y")) {
+            isOpenBtn.setSelected(true);
 //            isOpenBtn.setText("영업종료 하기");
-//            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
+//            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
         } else {
+            isOpenBtn.setSelected(false);
 //            isOpenBtn.setText("영업게시 하기");
-//            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
+//            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
         }
 
 
@@ -165,13 +164,13 @@ public class OrderListController {
             if (is_open) {
                 jsonObject.put("is_open", "Y");
 //                isOpenBtn.setText("영업종료 하기");
-//                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
+//                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
                 //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.color(131.0, 51.0, 230.0, 1.0), CornerRadii.EMPTY, Insets.EMPTY)));
 
             } else {
                 jsonObject.put("is_open", "N");
 //                isOpenBtn.setText("영업게시 하기");
-//                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'NotoSansRegular'");
+//                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
                 //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             }
 
@@ -410,7 +409,7 @@ public class OrderListController {
         label.setMaxWidth(tabHeight);
         label.setMinWidth(tabHeight);
         label.setPadding(new Insets(0, 0, 0, 0));
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: normal; -fx-font-family: 'NotoSansRegular'");
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: normal;");
         label.setAlignment(Pos.CENTER);
 
         BorderPane tabPane = new BorderPane();
@@ -476,7 +475,6 @@ public class OrderListController {
         webSocketClient = new WebSocketClient(uri, new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
-
                 webSocketClient.send("connect:::" + 1);
                 System.out.println("open!!");
                 thread.start();
@@ -579,14 +577,14 @@ public class OrderListController {
         if (ENTIREPAGE<CURRNETPAGE){
             CURRNETPAGE--;
         }
-        pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
+        paggingLabel.setText(CURRNETPAGE + " / " + ENTIREPAGE);
     }
     public void tapPrevPage(ActionEvent event) {
         if (CURRNETPAGE == 1){
             return;
         }
         CURRNETPAGE--;
-        pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
+        paggingLabel.setText(CURRNETPAGE + " / " + ENTIREPAGE);
         setList((orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER - ONEPAGEORDER,(orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER );
     }
     public void tapNextPage(ActionEvent event) {
@@ -594,7 +592,7 @@ public class OrderListController {
             return;
         }
         CURRNETPAGE++;
-        pagingButton.setText(CURRNETPAGE + " / " + ENTIREPAGE);
+        paggingLabel.setText(CURRNETPAGE + " / " + ENTIREPAGE);
         if (CURRNETPAGE == ENTIREPAGE){
             if (orderList.orders.size() % ONEPAGEORDER != 0 ) {
                 setList(-1,(orderList.orders.size()-1) % ONEPAGEORDER);

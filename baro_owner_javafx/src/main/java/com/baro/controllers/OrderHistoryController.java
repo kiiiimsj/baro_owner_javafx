@@ -1,6 +1,5 @@
 package com.baro.controllers;
 
-import com.baro.JsonParsing.MenuStatistics;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.JsonParsing.OrderList;
@@ -11,14 +10,10 @@ import com.google.gson.Gson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
-import com.sun.org.apache.xpath.internal.operations.Or;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,15 +22,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 import org.json.JSONObject;
-import sample.Main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -58,16 +49,22 @@ public class OrderHistoryController implements Initializable {
     public Button button_search_by_phone;
     public HBox search_hbox;
     public VBox content_vbox;
+    public Button see_done;
+    public Button see_cancel;
+    public Label totalCount;
 
     private StringConverter dateConverter;
     private OrderDetailParsing orderDetailParsing;
 
     private boolean clickSearch = false;
+    private boolean clickSeeDoneButton = false;
+    private boolean clickSeeCancelButton = false;
     Preferences preferences = Preferences.userRoot();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dailySales.setVisible(false);
         search_hbox.setVisible(false);
+        totalCount.setVisible(false);
         configuration();
     }
     private void configuration() {
@@ -106,11 +103,24 @@ public class OrderHistoryController implements Initializable {
         button_search_by_phone.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(search_by_phone.getText().length() < 8) {
-                    return;
-                }
                 clickSearch = true;
                 getOrderCompleteListByDate();
+            }
+        });
+        see_done.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                clickSeeDoneButton = true;
+                getOrderCompleteListByDate();
+
+            }
+        });
+        see_cancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                clickSeeCancelButton = true;
+                getOrderCompleteListByDate();
+
             }
         });
     }
@@ -165,7 +175,7 @@ public class OrderHistoryController implements Initializable {
         if(dailySales.getItems().size() != 0) {
             dailySales.getItems().clear();
         }
-        dailySales.setStyle("-selected-color:blue;");
+
         if(orderList.orders.size() == 0) {
             HBox empty = new HBox();
             Label emptyLabel = new Label("불러 올 정보가 없습니다.");
@@ -173,42 +183,45 @@ public class OrderHistoryController implements Initializable {
             empty.getChildren().add(emptyLabel);
             dailySales.getItems().add(empty);
         }
-//        AnchorPane header = new AnchorPane();
-//        header.setId("header");
-//        Label orderDateLabel = new Label("주문날짜");
-//        Label phoneLabel = new Label("고객번호");
-//        Label receiptLabel = new Label("주문번호");
-//        Label discountLabel = new Label("할인 금액");
-//        Label totalPriceLabel = new Label("총 주문 금액");
-//        Label orderStateLabel = new Label("주문상태");
 
+        int doneCount = 0;
+        int cancelCount = 0;
 
-//        orderDateLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
-//        phoneLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
-//        receiptLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
-//        discountLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
-//        totalPriceLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
-//        orderStateLabel.setStyle("-fx-font-size: 12pt; -fx-text-fill: white");
-//
-//
-//        header.getChildren().addAll(orderDateLabel, phoneLabel, receiptLabel, discountLabel, totalPriceLabel,orderStateLabel );
-//        header.getChildren().get(0).setLayoutX(100);
-//        header.getChildren().get(1).setLayoutX(285);
-//        header.getChildren().get(2).setLayoutX(500);
-//        header.getChildren().get(3).setLayoutX(730);
-//        header.getChildren().get(4).setLayoutX(830);
-//        header.getChildren().get(5).setLayoutX(1000);
-
-//        content_vbox.getChildren().add(1,header);
-//        header.setStyle("-fx-background-color: #8333e6");
         for (int i = 0; i < orderList.orders.size(); i++) {
+            Order order = orderList.orders.get(i);
             if(clickSearch) {
+                if(search_by_phone.getText().length() != 0) {
+                    if(!orderList.orders.get(i).phone.equals(searchByPhone(search_by_phone.getText()))) {
+                        continue;
+                    }
+                }else {
+                    clickSearch = false;
+                }
+            }
 
-                if(!orderList.orders.get(i).phone.equals(searchByPhone(search_by_phone.getText()))) {
+            Label orderStateBox = new Label(GetState.getState(order.order_state));
+            orderStateBox.setPrefSize(80, 50);
+            orderStateBox.setTextAlignment(TextAlignment.CENTER);
+            orderStateBox.setAlignment(Pos.CENTER);
+            if(order.order_state.equals("DONE")) {
+                orderStateBox.setStyle("-fx-font-size: 18pt;-fx-background-color: rgb(0,230,0) ; -fx-text-fill: white; -fx-background-radius: 5px");
+                doneCount += 1;
+            }
+            if(order.order_state.equals("CANCEL")) {
+                orderStateBox.setStyle("-fx-font-size: 18pt;-fx-background-color: rgb(255,69,0) ; -fx-text-fill: white; -fx-background-radius: 5px");
+                cancelCount += 1;
+            }
+
+            if(clickSeeDoneButton) {
+                if(orderList.orders.get(i).order_state.equals("CANCEL")) {
                     continue;
                 }
             }
-            Order order = orderList.orders.get(i);
+            if(clickSeeCancelButton) {
+                if(orderList.orders.get(i).order_state.equals("DONE")) {
+                    continue;
+                }
+            }
             HBox cell = new HBox();
             cell.setSpacing(20);
             String[] converteDate = DateConverter.dateConverteToTime(order.order_date);
@@ -217,10 +230,10 @@ public class OrderHistoryController implements Initializable {
             dateHbox.setMinHeight(200);
             dateHbox.setMinWidth(200);
             dateHbox.setAlignment(Pos.BASELINE_CENTER);
-            Text orderDateTimeMinuteText = new Text(converteDate[DateConverter.HOUR] + ":" +converteDate[DateConverter.MINUTE]);
-            Text orderDateYearMonthDayText = new Text(converteDate[DateConverter.MONTH] + "/" + converteDate[DateConverter.DAY]);
+            Label orderDateTimeMinuteText = new Label(converteDate[DateConverter.HOUR] + ":" +converteDate[DateConverter.MINUTE]);
+            Label orderDateYearMonthDayText = new Label(converteDate[DateConverter.MONTH] + "/" + converteDate[DateConverter.DAY]);
 
-            dateHbox.getChildren().addAll(orderDateYearMonthDayText, orderDateTimeMinuteText);
+            dateHbox.getChildren().addAll(orderDateYearMonthDayText, orderDateTimeMinuteText, orderStateBox);
 
 
             orderDateYearMonthDayText.setStyle("-fx-font-size: 30pt;");
@@ -229,34 +242,23 @@ public class OrderHistoryController implements Initializable {
 
             VBox menuContent = new VBox();
             menuContent.setSpacing(20);
-            menuContent.setMinWidth(250);
+            menuContent.setMinWidth(500);
+            menuContent.setMaxWidth(500);
             menuContent.setAlignment(Pos.BASELINE_LEFT);
-            Text phoneText = new Text("고객번호 : "+order.phone);
-            Text receiptIdText = new Text("영수증번호 : " +order.receipt_id);
-            Text discountText = new Text("할인액 : "+order.discount_price+"");
-            Text totalPriceText = new Text("총 액 : "+order.total_price+"");
+
+            Label phoneText = new Label("고객번호 : "+order.phone);
+            Label receiptIdText = new Label("영수증번호 : " +order.receipt_id);
+            Label discountText = new Label("할인액 : "+order.discount_price+"");
+            Label totalPriceText = new Label("총 액 : "+order.total_price+"");
+
             menuContent.getChildren().addAll(receiptIdText, phoneText, discountText, totalPriceText);
 
             receiptIdText.setStyle("-fx-font-size: 12pt;");
             phoneText.setStyle("-fx-font-size: 18pt; ");
             discountText.setStyle("-fx-font-size: 18pt; ");
             totalPriceText.setStyle("-fx-font-size: 20pt; ");
-
-
-            VBox state = new VBox();
-            state.setMinWidth(200);
-            state.setMaxWidth(200);
-            state.setAlignment(Pos.BOTTOM_RIGHT);
-            Text orderStateText = new Text(("주문상태 : " + GetState.getState(order.order_state)));
-            orderStateText.setStyle("-fx-font-size: 25pt; ");
-            state.getChildren().add(orderStateText);
             
-            cell.getChildren().addAll(dateHbox, menuContent, state);
-//            cell.getChildren().get(1).setLayoutX(270);
-//            cell.getChildren().get(2).setLayoutX(430);
-//            cell.getChildren().get(3).setLayoutX(750);
-//            cell.getChildren().get(4).setLayoutX(820);
-//            cell.getChildren().get(5).setLayoutX(1000);
+            cell.getChildren().addAll(dateHbox, menuContent);
             cell.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -265,6 +267,14 @@ public class OrderHistoryController implements Initializable {
             });
             dailySales.getItems().add(cell);
         }
+        totalCount.setVisible(true);
+
+        see_done.setText("완료 보기\n"+ doneCount+ "건");
+        see_cancel.setText("취소 보기\n"+cancelCount+ "건");
+        totalCount.setText("검색된 총 내역 : "+(doneCount + cancelCount)+"건");
+
+        clickSeeDoneButton = false;
+        clickSeeCancelButton = false;
     }
 
     private String searchByPhone(String text) {

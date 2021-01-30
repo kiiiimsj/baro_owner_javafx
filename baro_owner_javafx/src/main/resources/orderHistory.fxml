@@ -16,50 +16,59 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.baro.controllers.OrderHistoryController">
     <VBox fx:id="content_vbox" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
-        <HBox alignment="TOP_RIGHT">
+        <HBox>
             <spacing>10</spacing>
             <padding>
                 <Insets top="10" />
             </padding>
-            <HBox fx:id="search_hbox">
-                <Label text="핸드폰 검색 : " style="-fx-font-size: 15pt; -fx-font-family: ''">
+            <HBox fx:id="search_hbox" prefWidth="700">
+                <spacing>20</spacing>
+                <Button fx:id="see_done" style="-fx-background-color: #8333e6; -fx-text-fill: white; -fx-font-size: 12pt" textAlignment="CENTER"/>
+                <Button fx:id="see_cancel" style="-fx-background-color: #8333e6; -fx-text-fill: white; -fx-font-size: 12pt" textAlignment="CENTER"/>
+                <Label text="휴대폰 검색 : " style="-fx-font-size: 15pt;">
                     <HBox.margin>
                         <Insets right="10" top="20" />
                     </HBox.margin>
                 </Label>
                 <TextField fx:id="search_by_phone" style="-fx-font-size: 10pt">
                     <HBox.margin>
-                        <Insets left="10" right="10" top="20" />
+                        <Insets left="10" right="10" top="20"/>
                     </HBox.margin>
                 </TextField>
                 <Button fx:id="button_search_by_phone" text="검색" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-background-color: #8333e6">
                     <HBox.margin>
-                        <Insets left="10" right="10" top="20" />
+                        <Insets left="10" right="10" top="15"/>
                     </HBox.margin>
                 </Button>
             </HBox>
-
-            <JFXDatePicker fx:id="start_date_picker" prefHeight="50" stylesheets="css/date_picker.css" style="-fx-font-size: 15">
-                <HBox.margin>
-                    <Insets top="15" />
-                </HBox.margin>
-            </JFXDatePicker>
-            <Text text="-" textAlignment="CENTER" style="-fx-font-size: 20">
-                <HBox.margin>
-                    <Insets left="10" right="10" top="40" />
-                </HBox.margin>
-            </Text>
-            <JFXDatePicker fx:id="end_date_picker" prefHeight="50" stylesheets="css/date_picker.css" style="-fx-font-size: 15">
-                <HBox.margin>
-                    <Insets top="15" />
-                </HBox.margin>
-            </JFXDatePicker>
-            <JFXButton fx:id="look_up_button" text="조회" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-background-color: #8333e6">
-                <HBox.margin>
-                    <Insets right="10" top="20" />
-                </HBox.margin>
-            </JFXButton>
+            <HBox alignment="CENTER_RIGHT">
+                <JFXDatePicker fx:id="start_date_picker" prefHeight="50" stylesheets="css/date_picker.css" style="-fx-font-size: 15">
+                    <HBox.margin>
+                        <Insets top="15" />
+                    </HBox.margin>
+                </JFXDatePicker>
+                <Text text="-" textAlignment="CENTER" style="-fx-font-size: 20">
+                    <HBox.margin>
+                        <Insets left="10" right="10" top="20" />
+                    </HBox.margin>
+                </Text>
+                <JFXDatePicker fx:id="end_date_picker" prefHeight="50" stylesheets="css/date_picker.css" style="-fx-font-size: 15">
+                    <HBox.margin>
+                        <Insets top="15" />
+                    </HBox.margin>
+                </JFXDatePicker>
+                <JFXButton fx:id="look_up_button" text="조회" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-background-color: #8333e6">
+                    <HBox.margin>
+                        <Insets right="10" top="15" />
+                    </HBox.margin>
+                </JFXButton>
+            </HBox>
         </HBox>
         <JFXListView fx:id="dailySales" prefHeight="1000" stylesheets="css/list_view.css"/>
     </VBox>
+    <Label fx:id="totalCount" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="15" style="-fx-font-size: 20pt; -fx-text-fill: white; -fx-background-color: rgba(131, 51, 230, 0.8); -fx-background-radius: 10px;">
+        <padding>
+            <Insets bottom="10" top="10" left="10" right="10"/>
+        </padding>
+    </Label>
 </AnchorPane>

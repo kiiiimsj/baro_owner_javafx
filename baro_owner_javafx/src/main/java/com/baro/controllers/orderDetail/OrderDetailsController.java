@@ -39,7 +39,7 @@ import java.util.prefs.Preferences;
 
 public class OrderDetailsController implements Initializable {
     public Button cancelBtn;
-    public HBox button_area;
+    public GridPane button_area;
     public VBox base;
     public HBox top_area;
     @FXML
@@ -87,13 +87,13 @@ public class OrderDetailsController implements Initializable {
         base.setPickOnBounds(false);
 
 
-        pos = splitPane.getDividers().get(0).getPosition();
-        splitPane.getDividers().get(0).positionProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                splitPane.getDividers().get(0).setPosition(pos);
-            }
-        });
+//        pos = splitPane.getDividers().get(0).getPosition();
+//        splitPane.getDividers().get(0).positionProperty().addListener(new ChangeListener<Number>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//                splitPane.getDividers().get(0).setPosition(pos);
+//            }
+//        });
     }
     public SimpleBooleanProperty getChangeToAccept(){
         return changeToAccept;
@@ -118,7 +118,7 @@ public class OrderDetailsController implements Initializable {
         
         //OrderHistory에서 결제취소 버튼 없얘기
         if(withOutButton) {
-            cancelBtn.setVisible(false);
+            setTime.setVisible(false);
         }
     }
     public void configureLeftUI(){

@@ -5,35 +5,31 @@
 
 <?import javafx.geometry.Insets?>
 <VBox
-        prefWidth="460"
-        minWidth="460"
-        maxWidth="460"
-      xmlns="http://javafx.com/javafx/11.0.2"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.baro.controllers.orderDetail.OrderDetailMenuController">
-    <HBox prefHeight="1" style="-fx-background-color: #111010" />
+      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.baro.controllers.orderDetail.OrderDetailMenuController"
+      style="-fx-font-family: 'Noto Sans CJK KR Regular';-fx-text-fill: white;">
     <GridPane >
         <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" maxWidth="153" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" maxWidth="153" />
-            <ColumnConstraints hgrow="ALWAYS"  halignment="RIGHT" maxWidth="153"/>
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="Infinity" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" maxWidth="Infinity" />
+            <ColumnConstraints hgrow="ALWAYS"  halignment="RIGHT" maxWidth="Infinity"/>
         </columnConstraints>
         <rowConstraints>
             <RowConstraints vgrow="ALWAYS" />
         </rowConstraints>
-        <Label text="메뉴명" style="-fx-font-size: 20pt" GridPane.columnIndex="0" textAlignment="LEFT"/>
-        <Label text="수량" style="-fx-font-size: 20pt" GridPane.columnIndex="1" textAlignment="CENTER"/>
-        <Label text="금액" style="-fx-font-size: 20pt" GridPane.columnIndex="2"/>
+        <Label text="메뉴명" style="-fx-font-size: 20pt;-fx-text-fill: black" GridPane.columnIndex="0" textAlignment="LEFT"/>
+        <Label text="수량" style="-fx-font-size: 20pt;-fx-text-fill: black" GridPane.columnIndex="1" textAlignment="CENTER"/>
+        <Label text="금액" style="-fx-font-size: 20pt;-fx-text-fill: black" GridPane.columnIndex="2"/>
     </GridPane>
-    <HBox prefHeight="1" style="-fx-background-color: #111010" />
+    <HBox prefHeight="1" style="-fx-background-color: #3d3d3d;" maxWidth="Infinity"/>
     <children>
-        <VBox fx:id="menu_content" minWidth="460" maxWidth="460">
+        <VBox fx:id="menu_content">
         </VBox>
       <HBox>
           <HBox.margin>
               <Insets bottom="10"/>
           </HBox.margin>
       </HBox>
-        <HBox prefHeight="1" style="-fx-background-color: #111010" />
+        <HBox prefHeight="1" style="-fx-background-color: #3d3d3d" maxWidth="Infinity" />
    </children>
 </VBox>
