@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
@@ -40,7 +42,6 @@ public class Main extends Application {
         //외부 폰트 적용을 위해 scene를 따로 빼주었음.
         //앞으로 폰트 적용은 아래 css 파일에서 해주면됨.
         scene.getStylesheets().add(getClass().getResource("/fontstyle.css").toExternalForm());
-
 
         primaryStage.setScene(scene);
         primaryStage.show();

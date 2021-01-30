@@ -6,6 +6,7 @@ import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.controllers.orderDetail.OrderDetailsController;
 import com.baro.utils.GetBool;
 import com.google.gson.Gson;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -46,6 +47,8 @@ public class OrderController implements Initializable{
     private StackPane timeTable;
     @FXML
     private HBox shell;
+    @FXML
+    private Label timeLabel;
     public Order orderData ;
     private OrderDetailParsing orderDetailParsing;
     public SimpleBooleanProperty is_Done = new SimpleBooleanProperty();
@@ -63,10 +66,29 @@ public class OrderController implements Initializable{
         order_count.setText("메뉴 " + orderData.order_count + "개");
         price.setText(orderData.total_price+"원");
         if (orderData.order_state.equals(Order.ACCEPT)){
-            shell.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+            shell.setBackground(new Background(new BackgroundFill(Color.GREENYELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
         }else if (orderData.order_state.equals(Order.PREPARING)) {
-
+            shell.setBackground(new Background(new BackgroundFill(Color.SKYBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
         }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    for (int i = 60;i > 0 ; i--) {
+                        Thread.sleep(1000);
+                        int finalI = i;
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                timeLabel.setText(finalI +"초");
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
     public void changeToAccept(){
         orderData.order_state = Order.ACCEPT;
