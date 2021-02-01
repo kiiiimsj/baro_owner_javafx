@@ -1,43 +1,31 @@
 package com.baro.controllers;
 
 import com.baro.JsonParsing.Order;
-import com.baro.JsonParsing.OrderDetail;
 import com.baro.JsonParsing.OrderDetailParsing;
-import com.baro.controllers.orderDetail.OrderDetailsController;
+import com.baro.OrderListController;
+import com.baro.utils.DateConverter;
 import com.baro.utils.GetBool;
 import com.google.gson.Gson;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import org.json.JSONObject;
-import sample.Main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.*;
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 public class OrderController implements Initializable{
+
     public Label state;
     public Rectangle timer;
     @FXML
@@ -51,19 +39,22 @@ public class OrderController implements Initializable{
     @FXML
     private HBox shell;
     @FXML
-    private Label timeLabel;
+    public Label timeLabel;
+
     public Order orderData ;
     private OrderDetailParsing orderDetailParsing;
     public SimpleBooleanProperty is_Done = new SimpleBooleanProperty();
     public SimpleBooleanProperty is_Cancel = new SimpleBooleanProperty();
     private int index;
     public static Stage DetailsStage;
+    public SettingTimerController.SetTime setTime;
     Preferences preferences = Preferences.userRoot();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
     public void configureUI() {
+        System.out.println("configureUI");
         customer.setText("고객번호 "+orderData.phone);
         order_count.setText("메뉴 " + orderData.order_count + "개 |");
         price.setText(orderData.total_price+"원");
@@ -74,52 +65,53 @@ public class OrderController implements Initializable{
             state.setText("신규");
             state.setStyle("-fx-background-color: rgba(131,50,230,0.75); -fx-text-fill: white;-fx-background-radius: 5px; ");
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    double max = 10.0;
-                    double height = 60.0;
-                    for (double i = max;i > 0 ; --i) {
-                        final double iterator = i;
-                        Thread.sleep(1000);
-                        double finalI = i;
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                // (일부시간  / 전체시간) * 100 = 일부시간 백분율
-                                // timer는 가로 50, 세로 30의 사각형
-                                // 시간이 늘어 날수록 세로가 길어져 뒤에 원을 가리는 방식
-                                // timer의 처음시작 시 적정 크기는 30 (더 커지면 order h_box를 벗어남)
-                                // 일부시간의 백분율에 3.3 (최대한 근사치가 나오게 하기위해 0.3까지 씀) 나누면
-                                // 100 -> 0 으로 흘르는 백분율이 30 -> 0으로 흐르게 됨.
-                                // timer의 기존 크기는 60으로 두고 백분율의 시작은 30이므로
-                                // timer의 크기 연산은 60 - 30으로 시작해서 60 - 0 까지 흘러가게된다.
-                                timer.setHeight(height - ( ( iterator / max ) * 100.0 ) / 3.3);
 
-                                // (일부시간  / 전체시간) * 100 = 일부시간 백분율
-                                // timer가 원을 가리지 않는 적정 y 위치는 -30
-                                // 완전히 가리게 될때 y 위치는 0
-                                // 크기와 동일하게 -30 - > 0 으로 흘러가게 설정
-                                timer.setTranslateY(-( ( iterator / max ) * 100.0 ) / 3.3);
-                                
-                                // 소수점을 없애기 위한 캐스팅
-                                timeLabel.setText((int)finalI +"초");
-                            }
-                        });
-                    }
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            timeLabel.setText("완료");
-                        }
-                    });
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
+        timeLabel.setText(orderData.getCompleteTime());
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    double max = 10.0;
+//                    double height = 60.0;
+//                    for (double i = max;i > 0 ; --i) {
+//                        final double iterator = i;
+//                        Thread.sleep(1000);
+//                        double finalI = i;
+//                        Platform.runLater(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                // (일부시간  / 전체시간) * 100 = 일부시간 백분율
+//                                // timer는 가로 50, 세로 30의 사각형
+//                                // 시간이 늘어 날수록 세로가 길어져 뒤에 원을 가리는 방식
+//                                // timer의 처음시작 시 적정 크기는 30 (더 커지면 order h_box를 벗어남)
+//                                // 일부시간의 백분율에 3.3 (최대한 근사치가 나오게 하기위해 0.3까지 씀) 나누면
+//                                // 100 -> 0 으로 흘르는 백분율이 30 -> 0으로 흐르게 됨.
+//                                // timer의 기존 크기는 60으로 두고 백분율의 시작은 30이므로
+//                                // timer의 크기 연산은 60 - 30으로 시작해서 60 - 0 까지 흘러가게된다.
+//                                timer.setHeight(height - ( ( iterator / max ) * 100.0 ) / 3.3);
+//
+//                                // (일부시간  / 전체시간) * 100 = 일부시간 백분율
+//                                // timer가 원을 가리지 않는 적정 y 위치는 -30
+//                                // 완전히 가리게 될때 y 위치는 0
+//                                // 크기와 동일하게 -30 - > 0 으로 흘러가게 설정
+//                                timer.setTranslateY(-( ( iterator / max ) * 100.0 ) / 3.3);
+//
+//                                // 소수점을 없애기 위한 캐스팅
+//                                timeLabel.setText((int)finalI +"초");
+//                            }
+//                        });
+//                    }
+//                    Platform.runLater(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            timeLabel.setText("완료");
+//                        }
+//                    });
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
     }
     public void changeToAccept(){
         orderData.order_state = Order.ACCEPT;

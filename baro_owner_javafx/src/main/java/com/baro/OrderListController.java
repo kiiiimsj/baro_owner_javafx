@@ -5,7 +5,9 @@ import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.JsonParsing.OrderList;
 import com.baro.controllers.OrderController;
 import com.baro.controllers.PopUpController;
+import com.baro.controllers.SettingTimerController;
 import com.baro.controllers.orderDetail.OrderDetailsController;
+import com.baro.utils.DateConverter;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXToggleButton;
@@ -53,8 +55,7 @@ import java.util.prefs.Preferences;
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Node;
 
 
-public class OrderListController {
-
+public class OrderListController implements SettingTimerController.SetTime {
     private final String TAG = this.getClass().getSimpleName();
     public Label digital_clock;
     public HBox top_bar;
@@ -112,6 +113,7 @@ public class OrderListController {
 
     double initialX;
     double initialY;
+    int orderIndex = 0;
 
     private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
     String store_id;
@@ -176,8 +178,8 @@ public class OrderListController {
                         new EventHandler<ActionEvent>() {
                             @Override public void handle(ActionEvent actionEvent) {
                                 Calendar calendar            = GregorianCalendar.getInstance();
-                                String hourString   = pad(2, '0', calendar.get(Calendar.HOUR)   == 0 ? "12" : calendar.get(Calendar.HOUR) + "");
-                                String minuteString = pad(2, '0', calendar.get(Calendar.MINUTE) + "");
+                                String hourString   = DateConverter.pad(2, '0', calendar.get(Calendar.HOUR)   == 0 ? "12" : calendar.get(Calendar.HOUR) + "");
+                                String minuteString = DateConverter.pad(2, '0', calendar.get(Calendar.MINUTE) + "");
                                 //String secondString = pad(2, '0', calendar.get(Calendar.SECOND) + "");
                                 String ampmString   = calendar.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
 
@@ -360,6 +362,8 @@ public class OrderListController {
     }
 
     private HBox makeCell(int index) {
+        orderIndex = index;
+        orderList.orders.get(index).setCompleteTime("제조전");
         HBox hBox = null;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/order.fxml"));
@@ -378,6 +382,7 @@ public class OrderListController {
                             Parent parent = loader.load();
                             orderDetailsContainer.getChildren().add(parent);
                             OrderDetailsController detailcontroller = loader.<OrderDetailsController>getController();
+                            detailcontroller.getMakeTime = OrderListController.this;
                             detailcontroller.setData(details,controller.orderData);
                             detailcontroller.configureLeftUI();
                             //detailcontroller.makeReceiptPreView();
@@ -396,6 +401,7 @@ public class OrderListController {
                                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                                     if (newValue) {
                                         controller.changeToAccept();
+                                        controller.configureUI();
 //                                        detailcontroller.changeToAccept();
                                     }
                                 }
@@ -640,6 +646,27 @@ public class OrderListController {
         };
         webSocketClient.connect();
     }
+
+    @Override
+    public void setMakeTime(int time) {
+        System.out.println("clickButton!!!!!");
+        Calendar calendar   = GregorianCalendar.getInstance();
+        String hourString   = DateConverter.pad(2, '0', calendar.get(Calendar.HOUR)   == 0 ? "12" : calendar.get(Calendar.HOUR) + "");
+        String minuteString = DateConverter.pad(2, '0', calendar.get(Calendar.MINUTE) + "");
+
+
+        int setMinute = Integer.parseInt(minuteString) + time;
+        int ifOverSixty = setMinute/60;
+        int setHour = Integer.parseInt(hourString) + ifOverSixty;
+
+        System.out.println(setMinute);
+        System.out.println(ifOverSixty);
+        System.out.println(setHour);
+
+        orderList.orders.get(orderIndex).setCompleteTime(setHour +":"+setMinute+ " 까지");
+    }
+
+
     public class AlarmPopUp{
         Popup popup;
         PopUpController controller;
@@ -717,14 +744,5 @@ public class OrderListController {
         }else {
             setList((orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER - ONEPAGEORDER,(orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER );
         }
-    }
-    private String pad(int fieldWidth, char padChar, String s) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = s.length(); i < fieldWidth; i++) {
-            sb.append(padChar);
-        }
-        sb.append(s);
-
-        return sb.toString();
     }
 }
