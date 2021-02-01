@@ -79,6 +79,7 @@ public class OrderDetailsController implements Initializable {
     private Parent printParent;
     private Scene printScene;
 
+    public SettingTimerController.SetTime getMakeTime;
     public boolean withOutButton;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -276,6 +277,7 @@ public class OrderDetailsController implements Initializable {
             stage.setTitle("시간 설정");
             Parent parent = loader.load();
             SettingTimerController controller = loader.<SettingTimerController>getController();
+            controller.setTime = getMakeTime;
             controller.getChangeToAccept().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
