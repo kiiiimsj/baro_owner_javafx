@@ -47,14 +47,12 @@ public class OrderController implements Initializable{
     public SimpleBooleanProperty is_Cancel = new SimpleBooleanProperty();
     private int index;
     public static Stage DetailsStage;
-    public SettingTimerController.SetTime setTime;
     Preferences preferences = Preferences.userRoot();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
     public void configureUI() {
-        System.out.println("configureUI");
         customer.setText("고객번호 "+orderData.phone);
         order_count.setText("메뉴 " + orderData.order_count + "개 |");
         price.setText(orderData.total_price+"원");
@@ -65,7 +63,7 @@ public class OrderController implements Initializable{
             state.setText("신규");
             state.setStyle("-fx-background-color: rgba(131,50,230,0.75); -fx-text-fill: white;-fx-background-radius: 5px; ");
         }
-
+        System.out.println("intheorder : "+orderData.getCompleteTime());
         timeLabel.setText(orderData.getCompleteTime());
 //        new Thread(new Runnable() {
 //            @Override
@@ -117,6 +115,7 @@ public class OrderController implements Initializable{
         orderData.order_state = Order.ACCEPT;
         state.setText("제조중");
         state.setStyle("-fx-background-color: rgb(255,111,0);-fx-text-fill: white;-fx-background-radius: 5px;");
+        timeLabel.setText(orderData.getCompleteTime());
     }
     public void setData(Order data,int index) {
         this.orderData = data;

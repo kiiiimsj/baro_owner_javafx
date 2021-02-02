@@ -35,6 +35,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -79,7 +81,8 @@ public class OrderDetailsController implements Initializable {
     private Parent printParent;
     private Scene printScene;
 
-    public SettingTimerController.SetTime getMakeTime;
+    public int timeInt;
+
     public boolean withOutButton;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -277,12 +280,13 @@ public class OrderDetailsController implements Initializable {
             stage.setTitle("시간 설정");
             Parent parent = loader.load();
             SettingTimerController controller = loader.<SettingTimerController>getController();
-            controller.setTime = getMakeTime;
+
             controller.getChangeToAccept().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     if (newValue == true){
                         changeToAccept.set(newValue);
+                        timeInt = controller.timeInt;
                         order.order_state = Order.ACCEPT;
                         setTime.setVisible(false);
                         completeBtn.setVisible(true);

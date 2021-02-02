@@ -55,7 +55,7 @@ import java.util.prefs.Preferences;
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Node;
 
 
-public class OrderListController implements SettingTimerController.SetTime {
+public class OrderListController {
     private final String TAG = this.getClass().getSimpleName();
     public Label digital_clock;
     public HBox top_bar;
@@ -245,6 +245,12 @@ public class OrderListController implements SettingTimerController.SetTime {
         close.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                for (int i = 0; i < orderList.orders.size(); i++) {
+                    if(!orderList.orders.get(i).completeTime.equals("제조중")) {
+                        preferences.putInt("index"+i+"", i);
+                        preferences.put("time"+i+"", orderList.orders.get(i).getCompleteTime());
+                    }
+                }
                 Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
                 stage.close();
             }
@@ -357,13 +363,22 @@ public class OrderListController implements SettingTimerController.SetTime {
 
     private void parsingOrders(String toString) {
         orderList = new Gson().fromJson(toString, OrderList.class);
+        for (int i = 0; i < orderList.orders.size() ; i++) {
+            orderList.orders.get(i).setCompleteTime("제조중");
+        }
+        for (int i = 0; i < orderList.orders.size(); i++) {
+            if(preferences.getInt("index"+i+"", -1) != -1) {
+                if(!preferences.get("time"+i+"", "").equals("")) {
+                    orderList.orders.get(i).setCompleteTime(preferences.get("time"+i+"", ""));
+                }
+            }
+        }
         System.out.println(orderList.orders.size()+"");
 //        Collections.reverse(orderList.orders);
     }
 
     private HBox makeCell(int index) {
         orderIndex = index;
-        orderList.orders.get(index).setCompleteTime("제조전");
         HBox hBox = null;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/order.fxml"));
@@ -382,7 +397,6 @@ public class OrderListController implements SettingTimerController.SetTime {
                             Parent parent = loader.load();
                             orderDetailsContainer.getChildren().add(parent);
                             OrderDetailsController detailcontroller = loader.<OrderDetailsController>getController();
-                            detailcontroller.getMakeTime = OrderListController.this;
                             detailcontroller.setData(details,controller.orderData);
                             detailcontroller.configureLeftUI();
                             //detailcontroller.makeReceiptPreView();
@@ -400,8 +414,9 @@ public class OrderListController implements SettingTimerController.SetTime {
                                 @Override
                                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                                     if (newValue) {
+                                        orderList.orders.get(index).setCompleteTime(setTimeLabel(detailcontroller.timeInt));
+                                        controller.setData(orderList.orders.get(index), index);
                                         controller.changeToAccept();
-                                        controller.configureUI();
 //                                        detailcontroller.changeToAccept();
                                     }
                                 }
@@ -446,7 +461,18 @@ public class OrderListController implements SettingTimerController.SetTime {
         }
         return hBox;
     }
+    private String setTimeLabel(int time) {
+        Calendar calendar   = GregorianCalendar.getInstance();
+        String hourString   = DateConverter.pad(2, '0', calendar.get(Calendar.HOUR)   == 0 ? "12" : calendar.get(Calendar.HOUR) + "");
+        String minuteString = DateConverter.pad(2, '0', calendar.get(Calendar.MINUTE) + "");
 
+
+        int setMinute = Integer.parseInt(minuteString) + time;
+        int ifOverSixty = setMinute/60;
+        int setHour = Integer.parseInt(hourString) + ifOverSixty;
+
+        return setHour + ":" +setMinute+ " 까지";
+    }
     private void setList(int startIndex,int endIndex) {
         childContainer.getChildren().remove(0,childContainer.getChildren().size());
         for (int i = endIndex; i > startIndex; i--) {
@@ -647,24 +673,6 @@ public class OrderListController implements SettingTimerController.SetTime {
         webSocketClient.connect();
     }
 
-    @Override
-    public void setMakeTime(int time) {
-        System.out.println("clickButton!!!!!");
-        Calendar calendar   = GregorianCalendar.getInstance();
-        String hourString   = DateConverter.pad(2, '0', calendar.get(Calendar.HOUR)   == 0 ? "12" : calendar.get(Calendar.HOUR) + "");
-        String minuteString = DateConverter.pad(2, '0', calendar.get(Calendar.MINUTE) + "");
-
-
-        int setMinute = Integer.parseInt(minuteString) + time;
-        int ifOverSixty = setMinute/60;
-        int setHour = Integer.parseInt(hourString) + ifOverSixty;
-
-        System.out.println(setMinute);
-        System.out.println(ifOverSixty);
-        System.out.println(setHour);
-
-        orderList.orders.get(orderIndex).setCompleteTime(setHour +":"+setMinute+ " 까지");
-    }
 
 
     public class AlarmPopUp{

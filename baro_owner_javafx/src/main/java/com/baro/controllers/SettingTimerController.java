@@ -32,10 +32,6 @@ import java.util.Set;
 import java.util.prefs.Preferences;
 
 public class SettingTimerController implements Initializable {
-    public interface SetTime{
-        void setMakeTime(int time);
-    }
-
     @FXML
     private Button button1;
     @FXML
@@ -52,12 +48,12 @@ public class SettingTimerController implements Initializable {
     private Button reset;
     @FXML
     private Label time;
+    public int timeInt = 0;
     private String receipt_id;
     private String store_id;
     private String phone;
     Preferences preferences = Preferences.userRoot();
     private final SimpleBooleanProperty changeToAccept = new SimpleBooleanProperty();
-    public SetTime setTime;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -135,7 +131,7 @@ public class SettingTimerController implements Initializable {
     }
     private void sendCustomerMessage(String time) {
         System.out.println("click button1");
-        setTime.setMakeTime(Integer.parseInt(time));
+        timeInt = Integer.parseInt(time);
         try{
             URL url = new URL("http://3.35.180.57:8080/OwnerSendMessage.do");
             URLConnection con = url.openConnection();
