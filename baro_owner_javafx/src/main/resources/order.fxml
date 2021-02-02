@@ -39,7 +39,7 @@
          <children>
 <!--            <Circle fill="#8333e6" radius="25.0" />-->
 <!--            <Rectangle fx:id="timer" fill="#3d3d3d" height="10" width="50" translateY="-30"/>-->
-            <Label fx:id="timeLabel" alignment="CENTER" prefHeight="40.0" prefWidth="60" style="-fx-text-fill: white; -fx-font-size: 12pt">
+            <Label fx:id="timeLabel" alignment="CENTER" prefHeight="40.0" prefWidth="80" style="-fx-text-fill: white; -fx-font-size: 12pt">
                <maxWidth>
                   <Double fx:constant="MAX_VALUE" />
                </maxWidth>
