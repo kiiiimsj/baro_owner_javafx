@@ -73,6 +73,7 @@ public class OrderDetailsController implements Initializable {
     private final SimpleBooleanProperty changeToAccept = new SimpleBooleanProperty();
     private final SimpleBooleanProperty changeToCancel = new SimpleBooleanProperty();
     private final SimpleBooleanProperty changeToDone = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty needToSettingMainPrint = new SimpleBooleanProperty();
 
     private Preferences preferences = Preferences.userRoot();
 
@@ -109,6 +110,7 @@ public class OrderDetailsController implements Initializable {
     public SimpleBooleanProperty getChangeToDone(){
         return changeToDone;
     }
+    public SimpleBooleanProperty getNeedToSettingMainPrint() {return needToSettingMainPrint;}
     public void changeToAccept(){
 
     }
@@ -192,11 +194,11 @@ public class OrderDetailsController implements Initializable {
 
                 print.makeReceiptString(data, order);
 
-                if(!preferences.getBoolean("printBefore", false)) {
+                if(!preferences.get("setMainPortName", "").equals("")) {
                     print.startPrint();
-                    stage.show();
+                    needToSettingMainPrint.set(false);
                 } else {
-                    print.startPrint();
+                    needToSettingMainPrint.set(true);
                 }
                 stage.onCloseRequestProperty().set(new EventHandler<WindowEvent>() {
                     @Override

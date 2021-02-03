@@ -431,6 +431,12 @@ public class OrderListController {
                                     }
                                 }
                             });
+                            detailcontroller.getNeedToSettingMainPrint().addListener(new ChangeListener<Boolean>() {
+                                @Override
+                                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                                    tabContainer.getSelectionModel().selectLast();
+                                }
+                            });
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

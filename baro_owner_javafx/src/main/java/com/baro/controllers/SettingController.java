@@ -13,16 +13,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 public class SettingController implements Initializable {
+
 
     Preferences preferences = Preferences.userRoot();
     private ArrayList<Integer> makeDataBit = new ArrayList<Integer>() {{
@@ -71,42 +75,49 @@ public class SettingController implements Initializable {
     private ComboBox<String> select_stop_bit_combo;
      @FXML
     private ComboBox<String> select_flow_controller_combo;
-    
+
+    public HBox print_info_combo_box;
     @FXML
-    private Button save_print;
+    private HBox save_print_grid_pane;
     @FXML
     private Button test_print;
+    public Button delete_print;
+    public Button set_main_print;
+    public Button save_print;
 
-    String getPortName;
-    int getBaudRate;
-    int getDataBit;
-    String getParity;
-    String getStopBit;
-    String getFlowControll;
+//    String getPortName;
+//    int getBaudRate;
+//    int getDataBit;
+//    String getParity;
+//    String getStopBit;
+//    String getFlowControll;
+
+    int oldValueLabelIndex = 0;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        insert_print_name_text.setAlignment(Pos.CENTER_RIGHT);
-        select_com_port_combo_text.setAlignment(Pos.CENTER_RIGHT);
-        select_data_bit_combo_text.setAlignment(Pos.CENTER_RIGHT);
-        select_baud_rate_combo_text.setAlignment(Pos.CENTER_RIGHT);
-        select_parity_combo_text.setAlignment(Pos.CENTER_RIGHT);
-        select_stop_bit_combo_text.setAlignment(Pos.CENTER_RIGHT);
-        select_flow_controller_combo_text.setAlignment(Pos.CENTER_RIGHT);
+        print_info_combo_box.setVisible(false);
+        delete_print.setVisible(false);
+        set_main_print.setVisible(false);
+        save_print.setVisible(false);
+        test_print.setVisible(false);
 
-        getPortName = preferences.get("savePortName", "");
-        getBaudRate = preferences.getInt("saveBaudRate", 0);
-        getDataBit = preferences.getInt("saveDataBit", 0);
-        getParity = preferences.get("saveParity", "");
-        getStopBit = preferences.get("saveStopBit", "");
-        getFlowControll = preferences.get("saveFlowControll", "");
+//        getPortName = preferences.get("savePortName", "");
+//        getBaudRate = preferences.getInt("saveBaudRate", 0);
+//        getDataBit = preferences.getInt("saveDataBit", 0);
+//        getParity = preferences.get("saveParity", "");
+//        getStopBit = preferences.get("saveStopBit", "");
+//        getFlowControll = preferences.get("saveFlowControll", "");
 
-        makePortList.add(getPortName);
+        setPrintList();
+
+//        makePortList.add(getPortName);
         if (SerialPort.getCommPorts().length != 0 ) {
             for (SerialPort port : SerialPort.getCommPorts()) {
-                if (!port.getDescriptivePortName().equals(getPortName)) {
-                    makePortList.add(port.getSystemPortName());
-                }
+                makePortList.add(port.getSystemPortName());
+//                if (!port.getDescriptivePortName().equals(getPortName)) {
+//                    makePortList.add(port.getSystemPortName());
+//                }
             }
         }
         ObservableList<String> portList = FXCollections.observableList(makePortList);
@@ -121,33 +132,190 @@ public class SettingController implements Initializable {
         select_stop_bit_combo.setItems(stopBitList);
         ObservableList<String> flowList = FXCollections.observableList(makeFlowController);
         select_flow_controller_combo.setItems(flowList);
-        select_com_port_combo.setValue(getPortName);
-        select_baud_rate_combo.setValue(getBaudRate);
-        select_data_bit_combo.setValue(getDataBit);
+
         setEvent();
     }
-    public void setEvent() {
-        save_print.setOnAction(new EventHandler<ActionEvent>() {
+    public void setPrintList() {
+        if(save_print_grid_pane.getChildren().size() != 0) {
+            save_print_grid_pane.getChildren().removeAll();
+        }
+        for (int i = 0; i < 5 ; i++) {
+            System.out.println("savePrintName : "+ preferences.get("savePrintName"+i+"", ""));
+            final int index = i;
+            if(!preferences.get("savePrintName"+i+"", "").equals("")) {
+                save_print_grid_pane.getChildren().add(index, addPrint(index));
+            }else {
+                save_print_grid_pane.getChildren().add(index, addNoPrint(index));
+            }
+        }
+    }
+    public Label addPrint(final int index) {
+        Label print = new Label(preferences.get("savePrintName"+index+"", ""));
+        print.setMinWidth(230);
+        print.setMinHeight(100);
+        print.setAlignment(Pos.CENTER);
+        print.setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 30px;-fx-background-radius: 5px");
+        print.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent event) {
-                if(event.getEventType() == ActionEvent.ACTION) {
-                    HashMap<String, Object> printSave = new HashMap<>();
-                    //printSave.put("savePrint");
-                    preferences.put("savePrintName", insert_print_name_field.getText());
-                    preferences.put("savePortName", select_com_port_combo.getValue());
-                    preferences.putInt("saveBaudRate", select_baud_rate_combo.getValue());
-                    preferences.putInt("saveDataBit", select_data_bit_combo.getValue());
-                    preferences.put("saveParity", select_parity_combo.getValue());
-                    preferences.put("saveStopBit", select_stop_bit_combo.getValue());
-                    preferences.put("saveFlowControll", select_flow_controller_combo.getValue());
+            public void handle(MouseEvent event) {
+                print.setStyle("-fx-text-fill: white;-fx-background-color: gray;-fx-font-size: 30px;-fx-background-radius: 5px");
+                System.out.println("PrintOld : " + oldValueLabelIndex);
+                System.out.println("Print : " + index);
+                if(oldValueLabelIndex != index) {
+                    save_print_grid_pane
+                            .getChildren()
+                            .get(oldValueLabelIndex)
+                            .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 30px;-fx-background-radius: 5px");
                 }
+                oldValueLabelIndex = index;
+
+                print_info_combo_box.setVisible(true);
+                save_print.setVisible(true);
+                delete_print.setVisible(true);
+                set_main_print.setVisible(true);
+                test_print.setVisible(true);
+
+                insert_print_name_field.setText(preferences.get("savePrintName"+index+"", ""));
+                select_com_port_combo.setValue(preferences.get("savePortName"+index+"", ""));
+                select_baud_rate_combo.setValue(preferences.getInt("saveBaudRate"+index+"", -1));
+                select_data_bit_combo.setValue(preferences.getInt("saveDataBit"+index+"", -1));
+                select_parity_combo.setValue(preferences.get("saveParity"+index+"", ""));
+                select_stop_bit_combo.setValue(preferences.get("saveStopBit"+index+"",""));
+                select_flow_controller_combo.setValue(preferences.get("saveFlowControll"+index+"",""));
+                save_print.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        preferences.put("savePrintName"+index+"", insert_print_name_field.getText());
+                        preferences.put("savePortName"+index+"", select_com_port_combo.getValue());
+                        preferences.putInt("saveBaudRate"+index+"", select_baud_rate_combo.getValue());
+                        preferences.putInt("saveDataBit"+index+"", select_data_bit_combo.getValue());
+                        preferences.put("saveParity"+index+"", select_parity_combo.getValue());
+                        preferences.put("saveStopBit"+index+"",select_stop_bit_combo.getValue());
+                        preferences.put("saveFlowControll"+index+"",select_flow_controller_combo.getValue());
+//                        save_print_grid_pane.getChildren().remove(index);
+                        //save_print_grid_pane.add(addPrint(index), index, 0);
+                        save_print_grid_pane.getChildren().remove(index);
+                        save_print_grid_pane.getChildren().add(index, addPrint(index));
+                    }
+                });
+                delete_print.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if(preferences.get("setMainPrint", "").equals( preferences.get("savePrintName"+index+"",""))) {
+                            deleteMainPrint();
+                        }
+                        print_info_combo_box.setVisible(false);
+                        save_print.setVisible(false);
+                        delete_print.setVisible(false);
+                        set_main_print.setVisible(false);
+                        test_print.setVisible(false);
+                        preferences.put("savePrintName"+index+"", "");
+                        preferences.put("savePortName"+index+"", "");
+                        preferences.putInt("saveBaudRate"+index+"", -1);
+                        preferences.putInt("saveDataBit"+index+"", -1);
+                        preferences.put("saveParity"+index+"", "");
+                        preferences.put("saveStopBit"+index+"","");
+                        preferences.put("saveFlowControll"+index+"","");
+//                save_print_grid_pane.getChildren().remove(index);
+                        //save_print_grid_pane.add(addNoPrint(index), index, 0);
+                        save_print_grid_pane.getChildren().remove(index);
+                        save_print_grid_pane.getChildren().add(index, addNoPrint(index));
+                    }
+                });
             }
         });
+        return print;
+    }
+    public Label addNoPrint(final int index) {
+        Label noPrint = new Label("+");
+        noPrint.setMinWidth(230);
+        noPrint.setMinHeight(100);
+        noPrint.setAlignment(Pos.CENTER);
+        noPrint.setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 30px;-fx-background-radius: 5px");
+        noPrint.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                noPrint.setStyle("-fx-text-fill: white;-fx-background-color: gray;-fx-font-size: 30px;-fx-background-radius: 5px");
+                System.out.println("noPrintOld : " + oldValueLabelIndex);
+                System.out.println("noPrint : " + index);
+                if(oldValueLabelIndex != index) {
+                    save_print_grid_pane
+                            .getChildren()
+                            .get(oldValueLabelIndex)
+                            .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 30px;-fx-background-radius: 5px");
+                }
+                oldValueLabelIndex = index;
+
+                print_info_combo_box.setVisible(true);
+                save_print.setVisible(true);
+
+                set_main_print.setVisible(false);
+                delete_print.setVisible(false);
+                test_print.setVisible(false);
+
+                insert_print_name_field.setText("");
+                select_com_port_combo.setValue("");
+                select_baud_rate_combo.setValue(0);
+                select_data_bit_combo.setValue(0);
+                select_parity_combo.setValue("");
+                select_stop_bit_combo.setValue("");
+                select_flow_controller_combo.setValue("");
+                save_print.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        System.out.println("savePrint");
+                        print_info_combo_box.setVisible(false);
+                        save_print.setVisible(false);
+                        delete_print.setVisible(false);
+                        set_main_print.setVisible(false);
+                        test_print.setVisible(false);
+                        preferences.put("savePrintName"+index+"", insert_print_name_field.getText());
+                        preferences.put("savePortName"+index+"", select_com_port_combo.getValue());
+                        preferences.putInt("saveBaudRate"+index+"", select_baud_rate_combo.getValue());
+                        preferences.putInt("saveDataBit"+index+"", select_data_bit_combo.getValue());
+                        preferences.put("saveParity"+index+"", select_parity_combo.getValue());
+                        preferences.put("saveStopBit"+index+"",select_stop_bit_combo.getValue());
+                        preferences.put("saveFlowControll"+index+"",select_flow_controller_combo.getValue());
+//                        save_print_grid_pane.getChildren().remove(index);
+//                        save_print_grid_pane.add(addPrint(index), index, 0);
+                        save_print_grid_pane.getChildren().remove(index);
+                        save_print_grid_pane.getChildren().add(index, addPrint(index));
+                    }
+                });
+            }
+        });
+        return noPrint;
+    }
+
+    private void deleteMainPrint() {
+        System.out.println("deleteMain");
+        preferences.put("setMainPrint", "");
+        preferences.put("setMainPortName", "");
+        preferences.putInt("setMainBaudRate", -1);
+        preferences.putInt("setMainDataBit", -1);
+        preferences.put("setMainParity", "");
+        preferences.put("setMainStopBit","");
+        preferences.put("setMainFlowControll","");
+    }
+
+    public void setEvent() {
         test_print.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 testPrint(select_com_port_combo.getValue(), select_baud_rate_combo.getValue(), select_data_bit_combo.getValue()
                         ,select_parity_combo.getValue(), select_stop_bit_combo.getValue(), select_flow_controller_combo.getValue());
+            }
+        });
+        set_main_print.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                preferences.put("setMainPrint", insert_print_name_field.getText());
+                preferences.put("setMainPortName", select_com_port_combo.getValue());
+                preferences.putInt("setMainBaudRate", select_baud_rate_combo.getValue());
+                preferences.putInt("setMainDataBit", select_data_bit_combo.getValue());
+                preferences.put("setMainParity", select_parity_combo.getValue());
+                preferences.put("setMainStopBit",select_stop_bit_combo.getValue());
+                preferences.put("setMainFlowControll",select_flow_controller_combo.getValue());
             }
         });
     }

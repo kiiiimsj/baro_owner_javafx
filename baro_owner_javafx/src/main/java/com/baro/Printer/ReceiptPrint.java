@@ -221,14 +221,22 @@ public class ReceiptPrint implements Initializable {
      **************************************************************************/
     public void setSpinner() {
         System.out.println("setSpinner");
-        if(!preferences.getBoolean("printBefore", false) ) {
+        if(!preferences.get("setMainPrint", "").equals("") ) {
             System.out.println("setSpinnerIn");
-            String getPortName = preferences.get("savePortName", "");
-            int getBaudRate = preferences.getInt("saveBaudRate", 0);
-            int getDataBit = preferences.getInt("saveDataBit", 0);
-            String getParity = preferences.get("saveParity", "");
-            String getStopBit = preferences.get("saveStopBit", "");
-            String getFlowControll = preferences.get("saveFlowControll", "");
+
+            String getPortName = preferences.get("setMainPortName", "");
+            int getBaudRate = preferences.getInt("setMainBaudRate", -1);
+            int getDataBit = preferences.getInt("setMainDataBit", -1);
+            String getParity = preferences.get("setMainParity", "");
+            String getStopBit = preferences.get("setMainStopBit","");
+            String getFlowControll = preferences.get("setMainFlowControll","");
+            System.out.println(preferences.get("setMainPrint",""));
+//            String getPortName = preferences.get("savePortName", "");
+//            int getBaudRate = preferences.getInt("saveBaudRate", 0);
+//            int getDataBit = preferences.getInt("saveDataBit", 0);
+//            String getParity = preferences.get("saveParity", "");
+//            String getStopBit = preferences.get("saveStopBit", "");
+//            String getFlowControll = preferences.get("saveFlowControll", "");
 
             if(!getPortName.equals("") && getBaudRate != 0 && getDataBit != 0
             && !getParity.equals("") && !getStopBit.equals("") && !getFlowControll.equals("")) {
@@ -546,13 +554,5 @@ public class ReceiptPrint implements Initializable {
         serialPort.closePort();
 
         System.out.println("serialPort close " +serialPort.isOpen() + "");
-
-        preferences.put("savePortName", portName);
-        preferences.putInt("saveBaudRate", baudrate);
-        preferences.putInt("saveDataBit", dataBit);
-        preferences.put("saveParity", parity);
-        preferences.put("saveStopBit", stopBit);
-        preferences.put("saveFlowControll", flow);
-        preferences.putBoolean("printBefore", true);
     }
 }
