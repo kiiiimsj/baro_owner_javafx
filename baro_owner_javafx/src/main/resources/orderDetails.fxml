@@ -20,7 +20,7 @@
         <Insets left="10" right="10"/>
     </padding>
     <!-- 영업중, 영업종료 토글 버튼 클릭이 막혀서 따로 크기 설정-->
-   <HBox fx:id="top_area" prefHeight="100.0" prefWidth="450.0" >
+   <HBox fx:id="top_area" prefHeight="100.0" prefWidth="450.0" pickOnBounds="false">
       <children>
           <!-- 오른쪽에서 왼쪽으로 이동, 토글 버튼 가림 -->
 <!--         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />-->
@@ -64,6 +64,10 @@
                     </VBox.margin>
                     <Label styleClass="label-left" text="합계 :" style="-fx-font-size: 18pt"/>
                     <Label fx:id="totalPriceLabel" styleClass="label-left" text="010" style="-fx-font-size: 18pt"/>
+                </HBox>
+                <HBox>
+                    <Label styleClass="label-left" text="할인액 :" style="-fx-font-size: 18pt"/>
+                    <Label fx:id="discountRatePriceLabel" styleClass="label-left" text="010" style="-fx-font-size: 18pt"/>
                 </HBox>
                 <HBox>
                     <Label styleClass="label-left" text="쿠폰 :" style="-fx-font-size: 18pt"/>

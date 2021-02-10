@@ -419,7 +419,10 @@ public class ReceiptPrint implements Initializable {
             }
 
         }
-        texTitleText.append("-------------------------------------\n").append("쿠폰 : ")
+        texTitleText.append("-------------------------------------\n")
+                .append("할인액 : ")
+                .append((orderInfo.total_price * 100 / (100 - orderInfo.discount_rate)) - orderInfo.total_price +"")
+                .append("쿠폰 : ")
                 .append(orderInfo.discount_price)
                 .append("원")
                 .append("\n");

@@ -45,6 +45,7 @@ public class OrderDetailsController implements Initializable {
     public GridPane button_area;
     public VBox base;
     public HBox top_area;
+    public Label discountRatePriceLabel;
     @FXML
     private Label phoneLabel;
     @FXML
@@ -167,6 +168,7 @@ public class OrderDetailsController implements Initializable {
                 );
         requestLabel.setText(data.requests);
         totalPriceLabel.setText(order.total_price+" 원");
+        discountRatePriceLabel.setText((order.total_price * 100 / (100 - order.discount_rate)) - order.total_price +"");
         discountPriceLabel.setText(order.discount_price + " 원");
         finalPriceLabel.setText("결제 금액 : "+(order.total_price - order.discount_price) + " 원");
 
