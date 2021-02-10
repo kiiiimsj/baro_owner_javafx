@@ -3,6 +3,8 @@ package com.baro;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.JsonParsing.OrderList;
+import com.baro.Printer.ReceiptPrint;
+import com.baro.controllers.DiscountRateController;
 import com.baro.controllers.OrderController;
 import com.baro.controllers.PopUpController;
 import com.baro.controllers.SettingTimerController;
@@ -27,6 +29,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -35,9 +38,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Popup;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
+import javafx.stage.*;
 import javafx.util.Duration;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
@@ -55,13 +56,15 @@ import java.util.prefs.Preferences;
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Node;
 
 
-public class OrderListController {
+public class OrderListController implements DiscountRateController.ClickClose{
     private final String TAG = this.getClass().getSimpleName();
     public Label digital_clock;
     public HBox top_bar;
     public FontAwesomeIconView minimum;
     public FontAwesomeIconView maximum;
     public FontAwesomeIconView close;
+    public Label store_discount_rate;
+    public VBox discount_rate_set;
 
     @FXML
     private JFXTabPane tabContainer;
@@ -114,6 +117,7 @@ public class OrderListController {
     double initialX;
     double initialY;
     int orderIndex = 0;
+    int discountRate = 0;
 
     private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
     String store_id;
@@ -163,15 +167,75 @@ public class OrderListController {
                 popUp.controller.changeCount((int)newValue);
             }
         });
+        discount_rate_set.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/discount_rate_page.fxml"));
+                    Parent parent = loader.load();
+                    Scene discountRateScene = new Scene(parent);
+                    DiscountRateController discountRateController = loader.<DiscountRateController>getController();
+                    discountRateController.clickClose = OrderListController.this::clickClose;
+                    Stage stage = new Stage(StageStyle.UNDECORATED);
+                    stage.initModality(Modality.WINDOW_MODAL);
+                    stage.setResizable(false);
+                    stage.setScene(discountRateScene);
+
+                    discountRateController.storeId = store_id;
+                    discountRateController.setDiscountRate(discountRate);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         store_id = preferences.get("store_id", null);
         System.out.println("store_id" + store_id);
         connect();
+        GetDiscountRate();
         configureSideView();
         configureOrderListView();
         configureTopBar();
     }
+    private void GetDiscountRate() {
+        try {
+            URL url = new URL("http://3.35.180.57:8080/GetStoreDiscount.do?store_id="+store_id);
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("GET");
+            http.setRequestProperty("Content-Type", "application/json;utf-8");
+            http.setRequestProperty("Accept", "application/json");
+            http.setDoOutput(true);
 
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer bf = new StringBuffer();
+
+            while ((line = br.readLine()) != null) {
+                bf.append(line);
+            }
+            br.close();
+
+            System.out.println("response" + bf.toString());
+            boolean result = getBool(bf.toString());
+            ;
+            if (result) {
+                System.out.println("성공");
+                discountRate = new JSONObject(bf.toString()).getInt("discount_rate");
+                store_discount_rate.setText(discountRate+"%");
+            } else {
+                System.out.println("실패");
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void configureTopBar() {
         final Timeline digitalTime = new Timeline(
                 new KeyFrame(Duration.seconds(0),
@@ -679,6 +743,10 @@ public class OrderListController {
         webSocketClient.connect();
     }
 
+    @Override
+    public void clickClose() {
+        GetDiscountRate();
+    }
 
 
     public class AlarmPopUp{

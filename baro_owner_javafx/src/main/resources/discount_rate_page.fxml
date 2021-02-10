@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.baro.controllers.DiscountRateController"
+            prefHeight="300.0" prefWidth="300.0"
+            style="-fx-background-color: #3d3d3d">
+    <padding>
+        <Insets top="10" bottom="10" left="10" right="10"/>
+    </padding>
+    <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d">
+        <padding>
+            <Insets top="10" bottom="10" right="10"/>
+        </padding>
+        <FontAwesomeIconView fx:id="close" glyphName="CLOSE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
+            <HBox.margin>
+                <Insets top="7"/>
+            </HBox.margin>
+        </FontAwesomeIconView>
+    </HBox>
+    <VBox>
+        <HBox alignment="TOP_CENTER" style="-fx-background-color: #8333e6;-fx-background-radius: 5;">
+            <Label text="현재 할인률 : " style="-fx-font-size: 20pt; -fx-text-fill: white;-fx-font-weight: bold;-fx-font-family: 'Noto Sans CJK KR Regular'"/>
+            <Label fx:id="getDiscountRate"  style="-fx-font-size: 20pt; -fx-text-fill: white;-fx-font-weight: bold;-fx-font-family: 'Noto Sans CJK KR Regular'"/>
+        </HBox>
+        <HBox spacing="50">
+            <Label text="새 할인률 설정 " style="-fx-background-color: white;-fx-background-radius: 5;-fx-font-size: 20pt;
+            -fx-text-fill: #8333e6;-fx-font-weight: bold;-fx-font-family: 'Noto Sans CJK KR Regular'" HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="setNewDiscountRate"  prefWidth="50" style="-fx-font-size: 14pt;
+             -fx-text-fill: #8333e6;-fx-font-weight: bold;-fx-font-family: 'Noto Sans CJK KR Regular'" HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </VBox>
+    <Region VBox.vgrow="ALWAYS" />
+    <HBox>
+        <Button fx:id="setButton" text="설정" maxWidth="Infinity"  style="-fx-font-size: 20pt; -fx-text-fill: white;-fx-font-weight: bold;-fx-font-family: 'Noto Sans CJK KR Regular';
+-fx-background-color: #8333e6;-fx-background-radius: 5" onAction="#clickSetButton" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+</VBox>

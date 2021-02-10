@@ -11,11 +11,20 @@ public class Order {
     public int order_count;
     public int total_price;
     public int discount_price;
+    public int discount_rate;
     public String phone;
     public String order_date;
     public String receipt_id;
     public String order_state;
     public String completeTime;
+
+    public int getDiscount_rate() {
+        return discount_rate;
+    }
+
+    public void setDiscount_rate(int discount_rate) {
+        this.discount_rate = discount_rate;
+    }
 
     public static String getPREPARING() {
         return PREPARING;

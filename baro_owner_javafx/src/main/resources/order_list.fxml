@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.TextField?>
 <StackPane prefHeight="900" prefWidth="1400" stylesheets="css/order_list_sheets.css"
            xmlns="http://javafx.com/javafx/8.0.171"
            xmlns:fx="http://javafx.com/fxml/1"
@@ -52,8 +53,22 @@
                 <AnchorPane fx:id="orderListSideContainer" prefWidth="1250" maxHeight="840">
                     <HBox AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" spacing="10.0">
                         <padding>
-                            <Insets left="10.0" right="10.0"/>
+                            <Insets left="10.0" right="10.0" />
                         </padding>
+                        <VBox fx:id="discount_rate_set" prefHeight="80" style="-fx-background-color: #8333e6;-fx-background-radius: 5px" alignment="CENTER" stylesheets="css/label_hover.css">
+                            <HBox.margin>
+                                <Insets right="80"/>
+                            </HBox.margin>
+                            <padding>
+                                <Insets left="10" right="10"/>
+                            </padding>
+                            <Label text="할인률 설정" style="-fx-font-size: 18pt; -fx-text-fill: white;-fx-font-weight: bold;" />
+                            <HBox  style="-fx-background-color: white;-fx-background-radius: 5px">
+                                <Label text="현재 할인률 : " style="-fx-font-size: 13pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;" alignment="CENTER"/>
+                                <Label fx:id="store_discount_rate" style="-fx-font-size: 13pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;" alignment="CENTER"/>
+                            </HBox>
+                        </VBox>
+
                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                                text="영업종료" HBox.hgrow="ALWAYS" style="-fx-font-size: 15pt; -fx-text-fill: white;-fx-font-weight: bold"/>
                         <JFXToggleButton fx:id="isOpenBtn" maxHeight="1.7976931348623157E308"
