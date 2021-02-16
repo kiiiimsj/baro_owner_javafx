@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
@@ -42,6 +43,7 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
         primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.getIcons().add(new Image("icon/appicon_512.png"));
         primaryStage.setTitle("바로(BARO) 포스기");
         setPrimaryStage(primaryStage);
 
@@ -54,8 +56,6 @@ public class Main extends Application {
         // 300 -> 500 -> 580
         Scene scene =  new Scene(root, 500, 580);
 
-        //외부 폰트 적용을 위해 scene를 따로 빼주었음.
-        //앞으로 폰트 적용은 아래 css 파일에서 해주면됨.
 //        scene.getStylesheets().add(getClass().getResource("/fontstyle.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();

@@ -55,7 +55,14 @@ public class OrderController implements Initializable{
     public void configureUI() {
         customer.setText("고객번호 "+orderData.phone);
         order_count.setText("메뉴 " + orderData.order_count + "개 |");
-        price.setText(orderData.total_price+"원");
+
+        System.out.println("orderData" + orderData.discount_rate+"");
+        if(orderData.discount_rate != 0 ){
+            price.setText((orderData.total_price - (int)(orderData.total_price * (orderData.discount_rate / 100.0))) +"원");
+        }else {
+            price.setText(orderData.total_price+"원");
+        }
+
         if (orderData.order_state.equals(Order.ACCEPT)){
             state.setText("제조중");
             state.setStyle("-fx-background-color: rgb(255,111,0); -fx-text-fill: white;-fx-background-radius: 5px;");

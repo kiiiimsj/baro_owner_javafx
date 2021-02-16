@@ -12,7 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
@@ -24,6 +26,8 @@ import java.net.*;
 import java.util.ResourceBundle;
 
 public class DiscountRateController implements Initializable {
+    public HBox top_bar;
+
     public interface ClickClose{
         void clickClose();
     }
@@ -34,8 +38,30 @@ public class DiscountRateController implements Initializable {
     public String storeId;
     public FontAwesomeIconView close;
     public ClickClose clickClose;
+
+    private double initialX;
+    private double initialY;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (me.getButton() != MouseButton.MIDDLE) {
+                    initialX = me.getSceneX();
+                    initialY = me.getSceneY();
+                }
+            }
+        });
+
+        top_bar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (me.getButton() != MouseButton.MIDDLE) {
+                    top_bar.getScene().getWindow().setX(me.getScreenX() - initialX);
+                    top_bar.getScene().getWindow().setY(me.getScreenY() - initialY);
+                }
+            }
+        });
         close.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -47,7 +73,8 @@ public class DiscountRateController implements Initializable {
     }
     public void setDiscountRate(int discountRate) {
         this.discountRate = discountRate;
-        getDiscountRate.setText(discountRate+"%");
+        setNewDiscountRate.setPromptText(discountRate+"");
+        //getDiscountRate.setText(discountRate+"%");
     }
 
     public void clickSetButton(ActionEvent actionEvent) {
