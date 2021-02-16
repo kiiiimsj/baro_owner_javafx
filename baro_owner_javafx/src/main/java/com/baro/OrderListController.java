@@ -278,19 +278,19 @@ public class OrderListController implements DiscountRateController.ClickClose{
                 }
             }
         });
-        top_bar.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                top_bar.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                        stage.setMaxWidth(1400);
-                        stage.setMaxHeight(900);
-                    }
-                });
-            }
-        });
+//        top_bar.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                top_bar.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//                    @Override
+//                    public void handle(MouseEvent event) {
+//                        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+//                        stage.setMaxWidth(1400);
+//                        stage.setMaxHeight(900);
+//                    }
+//                });
+//            }
+//        });
         minimum.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -302,8 +302,12 @@ public class OrderListController implements DiscountRateController.ClickClose{
             @Override
             public void handle(MouseEvent event) {
                 Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                stage.setFullScreenExitHint(" ");
-                stage.setFullScreen(true);
+                if(stage.isFullScreen()) {
+                    stage.setFullScreen(false);
+                }else {
+                    //stage.setFullScreenExitHint(" ");
+                    stage.setFullScreen(true);
+                }
             }
         });
         close.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -427,14 +431,13 @@ public class OrderListController implements DiscountRateController.ClickClose{
 
     private void parsingOrders(String toString) {
         orderList = new Gson().fromJson(toString, OrderList.class);
-        for (int i = 0; i < orderList.orders.size() ; i++) {
-            orderList.orders.get(i).setCompleteTime("제조중");
-        }
         for (int i = 0; i < orderList.orders.size(); i++) {
             if(preferences.getInt("index"+i+"", -1) != -1) {
                 if(!preferences.get("time"+i+"", "").equals("")) {
                     orderList.orders.get(i).setCompleteTime(preferences.get("time"+i+"", ""));
                 }
+            }else {
+                orderList.orders.get(i).setCompleteTime("제조중");
             }
         }
         System.out.println(orderList.orders.size()+"");
