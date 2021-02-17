@@ -167,8 +167,6 @@ public class StatisticsController implements Initializable {
     }
 
 
-
-
     /***************************************************************************
      *
      * 라인차트와 리스트 데이터 받아오기                                                             
