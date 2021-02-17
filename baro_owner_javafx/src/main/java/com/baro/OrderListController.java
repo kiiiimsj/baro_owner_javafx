@@ -314,7 +314,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
             @Override
             public void handle(MouseEvent event) {
                 for (int i = 0; i < orderList.orders.size(); i++) {
-                    if(!orderList.orders.get(i).completeTime.equals("제조중")) {
+                    if(!orderList.orders.get(i).completeTime.equals("")) {
                         preferences.putInt("index"+i+"", i);
                         preferences.put("time"+i+"", orderList.orders.get(i).getCompleteTime());
                     }
@@ -437,7 +437,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
                     orderList.orders.get(i).setCompleteTime(preferences.get("time"+i+"", ""));
                 }
             }else {
-                orderList.orders.get(i).setCompleteTime("제조중");
+                orderList.orders.get(i).setCompleteTime("");
             }
         }
         System.out.println(orderList.orders.size()+"");
@@ -466,7 +466,6 @@ public class OrderListController implements DiscountRateController.ClickClose{
                             OrderDetailsController detailcontroller = loader.<OrderDetailsController>getController();
                             detailcontroller.setData(details,controller.orderData);
                             detailcontroller.configureLeftUI();
-                            //detailcontroller.makeReceiptPreView();
                             detailcontroller.getChangeToCancel().addListener(new ChangeListener<Boolean>() {
                                 @Override
                                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -547,6 +546,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
         return setHour + ":" +setMinute+ " 까지";
     }
     private void setList(int startIndex,int endIndex) {
+        System.out.println("setListCall");
         childContainer.getChildren().remove(0,childContainer.getChildren().size());
         for (int i = endIndex; i > startIndex; i--) {
             HBox hBox = makeCell(i);
@@ -679,7 +679,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
         webSocketClient = new WebSocketClient(uri, new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
-                webSocketClient.send("connect:::" + 1);
+                webSocketClient.send("connect:::" + store_id);
                 System.out.println("open!!");
                 thread.start();
             }

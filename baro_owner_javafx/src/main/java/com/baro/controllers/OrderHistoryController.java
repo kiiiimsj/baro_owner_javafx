@@ -2,6 +2,7 @@ package com.baro.controllers;
 
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
+import com.baro.JsonParsing.OrderHistoryList;
 import com.baro.JsonParsing.OrderList;
 import com.baro.controllers.orderDetail.OrderDetailsController;
 import com.baro.utils.DateConverter;
@@ -168,7 +169,7 @@ public class OrderHistoryController implements Initializable {
     }
 
     private void parsingCompleteList(String toString) {
-        OrderList orderList = new Gson().fromJson(toString, OrderList.class);
+        OrderHistoryList orderList = new Gson().fromJson(toString, OrderHistoryList.class);
         if(!orderList.result || orderList.orders == null) {
             return;
         }
@@ -250,15 +251,42 @@ public class OrderHistoryController implements Initializable {
 
             Label phoneText = new Label("고객번호 : "+order.phone);
             Label receiptIdText = new Label("영수증번호 : " +order.receipt_id);
-            Label discountText = new Label("할인액 : "+order.discount_price+"");
-            Label totalPriceText = new Label("총 액 : "+order.total_price+"");
 
-            menuContent.getChildren().addAll(receiptIdText, phoneText, discountText, totalPriceText);
+            Label discountText = new Label("할인액 : "+order.discount_price+"");
+            if(order.discount_price != 0 ) {
+                discountText.setVisible(true);
+            }else {
+                discountText.setVisible(false);
+            }
+            Label discountRateText = new Label("바로할인액 : " + ((int)(order.total_price * (order.discount_rate / 100.0))) +"");
+            if(order.discount_rate != 0) {
+                discountRateText.setVisible(true);
+            }else {
+                discountRateText.setVisible(false);
+            }
+            HBox totalPriceHBox = new HBox();
+            Label totalPriceLabel = new Label("총 액 : ");
+            Text totalPriceText = new Text (order.total_price+"");
+            Label totalPriceDiscountRateText;
+
+            if(order.discount_rate != 0) {
+                totalPriceDiscountRateText = new Label(" > "+((order.total_price - (int)(order.total_price * (order.discount_rate / 100.0))) - order.discount_price)+"");
+                totalPriceDiscountRateText.setStyle("-fx-font-size: 20pt; ");
+                totalPriceText.setStrikethrough(true);
+                totalPriceHBox.getChildren().addAll(totalPriceLabel, totalPriceText, totalPriceDiscountRateText);
+            }
+            else {
+                totalPriceText.setStrikethrough(false);
+                totalPriceHBox.getChildren().addAll(totalPriceLabel, totalPriceText);
+            }
+            menuContent.getChildren().addAll(receiptIdText, phoneText, discountRateText, discountText, totalPriceHBox);
 
             receiptIdText.setStyle("-fx-font-size: 12pt;");
             phoneText.setStyle("-fx-font-size: 18pt; ");
+            discountRateText.setStyle("-fx-font-size: 18pt;");
             discountText.setStyle("-fx-font-size: 18pt; ");
-            totalPriceText.setStyle("-fx-font-size: 20pt; ");
+            totalPriceText.setStyle("-fx-font-size: 20pt;");
+            totalPriceLabel.setStyle("-fx-font-size: 20pt; ");
             
             cell.getChildren().addAll(dateHbox, menuContent);
             cell.setOnMouseClicked(new EventHandler<MouseEvent>() {
