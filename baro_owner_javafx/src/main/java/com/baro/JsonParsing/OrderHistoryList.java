@@ -2,11 +2,19 @@ package com.baro.JsonParsing;
 
 import java.util.ArrayList;
 
-public class OrderList {
+public class OrderHistoryList {
     public boolean result;
     public ArrayList<Order> orders;
     public String message;
-    public int discount_rate;
+
+    @Override
+    public String toString() {
+        return "OrderHistoryList{" +
+                "result=" + result +
+                ", orders=" + orders +
+                ", message='" + message + '\'' +
+                '}';
+    }
 
     public boolean isResult() {
         return result;
@@ -30,13 +38,5 @@ public class OrderList {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public int getDiscount_rate() {
-        return discount_rate;
-    }
-
-    public void setDiscount_rate(int discount_rate) {
-        this.discount_rate = discount_rate;
     }
 }
