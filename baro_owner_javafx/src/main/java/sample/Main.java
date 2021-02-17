@@ -43,7 +43,7 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.getIcons().add(new Image("icon/appicon_512.png"));
+        primaryStage.getIcons().add(new Image("icon/appicon_512_foreground.png"));
         primaryStage.setTitle("바로(BARO) 포스기");
         setPrimaryStage(primaryStage);
 

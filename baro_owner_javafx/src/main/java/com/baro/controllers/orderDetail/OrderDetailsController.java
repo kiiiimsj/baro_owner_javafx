@@ -154,7 +154,7 @@ public class OrderDetailsController implements Initializable {
         try {
             Parent rightSideMenuDetailParent = rightSideMenuDetailFXMLLoader.load();
             OrderDetailMenuController orderDetailMenuController = rightSideMenuDetailFXMLLoader.<OrderDetailMenuController>getController();
-            orderDetailMenuController.setData(data.orders);
+            orderDetailMenuController.setData(data);
             orderDetailMenuController.configureUI();
             receipt_preview_scroll.setContent((Node)rightSideMenuDetailParent);
         } catch (IOException e) {
@@ -168,9 +168,11 @@ public class OrderDetailsController implements Initializable {
                 );
         requestLabel.setText(data.requests);
         totalPriceLabel.setText(order.total_price+" 원");
-        discountRatePriceLabel.setText((order.total_price * 100 / (100 - order.discount_rate)) - order.total_price +"");
+
+        discountRatePriceLabel.setText((int)(order.total_price * (order.discount_rate / 100.0)) +"원");
+
         discountPriceLabel.setText(order.discount_price + " 원");
-        finalPriceLabel.setText("결제 금액 : "+(order.total_price - order.discount_price) + " 원");
+        finalPriceLabel.setText("결제 금액 : " + ((order.total_price - (int)(order.total_price * (order.discount_rate / 100.0))) - order.discount_price + " 원"));
 
         if (order.order_state.equals(Order.PREPARING)){
             setTime.setVisible(true);

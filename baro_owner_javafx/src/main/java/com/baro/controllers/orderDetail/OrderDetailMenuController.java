@@ -2,6 +2,7 @@ package com.baro.controllers.orderDetail;
 
 import com.baro.JsonParsing.Extras;
 import com.baro.JsonParsing.OrderDetail;
+import com.baro.JsonParsing.OrderDetailParsing;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,7 +19,7 @@ import java.util.ResourceBundle;
 public class OrderDetailMenuController implements Initializable {
 
     public VBox menu_content;
-    private ArrayList<OrderDetail> data;
+    private OrderDetailParsing data;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -26,8 +27,8 @@ public class OrderDetailMenuController implements Initializable {
 
     public void configureUI(){
 
-        for (int i = 0; i < data.size(); i++) {
-            OrderDetail orderDetail = data.get(i);
+        for (int i = 0; i < data.orders.size(); i++) {
+            OrderDetail orderDetail = data.orders.get(i);
             GridPane menuCell = new GridPane();
             menuCell.setMaxWidth(460);
             menuCell.setMinWidth(460);
@@ -54,9 +55,20 @@ public class OrderDetailMenuController implements Initializable {
             menuCell.getColumnConstraints().add(2, columnConstraints3);
 
             menuCell.getRowConstraints().add(0, rowConstraints);
+
             Text menuNameText = new Text(orderDetail.menu_name);
             Text menuCountText = new Text(orderDetail.order_count+"");
-            Text menuDefaultPrice = new Text(orderDetail.menu_defaultprice+"원");
+
+            Text menuDefaultPrice;
+            System.out.println(orderDetail.menu_defaultprice + " : " + data.discount_rate);
+//            if(data.discount_rate != 0 ) {
+//                menuDefaultPrice = new Text( orderDetail.menu_defaultprice - (int)(orderDetail.menu_defaultprice * (data.discount_rate / 100.0))+"원");
+//            }else {
+//                menuDefaultPrice = new Text( orderDetail.menu_defaultprice+"원");
+//            }
+
+            menuDefaultPrice = new Text( orderDetail.menu_defaultprice+"원");
+
             menuCell.addRow(0, menuNameText, menuCountText, menuDefaultPrice);
             menuNameText.setStyle("-fx-font-size: 20pt");
             menuCountText.setStyle("-fx-font-size: 20pt");
@@ -81,7 +93,7 @@ public class OrderDetailMenuController implements Initializable {
             }
         }
     }
-    public void setData(ArrayList<OrderDetail> data){
+    public void setData(OrderDetailParsing data){
         this.data = data;
     }
 }
