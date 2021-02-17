@@ -676,12 +676,16 @@ public class OrderListController implements DiscountRateController.ClickClose{
             return;
         }
 
-        webSocketClient = new WebSocketClient(uri, new Draft_17()) {
+        WebSocketClient ws = new WebSocketClient(uri, new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
                 webSocketClient.send("connect:::" + 1);
                 System.out.println("open!!");
-                thread.start();
+                if (thread.getState() == Thread.State.NEW) {
+                    thread.start();
+                }else{
+
+                }
             }
 
             @Override
@@ -736,6 +740,8 @@ public class OrderListController implements DiscountRateController.ClickClose{
             @Override
             public void onClose(int code, String reason, boolean remote) {
                 System.out.println("close! reaseon :" + reason);
+                webSocketClient = null;
+                OrderListController.this.connect();
             }
 
             @Override
@@ -743,6 +749,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
                 System.out.println("error! :" + ex);
             }
         };
+        webSocketClient = ws;
         webSocketClient.connect();
     }
 
