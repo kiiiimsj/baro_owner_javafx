@@ -1,6 +1,7 @@
 package sample;
 
 import com.baro.controllers.OrderController;
+import com.baro.utils.LayoutWidthHeight;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -54,7 +55,7 @@ public class Main extends Application {
 
 
         // 300 -> 500 -> 580
-        Scene scene =  new Scene(root, 500, 580);
+        Scene scene =  new Scene(root, LayoutWidthHeight.LOGIN_PAGE_WIDTH, LayoutWidthHeight.LOGIN_PAGE_HEIGHT);
 
 //        scene.getStylesheets().add(getClass().getResource("/fontstyle.css").toExternalForm());
         primaryStage.setScene(scene);
