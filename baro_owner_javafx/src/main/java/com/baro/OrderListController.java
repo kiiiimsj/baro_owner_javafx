@@ -10,6 +10,7 @@ import com.baro.controllers.PopUpController;
 import com.baro.controllers.SettingTimerController;
 import com.baro.controllers.orderDetail.OrderDetailsController;
 import com.baro.utils.DateConverter;
+import com.baro.utils.LayoutWidthHeight;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXToggleButton;
@@ -65,6 +66,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
     public FontAwesomeIconView close;
     public Label store_discount_rate;
     public VBox discount_rate_set;
+    public StackPane main_page_stack_pane;
 
     @FXML
     private JFXTabPane tabContainer;
@@ -106,8 +108,8 @@ public class OrderListController implements DiscountRateController.ClickClose{
 
     public static OrderList orderList;
 
-    private double tabWidth = 150.0;
-    private double tabHeight = 150.0;
+    private double tabWidth = LayoutWidthHeight.MAIN_TAB_PANE_WIDTH;
+    private double tabHeight = LayoutWidthHeight.MAIN_TAB_PANE_HEIGHT;
     public static int lastSelectedTabIndex = 0;
     public final static int ONEPAGEORDER = 7; // 한 페이지에 들어가는 갯수
     public static int CURRNETPAGE = 1; // 현재 페이지
@@ -129,6 +131,8 @@ public class OrderListController implements DiscountRateController.ClickClose{
     /// Life cycle
     @FXML
     public void initialize() {
+        main_page_stack_pane.setPrefHeight(LayoutWidthHeight.MAIN_PAGE_HEIGHT);
+        main_page_stack_pane.setPrefWidth(LayoutWidthHeight.MAIN_PAGE_WIDTH);
         try {
             Media media = new Media(getClass().getResource("/sounds.wav").toURI().toString());
             player = new MediaPlayer(media);

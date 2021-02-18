@@ -18,10 +18,12 @@ import java.util.prefs.Preferences;
 
 public class CalculateController implements Initializable {
     public Label week_sum_money_label;
+    public Label baro_discount;
     Preferences preferences = Preferences.userRoot();
     private String owner_store_id;
     private int couponPrice;
     private int menuTotalPrice;
+    private int discountRatePrice;
     private int thisWeekTotalPrice;
 
     @FXML public Label this_week_total_price;
@@ -75,14 +77,18 @@ public class CalculateController implements Initializable {
 
         couponPrice = new JSONObject(jsonString.toString()).getInt("coupon_price");
         menuTotalPrice = new JSONObject(jsonString.toString()).getInt("menu_total_price");
+        discountRatePrice = new JSONObject(jsonString.toString()).getInt("discount_total_price");
+
         thisWeekTotalPrice = menuTotalPrice - couponPrice;
 
         this_week_total_price.setText(thisWeekTotalPrice + " 원");
         coupon_price.setText(couponPrice + " 원");
-        menu_total_price.setText(menuTotalPrice + " 원");
+        baro_discount.setText(discountRatePrice + " 원");
+        menu_total_price.setText((menuTotalPrice - couponPrice - discountRatePrice)+ " 원");
 
         this_week_total_price.setAlignment(Pos.BASELINE_RIGHT);
         coupon_price.setAlignment(Pos.BASELINE_RIGHT);
+        baro_discount.setAlignment(Pos.BASELINE_RIGHT);
         menu_total_price.setAlignment(Pos.BASELINE_RIGHT);
 
         this_week_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
@@ -90,6 +96,8 @@ public class CalculateController implements Initializable {
         coupon_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
                 " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6; -fx-background-color: white;-fx-background-radius: 0 0 10 10");
         menu_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
+                " -fx-text-fill: black; -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6;-fx-background-color: white;-fx-background-radius: 0 0 10 10");
+        baro_discount.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
                 " -fx-text-fill: black; -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6;-fx-background-color: white;-fx-background-radius: 0 0 10 10");
     }
 }

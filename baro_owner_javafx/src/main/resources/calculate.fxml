@@ -58,16 +58,33 @@
                     </padding>
                 </Label>
             </VBox>
+            <VBox alignment="CENTER_LEFT">
+                <padding>
+                    <Insets bottom="40" left="40"/>
+                </padding>
+                <Label text="BARO 할인 금액 " prefWidth="500"  style="-fx-font-size: 40px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white;
+        -fx-background-color: #8333e6; -fx-background-radius: 10px 10px 0px 0px;">
+                    <padding>
+                        <Insets top="20" bottom="20"/>
+                    </padding>
+                </Label>
+
+                <Label fx:id="baro_discount"  prefWidth="500">
+                    <padding>
+                        <Insets top="20" bottom="20" left="20" right="20"/>
+                    </padding>
+                </Label>
+            </VBox>
         </HBox>
 
         <VBox alignment="CENTER_LEFT" >
-           <Label text="입금 받을 금액: "  prefWidth="1040"  style="-fx-font-size: 45px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white;
+           <Label text="입금 받을 금액: "  prefWidth="1500"  style="-fx-font-size: 45px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white;
         -fx-background-color: #8333e6; -fx-background-radius: 10px 10px 0px 0px;">
                <padding>
                    <Insets top="20" bottom="20" left="20" right="20"/>
                </padding>
            </Label>
-           <Label fx:id="menu_total_price" prefWidth="1040">
+           <Label fx:id="menu_total_price" prefWidth="1500">
                <padding>
                    <Insets top="20" bottom="20" left="20" right="20"/>
                </padding>

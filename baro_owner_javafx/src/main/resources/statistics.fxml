@@ -63,9 +63,6 @@
                 </yAxis>
             </LineChart>
             <VBox fx:id="daily_sales_vbox">
-                <HBox.hgrow>
-                    <Priority fx:value="ALWAYS"/>
-                </HBox.hgrow>
                 <JFXListView fx:id="dailySales" />
             </VBox>
         </HBox>
@@ -74,17 +71,8 @@
                 <Insets right="20" left="20"/>
             </padding>
             <Label fx:id="menu_label" text="메뉴 별 판매액" style="-fx-font-size: 40;-fx-text-fill: white"/>
-            <GridPane fx:id="menu_list_header" >
-                <columnConstraints>
-                    <ColumnConstraints hgrow="ALWAYS" />
-                    <ColumnConstraints hgrow="ALWAYS" halignment="CENTER"/>
-                    <ColumnConstraints hgrow="ALWAYS"  halignment="CENTER"/>
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints vgrow="ALWAYS"/>
-                </rowConstraints>
-            </GridPane>
-            <JFXListView fx:id="totalMenuList" prefHeight="320"  />
+            <GridPane fx:id="menu_list_header"/>
+            <JFXListView fx:id="totalMenuList"/>
         </VBox>
         <VBox fx:id="total_price_vbox">
             <HBox>

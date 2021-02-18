@@ -5,6 +5,7 @@ import com.baro.JsonParsing.Statistics;
 import com.baro.JsonParsing.StatisticsMenuParsing;
 import com.baro.JsonParsing.StatisticsParsing;
 import com.baro.utils.DateConverter;
+import com.baro.utils.LayoutWidthHeight;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -30,7 +31,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -62,9 +62,13 @@ public class StatisticsController implements Initializable {
     /**
      * 그리드 페인 col, row
      * **/
-    ColumnConstraints col1 = new ColumnConstraints();
-    ColumnConstraints col2 = new ColumnConstraints();
-    ColumnConstraints col3 = new ColumnConstraints();
+    ColumnConstraints dailyMenuGridCol1 = new ColumnConstraints();
+    ColumnConstraints dailyMenuGridCol2 = new ColumnConstraints();
+    ColumnConstraints dailyMenuGridCol3 = new ColumnConstraints();
+
+    ColumnConstraints dailyGridCol1 = new ColumnConstraints();
+    ColumnConstraints dailyGridCol2 = new ColumnConstraints();
+
 
     RowConstraints row1 = new RowConstraints();
 
@@ -125,25 +129,34 @@ public class StatisticsController implements Initializable {
      *  라벨의 글자에 헤더가 가려져서 fxml 에서 선언하여 미리 자리를 잡아놓음
      */
     private void setListViewSetHeader() {
-        col1.setHgrow(Priority.ALWAYS);
+        dailyMenuGridCol1.setHgrow(Priority.ALWAYS);
+        dailyMenuGridCol1.setPrefWidth((LayoutWidthHeight.MAIN_PAGE_WIDTH - LayoutWidthHeight.MAIN_TAB_PANE_WIDTH) / 3.0);
 
-        col2.setHgrow(Priority.ALWAYS);
-        col2.setHalignment(HPos.CENTER);
+        dailyMenuGridCol2.setHgrow(Priority.ALWAYS);
+        dailyMenuGridCol2.setHalignment(HPos.CENTER);
+        dailyMenuGridCol2.setPrefWidth((LayoutWidthHeight.MAIN_PAGE_WIDTH - LayoutWidthHeight.MAIN_TAB_PANE_WIDTH) / 3.0);
 
-        col3.setHgrow(Priority.ALWAYS);
-        col3.setHalignment(HPos.CENTER);
+        dailyMenuGridCol3.setHgrow(Priority.ALWAYS);
+        dailyMenuGridCol3.setHalignment(HPos.CENTER);
+        dailyMenuGridCol3.setPrefWidth((LayoutWidthHeight.MAIN_PAGE_WIDTH - LayoutWidthHeight.MAIN_TAB_PANE_WIDTH) / 3.0);
+
+        dailyGridCol1.setHgrow(Priority.ALWAYS);
+        dailyGridCol1.setPrefWidth(((LayoutWidthHeight.MAIN_PAGE_WIDTH - LayoutWidthHeight.MAIN_TAB_PANE_WIDTH) / 2.0) / 3.0);
+
+        dailyGridCol2.setHgrow(Priority.ALWAYS);
+        dailyGridCol2.setPrefWidth(((LayoutWidthHeight.MAIN_PAGE_WIDTH - LayoutWidthHeight.MAIN_TAB_PANE_WIDTH) / 2.0) / 3.0);
 
         row1.setVgrow(Priority.ALWAYS);
 
 
         GridPane daily_sales_header = new GridPane();
-        daily_sales_header.setPadding(new Insets(0, 5, 0, 0));
+        daily_sales_header.setPadding(new Insets(0, 0, 0, 5));
 
         Label dateLabel = new Label("날짜/일");
         Label dayPriceLabel = new Label("일 판매액");
 
-        daily_sales_header.getColumnConstraints().add(0, col1);
-        daily_sales_header.getColumnConstraints().add(1, col2);
+        daily_sales_header.getColumnConstraints().add(0, dailyGridCol1);
+        daily_sales_header.getColumnConstraints().add(1, dailyGridCol2);
         daily_sales_header.getRowConstraints().add(0, row1);
 
         dateLabel.setStyle("-fx-font-size: 15pt; -fx-text-fill: white");
@@ -162,7 +175,17 @@ public class StatisticsController implements Initializable {
         count.setStyle("-fx-font-size: 15pt; -fx-text-fill: white");
         price.setStyle("-fx-font-size: 15pt; -fx-text-fill: white");
 
-        menu_list_header.addRow(0, name, count, price);
+        menu_list_header.getColumnConstraints().add(0, dailyMenuGridCol1);
+        menu_list_header.getColumnConstraints().add(1, dailyMenuGridCol2);
+        menu_list_header.getColumnConstraints().add(2, dailyMenuGridCol3);
+
+        menu_list_header.getRowConstraints().add(0, row1);
+
+//        menu_list_header.addRow(0, name, count, price);
+        menu_list_header.addColumn(0, name);
+        menu_list_header.addColumn(1, count);
+        menu_list_header.addColumn(2, price);
+        //menu_list_header.setPadding(new Insets(0, 0, 0, 10));
         menu_list_header.setStyle("-fx-background-color: #8333e6");
     }
 
@@ -309,9 +332,9 @@ public class StatisticsController implements Initializable {
             totalPrice += menuStatistics.menu_total_price;
             GridPane cell = new GridPane();
 
-            cell.getColumnConstraints().add(0, col1);
-            cell.getColumnConstraints().add(1, col2);
-            cell.getColumnConstraints().add(2, col3);
+            cell.getColumnConstraints().add(0, dailyMenuGridCol1);
+            cell.getColumnConstraints().add(1, dailyMenuGridCol2);
+            cell.getColumnConstraints().add(2, dailyMenuGridCol3);
             cell.getRowConstraints().add(0, row1);
 
             Label menuName = new Label(menuStatistics.menu_name);
@@ -383,8 +406,8 @@ public class StatisticsController implements Initializable {
             Statistics dailyStatistics = statisticsParsing.statistics.get(i);
             GridPane cell = new GridPane();
 
-            cell.getColumnConstraints().add(0, col1);
-            cell.getColumnConstraints().add(1, col2);
+            cell.getColumnConstraints().add(0, dailyGridCol1);
+            cell.getColumnConstraints().add(1, dailyGridCol2);
             cell.getRowConstraints().add(0, row1);
 
             Label dailyDate = new Label(dailyStatistics.date);
