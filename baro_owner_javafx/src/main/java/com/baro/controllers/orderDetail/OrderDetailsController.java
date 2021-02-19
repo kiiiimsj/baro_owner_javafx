@@ -290,12 +290,13 @@ public class OrderDetailsController implements Initializable {
             controller.getChangeToAccept().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    if (newValue == true){
-                        changeToAccept.set(newValue);
+                    if (newValue){
+                        System.out.println("inController : "+controller.timeInt);
                         timeInt = controller.timeInt;
                         order.order_state = Order.ACCEPT;
                         setTime.setVisible(false);
                         completeBtn.setVisible(true);
+                        changeToAccept.set(newValue);
                         stage.close();
                     }
                 }

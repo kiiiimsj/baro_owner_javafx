@@ -16,134 +16,65 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.TextField?>
-<StackPane fx:id="main_page_stack_pane" stylesheets="css/order_list_sheets.css"
-           xmlns="http://javafx.com/javafx/8.0.171"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.baro.OrderListController"
-           style="-fx-font-family: 'Noto Sans CJK KR Regular'; -fx-background-color: #3d3d3d; -fx-border-color: gray;-fx-border-width: 1"
-           >
-    <VBox pickOnBounds="false">
-        <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d">
-            <padding>
-                <Insets top="10" bottom="10" right="10"/>
-            </padding>
-            <Label fx:id="digital_clock" style="-fx-text-fill: white;-fx-font-size: 20pt">
-                <HBox.margin>
-                    <Insets right="10"/>
-                </HBox.margin>
-            </Label>
-            <FontAwesomeIconView fx:id="minimum" glyphName="MINUS" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
-                <HBox.margin>
-                    <Insets top="10"/>
-                </HBox.margin>
-            </FontAwesomeIconView>
-            <FontAwesomeIconView fx:id="maximum" glyphName="SQUARE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
-                <HBox.margin>
-                    <Insets top="8"/>
-                </HBox.margin>
-            </FontAwesomeIconView>
-            <FontAwesomeIconView fx:id="close" glyphName="CLOSE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
-                <HBox.margin>
-                    <Insets top="7"/>
-                </HBox.margin>
-            </FontAwesomeIconView>
-        </HBox>
-        <JFXTabPane fx:id="tabContainer" side="LEFT">
-            <Tab fx:id="orderListTab" closable="false">
-                <AnchorPane fx:id="orderListSideContainer" prefWidth="1250" maxHeight="840">
-                    <HBox AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" spacing="10.0">
-                        <padding>
-                            <Insets left="10.0" right="10.0" />
-                        </padding>
-                        <VBox fx:id="discount_rate_set" prefHeight="80" style="-fx-background-color: #8333e6;-fx-background-radius: 5px" alignment="CENTER" stylesheets="css/label_hover.css">
-                            <HBox.margin>
-                                <Insets right="80"/>
-                            </HBox.margin>
-                            <padding>
-                                <Insets left="10" right="10"/>
-                            </padding>
-                            <Label text="할인률 설정" style="-fx-font-size: 18pt; -fx-text-fill: white;-fx-font-weight: bold;" />
-                            <HBox  style="-fx-background-color: white;-fx-background-radius: 5px">
-                                <Label text="현재 할인률 : " style="-fx-font-size: 13pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;" alignment="CENTER"/>
-                                <Label fx:id="store_discount_rate" style="-fx-font-size: 13pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;" alignment="CENTER"/>
-                            </HBox>
-                        </VBox>
-
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                               text="영업종료" HBox.hgrow="ALWAYS" style="-fx-font-size: 15pt; -fx-text-fill: white;-fx-font-weight: bold"/>
-                        <JFXToggleButton fx:id="isOpenBtn" maxHeight="1.7976931348623157E308"
-                                         maxWidth="1.7976931348623157E308" textAlignment="CENTER"
-                                         HBox.hgrow="ALWAYS"/>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                               text="영업중" HBox.hgrow="ALWAYS" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-font-weight: bold"/>
+<AnchorPane  fx:id="orderListSideContainer" stylesheets="css/order_list_sheets.css"
+             xmlns="http://javafx.com/javafx/8.0.171"
+             xmlns:fx="http://javafx.com/fxml/1"
+             fx:controller="com.baro.controllers.OrderListController"
+             prefWidth="1250" maxHeight="840"
+             style="-fx-font-family: 'Noto Sans CJK KR Regular'; -fx-background-color: #3d3d3d;">
+            <HBox AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" spacing="10.0">
+                <padding>
+                    <Insets left="10.0" right="10.0" />
+                </padding>
+                <VBox fx:id="discount_rate_set" prefHeight="80" style="-fx-background-color: #8333e6;-fx-background-radius: 5px" alignment="CENTER" stylesheets="css/label_hover.css">
+                    <HBox.margin>
+                        <Insets right="80"/>
+                    </HBox.margin>
+                    <padding>
+                        <Insets left="10" right="10"/>
+                    </padding>
+                    <Label text="할인률 설정" style="-fx-font-size: 18pt; -fx-text-fill: white;-fx-font-weight: bold;" />
+                    <HBox  style="-fx-background-color: white;-fx-background-radius: 5px">
+                        <Label text="현재 할인률 : " style="-fx-font-size: 13pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;" alignment="CENTER"/>
+                        <Label fx:id="store_discount_rate" style="-fx-font-size: 13pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;" alignment="CENTER"/>
                     </HBox>
-                    <HBox AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" pickOnBounds="false">
-                        <VBox>
-                            <!-- 안쓰는것 같아서 주석처리 -->
-                            <!--<TilePane fx:id="orderListContainer" hgap="10" layoutY="80.0" prefWidth="1150.0" vgap="10">-->
-                            <!--</TilePane>-->
-                            <!--layoutY="80.0" 제거 -->
-                            <TilePane fx:id="childContainer" prefHeight="737" prefWidth="300" style="-fx-background-color: #3d3d3d"/>
-                            <!--layoutY 780 -> 700 변경 -->
-                            <HBox prefHeight="100" prefWidth="300">
-                                <Label fx:id="paggingLabel" alignment="CENTER" prefHeight="120.0" prefWidth="100.0"
-                                       style="-fx-font-size: 13pt; -fx-text-fill: white; -fx-background-color: #3d3d3d"/>
-                                <Button alignment="CENTER" mnemonicParsing="false" onAction="#tapPrevPage"
-                                        prefHeight="120.0" prefWidth="100.0" text="&lt;"
-                                        style="-fx-background-color: #3d3d3d;-fx-background-radius: 5px; -fx-border-radius: 5px;-fx-border-color: white; -fx-text-fill: white">
-                                    <font>
-                                        <Font size="30.0"/>
-                                    </font>
-                                </Button>
-                                <Button alignment="CENTER" mnemonicParsing="false" onAction="#tapNextPage"
-                                        prefHeight="120.0" prefWidth="100.0" text="&gt;"
-                                        style="-fx-background-color: #3d3d3d;-fx-background-radius: 5px; -fx-border-radius: 5px;-fx-border-color: white; -fx-text-fill: white">
-                                    <font>
-                                        <Font size="30.0"/>
-                                    </font>
-                                </Button>
-                            </HBox>
-                        </VBox>
-                        <AnchorPane fx:id="orderDetailsContainer" pickOnBounds="false"/>
+                </VBox>
+
+                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                       text="영업종료" HBox.hgrow="ALWAYS" style="-fx-font-size: 15pt; -fx-text-fill: white;-fx-font-weight: bold"/>
+                <JFXToggleButton fx:id="isOpenBtn" maxHeight="1.7976931348623157E308"
+                                 maxWidth="1.7976931348623157E308" textAlignment="CENTER"
+                                 HBox.hgrow="ALWAYS"/>
+                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                       text="영업중" HBox.hgrow="ALWAYS" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-font-weight: bold"/>
+            </HBox>
+            <HBox AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" pickOnBounds="false">
+                <VBox>
+                    <!-- 안쓰는것 같아서 주석처리 -->
+                    <!--<TilePane fx:id="orderListContainer" hgap="10" layoutY="80.0" prefWidth="1150.0" vgap="10">-->
+                    <!--</TilePane>-->
+                    <!--layoutY="80.0" 제거 -->
+                    <TilePane fx:id="childContainer" prefHeight="737" prefWidth="300" style="-fx-background-color: #3d3d3d"/>
+                    <!--layoutY 780 -> 700 변경 -->
+                    <HBox prefHeight="100" prefWidth="300">
+                        <Label fx:id="paggingLabel" alignment="CENTER" prefHeight="120.0" prefWidth="100.0"
+                               style="-fx-font-size: 13pt; -fx-text-fill: white; -fx-background-color: #3d3d3d"/>
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#tapPrevPage"
+                                prefHeight="120.0" prefWidth="100.0" text="&lt;"
+                                style="-fx-background-color: #3d3d3d;-fx-background-radius: 5px; -fx-border-radius: 5px;-fx-border-color: white; -fx-text-fill: white">
+                            <font>
+                                <Font size="30.0"/>
+                            </font>
+                        </Button>
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#tapNextPage"
+                                prefHeight="120.0" prefWidth="100.0" text="&gt;"
+                                style="-fx-background-color: #3d3d3d;-fx-background-radius: 5px; -fx-border-radius: 5px;-fx-border-color: white; -fx-text-fill: white">
+                            <font>
+                                <Font size="30.0"/>
+                            </font>
+                        </Button>
                     </HBox>
-                </AnchorPane>
-            </Tab>
-
-            <Tab fx:id="inventoryManagementTab" closable="false">
-                <content>
-                    <AnchorPane fx:id="inventoryManagementContainer" prefHeight="1000.0" prefWidth="1000.0"/>
-                </content>
-            </Tab>
-
-            <Tab fx:id="infoChangeTab" closable="false">
-                <content>
-                    <AnchorPane fx:id="infoChangeContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                prefWidth="200.0"/>
-                </content>
-            </Tab>
-
-            <Tab fx:id="calculateTab" closable="false">
-                <content>
-                    <AnchorPane fx:id="calculateContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                prefWidth="200.0"/>
-                </content>
-            </Tab>
-
-            <Tab fx:id="statisticsTab" closable="false">
-                <content>
-                    <AnchorPane fx:id="statisticsContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                prefWidth="200.0"/>
-                </content>
-            </Tab>
-
-            <Tab fx:id="settingsTab" closable="false">
-                <content>
-                    <AnchorPane fx:id="settingsContainer" minHeight="0.0" minWidth="0.0" prefHeight="383.0"
-                                prefWidth="586.0"/>
-                </content>
-            </Tab>
-
-        </JFXTabPane>
-    </VBox>
-
-</StackPane>
+                </VBox>
+                <AnchorPane fx:id="orderDetailsContainer" pickOnBounds="false"/>
+            </HBox>
+</AnchorPane>

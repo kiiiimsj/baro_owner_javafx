@@ -1,23 +1,12 @@
-package com.baro;
+package com.baro.controllers;
 
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.JsonParsing.OrderList;
-import com.baro.Printer.ReceiptPrint;
-import com.baro.controllers.DiscountRateController;
-import com.baro.controllers.OrderController;
-import com.baro.controllers.PopUpController;
-import com.baro.controllers.SettingTimerController;
 import com.baro.controllers.orderDetail.OrderDetailsController;
 import com.baro.utils.DateConverter;
-import com.baro.utils.LayoutWidthHeight;
 import com.google.gson.Gson;
-import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXToggleButton;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -26,21 +15,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.*;
-import javafx.util.Duration;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
@@ -54,48 +36,16 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.prefs.Preferences;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Node;
-
 
 public class OrderListController implements DiscountRateController.ClickClose{
+
+    public interface MoveToSetting {
+        void moveSetting();
+    }
+
     private final String TAG = this.getClass().getSimpleName();
-    public Label digital_clock;
-    public HBox top_bar;
-    public FontAwesomeIconView minimum;
-    public FontAwesomeIconView maximum;
-    public FontAwesomeIconView close;
     public Label store_discount_rate;
     public VBox discount_rate_set;
-    public StackPane main_page_stack_pane;
-
-    @FXML
-    private JFXTabPane tabContainer;
-    @FXML
-    private Tab orderListTab;
-    @FXML
-    private AnchorPane orderListSideContainer;
-    @FXML
-    private Tab inventoryManagementTab;
-    @FXML
-    private AnchorPane inventoryManagementContainer;
-    @FXML
-    private Tab infoChangeTab;
-    @FXML
-    private AnchorPane infoChangeContainer;
-    @FXML
-    private Tab calculateTab;
-    @FXML
-    private AnchorPane calculateContainer;
-    @FXML
-    private Tab statisticsTab;
-    @FXML
-    private AnchorPane statisticsContainer;
-    @FXML
-    private Tab settingsTab;
-    @FXML
-    private AnchorPane settingsContainer;
-    @FXML
-    private TilePane orderListContainer;
     @FXML
     private JFXToggleButton isOpenBtn;
     @FXML
@@ -107,17 +57,13 @@ public class OrderListController implements DiscountRateController.ClickClose{
     private WebSocketClient webSocketClient;
 
     public static OrderList orderList;
-
-    private double tabWidth = LayoutWidthHeight.MAIN_TAB_PANE_WIDTH;
-    private double tabHeight = LayoutWidthHeight.MAIN_TAB_PANE_HEIGHT;
     public static int lastSelectedTabIndex = 0;
     public final static int ONEPAGEORDER = 7; // 한 페이지에 들어가는 갯수
     public static int CURRNETPAGE = 1; // 현재 페이지
     public static int ENTIREPAGE = 1; // 전체페이지 수
     public static Boolean LASTPAGEFULL = false; // 마지막페이지가 가득찼냐
 
-    double initialX;
-    double initialY;
+    public MoveToSetting moveToSetting;
     int orderIndex = 0;
     int discountRate = 0;
 
@@ -131,8 +77,6 @@ public class OrderListController implements DiscountRateController.ClickClose{
     /// Life cycle
     @FXML
     public void initialize() {
-        main_page_stack_pane.setPrefHeight(LayoutWidthHeight.MAIN_PAGE_HEIGHT);
-        main_page_stack_pane.setPrefWidth(LayoutWidthHeight.MAIN_PAGE_WIDTH);
         try {
             Media media = new Media(getClass().getResource("/sounds.wav").toURI().toString());
             player = new MediaPlayer(media);
@@ -162,7 +106,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 System.out.println(newValue);
-                store_is_open_change(newValue);
+                store_is_open_change(newValue, false);
             }
         });
         notReadedOrder.addListener(new ChangeListener<Number>() {
@@ -198,9 +142,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
         System.out.println("store_id" + store_id);
         connect();
         GetDiscountRate();
-        configureSideView();
         configureOrderListView();
-        configureTopBar();
     }
     private void GetDiscountRate() {
         try {
@@ -240,96 +182,8 @@ public class OrderListController implements DiscountRateController.ClickClose{
             e.printStackTrace();
         }
     }
-    private void configureTopBar() {
-        final Timeline digitalTime = new Timeline(
-                new KeyFrame(Duration.seconds(0),
-                        new EventHandler<ActionEvent>() {
-                            @Override public void handle(ActionEvent actionEvent) {
-                                Calendar calendar            = GregorianCalendar.getInstance();
-                                String hourString   = DateConverter.pad(2, '0', calendar.get(Calendar.HOUR)   == 0 ? "12" : calendar.get(Calendar.HOUR) + "");
-                                String minuteString = DateConverter.pad(2, '0', calendar.get(Calendar.MINUTE) + "");
-                                //String secondString = pad(2, '0', calendar.get(Calendar.SECOND) + "");
-                                String ampmString   = calendar.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
 
-                                //":" + secondString +
-                                digital_clock.setText(hourString + ":" + minuteString + " " + ampmString);
-                            }
-                        }
-                ),
-                new KeyFrame(Duration.seconds(1))
-        );
-        digitalTime.setCycleCount(Animation.INDEFINITE);
-        digitalTime.play();
-        
-        
-
-        top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (me.getButton() != MouseButton.MIDDLE) {
-                    initialX = me.getSceneX();
-                    initialY = me.getSceneY();
-                }
-            }
-        });
-
-        top_bar.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (me.getButton() != MouseButton.MIDDLE) {
-                    top_bar.getScene().getWindow().setX(me.getScreenX() - initialX);
-                    top_bar.getScene().getWindow().setY(me.getScreenY() - initialY);
-                }
-            }
-        });
-//        top_bar.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                top_bar.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//                    @Override
-//                    public void handle(MouseEvent event) {
-//                        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-//                        stage.setMaxWidth(1400);
-//                        stage.setMaxHeight(900);
-//                    }
-//                });
-//            }
-//        });
-        minimum.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                stage.setIconified(true);
-            }
-        });
-        maximum.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                if(stage.isFullScreen()) {
-                    stage.setFullScreen(false);
-                }else {
-                    //stage.setFullScreenExitHint(" ");
-                    stage.setFullScreen(true);
-                }
-            }
-        });
-        close.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                for (int i = 0; i < orderList.orders.size(); i++) {
-                    if(!orderList.orders.get(i).completeTime.equals("")) {
-                        preferences.putInt("index"+i+"", i);
-                        preferences.put("time"+i+"", orderList.orders.get(i).getCompleteTime());
-                    }
-                }
-                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                stage.close();
-            }
-        });
-    }
-
-    public void store_is_open_change(boolean is_open) {
+    public void store_is_open_change(boolean is_open, boolean isFromClose) {
         try {
             URL url = new URL("http://3.35.180.57:8080/OwnerSetStoreStatus.do");
             URLConnection con = url.openConnection();
@@ -342,15 +196,9 @@ public class OrderListController implements DiscountRateController.ClickClose{
             jsonObject.put("store_id", store_id);
             if (is_open) {
                 jsonObject.put("is_open", "Y");
-//                isOpenBtn.setText("영업종료 하기");
-//                isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
-                //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.color(131.0, 51.0, 230.0, 1.0), CornerRadii.EMPTY, Insets.EMPTY)));
 
             } else {
                 jsonObject.put("is_open", "N");
-//                isOpenBtn.setText("영업게시 하기");
-//                isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
-                //isOpenBtn.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             }
 
             OutputStream os = http.getOutputStream();
@@ -370,6 +218,10 @@ public class OrderListController implements DiscountRateController.ClickClose{
 
             if (result) {
                 System.out.println("성공");
+//                if(isFromClose) {
+//                    Stage stage = (Stage)main_page_stack_pane.getScene().getWindow();
+//                    stage.close();
+//                }
             } else {
                 System.out.println("실패");
             }
@@ -436,12 +288,13 @@ public class OrderListController implements DiscountRateController.ClickClose{
     private void parsingOrders(String toString) {
         orderList = new Gson().fromJson(toString, OrderList.class);
         for (int i = 0; i < orderList.orders.size(); i++) {
-            if(preferences.getInt("index"+i+"", -1) != -1) {
-                if(!preferences.get("time"+i+"", "").equals("")) {
-                    orderList.orders.get(i).setCompleteTime(preferences.get("time"+i+"", ""));
+            for (int j = 0; j < orderList.orders.size(); j++) {
+                if(orderList.orders.get(i).getReceipt_id().equals(preferences.get(orderList.orders.get(j).receipt_id, ""))) {
+                    orderList.orders.get(i).setCompleteTime(preferences.get(orderList.orders.get(j).receipt_id+"time", ""));
                 }
-            }else {
-                orderList.orders.get(i).setCompleteTime("");
+                else {
+                    orderList.orders.get(i).setCompleteTime("");
+                }
             }
         }
         System.out.println(orderList.orders.size()+"");
@@ -504,7 +357,9 @@ public class OrderListController implements DiscountRateController.ClickClose{
                             detailcontroller.getNeedToSettingMainPrint().addListener(new ChangeListener<Boolean>() {
                                 @Override
                                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                                    tabContainer.getSelectionModel().selectLast();
+                                    //TODO tabContainer.getSelectionModel().selectLast();
+                                    //orderDetailsContainer.getScene().getWindow();
+                                    moveToSetting.moveSetting();
                                 }
                             });
                         } catch (IOException e) {
@@ -543,8 +398,14 @@ public class OrderListController implements DiscountRateController.ClickClose{
         String minuteString = DateConverter.pad(2, '0', calendar.get(Calendar.MINUTE) + "");
 
 
+        System.out.println("time " + time);
         int setMinute = Integer.parseInt(minuteString) + time;
+        System.out.println("minStr " + minuteString + " minInt" + setMinute);
+
         int ifOverSixty = setMinute/60;
+        if(setMinute > 60 ) {
+            setMinute -= 60 * ifOverSixty;
+        }
         int setHour = Integer.parseInt(hourString) + ifOverSixty;
 
         return setHour + ":" +setMinute+ " 까지";
@@ -564,92 +425,6 @@ public class OrderListController implements DiscountRateController.ClickClose{
     }
 
     /// Private
-    private void configureSideView() {
-        setTabs(orderListTab, "주문");
-        setTabs(inventoryManagementTab, "재고관리");
-        setTabs(infoChangeTab, "주문내역");
-        setTabs(calculateTab, "정산");
-        setTabs(statisticsTab, "통계");
-        setTabs(settingsTab, "설정");
-
-        tabContainer.setTabMinWidth(tabWidth);
-        tabContainer.setTabMaxWidth(tabWidth);
-        tabContainer.setTabMinHeight(tabHeight);
-        tabContainer.setTabMaxHeight(tabHeight);
-        tabContainer.setRotateGraphic(true);
-        tabContainer.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
-            @Override
-            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
-                switch (observable.getValue().getId()) {
-                    case "orderListTab":
-                        configureTab(orderListTab, orderListSideContainer, null);
-                        break;
-                    case "inventoryManagementTab":
-                        configureTab(inventoryManagementTab, inventoryManagementContainer, getClass().getResource("/inventory_management.fxml") );
-                        break;
-                    case "infoChangeTab":
-                        configureTab(infoChangeTab, infoChangeContainer, getClass().getResource("/orderHistory.fxml"));
-                        break;
-                    case "calculateTab":
-                        configureTab(calculateTab,  calculateContainer, getClass().getResource("/calculate.fxml") );
-                        break;
-                    case "statisticsTab":
-                        configureTab(statisticsTab,  statisticsContainer, getClass().getResource("/statistics.fxml"));
-                        break;
-                    case "settingsTab":
-                        configureTab(settingsTab,  settingsContainer, getClass().getResource("/settings.fxml"));
-                        break;
-                    default:
-                        break;
-                }
-                oldValue.setStyle("-fx-background-color: #8D45E7");
-            }
-        });
-        orderListTab.setStyle("-fx-background-color: #8333e6");
-    }
-    private void setTabs(Tab tab, String title) {
-        double imageWidth = 40.0;
-//        ImageView imageView = new ImageView(new Image());
-//        imageView.setFitHeight(imageWidth);
-//        imageView.setFitWidth(imageWidth);
-//        tabPane.setCenter(imageView);
-        Label label = new Label(title);
-        label.setMaxWidth(tabHeight);
-        label.setMinWidth(tabHeight);
-        label.setPadding(new Insets(0, 0, 0, 0));
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: normal;");
-        label.setAlignment(Pos.CENTER);
-
-        BorderPane tabPane = new BorderPane();
-        tabPane.setRotate(90.0);
-        tabPane.setMaxWidth(tabHeight);
-        tabPane.setMinWidth(tabHeight);
-        tabPane.setCenter(label);
-        tab.setGraphic(tabPane);
-    }
-    //이미지경로 넣기 위한 title 뒤에 String iconPath 뺏음
-    private void configureTab(Tab tab, AnchorPane containerPane, URL resourceURL) {
-        tab.setStyle("-fx-background-color: #8333e6");
-        try {
-            if(resourceURL == null) {
-                containerPane.getChildren().removeAll();
-            }else {
-                Parent contentView = FXMLLoader.load(resourceURL);
-                if(containerPane.getChildren().size() != 0) {
-                    containerPane.getChildren().remove(0);
-                }
-                containerPane.getChildren().add(contentView);
-                AnchorPane.setTopAnchor(contentView, 0.0);
-                AnchorPane.setBottomAnchor(contentView, 0.0);
-                AnchorPane.setRightAnchor(contentView, 0.0);
-                AnchorPane.setLeftAnchor(contentView, 0.0);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private Thread thread = new Thread(new Runnable() {
         @Override
         public void run() {
@@ -761,7 +536,6 @@ public class OrderListController implements DiscountRateController.ClickClose{
     public void clickClose() {
         GetDiscountRate();
     }
-
 
     public class AlarmPopUp{
         Popup popup;

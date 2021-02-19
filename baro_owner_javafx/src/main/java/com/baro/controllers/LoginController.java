@@ -164,7 +164,7 @@ public class LoginController implements Initializable {
                    preferences.remove("userPw");
                }
                Stage primaryStage = (Stage)login_btn.getScene().getWindow();
-               Parent parent = FXMLLoader.load(getClass().getResource("/order_list.fxml"));
+               Parent parent = FXMLLoader.load(getClass().getResource("/main_page.fxml"));
                Scene scene = new Scene(parent);
                primaryStage.setScene(scene);
                primaryStage.show();
