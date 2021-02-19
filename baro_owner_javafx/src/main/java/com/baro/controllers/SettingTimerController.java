@@ -86,7 +86,7 @@ public class SettingTimerController implements Initializable {
         time.setText(String.valueOf(0));
     }
     public void orderAccept(ActionEvent event) {
-
+        timeInt = Integer.parseInt(time.getText());
         try{
             URL url = new URL("http://3.35.180.57:8080/OwnerSetOrderStatus.do");
             URLConnection con = url.openConnection();
@@ -115,6 +115,7 @@ public class SettingTimerController implements Initializable {
 
             if (result) {
                 changeToAccept.set(true);
+                System.out.println("inTimer: " + timeInt);
                 sendCustomerMessage(time.getText());
                 System.out.println("성공");
             }else{

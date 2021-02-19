@@ -98,4 +98,18 @@ public class Order {
         this.order_date = order_date;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "order_count=" + order_count +
+                ", total_price=" + total_price +
+                ", discount_price=" + discount_price +
+                ", discount_rate=" + discount_rate +
+                ", phone='" + phone + '\'' +
+                ", order_date='" + order_date + '\'' +
+                ", receipt_id='" + receipt_id + '\'' +
+                ", order_state='" + order_state + '\'' +
+                ", completeTime='" + completeTime + '\'' +
+                '}';
+    }
 }

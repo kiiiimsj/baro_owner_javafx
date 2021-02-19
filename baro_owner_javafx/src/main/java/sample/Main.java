@@ -36,7 +36,6 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage primaryStage) throws Exception{
-
         System.setProperty("file.encoding","UTF-8");
         Field charset = Charset.class.getDeclaredField("defaultCharset");
         charset.setAccessible(true);
@@ -61,6 +60,12 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+    }
+
     public static Stage getPrimaryStage() {
         return pStage;
     }
@@ -107,6 +112,7 @@ public class Main extends Application {
         webSocketClient.connect();
     }
     public static void main(String[] args) {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> System.out.println("Shutdown hook")));
         launch(args);
     }
 }
