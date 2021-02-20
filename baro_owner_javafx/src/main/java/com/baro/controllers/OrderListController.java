@@ -1,10 +1,12 @@
 package com.baro.controllers;
 
+import com.baro.Dialog.InternetConnectDialog;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.JsonParsing.OrderList;
 import com.baro.controllers.orderDetail.OrderDetailsController;
 import com.baro.utils.DateConverter;
+import com.baro.utils.LayoutWidthHeight;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
@@ -18,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
@@ -68,6 +71,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
     int discountRate = 0;
 
     private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
+    public InternetConnectDialog.Reload reload;
     String store_id;
     Preferences preferences = Preferences.userRoot();
     AlarmPopUp popUp = new AlarmPopUp();
@@ -140,7 +144,12 @@ public class OrderListController implements DiscountRateController.ClickClose{
 
         store_id = preferences.get("store_id", null);
         System.out.println("store_id" + store_id);
-        connect();
+        try {
+            connect();
+        } catch (NoRouteToHostException e) {
+            InternetConnectDialog internetConnectDialog = new InternetConnectDialog();
+            internetConnectDialog.call(reload);
+        }
         GetDiscountRate();
         configureOrderListView();
     }
@@ -273,7 +282,6 @@ public class OrderListController implements DiscountRateController.ClickClose{
                 }else{
                     setList( orderList.orders.size() - 1 - ONEPAGEORDER,orderList.orders.size() - 1);
                 }
-
             }
 
         } catch (MalformedURLException e) {
@@ -288,16 +296,16 @@ public class OrderListController implements DiscountRateController.ClickClose{
     private void parsingOrders(String toString) {
         orderList = new Gson().fromJson(toString, OrderList.class);
         for (int i = 0; i < orderList.orders.size(); i++) {
-            for (int j = 0; j < orderList.orders.size(); j++) {
-                if(orderList.orders.get(i).getReceipt_id().equals(preferences.get(orderList.orders.get(j).receipt_id, ""))) {
-                    orderList.orders.get(i).setCompleteTime(preferences.get(orderList.orders.get(j).receipt_id+"time", ""));
-                }
-                else {
-                    orderList.orders.get(i).setCompleteTime("");
+            if(!preferences.get(orderList.orders.get(i).receipt_id, "").equals("")) {
+                String receiptId = preferences.get(orderList.orders.get(i).receipt_id, "");
+                for (int j = 0; j < orderList.orders.size(); j++) {
+                    if (orderList.orders.get(j).getReceipt_id().equals(receiptId)) {
+                        String time = preferences.get(orderList.orders.get(i).receipt_id + "time", "");
+                        orderList.orders.get(i).setCompleteTime(time);
+                    }
                 }
             }
         }
-        System.out.println(orderList.orders.size()+"");
 //        Collections.reverse(orderList.orders);
     }
 
@@ -368,6 +376,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
                     }
                 }
             });
+            controller.configureUI();
 //            controller.is_Done.addListener(new ChangeListener<Boolean>() {
 //                @Override
 //                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -386,7 +395,6 @@ public class OrderListController implements DiscountRateController.ClickClose{
 //                    }
 //                }
 //            });
-            controller.configureUI();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -408,7 +416,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
         }
         int setHour = Integer.parseInt(hourString) + ifOverSixty;
 
-        return setHour + ":" +setMinute+ " 까지";
+        return DateConverter.pad(2, '0', setHour+"") + ":" +DateConverter.pad(2, '0', setMinute+"")+ " 까지";
     }
     private void setList(int startIndex,int endIndex) {
         System.out.println("setListCall");
@@ -442,7 +450,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
             }
         }
     });
-    private void connect() {
+    private void connect() throws NoRouteToHostException{
         System.out.println("aaa");
         URI uri;
 
@@ -454,6 +462,9 @@ public class OrderListController implements DiscountRateController.ClickClose{
 //            arrayList.remov
             return;
         }
+//        catch (NoRouteToHostException e) {
+//            e.printStackTrace();
+//        }
 
         WebSocketClient ws = new WebSocketClient(uri, new Draft_17()) {
             @Override
@@ -520,7 +531,13 @@ public class OrderListController implements DiscountRateController.ClickClose{
             public void onClose(int code, String reason, boolean remote) {
                 System.out.println("close! reaseon :" + reason);
                 webSocketClient = null;
-                OrderListController.this.connect();
+                try {
+                    OrderListController.this.connect();
+                } catch (NoRouteToHostException e) {
+                    e.printStackTrace();
+                    InternetConnectDialog internetConnectDialog = new InternetConnectDialog();
+                    internetConnectDialog.call(reload);
+                }
             }
 
             @Override

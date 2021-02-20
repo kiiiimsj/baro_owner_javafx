@@ -207,9 +207,7 @@ public class ReceiptPrint implements Initializable {
      *
      **************************************************************************/
     public void setSpinner() {
-        System.out.println("setSpinner");
         if(!preferences.get("setMainPrint", "").equals("") ) {
-            System.out.println("setSpinnerIn");
 
             String getPortName = preferences.get("setMainPortName", "");
             int getBaudRate = preferences.getInt("setMainBaudRate", -1);
@@ -217,7 +215,6 @@ public class ReceiptPrint implements Initializable {
             String getParity = preferences.get("setMainParity", "");
             String getStopBit = preferences.get("setMainStopBit","");
             String getFlowControll = preferences.get("setMainFlowControll","");
-            System.out.println(preferences.get("setMainPrint",""));
 //            String getPortName = preferences.get("savePortName", "");
 //            int getBaudRate = preferences.getInt("saveBaudRate", 0);
 //            int getDataBit = preferences.getInt("saveDataBit", 0);
