@@ -1,5 +1,6 @@
 package com.baro.controllers;
 
+import com.baro.Dialog.InternetConnectDialog;
 import com.baro.JsonParsing.LoginParsing;
 
 import com.google.gson.Gson;
@@ -37,8 +38,6 @@ import java.util.prefs.Preferences;
 
 
 public class LoginController implements Initializable {
-
-
     public VBox base;
     public HBox top_bar;
     public FontAwesomeIconView minimum;
@@ -53,7 +52,8 @@ public class LoginController implements Initializable {
     double initialY;
     //데이터 저장을 위한 preferences
     Preferences preferences = Preferences.userRoot();
-
+    public MainController.ReturnOrderListWhenApplicationClose returnOrderListWhenApplicationClose;
+    public InternetConnectDialog.Reload reload;
     LoginParsing loginParsing;
 
    @Override
@@ -164,7 +164,28 @@ public class LoginController implements Initializable {
                    preferences.remove("userPw");
                }
                Stage primaryStage = (Stage)login_btn.getScene().getWindow();
-               Parent parent = FXMLLoader.load(getClass().getResource("/main_page.fxml"));
+               FXMLLoader loader = new FXMLLoader(getClass().getResource("/main_page.fxml"));
+
+
+
+               MainController mainController = new MainController(returnOrderListWhenApplicationClose);
+               mainController.reload = reload;
+               loader.setController(mainController);
+
+               if(mainController == null) {
+                   System.out.println("mainControllerNull");
+               }
+//               mainController.returnOrderListWhenApplicationClose = returnOrderListWhenApplicationClose;
+
+               if(returnOrderListWhenApplicationClose == null) {
+                   System.out.println("returnOrderListWhenApplicationCloseNull");
+               }
+
+               Parent parent = loader.load();
+//               MainController mainController = new MainController(returnOrderListWhenApplicationClose);
+//               loader.setController(mainController);
+//               mainController = new MainController(returnOrderListWhenApplicationClose);
+
                Scene scene = new Scene(parent);
                primaryStage.setScene(scene);
                primaryStage.show();

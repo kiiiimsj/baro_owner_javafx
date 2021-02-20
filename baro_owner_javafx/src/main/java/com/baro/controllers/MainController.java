@@ -1,5 +1,6 @@
 package com.baro.controllers;
 
+import com.baro.Dialog.InternetConnectDialog;
 import com.baro.JsonParsing.OrderList;
 import com.baro.utils.DateConverter;
 import com.baro.utils.LayoutWidthHeight;
@@ -8,6 +9,8 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,14 +21,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.json.JSONObject;
+import sample.Main;
 
 import java.io.*;
 import java.net.*;
@@ -35,6 +42,9 @@ import java.util.prefs.Preferences;
 
 
 public class MainController implements OrderListController.MoveToSetting{
+    public interface ReturnOrderListWhenApplicationClose {
+        void returnOrderList(OrderList orderList);
+    }
     @Override
     public void moveSetting() {
         tabContainer.getSelectionModel().selectLast();
@@ -49,6 +59,7 @@ public class MainController implements OrderListController.MoveToSetting{
     public StackPane main_page_stack_pane;
 
     public OrderList orderList;
+    public InternetConnectDialog.Reload reload;
     @FXML
     private JFXTabPane tabContainer;
     @FXML
@@ -85,11 +96,16 @@ public class MainController implements OrderListController.MoveToSetting{
     double initialY;
 
     private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
+    public ReturnOrderListWhenApplicationClose returnOrderListWhenApplicationClose;
     String store_id;
     Preferences preferences = Preferences.userRoot();
+    public MainController(ReturnOrderListWhenApplicationClose returnOrderListWhenApplicationClose) {
+        this.returnOrderListWhenApplicationClose = returnOrderListWhenApplicationClose;
+        System.out.println("first");
+    }
     @FXML
     public void initialize() {
-
+        System.out.println("second");
         main_page_stack_pane.setPrefHeight(LayoutWidthHeight.MAIN_PAGE_HEIGHT);
         main_page_stack_pane.setPrefWidth(LayoutWidthHeight.MAIN_PAGE_WIDTH);
 
@@ -176,13 +192,13 @@ public class MainController implements OrderListController.MoveToSetting{
         close.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("Main : " + orderList.toString());
-                for (int i = 0; i < orderList.orders.size(); i++) {
-                    if(!orderList.orders.get(i).completeTime.equals("")) {
-                        preferences.put(orderList.orders.get(i).receipt_id, orderList.orders.get(i).receipt_id);
-                        preferences.put(orderList.orders.get(i).receipt_id+"time", orderList.orders.get(i).getCompleteTime());
-                    }
-                }
+//                System.out.println("Main : " + orderList.toString());
+//                for (int i = 0; i < orderList.orders.size(); i++) {
+//                    if(orderList.orders.get(i).completeTime != null &&!orderList.orders.get(i).completeTime.equals("")) {
+//                        preferences.put(orderList.orders.get(i).receipt_id, orderList.orders.get(i).receipt_id);
+//                        preferences.put(orderList.orders.get(i).receipt_id+"time", orderList.orders.get(i).getCompleteTime());
+//                    }
+//                }
                 store_is_open_change(false, true);
             }
         });
@@ -201,7 +217,6 @@ public class MainController implements OrderListController.MoveToSetting{
             jsonObject.put("store_id", store_id);
             if (is_open) {
                 jsonObject.put("is_open", "Y");
-
             } else {
                 jsonObject.put("is_open", "N");
             }
@@ -224,8 +239,11 @@ public class MainController implements OrderListController.MoveToSetting{
             if (result) {
                 System.out.println("성공");
                 if(isFromClose) {
-                    Stage stage = (Stage)main_page_stack_pane.getScene().getWindow();
-                    stage.close();
+//                    Stage stage = (Stage)main_page_stack_pane.getScene().getWindow();
+//                    stage.close();
+                    System.exit(-1);
+                    Platform.exit();
+
                 }
             } else {
                 System.out.println("실패");
@@ -323,8 +341,11 @@ public class MainController implements OrderListController.MoveToSetting{
                 Parent contentView = loader.load();
                 if(tab.getId().equals("order_listTab")) {
                     OrderListController orderListController = loader.<OrderListController>getController();
+
                     orderListController.moveToSetting = this::moveSetting;
+                    orderListController.reload = reload;
                     orderList = orderListController.orderList;
+                    returnOrderListWhenApplicationClose.returnOrderList(orderList);
                 }
 
                 if(containerPane.getChildren().size() != 0) {
