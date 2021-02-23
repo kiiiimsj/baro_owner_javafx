@@ -1,39 +1,36 @@
 package com.baro.controllers;
 
+import com.baro.Dialog.InventoryDialog;
 import com.baro.JsonParsing.Category;
 import com.baro.JsonParsing.CategoryParsing;
 import com.baro.JsonParsing.Menu;
 import com.baro.JsonParsing.MenuParsing;
 import com.google.gson.Gson;
-import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXToggleButton;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.MapChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.*;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
-public class InventoryController implements Initializable {
+public class InventoryController implements Initializable, InventoryDialog.InventoryDialogInterface {
 
     public GridPane menuList_header;
     public VBox base;
@@ -44,6 +41,7 @@ public class InventoryController implements Initializable {
     private String owner_store_id;
     public CategoryParsing categoryParsing;
     public MenuParsing menuParsing;
+    public InventoryDialog inventoryDialog;
 
     ColumnConstraints col1 = new ColumnConstraints();
     ColumnConstraints col2 = new ColumnConstraints();
@@ -57,6 +55,7 @@ public class InventoryController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         owner_store_id = preferences.get("store_id", "");
+        inventoryDialog = new InventoryDialog();
         setMenuListHeader();
         getOwnerStoreCategory();
         getOwnerStoreMenu();
@@ -153,6 +152,7 @@ public class InventoryController implements Initializable {
                     if(newTab.getId().equals(menu.category_id+"")) {
                         System.out.println(newTab.getId());
                         GridPane cell = new GridPane();
+                        cell.setPickOnBounds(false);
 //                        cell.setMaxHeight(110);
                         Label menuName = new Label(menu.menu_name);
                         Label menuInfo = new Label(menu.menu_info);
@@ -174,21 +174,29 @@ public class InventoryController implements Initializable {
                             toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: red");
                             toggleButton.setSelected(true);
                         }
-                        toggleButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                        toggleButton.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
-                            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                                if (newValue) {
-                                    menuUpdateSaveSoldOut(menu.menu_id);
-                                    toggleButton.setText("품절");
-                                    toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: red");
-                                } else {
-                                    menuUpdateSaveInStoke(menu.menu_id);
-                                    toggleButton.setText("판매중");
-                                    toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: forestgreen");
-//                                    toggleButton.toggleColorProperty().setValue(Paint.valueOf("#228B22"));
+                            public void handle(ActionEvent event) {
+                                System.out.println("event!!");
+                                if(toggleButton.isSelected()) {
+                                    toggleButton.setSelected(false);
+                                    inventoryDialog.call(InventoryController.this, menu.menu_id , InventoryDialog.SET_STOCK_OUT, toggleButton);
+                                }else {
+                                    toggleButton.setSelected(true);
+                                    inventoryDialog.call(InventoryController.this, menu.menu_id , InventoryDialog.SET_RE_STOCK, toggleButton);
                                 }
                             }
                         });
+//                        toggleButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
+//                            @Override
+//                            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+//                                if (newValue) {
+//
+//                                } else {
+//
+//                                }
+//                            }
+//                        });
                         cell.getColumnConstraints().add(0, col1);
                         cell.getColumnConstraints().add(1, col2);
                         cell.getColumnConstraints().add(2, col3);
@@ -335,5 +343,21 @@ public class InventoryController implements Initializable {
     private boolean menuUpdateSaveSoldOutParsing(String toString) {
         JSONObject jsonObject = new JSONObject(toString);
         return (jsonObject.getBoolean("result"));
+    }
+
+    @Override
+    public void SET_STOCK_OUT(int menuId, JFXToggleButton toggleButton) {
+        menuUpdateSaveSoldOut(menuId);
+        toggleButton.setText("품절");
+        toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: red");
+        toggleButton.setSelected(true);
+    }
+
+    @Override
+    public void SET_RE_STOCK(int menuId, JFXToggleButton toggleButton) {
+        menuUpdateSaveInStoke(menuId);
+        toggleButton.setText("판매중");
+        toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: forestgreen");;
+        toggleButton.setSelected(false);
     }
 }

@@ -1,6 +1,6 @@
 package com.baro.Dialog;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -20,62 +20,50 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PrintDialog implements Initializable {
-    public interface PrintDialogInterface {
-      void MODIFY_PRINT(int index);
-      void ADD_PRINT(int index);
-      void DEL_PRINT(int index);
-      void SET_MAIN(int index);
-      void DEL_MAIN(int index);
+public class OrderDetailDialog implements Initializable {
+    public interface OrderDetailDialogInterface {
+        void ORDER_CANCEL();
+        void ORDER_COMPLETE();
     }
-    public static final int MODIFY_PRINT = 0;
-    public static final int ADD_PRINT = 1;
-    public static final int DEL_PRINT = 3;
-    public static final int SET_MAIN = 4;
-    public static final int DEL_MAIN = 5;
+    public final static int ORDER_CANCEL = 0;
+    public final static int ORDER_COMPLETE = 1;
 
-    public static final int NO_MAIN = 6;
-
-    public Label dialog_content;
-    public Button yes;
-    public Button no;
     public HBox top_bar;
-    public int buttonType;
-
-    public PrintDialogInterface printDialogInterface;
+    public Label dialog_content;
+    public Button no;
+    public Button yes;
 
     double initialX;
     double initialY;
 
-    public int index;
-    public PrintDialog() {
+    public int buttonType;
+    public OrderDetailDialogInterface orderDetailDialogInterface;
+    public OrderDetailDialog() {
         super();
     }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         configureTopBar();
     }
-    public void call(PrintDialogInterface printDialogInterface, int index, int buttonType) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/print_dialog.fxml"));
+    public void call(OrderDetailDialogInterface orderDetailDialogInterface, int buttonType){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/order_detail_dialog.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
-            PrintDialog printDialog = loader.getController();
-            printDialog.printDialogInterface = printDialogInterface;
-            printDialog.index = index;
-            printDialog.buttonType = buttonType;
+            OrderDetailDialog orderDetailDialog = loader.getController();
+            orderDetailDialog.orderDetailDialogInterface = orderDetailDialogInterface;
+            orderDetailDialog.buttonType = buttonType;
+
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.setScene(scene);
-            printDialog.configureBottom();
+            orderDetailDialog.configureBottom();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     private void configureTopBar() {
         top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -98,25 +86,14 @@ public class PrintDialog implements Initializable {
             }
         });
     }
-    private void configureBottom() {
-        System.out.println(buttonType);
+    public void configureBottom() {
         switch (buttonType) {
-            case MODIFY_PRINT:
-                dialog_content.setText("수정사항을 저장하시겠습니까?");
+            case ORDER_CANCEL:
+                dialog_content.setText("주문결제를 취소하시겠습니까?\n취소 시 취소결과가 고객에게 발송됩니다.");
                 break;
-            case ADD_PRINT:
-                dialog_content.setText("새 프린트 설정을 저장하시겠습니까?");
+            case ORDER_COMPLETE:
+                dialog_content.setText("주문결제를 완료하시겠습니까?\n완료 시 완료결과가 고객에게 발송됩니다.");
                 break;
-            case DEL_PRINT:
-                dialog_content.setText("프린트 설정을 삭제하시겠습니까?");
-                break;
-            case DEL_MAIN:
-                dialog_content.setText("해당 프린트를 메인으로 설정하시겠습니까?\n메인으로 설정된 프린트로 영수증이 출력됩니다.");
-                break;
-            case SET_MAIN:
-                dialog_content.setText("메인 프린트를 삭제하시겠습니까?\n메인으로 설정된 프린트로 영수증이 출력됩니다.");
-                break;
-
         }
         no.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -129,20 +106,11 @@ public class PrintDialog implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 switch (buttonType) {
-                    case MODIFY_PRINT:
-                        printDialogInterface.MODIFY_PRINT(index);
+                    case ORDER_CANCEL:
+                        orderDetailDialogInterface.ORDER_CANCEL();
                         break;
-                    case ADD_PRINT:
-                        printDialogInterface.ADD_PRINT(index);
-                        break;
-                    case DEL_PRINT:
-                        printDialogInterface.DEL_PRINT(index);
-                        break;
-                    case DEL_MAIN:
-                        printDialogInterface.DEL_MAIN(index);
-                        break;
-                    case SET_MAIN:
-                        printDialogInterface.SET_MAIN(index);
+                    case ORDER_COMPLETE:
+                        orderDetailDialogInterface.ORDER_COMPLETE();
                         break;
                 }
                 Stage stage = (Stage)top_bar.getScene().getWindow();
@@ -150,5 +118,4 @@ public class PrintDialog implements Initializable {
             }
         });
     }
-
 }

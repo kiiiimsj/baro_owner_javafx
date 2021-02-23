@@ -1,5 +1,6 @@
 package com.baro.controllers;
 
+import com.baro.Dialog.DiscountRateDialog;
 import com.baro.utils.GetBool;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
@@ -24,16 +25,17 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.*;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
-public class DiscountRateController implements Initializable {
+public class DiscountRateController implements Initializable, DiscountRateDialog.DiscountRateDialogInterface {
     public HBox top_bar;
-
     public interface ClickClose{
         void clickClose();
+        void clickSet();
     }
-    public Label getDiscountRate;
     public int discountRate = 0;
     public TextField setNewDiscountRate;
+    public Preferences preferences = Preferences.userRoot();
     public Button setButton;
     public String storeId;
     public FontAwesomeIconView close;
@@ -41,8 +43,11 @@ public class DiscountRateController implements Initializable {
 
     private double initialX;
     private double initialY;
+
+    public DiscountRateDialog discountRateDialog;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        discountRateDialog = new DiscountRateDialog();
         top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
@@ -78,7 +83,21 @@ public class DiscountRateController implements Initializable {
     }
 
     public void clickSetButton(ActionEvent actionEvent) {
+        String getText = setNewDiscountRate.getText().toString();
+        if(getText.equals("")) {
+            getText = setNewDiscountRate.getPromptText();
+        }
+        int newDiscountRate = Integer.parseInt(getText);
+        if(discountRate == newDiscountRate) {
+            System.out.println("equals");
+            return;
+        }
+        discountRateDialog.call(this, DiscountRateDialog.CHANGE_DISCOUNT_RATE);
+    }
+    @Override
+    public void CHANGE_DISCOUNT_RATE() {
         int newDiscountRate = Integer.parseInt(setNewDiscountRate.getText());
+        preferences.putInt("new_discount_rate", newDiscountRate);
         try {
             URL url = new URL("http://3.35.180.57:8080/SetStoreDiscount.do");
             URLConnection con = url.openConnection();
@@ -105,7 +124,7 @@ public class DiscountRateController implements Initializable {
 
             System.out.println("response" + bf.toString());
             if(GetBool.getBool(bf.toString())) {
-                clickClose.clickClose();
+                clickClose.clickSet();
                 Stage stage = (Stage) setButton.getScene().getWindow();
                 stage.close();
             }else {

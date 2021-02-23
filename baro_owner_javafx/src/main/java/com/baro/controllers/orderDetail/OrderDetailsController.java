@@ -1,5 +1,6 @@
 package com.baro.controllers.orderDetail;
 
+import com.baro.Dialog.OrderDetailDialog;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.Printer.ReceiptPrint;
@@ -40,7 +41,7 @@ import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
-public class OrderDetailsController implements Initializable {
+public class OrderDetailsController implements Initializable, OrderDetailDialog.OrderDetailDialogInterface {
     public Button cancelBtn;
     public GridPane button_area;
     public VBox base;
@@ -85,6 +86,7 @@ public class OrderDetailsController implements Initializable {
 
     public int timeInt;
 
+    public OrderDetailDialog orderDetailDialog;
     public boolean withOutButton;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -92,6 +94,7 @@ public class OrderDetailsController implements Initializable {
         //pane 뒤로 클릭 가능하게 해줌
         base.setBackground(Background.EMPTY);
         base.setPickOnBounds(false);
+        orderDetailDialog = new OrderDetailDialog();
 
 
 //        pos = splitPane.getDividers().get(0).getPosition();
@@ -316,49 +319,7 @@ public class OrderDetailsController implements Initializable {
         return (jsonObject.getBoolean("result"));
     }
     public void clickCancel(ActionEvent event) {
-        try{
-            URL url = new URL("http://3.35.180.57:8080/BillingCancel.do");
-            URLConnection con = url.openConnection();
-            HttpURLConnection http = (HttpURLConnection) con;
-            http.setRequestMethod("POST");
-            http.setRequestProperty("Content-Type","application/json;utf-8");
-            http.setRequestProperty("Accept","application/json");
-            http.setDoOutput(true);
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("nick", "하태영");
-            jsonObject.put("cancel_reason", "고객님의 주문이 가게사정에 의해 취소처리 되었습니다");
-            jsonObject.put("receipt_id", order.receipt_id);
-            jsonObject.put("store_name", Preferences.userRoot().get("store_name",null));
-            OutputStream os = http.getOutputStream();
-
-            byte[] input = jsonObject.toString().getBytes("utf-8");
-            os.write(input, 0, input.length);
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String line;
-            StringBuffer bf = new StringBuffer();
-
-            while((line = br.readLine()) != null) {
-                bf.append(line);
-            }
-            br.close();
-            System.out.println("response" + bf.toString());
-            boolean result = getRequestSuccess(bf.toString());
-
-            if (result) {
-                System.out.println("성공");
-                changeToCancel.set(true);
-                sendCustomerMessage();
-            }else{
-                System.out.println("실패");
-            }
-        }
-        catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        orderDetailDialog.call(this, OrderDetailDialog.ORDER_COMPLETE);
     }
     private void sendCustomerMessage() {
         try{
@@ -448,6 +409,58 @@ public class OrderDetailsController implements Initializable {
     }
 
     public void clickDone(ActionEvent event) {
+        orderDetailDialog.call(this, OrderDetailDialog.ORDER_COMPLETE);
+    }
+
+    @Override
+    public void ORDER_CANCEL() {
+        try{
+            URL url = new URL("http://3.35.180.57:8080/BillingCancel.do");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("POST");
+            http.setRequestProperty("Content-Type","application/json;utf-8");
+            http.setRequestProperty("Accept","application/json");
+            http.setDoOutput(true);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("nick", "하태영");
+            jsonObject.put("cancel_reason", "고객님의 주문이 가게사정에 의해 취소처리 되었습니다");
+            jsonObject.put("receipt_id", order.receipt_id);
+            jsonObject.put("store_name", Preferences.userRoot().get("store_name",null));
+            OutputStream os = http.getOutputStream();
+
+            byte[] input = jsonObject.toString().getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer bf = new StringBuffer();
+
+            while((line = br.readLine()) != null) {
+                bf.append(line);
+            }
+            br.close();
+            System.out.println("response" + bf.toString());
+            boolean result = getRequestSuccess(bf.toString());
+
+            if (result) {
+                System.out.println("성공");
+                changeToCancel.set(true);
+                sendCustomerMessage();
+            }else{
+                System.out.println("실패");
+            }
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void ORDER_COMPLETE() {
         try{
             URL url = new URL("http://3.35.180.57:8080/OwnerSetOrderStatusComplete.do");
             URLConnection con = url.openConnection();
