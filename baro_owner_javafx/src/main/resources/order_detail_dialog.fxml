@@ -10,7 +10,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.baro.Dialog.PrintDialog"
+            fx:controller="com.baro.Dialog.OrderDetailDialog"
             prefHeight="300.0" prefWidth="300.0">
     <VBox AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0" maxHeight="Infinity">
         <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d">

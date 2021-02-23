@@ -72,6 +72,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
 
     private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
     public InternetConnectDialog.Reload reload;
+
     String store_id;
     Preferences preferences = Preferences.userRoot();
     AlarmPopUp popUp = new AlarmPopUp();

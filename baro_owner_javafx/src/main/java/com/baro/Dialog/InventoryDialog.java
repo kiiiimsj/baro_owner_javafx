@@ -1,6 +1,6 @@
 package com.baro.Dialog;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -20,62 +20,56 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PrintDialog implements Initializable {
-    public interface PrintDialogInterface {
-      void MODIFY_PRINT(int index);
-      void ADD_PRINT(int index);
-      void DEL_PRINT(int index);
-      void SET_MAIN(int index);
-      void DEL_MAIN(int index);
+public class InventoryDialog implements Initializable {
+    public interface InventoryDialogInterface {
+        void SET_STOCK_OUT(int menuId,JFXToggleButton toggleButton);
+        void SET_RE_STOCK(int menuId,JFXToggleButton toggleButton);
     }
-    public static final int MODIFY_PRINT = 0;
-    public static final int ADD_PRINT = 1;
-    public static final int DEL_PRINT = 3;
-    public static final int SET_MAIN = 4;
-    public static final int DEL_MAIN = 5;
+    public static final int SET_STOCK_OUT = 0;
+    public static final int SET_RE_STOCK = 1;
 
-    public static final int NO_MAIN = 6;
-
-    public Label dialog_content;
-    public Button yes;
-    public Button no;
     public HBox top_bar;
+    public Label dialog_content;
+    public Button no;
+    public Button yes;
+    public int menuId;
     public int buttonType;
-
-    public PrintDialogInterface printDialogInterface;
 
     double initialX;
     double initialY;
 
-    public int index;
-    public PrintDialog() {
+    public JFXToggleButton toggleButton;
+
+    public InventoryDialogInterface inventoryDialogInterface;
+
+    public InventoryDialog() {
         super();
     }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         configureTopBar();
     }
-    public void call(PrintDialogInterface printDialogInterface, int index, int buttonType) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/print_dialog.fxml"));
+
+    public void call(InventoryDialogInterface inventoryDialogInterface, int menuId, int buttonType, JFXToggleButton toggleButton){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/order_history_dialog.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
-            PrintDialog printDialog = loader.getController();
-            printDialog.printDialogInterface = printDialogInterface;
-            printDialog.index = index;
-            printDialog.buttonType = buttonType;
+            InventoryDialog inventoryDialog = loader.getController();
             Stage stage = new Stage(StageStyle.UNDECORATED);
+            inventoryDialog.inventoryDialogInterface = inventoryDialogInterface;
+            inventoryDialog.menuId = menuId;
+            inventoryDialog.buttonType = buttonType;
+            inventoryDialog.toggleButton = toggleButton;
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.setScene(scene);
-            printDialog.configureBottom();
+            inventoryDialog.configureBottom();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     private void configureTopBar() {
         top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -98,25 +92,14 @@ public class PrintDialog implements Initializable {
             }
         });
     }
-    private void configureBottom() {
-        System.out.println(buttonType);
+    public void configureBottom() {
         switch (buttonType) {
-            case MODIFY_PRINT:
-                dialog_content.setText("수정사항을 저장하시겠습니까?");
+            case SET_STOCK_OUT:
+                dialog_content.setText("상품을 품절 상태로\n변경하시겠습니까?");
                 break;
-            case ADD_PRINT:
-                dialog_content.setText("새 프린트 설정을 저장하시겠습니까?");
+            case SET_RE_STOCK:
+                dialog_content.setText("상품을 판매가능 상태로\n변경하시겠습니까?");
                 break;
-            case DEL_PRINT:
-                dialog_content.setText("프린트 설정을 삭제하시겠습니까?");
-                break;
-            case DEL_MAIN:
-                dialog_content.setText("해당 프린트를 메인으로 설정하시겠습니까?\n메인으로 설정된 프린트로 영수증이 출력됩니다.");
-                break;
-            case SET_MAIN:
-                dialog_content.setText("메인 프린트를 삭제하시겠습니까?\n메인으로 설정된 프린트로 영수증이 출력됩니다.");
-                break;
-
         }
         no.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -129,20 +112,11 @@ public class PrintDialog implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 switch (buttonType) {
-                    case MODIFY_PRINT:
-                        printDialogInterface.MODIFY_PRINT(index);
+                    case SET_STOCK_OUT:
+                        inventoryDialogInterface.SET_STOCK_OUT(menuId, toggleButton);
                         break;
-                    case ADD_PRINT:
-                        printDialogInterface.ADD_PRINT(index);
-                        break;
-                    case DEL_PRINT:
-                        printDialogInterface.DEL_PRINT(index);
-                        break;
-                    case DEL_MAIN:
-                        printDialogInterface.DEL_MAIN(index);
-                        break;
-                    case SET_MAIN:
-                        printDialogInterface.SET_MAIN(index);
+                    case SET_RE_STOCK:
+                        inventoryDialogInterface.SET_RE_STOCK(menuId, toggleButton);
                         break;
                 }
                 Stage stage = (Stage)top_bar.getScene().getWindow();
@@ -150,5 +124,4 @@ public class PrintDialog implements Initializable {
             }
         });
     }
-
 }
