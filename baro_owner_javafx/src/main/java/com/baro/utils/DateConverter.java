@@ -1,5 +1,7 @@
 package com.baro.utils;
 
+import javafx.application.Platform;
+import javafx.scene.control.Label;
 import javafx.util.StringConverter;
 
 import java.text.DateFormatSymbols;
@@ -10,12 +12,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class DateConverter {
+    public interface TimerReset{
+        void timerReset();
+    }
+
     final public static int YEAR = 0;
     final public static int MONTH = 1;
     final public static int DAY = 2;
@@ -23,6 +26,7 @@ public class DateConverter {
     final public static int MINUTE = 4;
     final public static int SECOND = 5;
 
+    public TimerReset timerReset;
     /***************************************************************************
      *
      * yyyy년 ww월 dd일 hh시 mm분 ss초 -> {yyyy,ww,dd,hh,mm}로 변환
@@ -144,5 +148,36 @@ public class DateConverter {
         sb.append(s);
 
         return sb.toString();
+    }
+    public static void fifteenTimer(Label timerLabel, TimerReset timerReset) {
+        new Thread((new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    System.out.println("thread run");
+                    Calendar calendar = GregorianCalendar.getInstance();
+                    String minuteString = DateConverter.pad(2, '0', calendar.get(Calendar.MINUTE) + "");
+                    String secondString = DateConverter.pad(2, '0', calendar.get(Calendar.SECOND) +"");
+                    try {
+                        Thread.sleep(1000);
+                        final int minuteFinal = 14 - (Integer.parseInt(minuteString) % 15);;
+                        final int secondFinal = 59 - Integer.parseInt(secondString);
+
+                        if(minuteFinal==0 && secondFinal == 1) {
+                            timerReset.timerReset();
+                        }
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                timerLabel.setText(DateConverter.pad(2,'0', minuteFinal+"")+":"+DateConverter.pad(2, '0',secondFinal+""));
+                            }
+                        });
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        })).start();
     }
 }

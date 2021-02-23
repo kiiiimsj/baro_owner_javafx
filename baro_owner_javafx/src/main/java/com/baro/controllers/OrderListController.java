@@ -25,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Text;
 import javafx.stage.*;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
@@ -40,7 +41,23 @@ import java.util.GregorianCalendar;
 import java.util.prefs.Preferences;
 
 
-public class OrderListController implements DiscountRateController.ClickClose{
+public class OrderListController implements DiscountRateController.ClickClose, DateConverter.TimerReset {
+
+    public Label new_store_discount_rate;
+    public Label arrow_right;
+    public Label baro_discount_timer;
+
+    @Override
+    public void timerReset() {
+        String getText = new_store_discount_rate.getText().toString();
+        if(getText.equals("")) {
+            return;
+        }
+        int newDiscount = Integer.parseInt(getText);
+        store_discount_rate.setText(newDiscount+"%");
+        new_store_discount_rate.setVisible(false);
+        arrow_right.setVisible(false);
+    }
 
     public interface MoveToSetting {
         void moveSetting();
@@ -82,6 +99,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
     /// Life cycle
     @FXML
     public void initialize() {
+        DateConverter.fifteenTimer(baro_discount_timer, this);
         try {
             Media media = new Media(getClass().getResource("/sounds.wav").toURI().toString());
             player = new MediaPlayer(media);
@@ -128,7 +146,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
                     Parent parent = loader.load();
                     Scene discountRateScene = new Scene(parent);
                     DiscountRateController discountRateController = loader.<DiscountRateController>getController();
-                    discountRateController.clickClose = OrderListController.this::clickClose;
+                    discountRateController.clickClose = OrderListController.this;
                     Stage stage = new Stage(StageStyle.UNDECORATED);
                     stage.initModality(Modality.WINDOW_MODAL);
                     stage.setResizable(false);
@@ -153,6 +171,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
         }
         GetDiscountRate();
         configureOrderListView();
+        store_discount_rate.setText(discountRate+"%");
     }
     private void GetDiscountRate() {
         try {
@@ -179,7 +198,6 @@ public class OrderListController implements DiscountRateController.ClickClose{
             if (result) {
                 System.out.println("성공");
                 discountRate = new JSONObject(bf.toString()).getInt("discount_rate");
-                store_discount_rate.setText(discountRate+"%");
             } else {
                 System.out.println("실패");
             }
@@ -552,7 +570,21 @@ public class OrderListController implements DiscountRateController.ClickClose{
 
     @Override
     public void clickClose() {
-        GetDiscountRate();
+
+    }
+
+    @Override
+    public void clickSet() {
+        if(preferences.getInt("new_discount_rate", -1) != -1) {
+            GetDiscountRate();
+            new_store_discount_rate.setVisible(true);
+            arrow_right.setVisible(true);
+            new_store_discount_rate.setText(discountRate+"%");
+        }else {
+            new_store_discount_rate.setVisible(false);
+            arrow_right.setVisible(false);
+            return;
+        }
     }
 
     public class AlarmPopUp{

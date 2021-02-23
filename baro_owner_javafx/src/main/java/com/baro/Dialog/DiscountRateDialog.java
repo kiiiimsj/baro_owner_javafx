@@ -1,6 +1,5 @@
 package com.baro.Dialog;
 
-import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -20,13 +19,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class OrderDetailDialog implements Initializable {
-    public interface OrderDetailDialogInterface {
-        void ORDER_CANCEL();
-        void ORDER_COMPLETE();
+public class DiscountRateDialog implements Initializable {
+    public interface DiscountRateDialogInterface {
+        void CHANGE_DISCOUNT_RATE();
     }
-    public final static int ORDER_CANCEL = 0;
-    public final static int ORDER_COMPLETE = 1;
+    public final static int CHANGE_DISCOUNT_RATE = 0;
 
     public HBox top_bar;
     public Label dialog_content;
@@ -37,29 +34,29 @@ public class OrderDetailDialog implements Initializable {
     double initialY;
 
     public int buttonType;
-    public OrderDetailDialogInterface orderDetailDialogInterface;
-    public OrderDetailDialog() {
+    public DiscountRateDialogInterface discountRateDialogInterface;
+    public DiscountRateDialog() {
         super();
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         configureTopBar();
     }
-    public void call(OrderDetailDialogInterface orderDetailDialogInterface, int buttonType){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/order_detail_dialog.fxml"));
+    public void call(DiscountRateDialogInterface discountRateDialogInterface, int buttonType){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/discount_rate_dialog.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
-            OrderDetailDialog orderDetailDialog = loader.getController();
-            orderDetailDialog.orderDetailDialogInterface = orderDetailDialogInterface;
-            orderDetailDialog.buttonType = buttonType;
+            DiscountRateDialog discountRateDialog = loader.getController();
+            discountRateDialog.discountRateDialogInterface = discountRateDialogInterface;
+            discountRateDialog.buttonType = buttonType;
 
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.setScene(scene);
-            orderDetailDialog.configureBottom();
+            discountRateDialog.configureBottom();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,11 +85,8 @@ public class OrderDetailDialog implements Initializable {
     }
     public void configureBottom() {
         switch (buttonType) {
-            case ORDER_CANCEL:
-                dialog_content.setText("주문결제를 취소하시겠습니까?\n취소 시 취소결과가 고객에게 발송됩니다.");
-                break;
-            case ORDER_COMPLETE:
-                dialog_content.setText("주문결제를 완료하시겠습니까?\n완료 시 완료결과가 고객에게 발송됩니다.");
+            case CHANGE_DISCOUNT_RATE:
+                dialog_content.setText("할인률을 변경하시겠습니까?.");
                 break;
         }
         no.setOnAction(new EventHandler<ActionEvent>() {
@@ -106,11 +100,8 @@ public class OrderDetailDialog implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 switch (buttonType) {
-                    case ORDER_CANCEL:
-                        orderDetailDialogInterface.ORDER_CANCEL();
-                        break;
-                    case ORDER_COMPLETE:
-                        orderDetailDialogInterface.ORDER_COMPLETE();
+                    case CHANGE_DISCOUNT_RATE:
+                        discountRateDialogInterface.CHANGE_DISCOUNT_RATE();
                         break;
                 }
                 Stage stage = (Stage)top_bar.getScene().getWindow();
