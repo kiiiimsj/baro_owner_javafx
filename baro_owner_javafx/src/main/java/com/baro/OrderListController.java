@@ -106,7 +106,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
     private AnchorPane orderDetailsContainer;
     private WebSocketClient webSocketClient;
 
-    public static OrderList orderList;
+    public static OrderList orderList = new OrderList();
 
     private double tabWidth = LayoutWidthHeight.MAIN_TAB_PANE_WIDTH;
     private double tabHeight = LayoutWidthHeight.MAIN_TAB_PANE_HEIGHT;
@@ -550,7 +550,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
         return setHour + ":" +setMinute+ " 까지";
     }
     private void setList(int startIndex,int endIndex) {
-        System.out.println("setListCall");
+//        System.out.println("setListCall");
         childContainer.getChildren().remove(0,childContainer.getChildren().size());
         for (int i = endIndex; i > startIndex; i--) {
             HBox hBox = makeCell(i);

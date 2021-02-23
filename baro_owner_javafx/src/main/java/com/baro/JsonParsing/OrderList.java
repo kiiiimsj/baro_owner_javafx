@@ -8,6 +8,10 @@ public class OrderList {
     public String message;
     public int discount_rate;
 
+    public OrderList() {
+        this.orders = new ArrayList<Order>();
+    }
+
     public boolean isResult() {
         return result;
     }
