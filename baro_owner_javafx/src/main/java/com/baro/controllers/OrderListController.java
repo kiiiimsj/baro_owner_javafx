@@ -59,7 +59,7 @@ public class OrderListController implements DiscountRateController.ClickClose{
     private AnchorPane orderDetailsContainer;
     private WebSocketClient webSocketClient;
 
-    public static OrderList orderList;
+    public static OrderList orderList = new OrderList();
     public static int lastSelectedTabIndex = 0;
     public final static int ONEPAGEORDER = 7; // 한 페이지에 들어가는 갯수
     public static int CURRNETPAGE = 1; // 현재 페이지
