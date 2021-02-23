@@ -43,4 +43,14 @@ public class OrderList {
     public void setDiscount_rate(int discount_rate) {
         this.discount_rate = discount_rate;
     }
+
+    @Override
+    public String toString() {
+        return "OrderList{" +
+                "result=" + result +
+                ", orders=" + orders +
+                ", message='" + message + '\'' +
+                ", discount_rate=" + discount_rate +
+                '}';
+    }
 }

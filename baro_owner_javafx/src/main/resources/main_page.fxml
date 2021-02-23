@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.VBox?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.TextField?>
+<StackPane fx:id="main_page_stack_pane" stylesheets="css/order_list_sheets.css"
+           xmlns="http://javafx.com/javafx/8.0.171"
+           xmlns:fx="http://javafx.com/fxml/1"
+           style="-fx-font-family: 'Noto Sans CJK KR Regular'; -fx-background-color: #3d3d3d; -fx-border-color: gray;-fx-border-width: 1"
+>
+    <VBox pickOnBounds="false">
+        <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d">
+            <padding>
+                <Insets top="10" bottom="10" right="10"/>
+            </padding>
+            <Label fx:id="digital_clock" style="-fx-text-fill: white;-fx-font-size: 20pt">
+                <HBox.margin>
+                    <Insets right="10"/>
+                </HBox.margin>
+            </Label>
+            <FontAwesomeIconView fx:id="minimum" glyphName="MINUS" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
+                <HBox.margin>
+                    <Insets top="10"/>
+                </HBox.margin>
+            </FontAwesomeIconView>
+            <FontAwesomeIconView fx:id="maximum" glyphName="SQUARE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
+                <HBox.margin>
+                    <Insets top="8"/>
+                </HBox.margin>
+            </FontAwesomeIconView>
+            <FontAwesomeIconView fx:id="close" glyphName="CLOSE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
+                <HBox.margin>
+                    <Insets top="7"/>
+                </HBox.margin>
+            </FontAwesomeIconView>
+        </HBox>
+        <JFXTabPane fx:id="tabContainer" side="LEFT">
+            <Tab fx:id="order_listTab" closable="false">
+                <AnchorPane fx:id="orderListSideContainer" prefWidth="1250" maxHeight="840"/>
+            </Tab>
+
+            <Tab fx:id="inventory_managementTab" closable="false">
+                <content>
+                    <AnchorPane fx:id="inventoryManagementContainer" prefHeight="1000.0" prefWidth="1000.0"/>
+                </content>
+            </Tab>
+
+            <Tab fx:id="orderHistoryTab" closable="false">
+                <content>
+                    <AnchorPane fx:id="infoChangeContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                prefWidth="200.0"/>
+                </content>
+            </Tab>
+
+            <Tab fx:id="calculateTab" closable="false">
+                <content>
+                    <AnchorPane fx:id="calculateContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                prefWidth="200.0"/>
+                </content>
+            </Tab>
+
+            <Tab fx:id="statisticsTab" closable="false">
+                <content>
+                    <AnchorPane fx:id="statisticsContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                prefWidth="200.0"/>
+                </content>
+            </Tab>
+
+            <Tab fx:id="settingsTab" closable="false">
+                <content>
+                    <AnchorPane fx:id="settingsContainer" minHeight="0.0" minWidth="0.0" prefHeight="383.0"
+                                prefWidth="586.0"/>
+                </content>
+            </Tab>
+
+        </JFXTabPane>
+    </VBox>
+
+</StackPane>

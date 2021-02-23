@@ -2,8 +2,6 @@ package com.baro.controllers;
 
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
-import com.baro.OrderListController;
-import com.baro.utils.DateConverter;
 import com.baro.utils.GetBool;
 import com.google.gson.Gson;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -19,8 +17,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -56,7 +52,6 @@ public class OrderController implements Initializable{
         customer.setText("고객번호 "+orderData.phone);
         order_count.setText("메뉴 " + orderData.order_count + "개 |");
 
-//        System.out.println("orderData" + orderData.discount_rate+"");
         if(orderData.discount_rate != 0 ){
             price.setText((orderData.total_price - (int)(orderData.total_price * (orderData.discount_rate / 100.0))) +"원");
         }else {
@@ -70,7 +65,6 @@ public class OrderController implements Initializable{
             state.setText("신규");
             state.setStyle("-fx-background-color: rgba(131,50,230,0.75); -fx-text-fill: white;-fx-background-radius: 5px; ");
         }
-//        System.out.println("intheorder : "+orderData.getCompleteTime());
         timeLabel.setText(orderData.getCompleteTime());
 //        new Thread(new Runnable() {
 //            @Override
