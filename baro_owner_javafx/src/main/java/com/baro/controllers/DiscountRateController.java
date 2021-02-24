@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
@@ -29,12 +30,15 @@ import java.util.prefs.Preferences;
 
 public class DiscountRateController implements Initializable, DiscountRateDialog.DiscountRateDialogInterface {
     public HBox top_bar;
+    public Button plus;
+    public Button minus;
+
     public interface ClickClose{
         void clickClose();
         void clickSet();
     }
     public int discountRate = 0;
-    public TextField setNewDiscountRate;
+    public Label setNewDiscountRate;
     public Preferences preferences = Preferences.userRoot();
     public Button setButton;
     public String storeId;
@@ -75,17 +79,40 @@ public class DiscountRateController implements Initializable, DiscountRateDialog
                 stage.close();
             }
         });
+        plus.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String getNewDiscountRateString = setNewDiscountRate.getText().toString();
+                int discountRate = Integer.parseInt(getNewDiscountRateString);
+                if(discountRate == 100) {
+                    return;
+                }
+                discountRate++;
+                setNewDiscountRate.setText(discountRate+"");
+            }
+        });
+        minus.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String getNewDiscountRateString = setNewDiscountRate.getText().toString();
+                int discountRate = Integer.parseInt(getNewDiscountRateString);
+                if(discountRate == 0) {
+                    return;
+                }
+                discountRate--;
+                setNewDiscountRate.setText(discountRate+"");
+            }
+        });
     }
     public void setDiscountRate(int discountRate) {
         this.discountRate = discountRate;
-        setNewDiscountRate.setPromptText(discountRate+"");
-        //getDiscountRate.setText(discountRate+"%");
+        setNewDiscountRate.setText(discountRate+"");
     }
 
     public void clickSetButton(ActionEvent actionEvent) {
         String getText = setNewDiscountRate.getText().toString();
         if(getText.equals("")) {
-            getText = setNewDiscountRate.getPromptText();
+            return;
         }
         int newDiscountRate = Integer.parseInt(getText);
         if(discountRate == newDiscountRate) {

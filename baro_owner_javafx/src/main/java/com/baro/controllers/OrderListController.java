@@ -53,10 +53,15 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         if(getText.equals("")) {
             return;
         }
-        int newDiscount = Integer.parseInt(getText);
-        store_discount_rate.setText(newDiscount+"%");
-        new_store_discount_rate.setVisible(false);
-        arrow_right.setVisible(false);
+        int newDiscount = Integer.parseInt(getText.substring(0, getText.indexOf("%")));
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                store_discount_rate.setText(newDiscount+"%");
+                new_store_discount_rate.setVisible(false);
+                arrow_right.setVisible(false);
+            }
+        });
     }
 
     public interface MoveToSetting {

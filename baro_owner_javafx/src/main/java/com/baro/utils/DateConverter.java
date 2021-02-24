@@ -180,4 +180,31 @@ public class DateConverter {
             }
         })).start();
     }
+    public static void test30Thread(Label timerLabel, TimerReset timerReset) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int testThread = 30;
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                        final int time = testThread--;
+                        if(testThread == 0) {
+                            timerReset.timerReset();
+                            testThread = 30;
+                        }
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                timerLabel.setText(time+"");
+                            }
+                        });
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
 }

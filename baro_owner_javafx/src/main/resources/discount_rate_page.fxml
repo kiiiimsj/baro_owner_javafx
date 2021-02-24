@@ -11,12 +11,12 @@
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.baro.controllers.DiscountRateController"
-            prefHeight="200.0" prefWidth="300.0"
-            style="-fx-background-color: #3d3d3d; -fx-border-color: gray">
+            prefHeight="280.0" prefWidth="300.0"
+            style="-fx-background-color: #3d3d3d; -fx-border-color: gray" spacing="10">
     <padding>
         <Insets top="10" bottom="10" left="10" right="10"/>
     </padding>
-    <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d">
+    <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d"  maxHeight="Infinity" minHeight="-Infinity" minWidth="-Infinity">
         <padding>
             <Insets top="10" bottom="10" right="10"/>
         </padding>
@@ -26,20 +26,27 @@
             </HBox.margin>
         </FontAwesomeIconView>
     </HBox>
-    <VBox>
-        <HBox alignment="TOP_CENTER" spacing="10" VBox.vgrow="ALWAYS">
-            <Label text="할인률 설정 " HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" alignment="TOP_RIGHT" textAlignment="RIGHT" style="-fx-font-size: 20pt;
-            -fx-text-fill: white;-fx-font-weight: bold;-fx-font-family: 'Noto Sans CJK KR Regular';" />
-            <TextField fx:id="setNewDiscountRate"  prefWidth="50" style="-fx-font-size: 14pt; -fx-focus-traversable: false;
-             -fx-text-fill: black;-fx-font-weight: bold;-fx-font-family: 'Noto Sans CJK KR Regular'; -fx-focus-color: gray;" >
+    <VBox alignment="TOP_CENTER" spacing="5">
+        <Label text="할인률 설정 " HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" alignment="CENTER" textAlignment="CENTER" style="-fx-font-size: 20pt;
+        -fx-text-fill: white;-fx-font-weight: bold;-fx-font-family: 'Noto Sans CJK KR Regular';" />
+
+        <HBox alignment="CENTER" spacing="10"  maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity">
+            <Button fx:id="plus" text="+" style="-fx-font-size: 20pt;-fx-text-fill: white;-fx-font-weight: bold;
+            -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-focus-color: gray;"/>
+
+            <Label fx:id="setNewDiscountRate"  prefWidth="50" style="-fx-font-size: 14pt;-fx-text-fill: #8333e6;-fx-font-weight: bold;
+            -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-focus-color: gray; -fx-background-color: white; -fx-background-radius: 5px;" textAlignment="CENTER" alignment="CENTER"  >
                 <padding>
                     <Insets top="5" bottom="5" right="5" left="5"/>
                 </padding>
-            </TextField>
+            </Label>
+
+            <Button fx:id="minus" text="-" prefHeight="20" style="-fx-font-size: 20pt;-fx-text-fill: white;-fx-font-weight: bold;
+            -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-focus-color: gray; " HBox.hgrow="ALWAYS"/>
         </HBox>
+
     </VBox>
-    <Region VBox.vgrow="ALWAYS" />
-    <HBox>
+    <HBox alignment="BOTTOM_CENTER">
         <Button fx:id="setButton" text="설정" maxWidth="Infinity"  style="-fx-font-size: 20pt; -fx-text-fill: white;-fx-font-weight: bold;-fx-font-family: 'Noto Sans CJK KR Regular';
 -fx-background-color: #8333e6;-fx-background-radius: 5" onAction="#clickSetButton" HBox.hgrow="ALWAYS"/>
     </HBox>
