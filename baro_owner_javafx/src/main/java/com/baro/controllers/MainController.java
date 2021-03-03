@@ -3,13 +3,12 @@ package com.baro.controllers;
 import com.baro.Dialog.InternetConnectDialog;
 import com.baro.JsonParsing.OrderList;
 import com.baro.utils.DateConverter;
-import com.baro.utils.LayoutWidthHeight;
+import com.baro.utils.LayoutSize;
 import com.jfoenix.controls.JFXTabPane;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -21,18 +20,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.json.JSONObject;
-import sample.Main;
 
 import java.io.*;
 import java.net.*;
@@ -89,8 +84,8 @@ public class MainController implements OrderListController.MoveToSetting{
     @FXML
     private TilePane orderListContainer;
 
-    private double tabWidth = LayoutWidthHeight.MAIN_TAB_PANE_WIDTH;
-    private double tabHeight = LayoutWidthHeight.MAIN_TAB_PANE_HEIGHT;
+    private final double tabWidth = LayoutSize.MAIN_TAB_PANE_WIDTH;
+    private final double tabHeight = LayoutSize.MAIN_TAB_PANE_HEIGHT;
 
     double initialX;
     double initialY;
@@ -106,8 +101,8 @@ public class MainController implements OrderListController.MoveToSetting{
     @FXML
     public void initialize() {
         System.out.println("second");
-        main_page_stack_pane.setPrefHeight(LayoutWidthHeight.MAIN_PAGE_HEIGHT);
-        main_page_stack_pane.setPrefWidth(LayoutWidthHeight.MAIN_PAGE_WIDTH);
+        main_page_stack_pane.setPrefHeight(LayoutSize.MAIN_PAGE_HEIGHT);
+        main_page_stack_pane.setPrefWidth(LayoutSize.MAIN_PAGE_WIDTH);
 
         store_id = preferences.get("store_id", null);
         System.out.println("store_id" + store_id);
@@ -116,6 +111,8 @@ public class MainController implements OrderListController.MoveToSetting{
         configureTopBar();
     }
     private void configureTopBar() {
+        top_bar.setPrefHeight(LayoutSize.TOP_BAR_HEIGHT);
+
         final Timeline digitalTime = new Timeline(
                 new KeyFrame(Duration.seconds(0),
                         new EventHandler<ActionEvent>() {

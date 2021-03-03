@@ -6,7 +6,7 @@ import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.JsonParsing.OrderList;
 import com.baro.controllers.orderDetail.OrderDetailsController;
 import com.baro.utils.DateConverter;
-import com.baro.utils.LayoutWidthHeight;
+import com.baro.utils.LayoutSize;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
@@ -19,13 +19,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.text.Text;
 import javafx.stage.*;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
@@ -46,6 +45,10 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     public Label new_store_discount_rate;
     public Label arrow_right;
     public Label baro_discount_timer;
+    public AnchorPane orderListSideContainer;
+    public Button prev_tab;
+    public Button next_tab;
+    public HBox paging_ui;
 
     @Override
     public void timerReset() {
@@ -76,7 +79,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     @FXML
     private TilePane childContainer;
     @FXML
-    private Label paggingLabel;
+    private Label pagingLabel;
     @FXML
     private AnchorPane orderDetailsContainer;
     private WebSocketClient webSocketClient;
@@ -104,7 +107,24 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     /// Life cycle
     @FXML
     public void initialize() {
+        paging_ui.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
+        paging_ui.setPrefHeight(LayoutSize.ORDER_CELL_HEIGHT);
+
+        pagingLabel.setPrefHeight(LayoutSize.ORDER_CELL_HEIGHT);
+        prev_tab.setPrefHeight(LayoutSize.ORDER_CELL_HEIGHT);
+        next_tab.setPrefHeight(LayoutSize.ORDER_CELL_HEIGHT);
+
+        pagingLabel.setPrefWidth((LayoutSize.ORDER_LIST_WIDTH / 3.0)  - 5);
+        prev_tab.setPrefWidth((LayoutSize.ORDER_LIST_WIDTH / 3.0)  - 5);
+        next_tab.setPrefWidth((LayoutSize.ORDER_LIST_WIDTH / 3.0)  - 5);
+
+        orderListSideContainer.setPrefWidth(LayoutSize.INSIDE_PANE_WIDTH);
+        orderListSideContainer.setPrefHeight(LayoutSize.INSIDE_PANE_HEIGHT);
+
         DateConverter.fifteenTimer(baro_discount_timer, this);
+        childContainer.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
+        childContainer.setPrefHeight(LayoutSize.ORDER_LIST_HEIGHT);
+
         try {
             Media media = new Media(getClass().getResource("/sounds.wav").toURI().toString());
             player = new MediaPlayer(media);
@@ -345,9 +365,9 @@ public class OrderListController implements DiscountRateController.ClickClose, D
             hBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
+//                    orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
                     OrderDetailParsing details = controller.getDetail();
-                    if (details != null){
+                    if (details != null) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetails.fxml"));
                         try {
                             Parent parent = loader.load();
@@ -380,7 +400,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                                 @Override
                                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                                     if (newValue) {
-                                        orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
+//                                        orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
                                         orderList.orders.remove(index);
                                         whenDelete();
                                     }
@@ -628,14 +648,14 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         if (ENTIREPAGE<CURRNETPAGE){
             CURRNETPAGE--;
         }
-        paggingLabel.setText(CURRNETPAGE + " / " + ENTIREPAGE);
+        pagingLabel.setText(CURRNETPAGE + " / " + ENTIREPAGE);
     }
     public void tapPrevPage(ActionEvent event) {
         if (CURRNETPAGE == 1){
             return;
         }
         CURRNETPAGE--;
-        paggingLabel.setText(CURRNETPAGE + " / " + ENTIREPAGE);
+        pagingLabel.setText(CURRNETPAGE + " / " + ENTIREPAGE);
         setList((orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER - ONEPAGEORDER,(orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER );
     }
     public void tapNextPage(ActionEvent event) {
@@ -643,7 +663,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
             return;
         }
         CURRNETPAGE++;
-        paggingLabel.setText(CURRNETPAGE + " / " + ENTIREPAGE);
+        pagingLabel.setText(CURRNETPAGE + " / " + ENTIREPAGE);
         if (CURRNETPAGE == ENTIREPAGE){
             if (orderList.orders.size() % ONEPAGEORDER != 0 ) {
                 setList(-1,(orderList.orders.size()-1) % ONEPAGEORDER);

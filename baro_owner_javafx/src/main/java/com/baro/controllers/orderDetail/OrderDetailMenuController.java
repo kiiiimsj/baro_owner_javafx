@@ -3,6 +3,7 @@ package com.baro.controllers.orderDetail;
 import com.baro.JsonParsing.Extras;
 import com.baro.JsonParsing.OrderDetail;
 import com.baro.JsonParsing.OrderDetailParsing;
+import com.baro.utils.LayoutSize;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +20,7 @@ import java.util.ResourceBundle;
 public class OrderDetailMenuController implements Initializable {
 
     public VBox menu_content;
+    public VBox menu_layout;
     private OrderDetailParsing data;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -26,25 +28,27 @@ public class OrderDetailMenuController implements Initializable {
     }
 
     public void configureUI(){
+        menu_layout.setPrefWidth(LayoutSize.ORDER_MENUS_WIDTH);
+        menu_content.setPrefHeight(LayoutSize.ORDER_MENUS_HEIGHT);
 
         for (int i = 0; i < data.orders.size(); i++) {
             OrderDetail orderDetail = data.orders.get(i);
             GridPane menuCell = new GridPane();
-            menuCell.setMaxWidth(460);
-            menuCell.setMinWidth(460);
+            menuCell.setMaxWidth(LayoutSize.ORDER_MENUS_WIDTH);
+            menuCell.setMinWidth(LayoutSize.ORDER_MENUS_WIDTH);
             ColumnConstraints columnConstraints1 = new ColumnConstraints();
             columnConstraints1.setHgrow(Priority.ALWAYS);
-            columnConstraints1.setMaxWidth(153);
+            columnConstraints1.setMaxWidth(LayoutSize.ORDER_MENUS_WIDTH/3.0);
 
 
             ColumnConstraints columnConstraints2 = new ColumnConstraints();
             columnConstraints2.setHgrow(Priority.ALWAYS);
-            columnConstraints2.setMaxWidth(153);
+            columnConstraints2.setMaxWidth(LayoutSize.ORDER_MENUS_WIDTH/3.0);
             columnConstraints2.setHalignment(HPos.CENTER);
 
             ColumnConstraints columnConstraints3 = new ColumnConstraints();
             columnConstraints3.setHgrow(Priority.ALWAYS);
-            columnConstraints3.setMaxWidth(153);
+            columnConstraints3.setMaxWidth(LayoutSize.ORDER_MENUS_WIDTH/3.0);
             columnConstraints3.setHalignment(HPos.RIGHT);
 
             RowConstraints rowConstraints = new RowConstraints();
@@ -70,9 +74,9 @@ public class OrderDetailMenuController implements Initializable {
             menuDefaultPrice = new Text( orderDetail.menu_defaultprice+"원");
 
             menuCell.addRow(0, menuNameText, menuCountText, menuDefaultPrice);
-            menuNameText.setStyle("-fx-font-size: 20pt");
-            menuCountText.setStyle("-fx-font-size: 20pt");
-            menuDefaultPrice.setStyle("-fx-font-size: 20pt");
+            menuNameText.setStyle("-fx-font-size: 15pt");
+            menuCountText.setStyle("-fx-font-size: 15pt");
+            menuDefaultPrice.setStyle("-fx-font-size: 15pt");
             menu_content.getChildren().add(menuCell);
             AddChilds(orderDetail);
         }
