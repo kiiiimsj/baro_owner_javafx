@@ -5,7 +5,7 @@ import com.baro.JsonParsing.Statistics;
 import com.baro.JsonParsing.StatisticsMenuParsing;
 import com.baro.JsonParsing.StatisticsParsing;
 import com.baro.utils.DateConverter;
-import com.baro.utils.LayoutWidthHeight;
+import com.baro.utils.LayoutSize;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -130,21 +130,21 @@ public class StatisticsController implements Initializable {
      */
     private void setListViewSetHeader() {
         dailyMenuGridCol1.setHgrow(Priority.ALWAYS);
-        dailyMenuGridCol1.setPrefWidth((LayoutWidthHeight.MAIN_PAGE_WIDTH - LayoutWidthHeight.MAIN_TAB_PANE_WIDTH) / 3.0);
+        dailyMenuGridCol1.setPrefWidth((LayoutSize.MAIN_PAGE_WIDTH - LayoutSize.MAIN_TAB_PANE_WIDTH) / 3.0);
 
         dailyMenuGridCol2.setHgrow(Priority.ALWAYS);
         dailyMenuGridCol2.setHalignment(HPos.CENTER);
-        dailyMenuGridCol2.setPrefWidth((LayoutWidthHeight.MAIN_PAGE_WIDTH - LayoutWidthHeight.MAIN_TAB_PANE_WIDTH) / 3.0);
+        dailyMenuGridCol2.setPrefWidth((LayoutSize.MAIN_PAGE_WIDTH - LayoutSize.MAIN_TAB_PANE_WIDTH) / 3.0);
 
         dailyMenuGridCol3.setHgrow(Priority.ALWAYS);
         dailyMenuGridCol3.setHalignment(HPos.CENTER);
-        dailyMenuGridCol3.setPrefWidth((LayoutWidthHeight.MAIN_PAGE_WIDTH - LayoutWidthHeight.MAIN_TAB_PANE_WIDTH) / 3.0);
+        dailyMenuGridCol3.setPrefWidth((LayoutSize.MAIN_PAGE_WIDTH - LayoutSize.MAIN_TAB_PANE_WIDTH) / 3.0);
 
         dailyGridCol1.setHgrow(Priority.ALWAYS);
-        dailyGridCol1.setPrefWidth(((LayoutWidthHeight.MAIN_PAGE_WIDTH - LayoutWidthHeight.MAIN_TAB_PANE_WIDTH) / 2.0) / 3.0);
+        dailyGridCol1.setPrefWidth(((LayoutSize.MAIN_PAGE_WIDTH - LayoutSize.MAIN_TAB_PANE_WIDTH) / 2.0) / 3.0);
 
         dailyGridCol2.setHgrow(Priority.ALWAYS);
-        dailyGridCol2.setPrefWidth(((LayoutWidthHeight.MAIN_PAGE_WIDTH - LayoutWidthHeight.MAIN_TAB_PANE_WIDTH) / 2.0) / 3.0);
+        dailyGridCol2.setPrefWidth(((LayoutSize.MAIN_PAGE_WIDTH - LayoutSize.MAIN_TAB_PANE_WIDTH) / 2.0) / 3.0);
 
         row1.setVgrow(Priority.ALWAYS);
 

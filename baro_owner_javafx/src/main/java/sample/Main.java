@@ -4,16 +4,13 @@ import com.baro.Dialog.InternetConnectDialog;
 import com.baro.JsonParsing.OrderList;
 import com.baro.controllers.LoginController;
 import com.baro.controllers.MainController;
-import com.baro.controllers.OrderController;
-import com.baro.utils.LayoutWidthHeight;
+import com.baro.utils.LayoutSize;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -67,7 +64,7 @@ public class Main extends Application implements MainController.ReturnOrderListW
 
 
         // 300 -> 500 -> 580
-        Scene scene =  new Scene(root, LayoutWidthHeight.LOGIN_PAGE_WIDTH, LayoutWidthHeight.LOGIN_PAGE_HEIGHT);
+        Scene scene =  new Scene(root, LayoutSize.LOGIN_PAGE_WIDTH, LayoutSize.LOGIN_PAGE_HEIGHT);
 //        scene.getStylesheets().add(getClass().getResource("/fontstyle.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();

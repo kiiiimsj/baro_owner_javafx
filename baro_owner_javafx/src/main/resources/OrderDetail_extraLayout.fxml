@@ -8,19 +8,15 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.RowConstraints?>
-<GridPane fx:controller="com.baro.controllers.orderDetail.OrderDetailExtraController"
+<GridPane
+        fx:id="extra_grid_pane"
+        fx:controller="com.baro.controllers.orderDetail.OrderDetailExtraController"
           xmlns="http://javafx.com/javafx/8.0.171"
           xmlns:fx="http://javafx.com/fxml/1"  style="-fx-background-color: white"
 >
-    <columnConstraints>
-        <ColumnConstraints hgrow="ALWAYS" maxWidth="153"/>
-        <ColumnConstraints hgrow="ALWAYS" maxWidth="153" halignment="CENTER" />
-        <ColumnConstraints hgrow="ALWAYS" maxWidth="153" halignment="RIGHT" />
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints vgrow="ALWAYS"/>
-    </rowConstraints>
-   <Label fx:id="extraNameLabel" text="엑스트라" style="-fx-font-size: 18pt; -fx-text-fill: #787878" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-   <Label fx:id="extraCountLabel" text="개수" style="-fx-font-size: 18pt; -fx-text-fill: #787878"  GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-   <Label fx:id="extraPriceLabel" text="가격" style="-fx-font-size: 18pt; -fx-text-fill: #787878" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+    <children>
+        <Label fx:id="extraNameLabel" text="엑스트라" style="-fx-font-size: 15pt; -fx-text-fill: #787878" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+        <Label fx:id="extraCountLabel" text="개수" style="-fx-font-size: 15pt; -fx-text-fill: #787878"  GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Label fx:id="extraPriceLabel" text="가격" style="-fx-font-size: 15pt; -fx-text-fill: #787878" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+    </children>
 </GridPane>

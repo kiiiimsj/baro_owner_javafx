@@ -3,6 +3,7 @@ package com.baro.controllers;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.utils.GetBool;
+import com.baro.utils.LayoutSize;
 import com.google.gson.Gson;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
@@ -47,6 +48,8 @@ public class OrderController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        shell.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
+        timeLabel.setPrefWidth(LayoutSize.ORDER_TIME_WIDTH);
     }
     public void configureUI() {
         customer.setText("고객번호 "+orderData.phone);

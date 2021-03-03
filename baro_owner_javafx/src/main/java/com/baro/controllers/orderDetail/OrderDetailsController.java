@@ -6,6 +6,7 @@ import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.Printer.ReceiptPrint;
 import com.baro.controllers.SettingTimerController;
 import com.baro.utils.DateConverter;
+import com.baro.utils.LayoutSize;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -94,6 +95,13 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
         //pane 뒤로 클릭 가능하게 해줌
         base.setBackground(Background.EMPTY);
         base.setPickOnBounds(false);
+
+        base.setPrefHeight(LayoutSize.ORDER_DETAIL_HEIGHT);
+        base.setPrefWidth(LayoutSize.ORDER_DETAIL_WIDTH);
+
+        top_area.setPrefWidth(150);
+        top_area.setPrefHeight(100);
+        cancelBtn.setPrefHeight(100);
         orderDetailDialog = new OrderDetailDialog();
 
 
