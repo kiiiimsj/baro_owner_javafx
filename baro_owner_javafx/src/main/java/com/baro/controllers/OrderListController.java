@@ -9,6 +9,7 @@ import com.baro.utils.DateConverter;
 import com.baro.utils.LayoutSize;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXToggleButton;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -104,6 +105,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     String isOpen = preferences.get("is_open", "");
 
     MediaPlayer player;
+
     /// Life cycle
     @FXML
     public void initialize() {
@@ -121,7 +123,6 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         orderListSideContainer.setPrefWidth(LayoutSize.INSIDE_PANE_WIDTH);
         orderListSideContainer.setPrefHeight(LayoutSize.INSIDE_PANE_HEIGHT);
 
-        DateConverter.fifteenTimer(baro_discount_timer, this);
         childContainer.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
         childContainer.setPrefHeight(LayoutSize.ORDER_LIST_HEIGHT);
 

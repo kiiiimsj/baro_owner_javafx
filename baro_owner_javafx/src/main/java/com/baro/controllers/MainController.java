@@ -338,11 +338,13 @@ public class MainController implements OrderListController.MoveToSetting{
                 Parent contentView = loader.load();
                 if(tab.getId().equals("order_listTab")) {
                     OrderListController orderListController = loader.<OrderListController>getController();
-
                     orderListController.moveToSetting = this::moveSetting;
                     orderListController.reload = reload;
+                    DateConverter.fifteenTimer(orderListController.baro_discount_timer, orderListController);
                     orderList = orderListController.orderList;
                     returnOrderListWhenApplicationClose.returnOrderList(orderList);
+                }else {
+
                 }
 
                 if(containerPane.getChildren().size() != 0) {

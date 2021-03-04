@@ -26,7 +26,6 @@ public class DateConverter {
     final public static int MINUTE = 4;
     final public static int SECOND = 5;
 
-    public TimerReset timerReset;
     /***************************************************************************
      *
      * yyyy년 ww월 dd일 hh시 mm분 ss초 -> {yyyy,ww,dd,hh,mm}로 변환

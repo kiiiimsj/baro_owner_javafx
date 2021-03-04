@@ -48,6 +48,9 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
     public VBox base;
     public HBox top_area;
     public Label discountRatePriceLabel;
+    public HBox info_area;
+    public VBox info_box;
+    public VBox request_box;
     @FXML
     private Label phoneLabel;
     @FXML
@@ -99,9 +102,8 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
         base.setPrefHeight(LayoutSize.ORDER_DETAIL_HEIGHT);
         base.setPrefWidth(LayoutSize.ORDER_DETAIL_WIDTH);
 
-        top_area.setPrefWidth(150);
-        top_area.setPrefHeight(100);
-        cancelBtn.setPrefHeight(100);
+
+        printButton.setPrefWidth(LayoutSize.ORDER_DETAIL_WIDTH);
         orderDetailDialog = new OrderDetailDialog();
 
 
