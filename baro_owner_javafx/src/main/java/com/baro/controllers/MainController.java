@@ -48,7 +48,7 @@ public class MainController implements OrderListController.MoveToSetting{
     public Label digital_clock;
     public HBox top_bar;
     public FontAwesomeIconView minimum;
-    public FontAwesomeIconView maximum;
+//    public FontAwesomeIconView maximum;
     public FontAwesomeIconView close;
 
     public StackPane main_page_stack_pane;
@@ -174,18 +174,18 @@ public class MainController implements OrderListController.MoveToSetting{
                 stage.setIconified(true);
             }
         });
-        maximum.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                if(stage.isFullScreen()) {
-                    stage.setFullScreen(false);
-                }else {
-                    //stage.setFullScreenExitHint(" ");
-                    stage.setFullScreen(true);
-                }
-            }
-        });
+//        maximum.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+//                if(stage.isFullScreen()) {
+//                    stage.setFullScreen(false);
+//                }else {
+//                    //stage.setFullScreenExitHint(" ");
+//                    stage.setFullScreen(true);
+//                }
+//            }
+//        });
         close.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

@@ -41,7 +41,7 @@ public class LoginController implements Initializable {
     public VBox base;
     public HBox top_bar;
     public FontAwesomeIconView minimum;
-    public FontAwesomeIconView maximum;
+//    public FontAwesomeIconView maximum;
     public FontAwesomeIconView close;
     @FXML private TextField phone_tf;
     @FXML private PasswordField password_tf;
@@ -96,14 +96,14 @@ public class LoginController implements Initializable {
                 stage.setIconified(true);
             }
         });
-        maximum.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                stage.setFullScreenExitHint(" ");
-                stage.setFullScreen(true);
-            }
-        });
+//        maximum.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+//                stage.setFullScreenExitHint(" ");
+//                stage.setFullScreen(true);
+//            }
+//        });
         close.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

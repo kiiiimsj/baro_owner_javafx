@@ -49,7 +49,7 @@ public class OrderController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         shell.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
-        timeLabel.setPrefWidth(LayoutSize.ORDER_TIME_WIDTH);
+        timeLabel.setPrefWidth(LayoutSize.ORDER_CELL_ORDER_TIME_WIDTH);
     }
     public void configureUI() {
         customer.setText("고객번호 "+orderData.phone);

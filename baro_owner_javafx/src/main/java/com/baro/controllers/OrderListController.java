@@ -9,7 +9,6 @@ import com.baro.utils.DateConverter;
 import com.baro.utils.LayoutSize;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXToggleButton;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -50,6 +49,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     public Button prev_tab;
     public Button next_tab;
     public HBox paging_ui;
+    public HBox discount_rate_height;
 
     @Override
     public void timerReset() {
@@ -110,21 +110,23 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     @FXML
     public void initialize() {
         paging_ui.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
-        paging_ui.setPrefHeight(LayoutSize.ORDER_CELL_HEIGHT);
+        paging_ui.setPrefHeight(LayoutSize.ORDER_LIST_ORDER_CELL_HEIGHT);
 
-        pagingLabel.setPrefHeight(LayoutSize.ORDER_CELL_HEIGHT);
-        prev_tab.setPrefHeight(LayoutSize.ORDER_CELL_HEIGHT);
-        next_tab.setPrefHeight(LayoutSize.ORDER_CELL_HEIGHT);
+        pagingLabel.setPrefHeight(LayoutSize.ORDER_LIST_ORDER_CELL_HEIGHT);
+        prev_tab.setPrefHeight(LayoutSize.ORDER_LIST_ORDER_CELL_HEIGHT);
+        next_tab.setPrefHeight(LayoutSize.ORDER_LIST_ORDER_CELL_HEIGHT);
 
         pagingLabel.setPrefWidth((LayoutSize.ORDER_LIST_WIDTH / 3.0)  - 5);
         prev_tab.setPrefWidth((LayoutSize.ORDER_LIST_WIDTH / 3.0)  - 5);
         next_tab.setPrefWidth((LayoutSize.ORDER_LIST_WIDTH / 3.0)  - 5);
 
-        orderListSideContainer.setPrefWidth(LayoutSize.INSIDE_PANE_WIDTH);
-        orderListSideContainer.setPrefHeight(LayoutSize.INSIDE_PANE_HEIGHT);
+        orderListSideContainer.setMinWidth(LayoutSize.INSIDE_PANE_WIDTH);
+        orderListSideContainer.setMinHeight(LayoutSize.INSIDE_PANE_HEIGHT);
 
         childContainer.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
         childContainer.setPrefHeight(LayoutSize.ORDER_LIST_HEIGHT);
+
+        discount_rate_height.setPrefHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
 
         try {
             Media media = new Media(getClass().getResource("/sounds.wav").toURI().toString());
@@ -167,6 +169,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         discount_rate_set.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                System.out.println(discount_rate_height.getPadding() + " : " + discount_rate_height.getPrefHeight() + " : " + discount_rate_height.getSpacing() + " : " + discount_rate_height.getMaxHeight() + " : " + discount_rate_height.getWidth());
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/discount_rate_page.fxml"));
                     Parent parent = loader.load();

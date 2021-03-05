@@ -36,11 +36,11 @@
                     <Insets top="10"/>
                 </HBox.margin>
             </FontAwesomeIconView>
-            <FontAwesomeIconView fx:id="maximum" glyphName="SQUARE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
-                <HBox.margin>
-                    <Insets top="8"/>
-                </HBox.margin>
-            </FontAwesomeIconView>
+<!--            <FontAwesomeIconView fx:id="maximum" glyphName="SQUARE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">-->
+<!--                <HBox.margin>-->
+<!--                    <Insets top="8"/>-->
+<!--                </HBox.margin>-->
+<!--            </FontAwesomeIconView>-->
             <FontAwesomeIconView fx:id="close" glyphName="CLOSE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
                 <HBox.margin>
                     <Insets top="7"/>

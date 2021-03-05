@@ -23,11 +23,11 @@
             fx:controller="com.baro.controllers.OrderListController"
             style="-fx-font-family: 'Noto Sans CJK KR Regular'; -fx-background-color: #3d3d3d;">
             <!--  480  -->
-            <HBox AnchorPane.topAnchor="0" AnchorPane.rightAnchor="10" spacing="10">
+            <HBox fx:id="discount_rate_height" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="10" spacing="10">
                 <padding>
                     <Insets left="10.0" right="10.0" />
                 </padding>
-                <VBox fx:id="discount_rate_set" prefHeight="80" HBox.hgrow="ALWAYS" style="-fx-background-color: #8333e6;-fx-background-radius: 5px" alignment="CENTER" stylesheets="css/label_hover.css">
+                <VBox fx:id="discount_rate_set" style="-fx-background-color: #8333e6;-fx-background-radius: 5px" alignment="CENTER" stylesheets="css/label_hover.css">
                     <padding>
                         <Insets left="10" right="10"/>
                     </padding>
