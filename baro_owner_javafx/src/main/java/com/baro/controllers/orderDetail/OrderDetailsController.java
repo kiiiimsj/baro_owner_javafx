@@ -45,12 +45,12 @@ import java.util.prefs.Preferences;
 public class OrderDetailsController implements Initializable, OrderDetailDialog.OrderDetailDialogInterface {
     public Button cancelBtn;
     public GridPane button_area;
-    public VBox base;
+    public AnchorPane base;
     public HBox top_area;
     public Label discountRatePriceLabel;
-    public HBox info_area;
     public VBox info_box;
     public VBox request_box;
+    public HBox info_area;
     @FXML
     private Label phoneLabel;
     @FXML
@@ -94,26 +94,25 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
     public boolean withOutButton;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //영업중, 영업종료 토글 버튼 클릭이 막힘
-        //pane 뒤로 클릭 가능하게 해줌
         base.setBackground(Background.EMPTY);
         base.setPickOnBounds(false);
 
-        base.setPrefHeight(LayoutSize.ORDER_DETAIL_HEIGHT);
-        base.setPrefWidth(LayoutSize.ORDER_DETAIL_WIDTH);
+        base.setMinHeight(LayoutSize.ORDER_DETAIL_HEIGHT);
+        base.setMinWidth(LayoutSize.ORDER_DETAIL_WIDTH);
 
-
-        printButton.setPrefWidth(LayoutSize.ORDER_DETAIL_WIDTH);
+//        button_area.setMinWidth(LayoutSize.ORDER_MENUS_WIDTH);
         orderDetailDialog = new OrderDetailDialog();
 
+        cancelBtn.setMinHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
+        cancelBtn.setMaxWidth(LayoutSize.ORDER_DETAIL_CANCEL_BUTTON_WIDTH);
+        cancelBtn.setMinWidth(LayoutSize.ORDER_DETAIL_CANCEL_BUTTON_WIDTH);
 
-//        pos = splitPane.getDividers().get(0).getPosition();
-//        splitPane.getDividers().get(0).positionProperty().addListener(new ChangeListener<Number>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-//                splitPane.getDividers().get(0).setPosition(pos);
-//            }
-//        });
+        top_area.setPrefHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
+        info_area.setPrefHeight(LayoutSize.ORDER_DETAIL_HEIGHT - LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT - LayoutSize.ORDER_LIST_BOTTOM_AREA_HEIGHT - 20);
+
+//        button_area.setMinWidth(LayoutSize.ORDER_DETAIL_WIDTH - 10);
+
+        receipt_preview_scroll.setMinHeight(LayoutSize.ORDER_DETAIL_HEIGHT - LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT- LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT );
     }
     public SimpleBooleanProperty getChangeToAccept(){
         return changeToAccept;

@@ -22,14 +22,6 @@ public class OrderDetailExtraController implements Initializable {
     @FXML
     private Label extraPriceLabel;
     private Extras extras;
-//    <columnConstraints>
-//        <ColumnConstraints hgrow="ALWAYS" maxWidth="153"/>
-//        <ColumnConstraints hgrow="ALWAYS" maxWidth="153" halignment="CENTER" />
-//        <ColumnConstraints hgrow="ALWAYS" maxWidth="153" halignment="RIGHT" />
-//    </columnConstraints>
-//    <rowConstraints>
-//        <RowConstraints vgrow="ALWAYS"/>
-//    </rowConstraints>
     ColumnConstraints col1 = new ColumnConstraints();
     ColumnConstraints col2 = new ColumnConstraints();
     ColumnConstraints col3 = new ColumnConstraints();
@@ -38,15 +30,15 @@ public class OrderDetailExtraController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         col1.setHgrow(Priority.ALWAYS);
-        col1.setMaxWidth(LayoutSize.ORDER_MENUS_WIDTH / 3.0);
+        col1.setMinWidth(LayoutSize.ORDER_MENUS_WIDTH / 3.0);
 
         col2.setHgrow(Priority.ALWAYS);
         col2.setHalignment(HPos.CENTER);
-        col2.setMaxWidth(LayoutSize.ORDER_MENUS_WIDTH / 3.0);
+        col2.setMinWidth(LayoutSize.ORDER_MENUS_WIDTH / 3.0);
 
         col3.setHgrow(Priority.ALWAYS);
         col3.setHalignment(HPos.RIGHT);
-        col3.setMaxWidth(LayoutSize.ORDER_MENUS_WIDTH / 3.0);
+        col3.setMinWidth(LayoutSize.ORDER_MENUS_WIDTH / 3.0);
 
         row1.setVgrow(Priority.ALWAYS);
 
