@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -121,7 +122,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         next_tab.setPrefWidth((LayoutSize.ORDER_LIST_WIDTH / 3.0)  - 5);
 
         orderListSideContainer.setMinWidth(LayoutSize.INSIDE_PANE_WIDTH);
-        orderListSideContainer.setMinHeight(LayoutSize.INSIDE_PANE_HEIGHT);
+//        orderListSideContainer.setMinHeight(LayoutSize.INSIDE_PANE_HEIGHT);
 
         childContainer.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
         childContainer.setPrefHeight(LayoutSize.ORDER_LIST_HEIGHT);
@@ -171,15 +172,24 @@ public class OrderListController implements DiscountRateController.ClickClose, D
             public void handle(MouseEvent event) {
                 System.out.println(discount_rate_height.getPadding() + " : " + discount_rate_height.getPrefHeight() + " : " + discount_rate_height.getSpacing() + " : " + discount_rate_height.getMaxHeight() + " : " + discount_rate_height.getWidth());
                 try {
+                    double centerXPosition = orderListSideContainer.getScene().getX() + orderListSideContainer.getScene().getWidth()/2d;
+                    double centerYPosition = orderListSideContainer.getScene().getY() + orderListSideContainer.getScene().getHeight()/2d;
+
+                    System.out.println("x : " + centerXPosition +"y : " + centerYPosition);
+
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/discount_rate_page.fxml"));
                     Parent parent = loader.load();
                     Scene discountRateScene = new Scene(parent);
+
                     DiscountRateController discountRateController = loader.<DiscountRateController>getController();
                     discountRateController.clickClose = OrderListController.this;
                     Stage stage = new Stage(StageStyle.UNDECORATED);
-                    stage.initModality(Modality.WINDOW_MODAL);
+                    stage.initModality(Modality.APPLICATION_MODAL);
                     stage.setResizable(false);
                     stage.setScene(discountRateScene);
+                    stage.setX(centerXPosition);
+                    stage.setY(centerYPosition);
+
 
                     discountRateController.storeId = store_id;
                     discountRateController.setDiscountRate(discountRate);

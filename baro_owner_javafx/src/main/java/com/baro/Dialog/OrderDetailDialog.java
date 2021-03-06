@@ -1,5 +1,6 @@
 package com.baro.Dialog;
 
+import com.baro.utils.LayoutSize;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -21,6 +23,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class OrderDetailDialog implements Initializable {
+
+
     public interface OrderDetailDialogInterface {
         void ORDER_CANCEL();
         void ORDER_COMPLETE();
@@ -32,6 +36,7 @@ public class OrderDetailDialog implements Initializable {
     public Label dialog_content;
     public Button no;
     public Button yes;
+    public AnchorPane dialog_base;
 
     double initialX;
     double initialY;
@@ -43,6 +48,8 @@ public class OrderDetailDialog implements Initializable {
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        dialog_base.setPrefWidth(LayoutSize.DIALOG_WIDTH);
+        dialog_base.setPrefHeight(LayoutSize.DIALOG_HEIGHT);
         configureTopBar();
     }
     public void call(OrderDetailDialogInterface orderDetailDialogInterface, int buttonType){
@@ -66,6 +73,7 @@ public class OrderDetailDialog implements Initializable {
         }
     }
     private void configureTopBar() {
+        top_bar.setPrefHeight(LayoutSize.DIALOG_TOP_BAR_HEIGHT);
         top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {

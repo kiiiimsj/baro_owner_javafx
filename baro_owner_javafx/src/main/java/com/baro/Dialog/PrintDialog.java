@@ -1,5 +1,6 @@
 package com.baro.Dialog;
 
+import com.baro.utils.LayoutSize;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,13 +36,12 @@ public class PrintDialog implements Initializable {
     public static final int SET_MAIN = 4;
     public static final int DEL_MAIN = 5;
 
-    public static final int NO_MAIN = 6;
-
     public Label dialog_content;
     public Button yes;
     public Button no;
     public HBox top_bar;
     public int buttonType;
+    public AnchorPane dialog_base;
 
     public PrintDialogInterface printDialogInterface;
 
@@ -54,6 +55,8 @@ public class PrintDialog implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        dialog_base.setPrefWidth(LayoutSize.DIALOG_WIDTH);
+        dialog_base.setPrefHeight(LayoutSize.DIALOG_HEIGHT);
         configureTopBar();
     }
     public void call(PrintDialogInterface printDialogInterface, int index, int buttonType) {
@@ -66,6 +69,7 @@ public class PrintDialog implements Initializable {
             printDialog.printDialogInterface = printDialogInterface;
             printDialog.index = index;
             printDialog.buttonType = buttonType;
+
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
@@ -78,6 +82,7 @@ public class PrintDialog implements Initializable {
 
     }
     private void configureTopBar() {
+        top_bar.setPrefHeight(LayoutSize.DIALOG_TOP_BAR_HEIGHT);
         top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
@@ -111,10 +116,10 @@ public class PrintDialog implements Initializable {
                 dialog_content.setText("프린트 설정을 삭제하시겠습니까?");
                 break;
             case DEL_MAIN:
-                dialog_content.setText("해당 프린트를 메인으로 설정하시겠습니까?\n메인으로 설정된 프린트로 영수증이 출력됩니다.");
+                dialog_content.setText("해당 프린트를 메인으로 설정하시겠습니까?\n메인으로 설정된 프린트로\n영수증이 출력됩니다.");
                 break;
             case SET_MAIN:
-                dialog_content.setText("메인 프린트를 삭제하시겠습니까?\n메인으로 설정된 프린트로 영수증이 출력됩니다.");
+                dialog_content.setText("메인 프린트를 삭제하시겠습니까?\n메인으로 설정된 프린트로\n영수증이 출력됩니다.");
                 break;
 
         }

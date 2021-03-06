@@ -16,73 +16,86 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.Priority?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.ScrollPane?>
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.baro.controllers.StatisticsController"
             stylesheets="css/statistics.css">
-    <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+    <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
         <spacing>10</spacing>
         <padding>
             <Insets top="10" />
         </padding>
         <HBox alignment="CENTER_RIGHT">
+            <HBox HBox.hgrow="ALWAYS" maxWidth="Infinity" spacing="10">
+                <Button fx:id="day_sell_button" mnemonicParsing="false" HBox.hgrow="ALWAYS" visible="false"
+                        style="-fx-background-color: #8333e6; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 20" text="기간별 매출"/>
+                <Button fx:id="menu_sell_button" mnemonicParsing="false" HBox.hgrow="ALWAYS" visible="false"
+                        style="-fx-background-color: #8333e6; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 20" text="메뉴별 매출"/>
+            </HBox>
             <JFXDatePicker fx:id="start_date_picker" prefHeight="50" stylesheets="css/date_picker.css" style="-fx-font-size: 15">
-                <HBox.margin>
-                    <Insets top="15" />
-                </HBox.margin>
+<!--                <HBox.margin>-->
+<!--                    <Insets top="15" />-->
+<!--                </HBox.margin>-->
             </JFXDatePicker>
-            <Text fx:id="contour" text="-" textAlignment="CENTER" style="-fx-font-size: 20">
+            <Label text="-" textAlignment="CENTER" style="-fx-font-size: 18;-fx-text-fill: white">
                 <HBox.margin>
-                    <Insets left="10" right="10" top="20" />
+                    <Insets left="10" right="10"/>
                 </HBox.margin>
-            </Text>
+            </Label>
             <JFXDatePicker fx:id="end_date_picker" prefHeight="50" stylesheets="css/date_picker.css" style="-fx-font-size: 15">
-                <HBox.margin>
-                    <Insets top="15" />
-                </HBox.margin>
+<!--                <HBox.margin>-->
+<!--                    <Insets top="15" />-->
+<!--                </HBox.margin>-->
             </JFXDatePicker>
-            <JFXButton fx:id="look_up_button" alignment="CENTER" text="조회" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-background-color: #8333e6">
+            <Button fx:id="look_up_button" alignment="CENTER" text="조회" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-background-color: #8333e6">
                 <HBox.margin>
-                    <Insets right="10" top="15" />
+                    <Insets right="10"/>
                 </HBox.margin>
-            </JFXButton>
+            </Button>
         </HBox>
-        <HBox fx:id="daily_hbox" alignment="BASELINE_LEFT">
-            <padding>
-                <Insets right="20" left="20"/>
-            </padding>
-            <LineChart fx:id="line_chart">
-                <HBox.hgrow>
-                    <Priority fx:value="ALWAYS"/>
-                </HBox.hgrow>
-                <xAxis>
-                    <CategoryAxis animated="false" fx:id="x_axis" />
-                </xAxis>
-                <yAxis>
-                    <NumberAxis fx:id="y_axis" />
-                </yAxis>
-            </LineChart>
-            <VBox fx:id="daily_sales_vbox">
-                <JFXListView fx:id="dailySales" />
+        <StackPane VBox.vgrow="ALWAYS">
+            <VBox fx:id="daily_vbox" visible="false" maxHeight="Infinity">
+                <padding>
+                    <Insets right="20" left="20"/>
+                </padding>
+                <LineChart fx:id="line_chart" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="-50"/>
+                    </padding>
+                    <xAxis>
+                        <CategoryAxis animated="false" fx:id="x_axis" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis animated="false" fx:id="y_axis" />
+                    </yAxis>
+                </LineChart>
+                <VBox fx:id="daily_sales_vbox" VBox.vgrow="ALWAYS">
+                    <JFXListView fx:id="dailySales" HBox.hgrow="ALWAYS"/>
+                </VBox>
             </VBox>
+            <VBox fx:id="total_menu_vbox" visible="false" maxHeight="Infinity">
+                <padding>
+                    <Insets right="20" left="20"/>
+                </padding>
+                <GridPane fx:id="menu_list_header"/>
+                <JFXListView fx:id="totalMenuList" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </StackPane>
+    </VBox>
+    <VBox fx:id="total_price_vbox" visible="false" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" style="-fx-background-color: #8333e6; -fx-background-radius: 5;-fx-opacity: 80%">
+        <padding>
+            <Insets bottom="10" left="10" top="10" right="10"/>
+        </padding>
+        <HBox>
+            <Label fx:id="total_sales_text" style="-fx-font-size: 30; -fx-text-fill: white" text="총 매출 : "/>
+            <Label fx:id="total_sales" style="-fx-font-size: 30; -fx-text-fill: white"/>
         </HBox>
-        <VBox fx:id="total_menu_vbox">
-            <padding>
-                <Insets right="20" left="20"/>
-            </padding>
-            <Label fx:id="menu_label" text="메뉴 별 판매액" style="-fx-font-size: 40;-fx-text-fill: white"/>
-            <GridPane fx:id="menu_list_header"/>
-            <JFXListView fx:id="totalMenuList"/>
-        </VBox>
-        <VBox fx:id="total_price_vbox">
-            <HBox>
-                <Label fx:id="total_sales_text" style="-fx-font-size: 50; -fx-text-fill: white" text="총 매출 : "/>
-                <Label fx:id="total_sales" style="-fx-font-size: 50; -fx-text-fill: white"/>
-            </HBox>
-            <HBox>
-                <Label fx:id="total_number_of_sales_text" style="-fx-font-size: 50; -fx-text-fill: white"  text="총 건수 : " />
-                <Label fx:id="total_number_of_sales" style="-fx-font-size: 50; -fx-text-fill: white"/>
-            </HBox>
-        </VBox>
+        <HBox>
+            <Label fx:id="total_number_of_sales_text" style="-fx-font-size: 30; -fx-text-fill: white"  text="총 건수 : " />
+            <Label fx:id="total_number_of_sales" style="-fx-font-size: 30; -fx-text-fill: white"/>
+        </HBox>
     </VBox>
 </AnchorPane>

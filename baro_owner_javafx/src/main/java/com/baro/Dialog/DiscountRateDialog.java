@@ -1,5 +1,6 @@
 package com.baro.Dialog;
 
+import com.baro.utils.LayoutSize;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -20,6 +22,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DiscountRateDialog implements Initializable {
+    public AnchorPane dialog_base;
+
     public interface DiscountRateDialogInterface {
         void CHANGE_DISCOUNT_RATE();
     }
@@ -40,6 +44,8 @@ public class DiscountRateDialog implements Initializable {
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        dialog_base.setPrefWidth(LayoutSize.DIALOG_WIDTH);
+        dialog_base.setPrefHeight(LayoutSize.DIALOG_HEIGHT);
         configureTopBar();
     }
     public void call(DiscountRateDialogInterface discountRateDialogInterface, int buttonType){
@@ -63,6 +69,7 @@ public class DiscountRateDialog implements Initializable {
         }
     }
     private void configureTopBar() {
+        top_bar.setPrefHeight(LayoutSize.DIALOG_TOP_BAR_HEIGHT);
         top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {

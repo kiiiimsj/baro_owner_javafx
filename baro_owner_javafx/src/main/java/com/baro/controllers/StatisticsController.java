@@ -7,7 +7,6 @@ import com.baro.JsonParsing.StatisticsParsing;
 import com.baro.utils.DateConverter;
 import com.baro.utils.LayoutSize;
 import com.google.gson.Gson;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
 import javafx.event.ActionEvent;
@@ -20,7 +19,11 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.StringConverter;
 import org.json.JSONObject;
@@ -38,12 +41,15 @@ public class StatisticsController implements Initializable {
     public VBox daily_sales_vbox;
     public VBox total_menu_vbox;
     public GridPane menu_list_header;
-    public HBox daily_hbox;
+    public VBox daily_vbox;
     public VBox total_price_vbox;
+    public Button day_sell_button;
+    public Button menu_sell_button;
+    public ScrollPane scroll;
 
     @FXML private JFXDatePicker start_date_picker;
     @FXML private JFXDatePicker end_date_picker;
-    @FXML private JFXButton look_up_button;
+    @FXML private Button look_up_button;
     @FXML private Label total_sales;
     @FXML private Label total_number_of_sales;
     @FXML private LineChart<String, Number> line_chart;
@@ -79,11 +85,8 @@ public class StatisticsController implements Initializable {
     private String owner_store_id;
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        total_menu_vbox.setVisible(false);
-        daily_hbox.setVisible(false);
         configuration();
     }
     
@@ -97,7 +100,12 @@ public class StatisticsController implements Initializable {
      **************************************************************************/
     private void configuration() {
         setListViewSetHeader();
-;
+        line_chart.setMinHeight(LayoutSize.STATISTICS_DAILY_SELL_HEIGHT);
+        totalMenuList.setMinHeight(LayoutSize.STATISTICS_DAILY_SELL_HEIGHT);
+
+        day_sell_button.setPrefWidth(LayoutSize.STATISTICS_TAB_BUTTON_WIDTH);
+        menu_sell_button.setPrefWidth(LayoutSize.STATISTICS_TAB_BUTTON_WIDTH);
+
         dateConverter = DateConverter.setDateConverter();
         start_date_picker.setConverter(dateConverter);
         end_date_picker.setConverter(dateConverter);
@@ -107,15 +115,34 @@ public class StatisticsController implements Initializable {
         look_up_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                total_menu_vbox.setVisible(true);
-                daily_hbox.setVisible(true);
+                day_sell_button.setVisible(true);
+                menu_sell_button.setVisible(true);
+                daily_vbox.setVisible(true);
+                total_price_vbox.setVisible(true);
+
+                setTopButtonClickEvent();
                 getStatisticsSalesValue();
                 getStatisticsMenusData();
             }
         });
     }
+    private void setTopButtonClickEvent() {
+        day_sell_button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                daily_vbox.setVisible(true);
+                total_menu_vbox.setVisible(false);
 
-
+            }
+        });
+        menu_sell_button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                total_menu_vbox.setVisible(true);
+                daily_vbox.setVisible(false);
+            }
+        });
+    }
 
 
     /***************************************************************************
@@ -322,7 +349,7 @@ public class StatisticsController implements Initializable {
         //scrollContent.getChildren().clear();
 
         totalMenuList.getItems().clear();
-        totalMenuList.setStyle("-fx-font-size:15pt; -fx-text-fill: black; -fx-background-color: #ff000000");
+//        totalMenuList.setStyle("-fx-font-size:15pt; -fx-text-fill: black; -fx-background-color: #ff000000");
 
         //totalMenuList.getItems().add(header);
 

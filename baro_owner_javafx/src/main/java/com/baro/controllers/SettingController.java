@@ -2,6 +2,7 @@ package com.baro.controllers;
 
 import com.baro.Dialog.PrintDialog;
 import com.baro.Printer.ReceiptPrint;
+import com.baro.utils.LayoutSize;
 import com.fazecast.jSerialComm.SerialPort;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -123,6 +124,13 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
 //                }
             }
         }
+        select_com_port_combo.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
+        select_baud_rate_combo.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
+        select_data_bit_combo.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
+        select_parity_combo.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
+        select_stop_bit_combo.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
+        select_flow_controller_combo.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
+        insert_print_name_field.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
         ObservableList<String> portList = FXCollections.observableList(makePortList);
         select_com_port_combo.setItems(portList);
         ObservableList<Integer> baudRateList = FXCollections.observableList(makeBaudRateList);
@@ -154,21 +162,21 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
     }
     public Label modifyPrint(final int index) {
         Label print = new Label(preferences.get("savePrintName"+index+"", ""));
-        print.setMinWidth(230);
-        print.setMinHeight(100);
+        print.setMinWidth(LayoutSize.PRINT_LABEL_WIDTH);
+        print.setMinHeight(LayoutSize.PRINT_LABEL_HEIGHT);
         print.setAlignment(Pos.CENTER);
-        print.setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 30px;-fx-background-radius: 5px");
+        print.setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 20px;-fx-background-radius: 5px");
         print.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                print.setStyle("-fx-text-fill: white;-fx-background-color: gray;-fx-font-size: 30px;-fx-background-radius: 5px");
+                print.setStyle("-fx-text-fill: white;-fx-background-color: gray;-fx-font-size: 20px;-fx-background-radius: 5px");
                 System.out.println("PrintOld : " + oldValueLabelIndex);
                 System.out.println("Print : " + index);
                 if(oldValueLabelIndex != index) {
                     save_print_grid_pane
                             .getChildren()
                             .get(oldValueLabelIndex)
-                            .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 30px;-fx-background-radius: 5px");
+                            .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 20px;-fx-background-radius: 5px");
                 }
                 oldValueLabelIndex = index;
 
@@ -203,21 +211,21 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
     }
     public Label addNewPrint(final int index) {
         Label noPrint = new Label("+");
-        noPrint.setMinWidth(230);
-        noPrint.setMinHeight(100);
+        noPrint.setMinWidth(LayoutSize.PRINT_LABEL_WIDTH);
+        noPrint.setMinHeight(LayoutSize.PRINT_LABEL_HEIGHT);
         noPrint.setAlignment(Pos.CENTER);
-        noPrint.setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 30px;-fx-background-radius: 5px");
+        noPrint.setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 20px;-fx-background-radius: 5px");
         noPrint.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                noPrint.setStyle("-fx-text-fill: white;-fx-background-color: gray;-fx-font-size: 30px;-fx-background-radius: 5px");
+                noPrint.setStyle("-fx-text-fill: white;-fx-background-color: gray;-fx-font-size: 20px;-fx-background-radius: 5px");
                 System.out.println("noPrintOld : " + oldValueLabelIndex);
                 System.out.println("noPrint : " + index);
                 if(oldValueLabelIndex != index) {
                     save_print_grid_pane
                             .getChildren()
                             .get(oldValueLabelIndex)
-                            .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 30px;-fx-background-radius: 5px");
+                            .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 20px;-fx-background-radius: 5px");
                 }
                 oldValueLabelIndex = index;
 

@@ -1,5 +1,6 @@
 package com.baro.Dialog;
 
+import com.baro.utils.LayoutSize;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,6 +36,7 @@ public class InventoryDialog implements Initializable {
     public Button yes;
     public int menuId;
     public int buttonType;
+    public AnchorPane dialog_base;
 
     double initialX;
     double initialY;
@@ -47,11 +50,13 @@ public class InventoryDialog implements Initializable {
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        dialog_base.setPrefWidth(LayoutSize.DIALOG_WIDTH);
+        dialog_base.setPrefHeight(LayoutSize.DIALOG_HEIGHT);
         configureTopBar();
     }
 
     public void call(InventoryDialogInterface inventoryDialogInterface, int menuId, int buttonType, JFXToggleButton toggleButton){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/order_history_dialog.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/inventory_dialog.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -72,6 +77,7 @@ public class InventoryDialog implements Initializable {
         }
     }
     private void configureTopBar() {
+        top_bar.setPrefHeight(LayoutSize.DIALOG_TOP_BAR_HEIGHT);
         top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
