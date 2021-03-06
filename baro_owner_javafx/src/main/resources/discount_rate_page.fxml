@@ -12,7 +12,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.baro.controllers.DiscountRateController"
             prefHeight="280.0" prefWidth="300.0"
-            style="-fx-background-color: #3d3d3d; -fx-border-color: gray" spacing="10">
+            style="-fx-background-color: #3d3d3d; -fx-border-color: gray;-fx-border-width: 1" spacing="10">
     <padding>
         <Insets top="10" bottom="10" left="10" right="10"/>
     </padding>

@@ -7,6 +7,7 @@ import com.baro.JsonParsing.OrderList;
 import com.baro.controllers.orderDetail.OrderDetailsController;
 import com.baro.utils.DateConverter;
 import com.baro.utils.GetState;
+import com.baro.utils.LayoutSize;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -66,6 +67,7 @@ public class OrderHistoryController implements Initializable {
         dailySales.setVisible(false);
         search_hbox.setVisible(false);
         totalCount.setVisible(false);
+        search_hbox.setPrefWidth(LayoutSize.ORDER_HISTORY_TOP_AREA_WIDTH);
         configuration();
     }
     private void configuration() {
@@ -226,7 +228,7 @@ public class OrderHistoryController implements Initializable {
                 }
             }
             HBox cell = new HBox();
-            cell.setSpacing(20);
+            cell.setSpacing(5);
             String[] converteDate = DateConverter.dateConverteToTime(order.order_date);
 
             VBox dateHbox = new VBox();
@@ -244,7 +246,7 @@ public class OrderHistoryController implements Initializable {
 
 
             VBox menuContent = new VBox();
-            menuContent.setSpacing(20);
+            menuContent.setSpacing(5);
             menuContent.setMinWidth(500);
             menuContent.setMaxWidth(500);
             menuContent.setAlignment(Pos.BASELINE_LEFT);
@@ -299,8 +301,8 @@ public class OrderHistoryController implements Initializable {
         }
         totalCount.setVisible(true);
 
-        see_done.setText("완료 보기\n"+ doneCount+ "건");
-        see_cancel.setText("취소 보기\n"+cancelCount+ "건");
+        see_done.setText("완료\n"+ doneCount+ "건");
+        see_cancel.setText("취소\n"+cancelCount+ "건");
         totalCount.setText("검색된 총 내역 : "+(orderList.orders.size())+"건");
 
         clickSeeDoneButton = false;

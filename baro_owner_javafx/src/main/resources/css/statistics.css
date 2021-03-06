@@ -2,11 +2,38 @@
     -fx-text-fill:  white;
     -fx-font-size: 15pt;
 }
-.chart-legend-item {
+.chart-legend {
     -fx-text-fill:  white;
-    -fx-font-size: 15pt;
+    -fx-background-color:  transparent;
+    -fx-font-size: 11pt;
+    -fx-padding: 20px;
+    -fx-translate-y: -50;
+    -fx-translate-x: -150;
+}
+.chart-legend-item-symbol{
+    -fx-background-radius: 5;
+    -fx-background-color: #8333e6;
+}
+.chart-legend-item{
+    -fx-text-fill: white;
 }
 .axis-label {
     -fx-text-fill: white;
     -fx-font-size: 15pt;
+    -fx-font-family: 'Noto Sans CJK KR Regular';
 }
+.axis {
+    -fx-font-size: 11pt;
+    -fx-tick-label-fill: white;
+    -fx-font-family: 'Noto Sans CJK KR Regular';
+}
+.chart-series-line {
+    -fx-stroke-width: 2px;
+    -fx-effect: null;
+}
+.list-view .scroll-bar:horizontal {
+    -fx-padding: -15;
+    -fx-opacity: 0;
+}
+.default-color0.chart-series-line { -fx-stroke: #8333e6; }
+.default-color0.chart-line-symbol { -fx-background-color: #8333e6, white; }

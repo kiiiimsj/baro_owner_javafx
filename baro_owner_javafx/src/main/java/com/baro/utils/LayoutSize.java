@@ -2,6 +2,12 @@ package com.baro.utils;
 
 public class LayoutSize {
     /**
+     * Dialog Attribute Size
+     */
+    public static int DIALOG_TOP_BAR_HEIGHT = 50;
+    public static int DIALOG_WIDTH = 300;
+    public static int DIALOG_HEIGHT = 250;
+    /**
      * Main Attribute Size
      */
     public static int TOP_BAR_HEIGHT = 80;
@@ -16,7 +22,8 @@ public class LayoutSize {
     public static int MAIN_TAB_PANE_HEIGHT = 120;
 
     public static int INSIDE_PANE_WIDTH = MAIN_PAGE_WIDTH - MAIN_TAB_PANE_WIDTH;
-    public static int INSIDE_PANE_HEIGHT = MAIN_PAGE_HEIGHT - TOP_BAR_HEIGHT;
+    //padding 20
+    public static int INSIDE_PANE_HEIGHT = MAIN_PAGE_HEIGHT - TOP_BAR_HEIGHT + 20;
 
     /**
      * Order List Attribute Size
@@ -39,10 +46,24 @@ public class LayoutSize {
     public static int ORDER_DETAIL_HEIGHT = INSIDE_PANE_HEIGHT;
 
     public static int ORDER_MENUS_WIDTH = ORDER_DETAIL_WIDTH / 2;
-    public static int ORDER_MENUS_HEIGHT = ORDER_DETAIL_HEIGHT;
-
-    public static int ORDER_INFO_WIDTH = ORDER_DETAIL_WIDTH / 2;
-    public static int ORDER_REQUEST_WIDTH = ORDER_DETAIL_WIDTH / 2;
+    public static int BOTTOM_BUTTON_WIDTH = 269;
+    /**
+     * Order History Attribute Size
+     **/
+    public static int ORDER_HISTORY_TOP_AREA_WIDTH = 580;
+    /**
+     * Statistics Attribute Size
+     **/
+    public static int STATISTICS_TAB_BUTTON_WIDTH = 180;
+    public static int STATISTICS_DAILY_SELL_HEIGHT = 300;
+    /**
+     * Setting Attribute Size
+     **/
+    public static int PRINT_LABEL_SPACING = 5;
+    public static int PRINT_LABEL_COUNT = 5;
+    public static int PRINT_LABEL_WIDTH = (INSIDE_PANE_WIDTH / PRINT_LABEL_COUNT) - (PRINT_LABEL_SPACING * PRINT_LABEL_COUNT);
+    public static int PRINT_LABEL_HEIGHT = 80;
+    public static int COMBO_BOX_WIDTH = 400;
 
 
 

@@ -46,7 +46,7 @@ public class MainController implements OrderListController.MoveToSetting{
     }
     private final String TAG = this.getClass().getSimpleName();
     public Label digital_clock;
-    public HBox top_bar;
+    @FXML public HBox top_bar;
     public FontAwesomeIconView minimum;
 //    public FontAwesomeIconView maximum;
     public FontAwesomeIconView close;

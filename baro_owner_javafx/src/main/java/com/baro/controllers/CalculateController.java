@@ -91,13 +91,13 @@ public class CalculateController implements Initializable {
         baro_discount.setAlignment(Pos.BASELINE_RIGHT);
         menu_total_price.setAlignment(Pos.BASELINE_RIGHT);
 
-        this_week_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
+        this_week_total_price.setStyle("-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
                 " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6;-fx-background-color: white;-fx-background-radius: 0 0 10 10");
-        coupon_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
+        coupon_price.setStyle("-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
                 " -fx-text-fill: black;  -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6; -fx-background-color: white;-fx-background-radius: 0 0 10 10");
-        menu_total_price.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
+        menu_total_price.setStyle("-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
                 " -fx-text-fill: black; -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6;-fx-background-color: white;-fx-background-radius: 0 0 10 10");
-        baro_discount.setStyle("-fx-font-size: 50px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
+        baro_discount.setStyle("-fx-font-size: 30px; -fx-font-family: 'Noto Sans CJK KR Regular';" +
                 " -fx-text-fill: black; -fx-border-radius: 0px 0px 10px 10px; -fx-border-color: #8333e6;-fx-background-color: white;-fx-background-radius: 0 0 10 10");
     }
 }

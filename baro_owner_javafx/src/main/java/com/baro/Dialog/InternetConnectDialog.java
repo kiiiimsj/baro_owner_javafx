@@ -1,5 +1,6 @@
 package com.baro.Dialog;
 
+import com.baro.utils.LayoutSize;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,8 +9,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -23,14 +26,23 @@ public class InternetConnectDialog implements Initializable {
     public FontAwesomeIconView close;
     public HBox top_bar;
     public Button okay;
+    public AnchorPane dialog_base;
+    public Label dialog_content;
 
     double initialX;
     double initialY;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        configureContent();
         configureTopBar();
         configureBottom();
+    }
+
+    private void configureContent() {
+        dialog_base.setPrefWidth(LayoutSize.DIALOG_WIDTH);
+        dialog_base.setPrefHeight(LayoutSize.DIALOG_HEIGHT);
+        dialog_content.setText("인터넷 연결이 끊겼습니다.\n확인 버튼을 누르면 프로그램을\n재시작 합니다.");
     }
 
     public interface Reload{
@@ -41,26 +53,9 @@ public class InternetConnectDialog implements Initializable {
     public InternetConnectDialog() {
         super();
     }
+
     private void configureTopBar() {
-//        final Timeline digitalTime = new Timeline(
-//                new KeyFrame(Duration.seconds(0),
-//                        new EventHandler<ActionEvent>() {
-//                            @Override public void handle(ActionEvent actionEvent) {
-//                                Calendar calendar            = GregorianCalendar.getInstance();
-//                                String hourString   = DateConverter.pad(2, '0', calendar.get(Calendar.HOUR)   == 0 ? "12" : calendar.get(Calendar.HOUR) + "");
-//                                String minuteString = DateConverter.pad(2, '0', calendar.get(Calendar.MINUTE) + "");
-//                                //String secondString = pad(2, '0', calendar.get(Calendar.SECOND) + "");
-//                                String ampmString   = calendar.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
-//
-//                                //":" + secondString +
-//                                digital_clock.setText(hourString + ":" + minuteString + " " + ampmString);
-//                            }
-//                        }
-//                ),
-//                new KeyFrame(Duration.seconds(1))
-//        );
-//        digitalTime.setCycleCount(Animation.INDEFINITE);
-//        digitalTime.play();
+        top_bar.setPrefHeight(LayoutSize.DIALOG_TOP_BAR_HEIGHT);
         top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
@@ -80,45 +75,6 @@ public class InternetConnectDialog implements Initializable {
                 }
             }
         });
-//        top_bar.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                top_bar.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//                    @Override
-//                    public void handle(MouseEvent event) {
-//                        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-//                        stage.setMaxWidth(1400);
-//                        stage.setMaxHeight(900);
-//                    }
-//                });
-//            }
-//        });
-//        minimum.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-//                stage.setIconified(true);
-//            }
-//        });
-//        maximum.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-//                if(stage.isFullScreen()) {
-//                    stage.setFullScreen(false);
-//                }else {
-//                    //stage.setFullScreenExitHint(" ");
-//                    stage.setFullScreen(true);
-//                }
-//            }
-//        });
-//        close.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                Stage stage = (Stage)close.getScene().getWindow();
-//                stage.close();
-//            }
-//        });
     }
     private void configureBottom() {
         okay.setOnAction(new EventHandler<ActionEvent>() {

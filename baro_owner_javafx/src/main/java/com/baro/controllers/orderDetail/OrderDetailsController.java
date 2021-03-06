@@ -51,6 +51,7 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
     public VBox info_box;
     public VBox request_box;
     public HBox info_area;
+    public ColumnConstraints col1;
     @FXML
     private Label phoneLabel;
     @FXML
@@ -98,21 +99,22 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
         base.setPickOnBounds(false);
 
         base.setMinHeight(LayoutSize.ORDER_DETAIL_HEIGHT);
-        base.setMinWidth(LayoutSize.ORDER_DETAIL_WIDTH);
+//        base.setMinWidth(LayoutSize.ORDER_DETAIL_WIDTH);
 
 //        button_area.setMinWidth(LayoutSize.ORDER_MENUS_WIDTH);
         orderDetailDialog = new OrderDetailDialog();
 
         cancelBtn.setMinHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
-        cancelBtn.setMaxWidth(LayoutSize.ORDER_DETAIL_CANCEL_BUTTON_WIDTH);
+//        cancelBtn.setMaxWidth(LayoutSize.ORDER_DETAIL_CANCEL_BUTTON_WIDTH);
         cancelBtn.setMinWidth(LayoutSize.ORDER_DETAIL_CANCEL_BUTTON_WIDTH);
 
         top_area.setPrefHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
-        info_area.setPrefHeight(LayoutSize.ORDER_DETAIL_HEIGHT - LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT - LayoutSize.ORDER_LIST_BOTTOM_AREA_HEIGHT - 20);
+        col1.setMaxWidth(LayoutSize.BOTTOM_BUTTON_WIDTH);
+//        info_area.setPrefHeight(LayoutSize.ORDER_DETAIL_HEIGHT - LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT - LayoutSize.ORDER_LIST_BOTTOM_AREA_HEIGHT);
 
-//        button_area.setMinWidth(LayoutSize.ORDER_DETAIL_WIDTH - 10);
-
-        receipt_preview_scroll.setMinHeight(LayoutSize.ORDER_DETAIL_HEIGHT - LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT- LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT );
+        receipt_preview_scroll.setMinHeight(LayoutSize.ORDER_DETAIL_HEIGHT - LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT- LayoutSize.ORDER_LIST_BOTTOM_AREA_HEIGHT);
+//        button_area.setMinHeight(LayoutSize.ORDER_LIST_BOTTOM_AREA_HEIGHT);
+//        button_area.setMaxHeight(LayoutSize.ORDER_LIST_BOTTOM_AREA_HEIGHT);
     }
     public SimpleBooleanProperty getChangeToAccept(){
         return changeToAccept;

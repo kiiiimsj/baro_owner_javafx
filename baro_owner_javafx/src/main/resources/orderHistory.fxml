@@ -17,17 +17,16 @@
             fx:controller="com.baro.controllers.OrderHistoryController">
     <VBox fx:id="content_vbox" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
         <HBox>
-            <spacing>5</spacing>
             <padding>
-                <Insets top="10" bottom="10"/>
+                <Insets bottom="10"/>
             </padding>
-            <HBox fx:id="search_hbox" prefWidth="700">
-                <spacing>20</spacing>
-                <Button fx:id="see_done" style="-fx-background-color: #8333e6; -fx-text-fill: white; -fx-font-size: 13pt" textAlignment="CENTER"/>
-                <Button fx:id="see_cancel" style="-fx-background-color: #8333e6; -fx-text-fill: white; -fx-font-size: 13pt" textAlignment="CENTER"/>
-                <Label text="휴대폰 검색 : " style="-fx-font-size: 15pt;-fx-text-fill: white;">
+            <HBox fx:id="search_hbox">
+                <spacing>10</spacing>
+                <Button fx:id="see_done" style="-fx-background-color: rgb(0,230,0); -fx-text-fill: white; -fx-font-size: 11pt" textAlignment="CENTER" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="see_cancel" style="-fx-background-color: rgb(255,69,0); -fx-text-fill: white; -fx-font-size: 11pt" textAlignment="CENTER" HBox.hgrow="ALWAYS"/>
+                <Label text="휴대폰:" style="-fx-font-size: 12pt;-fx-text-fill: white;" >
                     <HBox.margin>
-                        <Insets right="10" top="20" />
+                        <Insets top="20" />
                     </HBox.margin>
                 </Label>
                 <TextField fx:id="search_by_phone" style="-fx-font-size: 10pt">
@@ -35,31 +34,31 @@
                         <Insets left="10" right="10" top="20"/>
                     </HBox.margin>
                 </TextField>
-                <Button fx:id="button_search_by_phone" text="검색" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-background-color: #8333e6">
+                <Button fx:id="button_search_by_phone" text="검색" style="-fx-font-size: 13pt;-fx-text-fill: white; -fx-background-color: #8333e6">
                     <HBox.margin>
-                        <Insets left="10" right="10" top="15"/>
+                        <Insets top="15"/>
                     </HBox.margin>
                 </Button>
             </HBox>
-            <HBox alignment="CENTER_RIGHT">
+            <HBox HBox.hgrow="ALWAYS">
                 <JFXDatePicker fx:id="start_date_picker" prefHeight="50" stylesheets="css/date_picker.css">
                     <HBox.margin>
                         <Insets top="15" />
                     </HBox.margin>
                 </JFXDatePicker>
-                <Text text="-" textAlignment="CENTER" style="-fx-font-size: 20">
+                <Label text="-" textAlignment="CENTER" style="-fx-font-size: 18;-fx-text-fill: white;">
                     <HBox.margin>
-                        <Insets left="10" right="10" top="20" />
+                        <Insets right="10" top="20" />
                     </HBox.margin>
-                </Text>
+                </Label>
                 <JFXDatePicker fx:id="end_date_picker" prefHeight="50" stylesheets="css/date_picker.css" >
                     <HBox.margin>
                         <Insets top="15" />
                     </HBox.margin>
                 </JFXDatePicker>
-                <JFXButton fx:id="look_up_button" text="조회" HBox.hgrow="SOMETIMES" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-background-color: #8333e6">
+                <JFXButton fx:id="look_up_button" text="조회" prefWidth="150" maxWidth="Infinity" style="-fx-font-size: 12pt;-fx-text-fill: white; -fx-background-color: #8333e6">
                     <HBox.margin>
-                        <Insets right="10" top="15" />
+                        <Insets top="15"/>
                     </HBox.margin>
                 </JFXButton>
             </HBox>
