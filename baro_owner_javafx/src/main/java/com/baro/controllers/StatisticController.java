@@ -2,7 +2,7 @@ package com.baro.controllers;
 
 import com.baro.JsonParsing.MenuStatistics;
 import com.baro.JsonParsing.Statistics;
-import com.baro.JsonParsing.StatisticsMenuParsing;
+import com.baro.JsonParsing.StatisticMenuParsing;
 import com.baro.JsonParsing.StatisticsParsing;
 import com.baro.utils.DateConverter;
 import com.baro.utils.LayoutSize;
@@ -22,8 +22,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.StringConverter;
 import org.json.JSONObject;
@@ -37,7 +35,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
-public class StatisticsController implements Initializable {
+public class StatisticController implements Initializable {
     public VBox daily_sales_vbox;
     public VBox total_menu_vbox;
     public GridPane menu_list_header;
@@ -45,7 +43,6 @@ public class StatisticsController implements Initializable {
     public VBox total_price_vbox;
     public Button day_sell_button;
     public Button menu_sell_button;
-    public ScrollPane scroll;
 
     @FXML private JFXDatePicker start_date_picker;
     @FXML private JFXDatePicker end_date_picker;
@@ -62,8 +59,8 @@ public class StatisticsController implements Initializable {
      * 날짜 컨버터와 파싱 객체
      * **/
     private StringConverter dateConverter;
-    private StatisticsParsing statisticsParsing;
-    private StatisticsMenuParsing statisticsMenuParsing;
+    private StatisticsParsing statisticParsing;
+    private StatisticMenuParsing statisticMenuParsing;
 
     /**
      * 그리드 페인 col, row
@@ -121,8 +118,8 @@ public class StatisticsController implements Initializable {
                 total_price_vbox.setVisible(true);
 
                 setTopButtonClickEvent();
-                getStatisticsSalesValue();
-                getStatisticsMenusData();
+                getStatisticSalesValue();
+                getStatisticMenusData();
             }
         });
     }
@@ -222,7 +219,7 @@ public class StatisticsController implements Initializable {
      * 라인차트와 리스트 데이터 받아오기                                                             
      *
      **************************************************************************/
-    private void getStatisticsSalesValue() {
+    private void getStatisticSalesValue() {
         if(start_date_picker.getValue() == null && end_date_picker.getValue() == null) {
             return;
         }
@@ -255,7 +252,7 @@ public class StatisticsController implements Initializable {
 
             //서버에서 response가 true 일때를 분기문에 추가시켜주기.
             if(new JSONObject(bf.toString()).getBoolean("result")){
-                parsingStatisticsData(bf.toString());
+                parsingStatisticData(bf.toString());
             }
         }
         catch (MalformedURLException e) {
@@ -275,7 +272,7 @@ public class StatisticsController implements Initializable {
      * 메뉴 별 판매 데이터 가져오기                                                             
      *
      **************************************************************************/
-    private void getStatisticsMenusData() {
+    private void getStatisticMenusData() {
         if(start_date_picker.getValue() == null && end_date_picker.getValue() == null) {
             return;
         }
@@ -309,7 +306,7 @@ public class StatisticsController implements Initializable {
 
             //서버에서 response가 true 일때를 분기문에 추가시켜주기.
             if(new JSONObject(bf.toString()).getBoolean("result")){
-                parsingStatisticsMenuData(bf.toString());
+                parsingStatisticMenuData(bf.toString());
             }
         }
         catch (MalformedURLException e) {
@@ -329,9 +326,9 @@ public class StatisticsController implements Initializable {
      * 메뉴 별 판매 데이터 파싱                                                              
      *
      **************************************************************************/
-    private void parsingStatisticsMenuData(String jsonToString) {
-        statisticsMenuParsing = new Gson().fromJson(jsonToString, StatisticsMenuParsing.class);
-        setMenuStatisticsData();
+    private void parsingStatisticMenuData(String jsonToString) {
+        statisticMenuParsing = new Gson().fromJson(jsonToString, StatisticMenuParsing.class);
+        setMenuStatisticData();
 
     }
 
@@ -343,7 +340,7 @@ public class StatisticsController implements Initializable {
      * 메뉴 별 판매 데이터 설정 / 총 판매액, 판매 개수도 여기서 설정                                                              
      *
      **************************************************************************/
-    private void setMenuStatisticsData() {
+    private void setMenuStatisticData() {
         int totalCount = 0;
         int totalPrice = 0;
         //scrollContent.getChildren().clear();
@@ -353,8 +350,8 @@ public class StatisticsController implements Initializable {
 
         //totalMenuList.getItems().add(header);
 
-        for (int i = 0; i < statisticsMenuParsing.menuStatisticsList.size(); i++) {
-            MenuStatistics menuStatistics = statisticsMenuParsing.menuStatisticsList.get(i);
+        for (int i = 0; i < statisticMenuParsing.menuStatisticsList.size(); i++) {
+            MenuStatistics menuStatistics = statisticMenuParsing.menuStatisticsList.get(i);
             totalCount += menuStatistics.menu_count;
             totalPrice += menuStatistics.menu_total_price;
             GridPane cell = new GridPane();
@@ -388,10 +385,10 @@ public class StatisticsController implements Initializable {
      * 라인차트 통계 데이터 파싱                                                              
      *
      **************************************************************************/
-    private void parsingStatisticsData(String toString) {
-        statisticsParsing = new Gson().fromJson(toString, StatisticsParsing.class);
-        setStatisticsData();
-        setDailySalesStatisticsData();
+    private void parsingStatisticData(String toString) {
+        statisticParsing = new Gson().fromJson(toString, StatisticsParsing.class);
+        setStatisticData();
+        setDailySalesStatisticData();
     }
 
 
@@ -402,12 +399,12 @@ public class StatisticsController implements Initializable {
      * 라인차트 데이터 설정                                                             
      *
      **************************************************************************/
-    private void setStatisticsData() {
+    private void setStatisticData() {
         line_chart.getData().clear();
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("총 판매액");
-        for (int i = 0; i < statisticsParsing.statistics.size() ; i++) {
-            Statistics statisticsData = statisticsParsing.statistics.get(i);
+        for (int i = 0; i < statisticParsing.statistics.size() ; i++) {
+            Statistics statisticsData = statisticParsing.statistics.get(i);
             String date = statisticsData.date.substring(5);
             series.getData().add(new XYChart.Data<>(date, statisticsData.price));
         }
@@ -425,12 +422,12 @@ public class StatisticsController implements Initializable {
      * 일일 판매 리스트뷰 설정                                                        
      *
      **************************************************************************/
-    private void setDailySalesStatisticsData() {
+    private void setDailySalesStatisticData() {
         dailySales.getItems().clear();
         dailySales.setStyle("-fx-font-size:15pt; -fx-text-fill: black; -fx-background-color: #ff000000");
 
-        for (int i = 0; i < statisticsParsing.statistics.size(); i++) {
-            Statistics dailyStatistics = statisticsParsing.statistics.get(i);
+        for (int i = 0; i < statisticParsing.statistics.size(); i++) {
+            Statistics dailyStatistics = statisticParsing.statistics.get(i);
             GridPane cell = new GridPane();
 
             cell.getColumnConstraints().add(0, dailyGridCol1);

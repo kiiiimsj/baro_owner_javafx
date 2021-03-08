@@ -98,6 +98,10 @@ public class InternetConnectDialog implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.setScene(scene);
+            stage.setWidth(LayoutSize.DIALOG_WIDTH);
+            stage.setHeight(LayoutSize.DIALOG_HEIGHT);
+            stage.setX(LayoutSize.CENTER_IN_PARENT_X);
+            stage.setY(LayoutSize.CENTER_IN_PARENT_Y);
 
             stage.show();
 

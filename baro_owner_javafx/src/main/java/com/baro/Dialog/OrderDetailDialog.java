@@ -67,6 +67,11 @@ public class OrderDetailDialog implements Initializable {
             stage.setResizable(false);
             stage.setScene(scene);
             orderDetailDialog.configureBottom();
+            stage.setWidth(LayoutSize.DIALOG_WIDTH);
+            stage.setHeight(LayoutSize.DIALOG_HEIGHT);
+            stage.setX(LayoutSize.CENTER_IN_PARENT_X);
+            stage.setY(LayoutSize.CENTER_IN_PARENT_Y);
+
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

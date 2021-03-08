@@ -290,7 +290,7 @@ public class MainController implements OrderListController.MoveToSetting{
                         configureTab(calculateTab,  calculateContainer, getClass().getResource("/calculate.fxml") );
                         break;
                     case "statisticsTab":
-                        configureTab(statisticsTab,  statisticsContainer, getClass().getResource("/statistics.fxml"));
+                        configureTab(statisticsTab,  statisticsContainer, getClass().getResource("/statistic.fxml"));
                         break;
                     case "settingsTab":
                         configureTab(settingsTab,  settingsContainer, getClass().getResource("/settings.fxml"));
@@ -328,25 +328,26 @@ public class MainController implements OrderListController.MoveToSetting{
     //이미지경로 넣기 위한 title 뒤에 String iconPath 뺏음
     private void configureTab(Tab tab, AnchorPane containerPane, URL resourceURL) {
         tab.setStyle("-fx-background-color: #8333e6");
+        System.out.println("configureTab");
+        System.out.println("configureTab : " + tab.getId());
         try {
             if(resourceURL == null) {
                 containerPane.getChildren().removeAll();
             }else {
-//                FXMLLoader loader = FXMLLoader.load(resourceURL);
                 System.out.println("getId" + tab.getId().substring(0, tab.getId().indexOf("Tab")));
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/"+tab.getId().substring(0, tab.getId().indexOf("Tab"))+".fxml"));
                 Parent contentView = loader.load();
                 if(tab.getId().equals("order_listTab")) {
+                    DateConverter.IS_TIMER_THREAD_START = true;
                     OrderListController orderListController = loader.<OrderListController>getController();
                     orderListController.moveToSetting = this::moveSetting;
                     orderListController.reload = reload;
-                    DateConverter.fifteenTimer(orderListController.baro_discount_timer, orderListController);
+                    DateConverter.fifteenTimerStart(orderListController.baro_discount_timer, orderListController);
                     orderList = orderListController.orderList;
                     returnOrderListWhenApplicationClose.returnOrderList(orderList);
                 }else {
-
+                    DateConverter.fifteenTimerStop();
                 }
-
                 if(containerPane.getChildren().size() != 0) {
                     containerPane.getChildren().remove(0);
                 }

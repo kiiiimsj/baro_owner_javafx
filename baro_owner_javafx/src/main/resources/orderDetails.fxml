@@ -82,7 +82,7 @@
                 <RowConstraints valignment="TOP"/>
             </rowConstraints>
             <children>
-                <Button fx:id="printButton" GridPane.columnIndex="0" GridPane.rowIndex="0" maxWidth="Infinity"
+                <Button fx:id="printButton" GridPane.columnIndex="0" GridPane.rowIndex="0" maxWidth="Infinity" onAction="#clickPrint"
                         style="-fx-font-family: 'Noto Sans CJK KR Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 25pt; -fx-text-fill: white"
                         text="영수증 인쇄">
                 </Button>

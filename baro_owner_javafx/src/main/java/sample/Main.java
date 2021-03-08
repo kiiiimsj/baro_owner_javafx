@@ -8,10 +8,12 @@ import com.baro.utils.LayoutSize;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.java_websocket.client.WebSocketClient;
@@ -66,6 +68,8 @@ public class Main extends Application implements MainController.ReturnOrderListW
         // 300 -> 500 -> 580
         Scene scene =  new Scene(root, LayoutSize.LOGIN_PAGE_WIDTH, LayoutSize.LOGIN_PAGE_HEIGHT);
 //        scene.getStylesheets().add(getClass().getResource("/fontstyle.css").toExternalForm());
+        primaryStage.setX(LayoutSize.CENTER_X);
+        primaryStage.setY(LayoutSize.CENTER_Y);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

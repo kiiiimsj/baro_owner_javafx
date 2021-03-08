@@ -170,12 +170,9 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         discount_rate_set.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println(discount_rate_height.getPadding() + " : " + discount_rate_height.getPrefHeight() + " : " + discount_rate_height.getSpacing() + " : " + discount_rate_height.getMaxHeight() + " : " + discount_rate_height.getWidth());
                 try {
                     double centerXPosition = orderListSideContainer.getScene().getX() + orderListSideContainer.getScene().getWidth()/2d;
                     double centerYPosition = orderListSideContainer.getScene().getY() + orderListSideContainer.getScene().getHeight()/2d;
-
-                    System.out.println("x : " + centerXPosition +"y : " + centerYPosition);
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/discount_rate_page.fxml"));
                     Parent parent = loader.load();
@@ -185,14 +182,18 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                     discountRateController.clickClose = OrderListController.this;
                     Stage stage = new Stage(StageStyle.UNDECORATED);
                     stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.setResizable(false);
+//                    stage.setResizable(false);
                     stage.setScene(discountRateScene);
-                    stage.setX(centerXPosition);
-                    stage.setY(centerYPosition);
-
 
                     discountRateController.storeId = store_id;
                     discountRateController.setDiscountRate(discountRate);
+                    stage.setWidth(LayoutSize.DIALOG_DISCOUNT_WIDTH);
+                    stage.setHeight(LayoutSize.DIALOG_DISCOUNT_HEIGHT);
+                    stage.setX(LayoutSize.CENTER_IN_PARENT_X);
+                    stage.setY(LayoutSize.CENTER_IN_PARENT_Y);
+//                    stage.setX(centerXPosition);
+//                    stage.setY(centerYPosition);
+
                     stage.show();
                 } catch (IOException e) {
                     e.printStackTrace();

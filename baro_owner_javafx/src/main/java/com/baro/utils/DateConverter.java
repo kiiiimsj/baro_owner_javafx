@@ -7,10 +7,8 @@ import javafx.util.StringConverter;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.*;
 
@@ -25,6 +23,7 @@ public class DateConverter {
     final public static int HOUR = 3;
     final public static int MINUTE = 4;
     final public static int SECOND = 5;
+    public static boolean IS_TIMER_THREAD_START = true;
 
     /***************************************************************************
      *
@@ -148,27 +147,28 @@ public class DateConverter {
 
         return sb.toString();
     }
-    public static void fifteenTimer(Label timerLabel, TimerReset timerReset) {
+    public static void fifteenTimerStart(Label timerLabel, TimerReset timerReset) {
         new Thread((new Runnable() {
             @Override
             public void run() {
-                while (true) {
-                    System.out.println("thread run");
+                while (IS_TIMER_THREAD_START) {
+                    System.out.println("TIMER_THREAD : " + IS_TIMER_THREAD_START);
                     Calendar calendar = GregorianCalendar.getInstance();
                     String minuteString = DateConverter.pad(2, '0', calendar.get(Calendar.MINUTE) + "");
-                    String secondString = DateConverter.pad(2, '0', calendar.get(Calendar.SECOND) +"");
+                    String secondString = DateConverter.pad(2, '0', calendar.get(Calendar.SECOND) + "");
                     try {
                         Thread.sleep(1000);
-                        final int minuteFinal = 14 - (Integer.parseInt(minuteString) % 15);;
+                        final int minuteFinal = 14 - (Integer.parseInt(minuteString) % 15);
+                        ;
                         final int secondFinal = 59 - Integer.parseInt(secondString);
 
-                        if(minuteFinal==0 && secondFinal == 1) {
+                        if (minuteFinal == 0 && secondFinal == 1) {
                             timerReset.timerReset();
                         }
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                timerLabel.setText(DateConverter.pad(2,'0', minuteFinal+"")+":"+DateConverter.pad(2, '0',secondFinal+""));
+                                timerLabel.setText(DateConverter.pad(2, '0', minuteFinal + "") + ":" + DateConverter.pad(2, '0', secondFinal + ""));
                             }
                         });
 
@@ -178,6 +178,9 @@ public class DateConverter {
                 }
             }
         })).start();
+    }
+    public static void fifteenTimerStop() {
+        IS_TIMER_THREAD_START = false;
     }
     public static void test30Thread(Label timerLabel, TimerReset timerReset) {
         new Thread(new Runnable() {
