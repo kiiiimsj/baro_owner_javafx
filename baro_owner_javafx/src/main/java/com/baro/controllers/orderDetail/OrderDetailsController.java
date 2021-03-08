@@ -1,6 +1,7 @@
 package com.baro.controllers.orderDetail;
 
 import com.baro.Dialog.OrderDetailDialog;
+import com.baro.Dialog.PrintReceiptDialog;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.Printer.ReceiptPrint;
@@ -42,7 +43,7 @@ import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
-public class OrderDetailsController implements Initializable, OrderDetailDialog.OrderDetailDialogInterface {
+public class OrderDetailsController implements Initializable, OrderDetailDialog.OrderDetailDialogInterface, PrintReceiptDialog.ButtonClick {
     public Button cancelBtn;
     public GridPane button_area;
     public AnchorPane base;
@@ -92,29 +93,25 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
     public int timeInt;
 
     public OrderDetailDialog orderDetailDialog;
+    public PrintReceiptDialog printReceiptDialog;
     public boolean withOutButton;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         base.setBackground(Background.EMPTY);
         base.setPickOnBounds(false);
 
-        base.setMinHeight(LayoutSize.ORDER_DETAIL_HEIGHT);
-//        base.setMinWidth(LayoutSize.ORDER_DETAIL_WIDTH);
-
-//        button_area.setMinWidth(LayoutSize.ORDER_MENUS_WIDTH);
+        printReceiptDialog = new PrintReceiptDialog();
         orderDetailDialog = new OrderDetailDialog();
 
+        base.setMinHeight(LayoutSize.ORDER_DETAIL_HEIGHT);
+
         cancelBtn.setMinHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
-//        cancelBtn.setMaxWidth(LayoutSize.ORDER_DETAIL_CANCEL_BUTTON_WIDTH);
         cancelBtn.setMinWidth(LayoutSize.ORDER_DETAIL_CANCEL_BUTTON_WIDTH);
 
         top_area.setPrefHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
         col1.setMaxWidth(LayoutSize.BOTTOM_BUTTON_WIDTH);
-//        info_area.setPrefHeight(LayoutSize.ORDER_DETAIL_HEIGHT - LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT - LayoutSize.ORDER_LIST_BOTTOM_AREA_HEIGHT);
 
         receipt_preview_scroll.setMinHeight(LayoutSize.ORDER_DETAIL_HEIGHT - LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT- LayoutSize.ORDER_LIST_BOTTOM_AREA_HEIGHT);
-//        button_area.setMinHeight(LayoutSize.ORDER_LIST_BOTTOM_AREA_HEIGHT);
-//        button_area.setMaxHeight(LayoutSize.ORDER_LIST_BOTTOM_AREA_HEIGHT);
     }
     public SimpleBooleanProperty getChangeToAccept(){
         return changeToAccept;
@@ -193,51 +190,6 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
         }else if (order.order_state.equals(Order.ACCEPT)){
             setTime.setVisible(false);
         }
-        printButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                print_fxml_loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
-                try {
-                    printParent = print_fxml_loader.load();
-                    printScene = new Scene(printParent);
-                    print = print_fxml_loader.<ReceiptPrint>getController();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Stage stage = new Stage(StageStyle.UTILITY);
-                stage.initModality(Modality.WINDOW_MODAL);
-                stage.setTitle("프린터 옵션");
-                stage.setResizable(false);
-                stage.setScene(printScene);
-
-                print.makeReceiptString(data, order);
-
-                if(!preferences.get("setMainPortName", "").equals("")) {
-                    print.startPrint();
-                    needToSettingMainPrint.set(false);
-                } else {
-                    needToSettingMainPrint.set(true);
-                }
-                stage.onCloseRequestProperty().set(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent event) {
-                        if(event.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST) {
-                            System.out.println("close interface");
-                            if(print != null && print.serialPort != null) {
-                                if(print.serialPort.isOpen()) {
-                                    try {
-                                        print.printOutput.close();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    print.serialPort.closePort();
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        });
     }
     //2021-01-22 주석사유 : 상세보기 띄울때 영수증 미리보기로 해당 코드 사용 현재 미사용
 //    public void makeReceiptPreView(){
@@ -422,6 +374,10 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
     public void clickDone(ActionEvent event) {
         orderDetailDialog.call(this, OrderDetailDialog.ORDER_COMPLETE);
     }
+    public void clickPrint(ActionEvent actionEvent) {
+        printReceiptDialog.call(OrderDetailsController.this);
+    }
+
 
     @Override
     public void ORDER_CANCEL() {
@@ -513,5 +469,49 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void click() {
+        print_fxml_loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
+        try {
+            printParent = print_fxml_loader.load();
+            printScene = new Scene(printParent);
+            print = print_fxml_loader.<ReceiptPrint>getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage(StageStyle.UTILITY);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.setTitle("프린터 옵션");
+        stage.setResizable(false);
+        stage.setScene(printScene);
+
+        print.makeReceiptString(data, order);
+
+        if(!preferences.get("setMainPortName", "").equals("")) {
+            print.startPrint();
+            needToSettingMainPrint.set(false);
+        } else {
+            needToSettingMainPrint.set(true);
+        }
+        stage.onCloseRequestProperty().set(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                if(event.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST) {
+                    System.out.println("close interface");
+                    if(print != null && print.serialPort != null) {
+                        if(print.serialPort.isOpen()) {
+                            try {
+                                print.printOutput.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            print.serialPort.closePort();
+                        }
+                    }
+                }
+            }
+        });
     }
 }

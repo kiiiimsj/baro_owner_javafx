@@ -58,9 +58,15 @@ public class DiscountRateDialog implements Initializable {
             discountRateDialog.discountRateDialogInterface = discountRateDialogInterface;
             discountRateDialog.buttonType = buttonType;
 
+
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
+            stage.setWidth(LayoutSize.DIALOG_WIDTH);
+            stage.setHeight(LayoutSize.DIALOG_HEIGHT);
+            stage.setX(LayoutSize.CENTER_IN_PARENT_X);
+            stage.setY(LayoutSize.CENTER_IN_PARENT_Y);
+
             stage.setScene(scene);
             discountRateDialog.configureBottom();
             stage.show();

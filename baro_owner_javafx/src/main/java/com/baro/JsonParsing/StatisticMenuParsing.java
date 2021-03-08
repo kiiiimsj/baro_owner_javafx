@@ -2,11 +2,11 @@ package com.baro.JsonParsing;
 
 import java.util.ArrayList;
 
-public class StatisticsMenuParsing {
+public class StatisticMenuParsing {
     public boolean result;
     public ArrayList<MenuStatistics> menuStatisticsList;
 
-    public StatisticsMenuParsing(boolean result, ArrayList<MenuStatistics> menuStatisticsList) {
+    public StatisticMenuParsing(boolean result, ArrayList<MenuStatistics> menuStatisticsList) {
         this.result = result;
         this.menuStatisticsList = menuStatisticsList;
     }
