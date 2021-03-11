@@ -15,12 +15,12 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.baro.controllers.OrderHistoryController">
-    <VBox fx:id="content_vbox" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+    <VBox fx:id="content_vbox" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <HBox>
             <padding>
-                <Insets bottom="10"/>
+                <Insets bottom="10" left="10" right="10"/>
             </padding>
-            <HBox fx:id="search_hbox">
+            <HBox fx:id="search_hbox" visible="false">
                 <spacing>10</spacing>
                 <Button fx:id="see_done" style="-fx-background-color: rgb(0,230,0); -fx-text-fill: white; -fx-font-size: 11pt" textAlignment="CENTER" HBox.hgrow="ALWAYS"/>
                 <Button fx:id="see_cancel" style="-fx-background-color: rgb(255,69,0); -fx-text-fill: white; -fx-font-size: 11pt" textAlignment="CENTER" HBox.hgrow="ALWAYS"/>
@@ -63,9 +63,9 @@
                 </JFXButton>
             </HBox>
         </HBox>
-        <JFXListView fx:id="dailySales" prefHeight="1000" stylesheets="css/list_view.css"/>
+        <JFXListView fx:id="dailySales" prefHeight="1000" stylesheets="css/list_view.css" visible="false"/>
     </VBox>
-    <Label fx:id="totalCount" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="15" style="-fx-font-size: 20pt; -fx-text-fill: white; -fx-background-color: rgba(131, 51, 230, 0.8); -fx-background-radius: 10px;">
+    <Label fx:id="totalCount" visible="false" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="15" style="-fx-font-size: 20pt; -fx-text-fill: white; -fx-background-color: rgba(131, 51, 230, 0.8); -fx-background-radius: 10px;">
         <padding>
             <Insets bottom="10" top="10" left="10" right="10"/>
         </padding>

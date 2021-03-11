@@ -35,7 +35,7 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
     public GridPane menuList_header;
     public VBox base;
     @FXML private JFXTabPane categoryTabPane;
-    @FXML private JFXListView<GridPane> menuList;
+    @FXML private ListView<GridPane> menuList;
     Preferences preferences = Preferences.userRoot();
 
     private String owner_store_id;

@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Priority?>
+<?import javafx.scene.control.ListView?>
 <VBox xmlns="http://javafx.com/javafx"
       fx:id="base"
       xmlns:fx="http://javafx.com/fxml"
@@ -16,5 +17,5 @@
 >
         <JFXTabPane fx:id="categoryTabPane" stylesheets="css/tab_pane.css" />
         <GridPane fx:id="menuList_header" prefHeight="50" style="-fx-font-family: 'Noto Sans CJK KR Regular'"/>
-        <JFXListView fx:id="menuList"  VBox.vgrow="SOMETIMES" stylesheets="css/list_view.css"/>
+        <ListView fx:id="menuList" VBox.vgrow="SOMETIMES" stylesheets="css/list_view.css"/>
 </VBox>

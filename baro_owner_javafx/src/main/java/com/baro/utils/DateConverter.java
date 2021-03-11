@@ -147,6 +147,20 @@ public class DateConverter {
 
         return sb.toString();
     }
+    public static String enter(String s) {
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer stringTokenizer = new StringTokenizer(s, " ");
+        int index = 0;
+        while (stringTokenizer.hasMoreTokens()) {
+            System.out.println(index);
+            index++;
+            sb.append(stringTokenizer.nextToken()+" ");
+            if(index ==3) {
+                sb.append('\n');
+            }
+        }
+        return sb.toString();
+    }
     public static void fifteenTimerStart(Label timerLabel, TimerReset timerReset) {
         new Thread((new Runnable() {
             @Override

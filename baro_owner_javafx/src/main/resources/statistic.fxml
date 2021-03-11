@@ -59,7 +59,7 @@
         <StackPane VBox.vgrow="ALWAYS">
             <VBox fx:id="daily_vbox" visible="false" maxHeight="Infinity">
                 <padding>
-                    <Insets right="20" left="20"/>
+                    <Insets right="20"/>
                 </padding>
                 <LineChart fx:id="line_chart" VBox.vgrow="ALWAYS">
                     <padding>

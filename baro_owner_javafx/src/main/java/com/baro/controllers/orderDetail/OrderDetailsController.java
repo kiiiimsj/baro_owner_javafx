@@ -8,6 +8,7 @@ import com.baro.Printer.ReceiptPrint;
 import com.baro.controllers.SettingTimerController;
 import com.baro.utils.DateConverter;
 import com.baro.utils.LayoutSize;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -24,6 +26,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -46,13 +50,15 @@ import java.util.prefs.Preferences;
 public class OrderDetailsController implements Initializable, OrderDetailDialog.OrderDetailDialogInterface, PrintReceiptDialog.ButtonClick {
     public Button cancelBtn;
     public GridPane button_area;
-    public AnchorPane base;
+    public VBox base;
     public HBox top_area;
     public Label discountRatePriceLabel;
     public VBox info_box;
     public VBox request_box;
     public HBox info_area;
     public ColumnConstraints col1;
+    public HBox top_bar;
+    public FontAwesomeIconView close;
     @FXML
     private Label phoneLabel;
     @FXML
@@ -95,10 +101,12 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
     public OrderDetailDialog orderDetailDialog;
     public PrintReceiptDialog printReceiptDialog;
     public boolean withOutButton;
+
+    double initialX;
+    double initialY;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         base.setBackground(Background.EMPTY);
-        base.setPickOnBounds(false);
 
         printReceiptDialog = new PrintReceiptDialog();
         orderDetailDialog = new OrderDetailDialog();
@@ -112,7 +120,38 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
         col1.setMaxWidth(LayoutSize.BOTTOM_BUTTON_WIDTH);
 
         receipt_preview_scroll.setMinHeight(LayoutSize.ORDER_DETAIL_HEIGHT - LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT- LayoutSize.ORDER_LIST_BOTTOM_AREA_HEIGHT);
+        configureBottom();
     }
+
+    private void configureBottom() {
+        top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (me.getButton() != MouseButton.MIDDLE) {
+                    initialX = me.getSceneX();
+                    initialY = me.getSceneY();
+                }
+            }
+        });
+
+        top_bar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (me.getButton() != MouseButton.MIDDLE) {
+                    top_bar.getScene().getWindow().setX(me.getScreenX() - initialX);
+                    top_bar.getScene().getWindow().setY(me.getScreenY() - initialY);
+                }
+            }
+        });
+        close.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                stage.close();
+            }
+        });
+    }
+
     public SimpleBooleanProperty getChangeToAccept(){
         return changeToAccept;
     }
@@ -137,8 +176,11 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
         
         //타이머 설정 버튼 없얘기
         if(withOutButton) {
+            base.setStyle("-fx-border-color: gray;-fx-border-width: 1;-fx-background-color: #3d3d3d");
+            base.setPadding(new Insets(0, 10, 10, 10));
+            top_bar.setVisible(true);
+            top_bar.setManaged(true);
             setTime.setVisible(false);
-            base.setStyle("-fx-background-color: #3d3d3d");
         }
     }
     public void configureLeftUI(){

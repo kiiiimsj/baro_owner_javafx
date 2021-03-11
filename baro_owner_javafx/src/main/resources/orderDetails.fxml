@@ -3,14 +3,26 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="base" stylesheets="css/order_detail.css" xmlns="http://javafx.com/javafx/8.0.171"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.orderDetail.OrderDetailsController"
-      style="-fx-font-family: 'Noto Sans CJK KR Regular';"
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<VBox fx:id="base" stylesheets="css/order_detail.css" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.orderDetail.OrderDetailsController"
+            pickOnBounds="false"
 >
+    <HBox fx:id="top_bar" visible="false" pickOnBounds="false" managed="false"
+          maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d;">
+        <padding>
+            <Insets top="10" bottom="10" right="10"/>
+        </padding>
+        <FontAwesomeIconView fx:id="close" glyphName="CLOSE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
+            <HBox.margin>
+                <Insets top="7"/>
+            </HBox.margin>
+        </FontAwesomeIconView>
+    </HBox>
     <padding>
         <Insets left="10" right="10"/>
     </padding>
-    <VBox AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="0" spacing="10">
+    <VBox spacing="10" pickOnBounds="false">
         <!-- 영업중, 영업종료 토글 버튼 클릭이 막혀서 따로 크기 설정-->
         <HBox fx:id="top_area" pickOnBounds="false" spacing="10">
             <Button fx:id="cancelBtn"
@@ -67,7 +79,7 @@
                     <Label fx:id="requestLabel" styleClass="label-left" text="010" style="-fx-font-size: 15pt" VBox.vgrow="ALWAYS"/>
                 </VBox>
             </VBox>
-            <ScrollPane fx:id="receipt_preview_scroll" style="-fx-background-radius: 5px;-fx-background-color: white" >
+            <ScrollPane fx:id="receipt_preview_scroll" style="-fx-background-radius: 5px;-fx-background-color: white" stylesheets="css/scroll.css" >
                 <padding>
                     <Insets top="5" left="5" right="5"/>
                 </padding>
@@ -96,4 +108,4 @@
             </children>
         </GridPane>
     </VBox>
-</AnchorPane>
+</VBox>
