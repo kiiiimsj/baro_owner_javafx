@@ -74,9 +74,9 @@ public class MainController implements OrderListController.MoveToSetting{
     @FXML
     private AnchorPane calculateContainer;
     @FXML
-    private Tab statisticsTab;
+    private Tab statisticTab;
     @FXML
-    private AnchorPane statisticsContainer;
+    private AnchorPane statisticContainer;
     @FXML
     private Tab settingsTab;
     @FXML
@@ -265,7 +265,7 @@ public class MainController implements OrderListController.MoveToSetting{
         setTabs(inventory_managementTab, "재고관리");
         setTabs(orderHistoryTab, "주문내역");
         setTabs(calculateTab, "정산");
-        setTabs(statisticsTab, "통계");
+        setTabs(statisticTab, "통계");
         setTabs(settingsTab, "설정");
 
         tabContainer.setTabMinWidth(tabWidth);
@@ -289,8 +289,8 @@ public class MainController implements OrderListController.MoveToSetting{
                     case "calculateTab":
                         configureTab(calculateTab,  calculateContainer, getClass().getResource("/calculate.fxml") );
                         break;
-                    case "statisticsTab":
-                        configureTab(statisticsTab,  statisticsContainer, getClass().getResource("/statistic.fxml"));
+                    case "statisticTab":
+                        configureTab(statisticTab,  statisticContainer, getClass().getResource("/statistic.fxml"));
                         break;
                     case "settingsTab":
                         configureTab(settingsTab,  settingsContainer, getClass().getResource("/settings.fxml"));
