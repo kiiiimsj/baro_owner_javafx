@@ -1,6 +1,7 @@
 package com.baro.controllers;
 
 import com.baro.Dialog.InternetConnectDialog;
+import com.baro.Dialog.NoDataDialog;
 import com.baro.JsonParsing.LoginParsing;
 
 import com.google.gson.Gson;
@@ -12,21 +13,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.json.JSONObject;
-import org.json.JSONString;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,10 +52,10 @@ public class LoginController implements Initializable {
     public MainController.ReturnOrderListWhenApplicationClose returnOrderListWhenApplicationClose;
     public InternetConnectDialog.Reload reload;
     LoginParsing loginParsing;
+    NoDataDialog noDataDialog;
 
    @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("로그인 컨트롤러 실행!!");
        if(preferences.getBoolean("isSave", false)) {
            save_id_pw.setSelected(true);
            phone_tf.setText(preferences.get("userId", ""));
@@ -96,14 +93,6 @@ public class LoginController implements Initializable {
                 stage.setIconified(true);
             }
         });
-//        maximum.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-//                stage.setFullScreenExitHint(" ");
-//                stage.setFullScreen(true);
-//            }
-//        });
         close.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -114,8 +103,6 @@ public class LoginController implements Initializable {
     }
 
     public void loginAction(ActionEvent event) {
-
-       //점주의 휴대폰번호 및 비밀번호
         String id = phone_tf.getText();
         String owner_pass = password_tf.getText();
 
@@ -189,6 +176,9 @@ public class LoginController implements Initializable {
                Scene scene = new Scene(parent);
                primaryStage.setScene(scene);
                primaryStage.show();
+           }else {
+               noDataDialog = new NoDataDialog();
+               noDataDialog.call(new JSONObject(bf.toString()).getString("message"));
            }
        }
        catch (MalformedURLException e) {
@@ -196,6 +186,8 @@ public class LoginController implements Initializable {
        } catch (ProtocolException e) {
            e.printStackTrace();
        } catch (IOException e) {
+           noDataDialog = new NoDataDialog();
+           noDataDialog.call("서버와의 연결이 끊겼습니다. 인터넷 연결을 확인해주세요.");
            e.printStackTrace();
        }
     }

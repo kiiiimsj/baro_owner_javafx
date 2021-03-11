@@ -51,6 +51,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     public Button next_tab;
     public HBox paging_ui;
     public HBox discount_rate_height;
+    public VBox no_data;
 
     @Override
     public void timerReset() {
@@ -341,6 +342,9 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                 }else{
                     setList( orderList.orders.size() - 1 - ONEPAGEORDER,orderList.orders.size() - 1);
                 }
+            }else{
+                no_data.setVisible(true);
+                no_data.setManaged(true);
             }
 
         } catch (MalformedURLException e) {
@@ -424,7 +428,6 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                             detailcontroller.getNeedToSettingMainPrint().addListener(new ChangeListener<Boolean>() {
                                 @Override
                                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                                    //TODO tabContainer.getSelectionModel().selectLast();
                                     //orderDetailsContainer.getScene().getWindow();
                                     moveToSetting.moveSetting();
                                 }
@@ -478,7 +481,14 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         return DateConverter.pad(2, '0', setHour+"") + ":" +DateConverter.pad(2, '0', setMinute+"")+ " 까지";
     }
     private void setList(int startIndex,int endIndex) {
-        System.out.println("setListCall");
+        System.out.println("setList");
+        if(orderList.orders.size() == 0) {
+            System.out.println("noData");
+            no_data.setVisible(true);
+            no_data.setManaged(true);
+        }else {
+            paging_ui.setVisible(true);
+        }
         childContainer.getChildren().remove(0,childContainer.getChildren().size());
         for (int i = endIndex; i > startIndex; i--) {
             HBox hBox = makeCell(i);

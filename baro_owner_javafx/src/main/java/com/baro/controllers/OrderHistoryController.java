@@ -1,5 +1,6 @@
 package com.baro.controllers;
 
+import com.baro.Dialog.NoDataDialog;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.JsonParsing.OrderHistoryList;
@@ -26,7 +27,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 import org.json.JSONObject;
 
@@ -61,16 +64,15 @@ public class OrderHistoryController implements Initializable {
     private boolean clickSearch = false;
     private boolean clickSeeDoneButton = false;
     private boolean clickSeeCancelButton = false;
+    NoDataDialog noDataDialog;
     Preferences preferences = Preferences.userRoot();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dailySales.setVisible(false);
-        search_hbox.setVisible(false);
-        totalCount.setVisible(false);
         search_hbox.setPrefWidth(LayoutSize.ORDER_HISTORY_TOP_AREA_WIDTH);
         configuration();
     }
     private void configuration() {
+        noDataDialog = new NoDataDialog();
         String pattern = "yyyy-MM-dd";
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
         dateConverter = new StringConverter<LocalDate>() {
@@ -100,7 +102,6 @@ public class OrderHistoryController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 getOrderCompleteListByDate();
-                search_hbox.setVisible(true);
             }
         });
         button_search_by_phone.setOnAction(new EventHandler<ActionEvent>() {
@@ -157,9 +158,18 @@ public class OrderHistoryController implements Initializable {
             while((line = br.readLine()) != null) {
                 bf.append(line);
             }
+
             br.close();
             System.out.println(bf.toString());
-            parsingCompleteList(bf.toString());
+            if(new JSONObject(bf.toString()).getBoolean("result")){
+                search_hbox.setVisible(true);
+                parsingCompleteList(bf.toString());
+            }else {
+                dailySales.setVisible(false);
+                search_hbox.setVisible(false);
+                totalCount.setVisible(false);
+                noDataDialog.call();
+            }
         }
         catch (MalformedURLException e) {
             e.printStackTrace();
@@ -367,11 +377,13 @@ public class OrderHistoryController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetails.fxml"));
             Parent parent = loader.load();
             OrderDetailsController detailcontroller = loader.<OrderDetailsController>getController();
+
             detailcontroller.withOutButton = true;
             detailcontroller.setData(orderDetailParsing ,order);
             detailcontroller.configureLeftUI();
             Scene scene = new Scene(parent);
-            Stage stage = new Stage();
+            Stage stage = new Stage(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("세부정보");
             //stage.setResizable(false);
             stage.setScene(scene);

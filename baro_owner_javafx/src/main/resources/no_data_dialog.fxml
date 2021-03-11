@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<AnchorPane fx:id="dialog_base"
+            style="-fx-border-color: gray;-fx-border-width: 1"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.baro.Dialog.NoDataDialog"
+            prefHeight="300.0" prefWidth="300.0">
+    <VBox AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0" maxHeight="Infinity">
+        <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d">
+            <padding>
+                <Insets top="10" bottom="10" right="10"/>
+            </padding>
+        </HBox>
+        <HBox>
+            <Label fx:id="dialog_content" style="-fx-font-size: 12pt; -fx-text-fill: #8333e6;-fx-font-family: 'Noto Sans CJK KR Regular'"
+                   VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity" alignment="CENTER" textAlignment="JUSTIFY">
+                <padding>
+                    <Insets top="30"/>
+                </padding>
+            </Label>
+        </HBox>
+    </VBox>
+    <HBox AnchorPane.rightAnchor="5" AnchorPane.leftAnchor="5" AnchorPane.bottomAnchor="5" spacing="10">
+        <Button fx:id="okay" text="확인" maxWidth="Infinity" alignment="BOTTOM_CENTER" HBox.hgrow="ALWAYS"
+                style="-fx-font-family: 'Noto Sans CJK KR Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 15pt; -fx-text-fill: white"/>
+    </HBox>
+</AnchorPane>

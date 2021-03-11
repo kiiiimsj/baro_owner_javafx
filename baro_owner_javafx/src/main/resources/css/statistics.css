@@ -16,6 +16,7 @@
 }
 .chart-legend-item{
     -fx-text-fill: white;
+    -fx-font-size: 13pt;
 }
 .axis-label {
     -fx-text-fill: white;
@@ -23,11 +24,12 @@
     -fx-font-family: 'Noto Sans CJK KR Regular';
 }
 .axis {
-    -fx-font-size: 11pt;
+    -fx-font-size: 10pt;
     -fx-tick-label-fill: white;
     -fx-font-family: 'Noto Sans CJK KR Regular';
 }
 .chart-series-line {
+    -fx-font-size: 9pt;
     -fx-stroke-width: 2px;
     -fx-effect: null;
 }

@@ -1,5 +1,6 @@
 package com.baro.controllers;
 
+import com.baro.Dialog.NoDataDialog;
 import com.baro.JsonParsing.MenuStatistics;
 import com.baro.JsonParsing.Statistics;
 import com.baro.JsonParsing.StatisticMenuParsing;
@@ -21,7 +22,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.util.StringConverter;
 import org.json.JSONObject;
@@ -80,6 +80,7 @@ public class StatisticController implements Initializable {
      * **/
     Preferences preferences = Preferences.userRoot();
     private String owner_store_id;
+    NoDataDialog noDataDialog;
 
 
     @Override
@@ -96,8 +97,9 @@ public class StatisticController implements Initializable {
      *
      **************************************************************************/
     private void configuration() {
+        noDataDialog = new NoDataDialog();
         setListViewSetHeader();
-        line_chart.setMinHeight(LayoutSize.STATISTICS_DAILY_SELL_HEIGHT);
+//        line_chart.setMinHeight(LayoutSize.STATISTICS_DAILY_SELL_HEIGHT);
         totalMenuList.setMinHeight(LayoutSize.STATISTICS_DAILY_SELL_HEIGHT);
 
         day_sell_button.setPrefWidth(LayoutSize.STATISTICS_TAB_BUTTON_WIDTH);
@@ -112,11 +114,6 @@ public class StatisticController implements Initializable {
         look_up_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                day_sell_button.setVisible(true);
-                menu_sell_button.setVisible(true);
-                daily_vbox.setVisible(true);
-                total_price_vbox.setVisible(true);
-
                 setTopButtonClickEvent();
                 getStatisticSalesValue();
                 getStatisticMenusData();
@@ -174,7 +171,7 @@ public class StatisticController implements Initializable {
 
 
         GridPane daily_sales_header = new GridPane();
-        daily_sales_header.setPadding(new Insets(0, 0, 0, 5));
+        daily_sales_header.setPadding(new Insets(5, 5, 5, 5));
 
         Label dateLabel = new Label("날짜/일");
         Label dayPriceLabel = new Label("일 판매액");
@@ -183,8 +180,8 @@ public class StatisticController implements Initializable {
         daily_sales_header.getColumnConstraints().add(1, dailyGridCol2);
         daily_sales_header.getRowConstraints().add(0, row1);
 
-        dateLabel.setStyle("-fx-font-size: 15pt; -fx-text-fill: white; -fx-background-color: #8333e6;-fx-background-radius: 5;");
-        dayPriceLabel.setStyle("-fx-font-size: 15pt; -fx-text-fill: white; -fx-background-color: #8333e6;-fx-background-radius: 5;");
+        dateLabel.setStyle("-fx-font-size: 15pt; -fx-text-fill: white;");
+        dayPriceLabel.setStyle("-fx-font-size: 15pt; -fx-text-fill: white;");
 
 //        daily_sales_header.setStyle("-fx-background-color: #3d3d3d");
 
@@ -253,6 +250,16 @@ public class StatisticController implements Initializable {
             //서버에서 response가 true 일때를 분기문에 추가시켜주기.
             if(new JSONObject(bf.toString()).getBoolean("result")){
                 parsingStatisticData(bf.toString());
+                day_sell_button.setVisible(true);
+                menu_sell_button.setVisible(true);
+                daily_vbox.setVisible(true);
+                total_price_vbox.setVisible(true);
+            }else {
+                noDataDialog.call();
+                day_sell_button.setVisible(false);
+                menu_sell_button.setVisible(false);
+                daily_vbox.setVisible(false);
+                total_price_vbox.setVisible(false);
             }
         }
         catch (MalformedURLException e) {
@@ -307,6 +314,8 @@ public class StatisticController implements Initializable {
             //서버에서 response가 true 일때를 분기문에 추가시켜주기.
             if(new JSONObject(bf.toString()).getBoolean("result")){
                 parsingStatisticMenuData(bf.toString());
+            }else {
+                noDataDialog.call();
             }
         }
         catch (MalformedURLException e) {
