@@ -73,7 +73,7 @@
                     </yAxis>
                 </LineChart>
                 <VBox fx:id="daily_sales_vbox" VBox.vgrow="ALWAYS">
-                    <JFXListView fx:id="dailySales" HBox.hgrow="ALWAYS"/>
+                    <JFXListView fx:id="dailySales" HBox.hgrow="ALWAYS" stylesheets="css/scroll.css"/>
                 </VBox>
             </VBox>
             <VBox fx:id="total_menu_vbox" visible="false" maxHeight="Infinity">

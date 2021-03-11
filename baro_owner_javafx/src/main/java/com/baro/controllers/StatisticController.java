@@ -183,10 +183,10 @@ public class StatisticController implements Initializable {
         daily_sales_header.getColumnConstraints().add(1, dailyGridCol2);
         daily_sales_header.getRowConstraints().add(0, row1);
 
-        dateLabel.setStyle("-fx-font-size: 15pt; -fx-text-fill: white");
-        dayPriceLabel.setStyle("-fx-font-size: 15pt; -fx-text-fill: white");
+        dateLabel.setStyle("-fx-font-size: 15pt; -fx-text-fill: white; -fx-background-color: #8333e6;-fx-background-radius: 5;");
+        dayPriceLabel.setStyle("-fx-font-size: 15pt; -fx-text-fill: white; -fx-background-color: #8333e6;-fx-background-radius: 5;");
 
-        daily_sales_header.setStyle("-fx-background-color: #8333e6");
+//        daily_sales_header.setStyle("-fx-background-color: #3d3d3d");
 
         daily_sales_header.addRow(0, dateLabel, dayPriceLabel);
         daily_sales_vbox.getChildren().add(0, daily_sales_header);
@@ -356,6 +356,7 @@ public class StatisticController implements Initializable {
             totalPrice += menuStatistics.menu_total_price;
             GridPane cell = new GridPane();
 
+
             cell.getColumnConstraints().add(0, dailyMenuGridCol1);
             cell.getColumnConstraints().add(1, dailyMenuGridCol2);
             cell.getColumnConstraints().add(2, dailyMenuGridCol3);
@@ -365,9 +366,13 @@ public class StatisticController implements Initializable {
             Label menuTotalCount = new Label(menuStatistics.menu_count+"");
             Label menuTotalPrice = new Label(menuStatistics.menu_total_price+"원");
 
+//            if(i == 0) {cell.setId("first");}
+//            if(i == statisticMenuParsing.menuStatisticsList.size()) {cell.setId("last");}
+
             menuName.setStyle("-fx-font-size: 15pt; -fx-text-fill: black");
             menuTotalCount.setStyle("-fx-font-size: 15pt; -fx-text-fill: black");
             menuTotalPrice.setStyle("-fx-font-size: 15pt; -fx-text-fill: black");
+
 
             cell.addRow(0, menuName, menuTotalCount, menuTotalPrice);
 
@@ -424,7 +429,7 @@ public class StatisticController implements Initializable {
      **************************************************************************/
     private void setDailySalesStatisticData() {
         dailySales.getItems().clear();
-        dailySales.setStyle("-fx-font-size:15pt; -fx-text-fill: black; -fx-background-color: #ff000000");
+//        dailySales.setStyle("-fx-font-size:15pt; -fx-text-fill: black; -fx-background-color: #ff000000");
 
         for (int i = 0; i < statisticParsing.statistics.size(); i++) {
             Statistics dailyStatistics = statisticParsing.statistics.get(i);
