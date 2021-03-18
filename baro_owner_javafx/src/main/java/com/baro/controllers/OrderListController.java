@@ -389,6 +389,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                     if (details != null) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetails.fxml"));
                         try {
+                            orderDetailsContainer.getChildren().clear();
                             Parent parent = loader.load();
                             orderDetailsContainer.getChildren().add(parent);
                             OrderDetailsController detailcontroller = loader.<OrderDetailsController>getController();
