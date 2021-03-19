@@ -146,6 +146,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
 
         if(isOpen.equals("Y")) {
             isOpenBtn.setSelected(true);
+
 //            isOpenBtn.setText("영업종료 하기");
 //            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
         } else {
@@ -265,10 +266,13 @@ public class OrderListController implements DiscountRateController.ClickClose, D
             jsonObject.put("store_id", store_id);
             if (is_open) {
                 jsonObject.put("is_open", "Y");
+                preferences.put("is_open", "Y");
 
             } else {
                 jsonObject.put("is_open", "N");
+                preferences.put("is_open", "N");
             }
+
 
             OutputStream os = http.getOutputStream();
 
@@ -560,6 +564,12 @@ public class OrderListController implements DiscountRateController.ClickClose, D
 
                     JSONObject jsonObject = new JSONObject(message);
                     Order order = new Gson().fromJson(message, Order.class);
+                    if(order.discount_price == -1) {
+                        order.discount_price = 0;
+                    }
+                    if(order.discount_rate != 0 ) {
+                        order.total_price = (order.total_price * 100 / (100 - order.discount_rate));
+                    }
                     order.order_state = Order.PREPARING;
                     order.order_count = jsonObject.getInt("each_count");
                     orderList.orders.add(order);
