@@ -1,4 +1,4 @@
-package sample;
+package com.baro;
 
 import com.baro.Dialog.InternetConnectDialog;
 import com.baro.JsonParsing.OrderList;
@@ -8,12 +8,10 @@ import com.baro.utils.LayoutSize;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.java_websocket.client.WebSocketClient;
