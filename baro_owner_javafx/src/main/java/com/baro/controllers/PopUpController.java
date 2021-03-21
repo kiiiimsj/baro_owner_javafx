@@ -5,12 +5,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.stage.Popup;
-import javafx.stage.Screen;
-import sample.Main;
+import com.baro.Main;
 
-import java.awt.*;
 import java.net.URL;
-import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class PopUpController implements Initializable {
