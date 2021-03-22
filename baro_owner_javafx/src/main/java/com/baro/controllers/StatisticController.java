@@ -114,6 +114,8 @@ public class StatisticController implements Initializable {
         look_up_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                daily_vbox.setVisible(true);
+                total_menu_vbox.setVisible(false);
                 setTopButtonClickEvent();
                 getStatisticSalesValue();
                 getStatisticMenusData();

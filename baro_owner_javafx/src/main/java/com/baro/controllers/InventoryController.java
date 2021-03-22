@@ -18,6 +18,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
@@ -116,8 +117,6 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
             }
             br.close();
 
-            System.out.println("response" + bf.toString());
-
             boolean result = menuUpdateSaveSoldOutParsing(bf.toString());
 
             //서버에서 response가 true 일때를 분기문에 추가시켜주기.
@@ -150,7 +149,6 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
                 for (int i = 0; i < menuParsing.menu.size(); i++) {
                     Menu menu = menuParsing.menu.get(i);
                     if(newTab.getId().equals(menu.category_id+"")) {
-                        System.out.println(newTab.getId());
                         GridPane cell = new GridPane();
                         cell.setPickOnBounds(false);
 //                        cell.setMaxHeight(110);
@@ -177,7 +175,6 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
                         toggleButton.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
-                                System.out.println("event!!");
                                 if(toggleButton.isSelected()) {
                                     toggleButton.setSelected(false);
                                     inventoryDialog.call(InventoryController.this, menu.menu_id , InventoryDialog.SET_STOCK_OUT, toggleButton);
@@ -205,6 +202,7 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
                         cell.getRowConstraints().add(1, row2);
                         cell.addRow(0, menuName, menuPrice, toggleButton);
                         cell.addRow(1, menuInfo);
+                        cell.setPadding(new Insets(0, 0, 10, 0));
                         menuList.getItems().add(cell);
                     }
                 }
@@ -233,8 +231,6 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
                 bf.append(line);
             }
             br.close();
-
-            System.out.println("response" + bf.toString());
 
             boolean result = menuUpdateSaveSoldOutParsing(bf.toString());
 
@@ -287,8 +283,6 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
             }
             br.close();
 
-            System.out.println("response" + bf.toString());
-
             boolean result = menuUpdateSaveSoldOutParsing(bf.toString());
 
             //서버에서 response가 true 일때를 분기문에 추가시켜주기.
@@ -322,8 +316,6 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
                 bf.append(line);
             }
             br.close();
-
-            System.out.println("response" + bf.toString());
 
             boolean result = menuUpdateSaveSoldOutParsing(bf.toString());
 
