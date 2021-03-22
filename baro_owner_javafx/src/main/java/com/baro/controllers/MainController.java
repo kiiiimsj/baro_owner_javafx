@@ -27,10 +27,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.drafts.Draft_17;
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.prefs.Preferences;
@@ -45,6 +49,8 @@ public class MainController implements OrderListController.MoveToSetting{
         tabContainer.getSelectionModel().selectLast();
     }
     private final String TAG = this.getClass().getSimpleName();
+    OrderListController orderListController;
+
     public Label digital_clock;
     @FXML public HBox top_bar;
     public FontAwesomeIconView minimum;
@@ -109,6 +115,13 @@ public class MainController implements OrderListController.MoveToSetting{
 
         configureSideView();
         configureTopBar();
+
+//        try {
+//            connect();
+//        } catch (NoRouteToHostException e) {
+//            InternetConnectDialog internetConnectDialog = new InternetConnectDialog();
+//            internetConnectDialog.call(reload);
+//        }
     }
     private void configureTopBar() {
         top_bar.setPrefHeight(LayoutSize.TOP_BAR_HEIGHT);
@@ -261,6 +274,8 @@ public class MainController implements OrderListController.MoveToSetting{
         return (jsonObject.getBoolean("result"));
     }
     private void configureSideView() {
+        preConfigureTabForOrderList(order_listTab, orderListSideContainer);
+
         setTabs(order_listTab, "주문");
         setTabs(inventory_managementTab, "재고관리");
         setTabs(orderHistoryTab, "주문내역");
@@ -278,22 +293,24 @@ public class MainController implements OrderListController.MoveToSetting{
             public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
                 switch (observable.getValue().getId()) {
                     case "order_listTab":
-                        configureTab(order_listTab, orderListSideContainer, getClass().getResource("/order_list.fxml"));
+                        System.out.println("dowhat");
+                        configureTab(order_listTab, orderListSideContainer);
+
                         break;
                     case "inventory_managementTab":
-                        configureTab(inventory_managementTab, inventoryManagementContainer, getClass().getResource("/inventory_management.fxml") );
+                        configureTab(inventory_managementTab, inventoryManagementContainer );
                         break;
                     case "orderHistoryTab":
-                        configureTab(orderHistoryTab, infoChangeContainer, getClass().getResource("/orderHistory.fxml"));
+                        configureTab(orderHistoryTab, infoChangeContainer);
                         break;
                     case "calculateTab":
-                        configureTab(calculateTab,  calculateContainer, getClass().getResource("/calculate.fxml") );
+                        configureTab(calculateTab,  calculateContainer);
                         break;
                     case "statisticTab":
-                        configureTab(statisticTab,  statisticContainer, getClass().getResource("/statistic.fxml"));
+                        configureTab(statisticTab,  statisticContainer);
                         break;
                     case "settingsTab":
-                        configureTab(settingsTab,  settingsContainer, getClass().getResource("/settings.fxml"));
+                        configureTab(settingsTab,  settingsContainer);
                         break;
                     default:
                         break;
@@ -302,7 +319,7 @@ public class MainController implements OrderListController.MoveToSetting{
             }
         });
         order_listTab.setStyle("-fx-background-color: #8333e6");
-        tabContainer.getSelectionModel().select(inventory_managementTab);
+        //tabContainer.getSelectionModel().select(inventory_managementTab);
         tabContainer.getSelectionModel().select(order_listTab);
     }
     private void setTabs(Tab tab, String title) {
@@ -326,31 +343,48 @@ public class MainController implements OrderListController.MoveToSetting{
         tab.setGraphic(tabPane);
     }
     //이미지경로 넣기 위한 title 뒤에 String iconPath 뺏음
-    private void configureTab(Tab tab, AnchorPane containerPane, URL resourceURL) {
-        tab.setStyle("-fx-background-color: #8333e6");
-        System.out.println("configureTab");
-        System.out.println("configureTab : " + tab.getId());
+    private void preConfigureTabForOrderList(Tab tab, AnchorPane containerPane) {
+        System.out.println("preConfigureTabForOrderList ");
         try {
-            if(resourceURL == null) {
-                containerPane.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/order_list.fxml"));
+            Parent contentView = loader.load();
+
+            DateConverter.IS_TIMER_THREAD_START = true;
+            orderListController = loader.<OrderListController>getController();
+            orderListController.moveToSetting = this::moveSetting;
+            orderListController.reload = reload;
+            DateConverter.fifteenTimerStart(orderListController.baro_discount_timer, orderListController);
+            orderList = orderListController.orderList;
+            returnOrderListWhenApplicationClose.returnOrderList(orderList);
+
+            containerPane.getChildren().add(contentView);
+            AnchorPane.setTopAnchor(contentView, 0.0);
+            AnchorPane.setBottomAnchor(contentView, 0.0);
+            AnchorPane.setRightAnchor(contentView, 0.0);
+            AnchorPane.setLeftAnchor(contentView, 0.0);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void configureTab(Tab tab, AnchorPane containerPane) {
+        tab.setStyle("-fx-background-color: #8333e6");
+        System.out.println("size be: " + containerPane.getChildren().size());
+        if(containerPane.getChildren().size() > 2) {
+            containerPane.getChildren().remove(1);
+        }
+        System.out.println("size af: " + containerPane.getChildren().size());
+        try {
+            if(tab.getId().equals("order_listTab")) {
+                orderListController.configureOrderListView();
+                DateConverter.IS_TIMER_THREAD_START = true;
+                DateConverter.fifteenTimerStart(orderListController.baro_discount_timer, orderListController);
             }else {
                 System.out.println("getId" + tab.getId().substring(0, tab.getId().indexOf("Tab")));
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/"+tab.getId().substring(0, tab.getId().indexOf("Tab"))+".fxml"));
                 Parent contentView = loader.load();
-                if(tab.getId().equals("order_listTab")) {
-                    DateConverter.IS_TIMER_THREAD_START = true;
-                    OrderListController orderListController = loader.<OrderListController>getController();
-                    orderListController.moveToSetting = this::moveSetting;
-                    orderListController.reload = reload;
-                    DateConverter.fifteenTimerStart(orderListController.baro_discount_timer, orderListController);
-                    orderList = orderListController.orderList;
-                    returnOrderListWhenApplicationClose.returnOrderList(orderList);
-                }else {
-                    DateConverter.fifteenTimerStop();
-                }
-                if(containerPane.getChildren().size() != 0) {
-                    containerPane.getChildren().remove(0);
-                }
+                DateConverter.fifteenTimerStop();
+
                 containerPane.getChildren().add(contentView);
                 AnchorPane.setTopAnchor(contentView, 0.0);
                 AnchorPane.setBottomAnchor(contentView, 0.0);

@@ -110,6 +110,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     /// Life cycle
     @FXML
     public void initialize() {
+        System.out.println("call OrderList");
         paging_ui.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
         paging_ui.setPrefHeight(LayoutSize.ORDER_LIST_ORDER_CELL_HEIGHT);
 
@@ -314,7 +315,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     }
 
     //주문 들어온 리스트 찍기
-    private void configureOrderListView() {
+    public void configureOrderListView() {
         try {
             URL url = new URL("http://3.35.180.57:8080/OrderFindByStoreId.do?store_id="+store_id);
             URLConnection con = url.openConnection();

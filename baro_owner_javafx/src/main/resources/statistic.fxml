@@ -59,7 +59,7 @@
         <StackPane VBox.vgrow="ALWAYS">
             <VBox fx:id="daily_vbox" visible="false" maxHeight="Infinity">
                 <padding>
-                    <Insets right="20"/>
+                    <Insets right="10"/>
                 </padding>
                 <LineChart fx:id="line_chart" VBox.vgrow="ALWAYS">
                     <padding>
@@ -78,14 +78,14 @@
             </VBox>
             <VBox fx:id="total_menu_vbox" visible="false" maxHeight="Infinity">
                 <padding>
-                    <Insets right="20" left="20"/>
+                    <Insets right="10"/>
                 </padding>
                 <GridPane fx:id="menu_list_header"/>
                 <JFXListView fx:id="totalMenuList" VBox.vgrow="ALWAYS"/>
             </VBox>
         </StackPane>
     </VBox>
-    <VBox fx:id="total_price_vbox" visible="false" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" style="-fx-background-color: #8333e6; -fx-background-radius: 5;-fx-opacity: 80%">
+    <VBox fx:id="total_price_vbox" visible="false" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" style="-fx-background-color: #8333e6; -fx-background-radius: 5;-fx-opacity: 80%">
         <padding>
             <Insets bottom="10" left="10" top="10" right="10"/>
         </padding>

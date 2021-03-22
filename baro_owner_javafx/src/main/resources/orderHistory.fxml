@@ -63,7 +63,7 @@
                 </JFXButton>
             </HBox>
         </HBox>
-        <JFXListView fx:id="dailySales" prefHeight="1000" stylesheets="css/list_view.css" visible="false"/>
+        <JFXListView fx:id="dailySales" VBox.vgrow="ALWAYS" stylesheets="css/list_view.css" visible="false"/>
     </VBox>
     <Label fx:id="totalCount" visible="false" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="15" style="-fx-font-size: 20pt; -fx-text-fill: white; -fx-background-color: rgba(131, 51, 230, 0.8); -fx-background-radius: 10px;">
         <padding>
