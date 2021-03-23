@@ -63,10 +63,10 @@ public class OrderController implements Initializable{
 
         if (orderData.order_state.equals(Order.ACCEPT)){
             state.setText("제조중");
-            state.setStyle("-fx-background-color: rgb(255,111,0); -fx-text-fill: white;-fx-background-radius: 5px;");
+            state.setStyle("-fx-font-size : 11;-fx-background-color: rgb(255,111,0); -fx-text-fill: white;-fx-background-radius: 5px;");
         }else if (orderData.order_state.equals(Order.PREPARING)) {
             state.setText("신규");
-            state.setStyle("-fx-background-color: rgba(131,50,230,0.75); -fx-text-fill: white;-fx-background-radius: 5px; ");
+            state.setStyle("-fx-font-size : 11;-fx-background-color: rgba(131,50,230,0.75); -fx-text-fill: white;-fx-background-radius: 5px; ");
         }
         timeLabel.setText(orderData.getCompleteTime());
 //        new Thread(new Runnable() {
@@ -118,7 +118,7 @@ public class OrderController implements Initializable{
     public void changeToAccept(){
         orderData.order_state = Order.ACCEPT;
         state.setText("제조중");
-        state.setStyle("-fx-background-color: rgb(255,111,0);-fx-text-fill: white;-fx-background-radius: 5px;");
+        state.setStyle("-fx-font-size : 11;-fx-background-color: rgb(255,111,0);-fx-text-fill: white;-fx-background-radius: 5px;");
         timeLabel.setText(orderData.getCompleteTime());
     }
     public void setData(Order data,int index) {

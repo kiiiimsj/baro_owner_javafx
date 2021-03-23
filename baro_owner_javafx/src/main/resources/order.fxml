@@ -39,14 +39,7 @@
          <children>
 <!--            <Circle fill="#8333e6" radius="25.0" />-->
 <!--            <Rectangle fx:id="timer" fill="#3d3d3d" height="10" width="50" translateY="-30"/>-->
-            <Label fx:id="timeLabel" alignment="CENTER" prefHeight="40.0" style="-fx-text-fill: white; -fx-font-size: 10pt">
-               <maxWidth>
-                  <Double fx:constant="MAX_VALUE" />
-               </maxWidth>
-               <maxHeight>
-                  <Double fx:constant="MAX_VALUE" />
-               </maxHeight>
-            </Label>
+            <Label fx:id="timeLabel" alignment="CENTER" prefHeight="40.0" style="-fx-text-fill: white; -fx-font-size: 10pt"/>
          </children>
       </StackPane>
 
