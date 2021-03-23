@@ -131,7 +131,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         discount_rate_height.setPrefHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
 
         try {
-            Media media = new Media(getClass().getResource("/sounds.wav").toURI().toString());
+            Media media = new Media(getClass().getResource("/baro_voice.mp3").toURI().toString());
             player = new MediaPlayer(media);
             player.setOnEndOfMedia(new Runnable() {
                 @Override
