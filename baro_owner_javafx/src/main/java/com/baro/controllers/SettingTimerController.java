@@ -116,7 +116,7 @@ public class SettingTimerController implements Initializable {
             if (result) {
                 changeToAccept.set(true);
                 System.out.println("inTimer: " + timeInt);
-                sendCustomerMessage(time.getText());
+                sendCustomerMessage(timeInt);
                 System.out.println("성공");
             }else{
                 System.out.println("실패");
@@ -130,9 +130,9 @@ public class SettingTimerController implements Initializable {
             e.printStackTrace();
         }
     }
-    private void sendCustomerMessage(String time) {
+    private void sendCustomerMessage(int time) {
         System.out.println("click button1");
-        timeInt = Integer.parseInt(time);
+//        timeInt = Integer.parseInt(time);
         try{
             URL url = new URL("http://3.35.180.57:8080/OwnerSendMessage.do");
             URLConnection con = url.openConnection();
