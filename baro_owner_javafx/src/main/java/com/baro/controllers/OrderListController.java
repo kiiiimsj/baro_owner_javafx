@@ -123,7 +123,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         next_tab.setPrefWidth((LayoutSize.ORDER_LIST_WIDTH / 3.0)  - 5);
 
         orderListSideContainer.setMinWidth(LayoutSize.INSIDE_PANE_WIDTH);
-//        orderListSideContainer.setMinHeight(LayoutSize.INSIDE_PANE_HEIGHT);
+        orderListSideContainer.setMinHeight(LayoutSize.INSIDE_PANE_HEIGHT);
 
         childContainer.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
         childContainer.setPrefHeight(LayoutSize.ORDER_LIST_HEIGHT);

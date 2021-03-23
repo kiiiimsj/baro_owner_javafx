@@ -39,7 +39,7 @@ public class LayoutSize {
 
     public static int INSIDE_PANE_WIDTH = MAIN_PAGE_WIDTH - MAIN_TAB_PANE_WIDTH;
     //padding 20
-    public static int INSIDE_PANE_HEIGHT = MAIN_PAGE_HEIGHT - TOP_BAR_HEIGHT + 20;
+    public static int INSIDE_PANE_HEIGHT = MAIN_PAGE_HEIGHT - TOP_BAR_HEIGHT;
 
     /**
      * Order List Attribute Size
