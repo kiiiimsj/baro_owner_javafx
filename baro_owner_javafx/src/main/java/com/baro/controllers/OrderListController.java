@@ -17,7 +17,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -31,7 +30,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
-import sample.Main;
+import com.baro.Main;
 
 import java.io.*;
 import java.net.*;
@@ -111,6 +110,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     /// Life cycle
     @FXML
     public void initialize() {
+        System.out.println("call OrderList");
         paging_ui.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
         paging_ui.setPrefHeight(LayoutSize.ORDER_LIST_ORDER_CELL_HEIGHT);
 
@@ -315,7 +315,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     }
 
     //주문 들어온 리스트 찍기
-    private void configureOrderListView() {
+    public void configureOrderListView() {
         try {
             URL url = new URL("http://3.35.180.57:8080/OrderFindByStoreId.do?store_id="+store_id);
             URLConnection con = url.openConnection();

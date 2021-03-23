@@ -101,6 +101,9 @@ public class OrderHistoryController implements Initializable {
         look_up_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                if(clickSearch) {
+                    search_by_phone.setText("");
+                }
                 getOrderCompleteListByDate();
             }
         });
@@ -203,6 +206,7 @@ public class OrderHistoryController implements Initializable {
         int cancelCount = 0;
         System.out.println(orderList.orders.size());
         for (int i = 0; i < orderList.orders.size(); i++) {
+
             Order order = orderList.orders.get(i);
             if(clickSearch) {
                 if(search_by_phone.getText().length() != 0) {
@@ -237,6 +241,7 @@ public class OrderHistoryController implements Initializable {
                     continue;
                 }
             }
+            System.out.println("makeCell");
             HBox cell = new HBox();
             cell.setSpacing(5);
             String[] converteDate = DateConverter.dateConverteToTime(order.order_date);
@@ -308,6 +313,7 @@ public class OrderHistoryController implements Initializable {
                 }
             });
             dailySales.getItems().add(cell);
+            System.out.println("dailySales.getItems().size()" + dailySales.getItems().size());
         }
         totalCount.setVisible(true);
 
