@@ -189,13 +189,13 @@ public class MainController implements OrderListController.MoveToSetting{
         close.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-//                System.out.println("Main : " + orderList.toString());
-//                for (int i = 0; i < orderList.orders.size(); i++) {
-//                    if(orderList.orders.get(i).completeTime != null &&!orderList.orders.get(i).completeTime.equals("")) {
-//                        preferences.put(orderList.orders.get(i).receipt_id, orderList.orders.get(i).receipt_id);
-//                        preferences.put(orderList.orders.get(i).receipt_id+"time", orderList.orders.get(i).getCompleteTime());
-//                    }
-//                }
+                System.out.println("Main : " + orderList.toString());
+                for (int i = 0; i < orderList.orders.size(); i++) {
+                    if(orderList.orders.get(i).completeTime != null &&!orderList.orders.get(i).completeTime.equals("")) {
+                        preferences.put(orderList.orders.get(i).receipt_id, orderList.orders.get(i).receipt_id);
+                        preferences.put(orderList.orders.get(i).receipt_id+"time", orderList.orders.get(i).getCompleteTime());
+                    }
+                }
                 store_is_open_change(false, true);
             }
         });
