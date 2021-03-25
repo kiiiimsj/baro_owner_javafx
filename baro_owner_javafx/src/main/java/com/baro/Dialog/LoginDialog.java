@@ -42,8 +42,8 @@ public class LoginDialog implements Initializable {
     }
 
     public void call(String content){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/login_dialog.fxml"));
         try {
+            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.Dialog.LoginDialog").getResource("/login_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
@@ -60,7 +60,7 @@ public class LoginDialog implements Initializable {
             stage.setY(LayoutSize.CENTER_IN_PARENT_Y);
 
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

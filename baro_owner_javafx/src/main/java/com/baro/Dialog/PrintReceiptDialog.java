@@ -47,8 +47,8 @@ public class PrintReceiptDialog implements Initializable {
     }
 
     public void call(ButtonClick buttonClick){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/print_receipt_dialog.fxml"));
         try {
+            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.Dialog.PrintReceiptDialog").getResource("/print_receipt_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             PrintReceiptDialog printReceiptDialog = loader.getController();
@@ -65,7 +65,7 @@ public class PrintReceiptDialog implements Initializable {
             stage.setY(LayoutSize.CENTER_IN_PARENT_Y);
 
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

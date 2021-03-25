@@ -49,8 +49,8 @@ public class DiscountRateDialog implements Initializable {
         configureTopBar();
     }
     public void call(DiscountRateDialogInterface discountRateDialogInterface, int buttonType){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/discount_rate_dialog.fxml"));
         try {
+            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.Dialog.DiscountRateDialog").getResource("/discount_rate_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
@@ -70,7 +70,7 @@ public class DiscountRateDialog implements Initializable {
             stage.setScene(scene);
             discountRateDialog.configureBottom();
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
