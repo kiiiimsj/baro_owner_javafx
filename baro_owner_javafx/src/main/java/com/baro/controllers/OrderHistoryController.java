@@ -380,7 +380,7 @@ public class OrderHistoryController implements Initializable {
     }
     private void makeDetail(OrderDetailParsing orderDetailParsing, Order order) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetails.fxml"));
+            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.controllers.orderDetail.OrderDetailsController").getResource("/orderDetails.fxml"));
             Parent parent = loader.load();
             OrderDetailsController detailcontroller = loader.<OrderDetailsController>getController();
 
@@ -394,7 +394,7 @@ public class OrderHistoryController implements Initializable {
             //stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

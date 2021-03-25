@@ -87,8 +87,8 @@ public class InternetConnectDialog implements Initializable {
         });
     }
     public void call(Reload reload) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/internet_connect_dialog.fxml"));
         try {
+            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.Dialog.InternetConnectDialog").getResource("/internet_connect_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
@@ -105,7 +105,7 @@ public class InternetConnectDialog implements Initializable {
 
             stage.show();
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

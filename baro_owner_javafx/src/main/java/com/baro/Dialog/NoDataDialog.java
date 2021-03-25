@@ -42,8 +42,8 @@ public class NoDataDialog implements Initializable {
         configureTopBar();
     }
     public void call(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/no_data_dialog.fxml"));
         try {
+            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.Dialog.NoDataDialog").getResource("/no_data_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
@@ -59,13 +59,13 @@ public class NoDataDialog implements Initializable {
             stage.setY(LayoutSize.CENTER_IN_PARENT_Y);
 
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
     public void call(String content){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/no_data_dialog.fxml"));
         try {
+            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.Dialog.NoDataDialog").getResource("/no_data_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
@@ -82,7 +82,7 @@ public class NoDataDialog implements Initializable {
             stage.setY(LayoutSize.CENTER_IN_PARENT_Y);
 
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

@@ -73,7 +73,6 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         void moveSetting();
     }
 
-    private final String TAG = this.getClass().getSimpleName();
     public Label store_discount_rate;
     public VBox discount_rate_set;
     @FXML
@@ -131,7 +130,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         discount_rate_height.setPrefHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
 
         try {
-            Media media = new Media(getClass().getResource("/baro_voice.mp3").toURI().toString());
+            Media media = new Media(Class.forName("com.baro.controllers.OrderListController").getResource("/baro_voice.mp3").toURI().toString());
             player = new MediaPlayer(media);
             player.setOnEndOfMedia(new Runnable() {
                 @Override
@@ -140,7 +139,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                 }
             });
             player.setCycleCount(MediaPlayer.INDEFINITE);
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -176,7 +175,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                     double centerXPosition = orderListSideContainer.getScene().getX() + orderListSideContainer.getScene().getWidth()/2d;
                     double centerYPosition = orderListSideContainer.getScene().getY() + orderListSideContainer.getScene().getHeight()/2d;
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/discount_rate_page.fxml"));
+                    FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.controllers.DiscountRateController").getResource("/discount_rate_page.fxml"));
                     Parent parent = loader.load();
                     Scene discountRateScene = new Scene(parent);
 
@@ -197,7 +196,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
 //                    stage.setY(centerYPosition);
 
                     stage.show();
-                } catch (IOException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }
@@ -380,7 +379,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         orderIndex = index;
         HBox hBox = null;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/order.fxml"));
+            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.controllers.OrderController").getResource("/order.fxml"));
             hBox = loader.load();
             hBox.setId(orderList.orders.get(index).receipt_id+"");
             OrderController controller = loader.<OrderController>getController();
@@ -391,7 +390,12 @@ public class OrderListController implements DiscountRateController.ClickClose, D
 //                    orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
                     OrderDetailParsing details = controller.getDetail();
                     if (details != null) {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetails.fxml"));
+                        FXMLLoader loader = null;
+                        try {
+                            loader = new FXMLLoader(Class.forName("com.baro.controllers.orderDetail.OrderDetailsController").getResource("/orderDetails.fxml"));
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
                         try {
                             orderDetailsContainer.getChildren().clear();
                             Parent parent = loader.load();
@@ -462,7 +466,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
 //                    }
 //                }
 //            });
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return hBox;
@@ -654,13 +658,13 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         public AlarmPopUp() {
             try {
                 popup = new Popup();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/popUp.fxml"));
+                FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.controllers.PopUpController").getResource("/popUp.fxml"));
                 AnchorPane parent = loader.load();
                 controller = loader.<PopUpController>getController();
                 popup.getContent().add(parent);
                 popup.setX(Screen.getScreens().get(0).getBounds().getMaxX()-popup.getWidth()-1);
                 popup.setY(Screen.getScreens().get(0).getBounds().getMaxY()-popup.getHeight()-1);
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }

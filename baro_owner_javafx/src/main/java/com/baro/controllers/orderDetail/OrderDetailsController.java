@@ -199,14 +199,15 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
 //        }
 
         //order detail의 오른쪽 페이지에 추가할 내용 fxml 가져오기
-        FXMLLoader rightSideMenuDetailFXMLLoader = new FXMLLoader(getClass().getResource("/orderDetail_menuLayout.fxml"));
+
         try {
+            FXMLLoader rightSideMenuDetailFXMLLoader = new FXMLLoader(Class.forName("com.baro.controllers.orderDetail.OrderDetailMenuController").getResource("/orderDetail_menuLayout.fxml"));
             Parent rightSideMenuDetailParent = rightSideMenuDetailFXMLLoader.load();
             OrderDetailMenuController orderDetailMenuController = rightSideMenuDetailFXMLLoader.<OrderDetailMenuController>getController();
             orderDetailMenuController.setData(data);
             orderDetailMenuController.configureUI();
             receipt_preview_scroll.setContent((Node)rightSideMenuDetailParent);
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         phoneLabel.setText(order.phone);
@@ -283,7 +284,7 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
 //    }
     public void clickSettingTimes(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/SettingTimer.fxml"));
+            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.controllers.SettingTimerController").getResource("/SettingTimer.fxml"));
             Stage stage = new Stage(StageStyle.UTILITY);
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(Main.getPrimaryStage());
@@ -310,7 +311,7 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -511,12 +512,12 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
 
     @Override
     public void click() {
-        print_fxml_loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
         try {
+            print_fxml_loader = new FXMLLoader(Class.forName("com.baro.Printer.ReceiptPrint").getResource("/printInterface.fxml"));
             printParent = print_fxml_loader.load();
             printScene = new Scene(printParent);
             print = print_fxml_loader.<ReceiptPrint>getController();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         Stage stage = new Stage(StageStyle.UTILITY);
