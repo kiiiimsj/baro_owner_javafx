@@ -49,8 +49,8 @@ public class DiscountRateDialog implements Initializable {
         configureTopBar();
     }
     public void call(DiscountRateDialogInterface discountRateDialogInterface, int buttonType){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/discount_rate_dialog.fxml"));
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/discount_rate_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 

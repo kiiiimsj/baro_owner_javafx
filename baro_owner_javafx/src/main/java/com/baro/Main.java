@@ -65,7 +65,6 @@ public class Main extends Application implements MainController.ReturnOrderListW
 
         // 300 -> 500 -> 580
         Scene scene =  new Scene(root, LayoutSize.LOGIN_PAGE_WIDTH, LayoutSize.LOGIN_PAGE_HEIGHT);
-//        scene.getStylesheets().add(getClass().getResource("/fontstyle.css").toExternalForm());
         primaryStage.setX(LayoutSize.CENTER_X);
         primaryStage.setY(LayoutSize.CENTER_Y);
         primaryStage.setScene(scene);

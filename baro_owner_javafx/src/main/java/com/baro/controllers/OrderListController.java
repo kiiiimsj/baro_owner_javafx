@@ -73,7 +73,6 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         void moveSetting();
     }
 
-    private final String TAG = this.getClass().getSimpleName();
     public Label store_discount_rate;
     public VBox discount_rate_set;
     @FXML
@@ -129,7 +128,6 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         childContainer.setPrefHeight(LayoutSize.ORDER_LIST_HEIGHT);
 
         discount_rate_height.setPrefHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
-
         try {
             Media media = new Media(getClass().getResource("/baro_voice.mp3").toURI().toString());
             player = new MediaPlayer(media);
@@ -391,8 +389,9 @@ public class OrderListController implements DiscountRateController.ClickClose, D
 //                    orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
                     OrderDetailParsing details = controller.getDetail();
                     if (details != null) {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetails.fxml"));
+
                         try {
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetails.fxml"));
                             orderDetailsContainer.getChildren().clear();
                             Parent parent = loader.load();
                             orderDetailsContainer.getChildren().add(parent);
@@ -660,7 +659,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                 popup.getContent().add(parent);
                 popup.setX(Screen.getScreens().get(0).getBounds().getMaxX()-popup.getWidth()-1);
                 popup.setY(Screen.getScreens().get(0).getBounds().getMaxY()-popup.getHeight()-1);
-            } catch (IOException e) {
+            } catch (IOException /*| ClassNotFoundException*/ e) {
                 e.printStackTrace();
             }
         }

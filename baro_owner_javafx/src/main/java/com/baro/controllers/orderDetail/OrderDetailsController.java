@@ -199,8 +199,8 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
 //        }
 
         //order detail의 오른쪽 페이지에 추가할 내용 fxml 가져오기
-        FXMLLoader rightSideMenuDetailFXMLLoader = new FXMLLoader(getClass().getResource("/orderDetail_menuLayout.fxml"));
         try {
+            FXMLLoader rightSideMenuDetailFXMLLoader = new FXMLLoader(getClass().getResource("/orderDetail_menuLayout.fxml"));
             Parent rightSideMenuDetailParent = rightSideMenuDetailFXMLLoader.load();
             OrderDetailMenuController orderDetailMenuController = rightSideMenuDetailFXMLLoader.<OrderDetailMenuController>getController();
             orderDetailMenuController.setData(data);
@@ -320,7 +320,7 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
         return (jsonObject.getBoolean("result"));
     }
     public void clickCancel(ActionEvent event) {
-        orderDetailDialog.call(this, OrderDetailDialog.ORDER_COMPLETE);
+        orderDetailDialog.call(this, OrderDetailDialog.ORDER_CANCEL);
     }
     private void sendCustomerMessage() {
         try{
@@ -511,8 +511,9 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
 
     @Override
     public void click() {
-        print_fxml_loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
+
         try {
+            print_fxml_loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
             printParent = print_fxml_loader.load();
             printScene = new Scene(printParent);
             print = print_fxml_loader.<ReceiptPrint>getController();

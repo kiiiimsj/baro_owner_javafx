@@ -87,8 +87,9 @@ public class InternetConnectDialog implements Initializable {
         });
     }
     public void call(Reload reload) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/internet_connect_dialog.fxml"));
+
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/internet_connect_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 

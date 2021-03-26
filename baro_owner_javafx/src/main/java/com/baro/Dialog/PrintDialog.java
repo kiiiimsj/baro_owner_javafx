@@ -60,8 +60,8 @@ public class PrintDialog implements Initializable {
         configureTopBar();
     }
     public void call(PrintDialogInterface printDialogInterface, int index, int buttonType) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/print_dialog.fxml"));
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/print_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 

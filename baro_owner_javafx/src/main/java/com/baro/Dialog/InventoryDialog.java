@@ -56,8 +56,9 @@ public class InventoryDialog implements Initializable {
     }
 
     public void call(InventoryDialogInterface inventoryDialogInterface, int menuId, int buttonType, JFXToggleButton toggleButton){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/inventory_dialog.fxml"));
+
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/inventory_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 

@@ -48,7 +48,6 @@ public class MainController implements OrderListController.MoveToSetting{
     public void moveSetting() {
         tabContainer.getSelectionModel().selectLast();
     }
-    private final String TAG = this.getClass().getSimpleName();
     OrderListController orderListController;
 
     public Label digital_clock;

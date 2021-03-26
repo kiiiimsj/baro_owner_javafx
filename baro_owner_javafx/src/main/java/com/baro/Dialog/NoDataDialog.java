@@ -42,8 +42,8 @@ public class NoDataDialog implements Initializable {
         configureTopBar();
     }
     public void call(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/no_data_dialog.fxml"));
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/no_data_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
@@ -64,8 +64,9 @@ public class NoDataDialog implements Initializable {
         }
     }
     public void call(String content){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/no_data_dialog.fxml"));
+
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/no_data_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
