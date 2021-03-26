@@ -45,7 +45,7 @@ public class Main extends Application implements MainController.ReturnOrderListW
         charset.setAccessible(true);
         charset.set(null,null);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+        FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.controllers.LoginController").getResource("/login.fxml"));
         Parent root = loader.load();
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.getIcons().add(new Image("icon/appicon_512_foreground.png"));

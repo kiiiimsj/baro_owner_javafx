@@ -345,7 +345,7 @@ public class MainController implements OrderListController.MoveToSetting{
     private void preConfigureTabForOrderList(Tab tab, AnchorPane containerPane) {
         System.out.println("preConfigureTabForOrderList ");
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/order_list.fxml"));
+            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.controllers.OrderListController").getResource("/order_list.fxml"));
             Parent contentView = loader.load();
 
             DateConverter.IS_TIMER_THREAD_START = true;
@@ -362,7 +362,7 @@ public class MainController implements OrderListController.MoveToSetting{
             AnchorPane.setRightAnchor(contentView, 0.0);
             AnchorPane.setLeftAnchor(contentView, 0.0);
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -380,7 +380,7 @@ public class MainController implements OrderListController.MoveToSetting{
                 DateConverter.fifteenTimerStart(orderListController.baro_discount_timer, orderListController);
             }else {
                 System.out.println("getId" + tab.getId().substring(0, tab.getId().indexOf("Tab")));
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/"+tab.getId().substring(0, tab.getId().indexOf("Tab"))+".fxml"));
+                FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.controllers.MainController").getResource("/"+tab.getId().substring(0, tab.getId().indexOf("Tab"))+".fxml"));
                 Parent contentView = loader.load();
                 DateConverter.fifteenTimerStop();
 
@@ -391,7 +391,7 @@ public class MainController implements OrderListController.MoveToSetting{
                 AnchorPane.setLeftAnchor(contentView, 0.0);
             }
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

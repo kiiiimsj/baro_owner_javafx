@@ -151,7 +151,7 @@ public class LoginController implements Initializable {
                    preferences.remove("userPw");
                }
                Stage primaryStage = (Stage)login_btn.getScene().getWindow();
-               FXMLLoader loader = new FXMLLoader(getClass().getResource("/main_page.fxml"));
+               FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.controllers.MainController").getResource("/main_page.fxml"));
 
 
 
@@ -188,6 +188,8 @@ public class LoginController implements Initializable {
        } catch (IOException e) {
            noDataDialog = new NoDataDialog();
            noDataDialog.call("서버와의 연결이 끊겼습니다. 인터넷 연결을 확인해주세요.");
+           e.printStackTrace();
+       } catch (ClassNotFoundException e) {
            e.printStackTrace();
        }
     }
