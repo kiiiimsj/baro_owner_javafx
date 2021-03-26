@@ -53,8 +53,9 @@ public class OrderDetailDialog implements Initializable {
         configureTopBar();
     }
     public void call(OrderDetailDialogInterface orderDetailDialogInterface, int buttonType){
+
         try {
-            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.Dialog.OrderDetailDialog").getResource("/order_detail_dialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/order_detail_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
@@ -73,7 +74,7 @@ public class OrderDetailDialog implements Initializable {
             stage.setY(LayoutSize.CENTER_IN_PARENT_Y);
 
             stage.show();
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

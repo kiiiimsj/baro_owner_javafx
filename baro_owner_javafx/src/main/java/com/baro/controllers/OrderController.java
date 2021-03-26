@@ -56,7 +56,12 @@ public class OrderController implements Initializable{
         order_count.setText("메뉴 " + orderData.order_count + "개 |");
 
         if(orderData.discount_rate != 0 ){
-            price.setText((orderData.total_price - (int)(orderData.total_price * (orderData.discount_rate / 100.0))) +"원");
+            if(orderData.discount_price != 0) {
+                price.setText((orderData.total_price - (int)(orderData.total_price * (orderData.discount_rate / 100.0)) - orderData.discount_price) + "원");
+            }else {
+                price.setText((orderData.total_price - (int)(orderData.total_price * (orderData.discount_rate / 100.0)) + "원"));
+            }
+
         }else {
             price.setText(orderData.total_price+"원");
         }

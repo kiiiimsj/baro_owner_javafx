@@ -58,7 +58,7 @@ public class InventoryDialog implements Initializable {
     public void call(InventoryDialogInterface inventoryDialogInterface, int menuId, int buttonType, JFXToggleButton toggleButton){
 
         try {
-            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.Dialog.InventoryDialog").getResource("/inventory_dialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/inventory_dialog.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
@@ -78,7 +78,7 @@ public class InventoryDialog implements Initializable {
             stage.setY(LayoutSize.CENTER_IN_PARENT_Y);
 
             stage.show();
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

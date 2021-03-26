@@ -85,13 +85,15 @@ public class OrderDetailMenuController implements Initializable {
         for (int i = 0;i< orderDetail.extras.size();i++){
             Extras extras = orderDetail.extras.get(i);
             try {
-                FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.controllers.orderDetail.OrderDetailExtraController").getResource("/OrderDetail_extraLayout.fxml"));
+//                FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetail.extraLayout.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/OrderDetail_extraLayout.fxml"));
+//                loader.setLocation(getClass().com.baro.controllers.orderDetail.OrderDetailExtraController").getResource("/orderDetail_extraLayout.fxml"));
                 GridPane gridPane = loader.load();
                 OrderDetailExtraController controller = loader.<OrderDetailExtraController>getController();
                 controller.setData(extras);
                 controller.configureUI();
                 menu_content.getChildren().add(gridPane);
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
