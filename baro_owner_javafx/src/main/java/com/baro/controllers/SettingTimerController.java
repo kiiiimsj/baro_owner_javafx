@@ -1,8 +1,10 @@
 package com.baro.controllers;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,9 +13,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.java_websocket.client.WebSocketClient;
@@ -32,6 +37,8 @@ import java.util.Set;
 import java.util.prefs.Preferences;
 
 public class SettingTimerController implements Initializable {
+    public HBox top_bar;
+    public FontAwesomeIconView close;
     @FXML
     private Button button1;
     @FXML
@@ -54,9 +61,38 @@ public class SettingTimerController implements Initializable {
     private String phone;
     Preferences preferences = Preferences.userRoot();
     private final SimpleBooleanProperty changeToAccept = new SimpleBooleanProperty();
+
+    private double initialX;
+    private double initialY;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        top_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (me.getButton() != MouseButton.MIDDLE) {
+                    initialX = me.getSceneX();
+                    initialY = me.getSceneY();
+                }
+            }
+        });
 
+        top_bar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (me.getButton() != MouseButton.MIDDLE) {
+                    top_bar.getScene().getWindow().setX(me.getScreenX() - initialX);
+                    top_bar.getScene().getWindow().setY(me.getScreenY() - initialY);
+                }
+            }
+        });
+        close.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Stage stage = (Stage) close.getScene().getWindow();
+                stage.close();
+            }
+        });
     }
     public SimpleBooleanProperty getChangeToAccept(){
         return changeToAccept;

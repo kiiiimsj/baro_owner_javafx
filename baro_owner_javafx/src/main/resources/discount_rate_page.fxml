@@ -32,7 +32,11 @@
 
         <HBox alignment="CENTER" spacing="10"  maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity">
             <Button fx:id="minus" text="-" prefHeight="20" style="-fx-font-size: 20pt;-fx-text-fill: white;-fx-font-weight: bold;
-            -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-focus-color: gray; " HBox.hgrow="ALWAYS"/>
+            -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-focus-color: gray;-fx-background-color: #8333e6;" HBox.hgrow="ALWAYS">
+                <padding>
+                    <Insets right="18" left="18"/>
+                </padding>
+            </Button>
             <Label fx:id="setNewDiscountRate"  prefWidth="50" style="-fx-font-size: 14pt;-fx-text-fill: #8333e6;-fx-font-weight: bold;
             -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-focus-color: gray; -fx-background-color: white; -fx-background-radius: 5px;" textAlignment="CENTER" alignment="CENTER"  >
                 <padding>
@@ -40,11 +44,15 @@
                 </padding>
             </Label>
             <Button fx:id="plus" text="+" style="-fx-font-size: 20pt;-fx-text-fill: white;-fx-font-weight: bold;
-            -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-focus-color: gray;"/>
+            -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-focus-color: gray;-fx-background-color: #8333e6;">
+                <padding>
+                    <Insets right="18" left="18"/>
+                </padding>
+            </Button>
         </HBox>
 
     </VBox>
-    <HBox alignment="BOTTOM_CENTER">
+    <HBox alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
         <Button fx:id="setButton" text="설정" maxWidth="Infinity"  style="-fx-font-size: 20pt; -fx-text-fill: white;-fx-font-weight: bold;-fx-font-family: 'Noto Sans CJK KR Regular';
 -fx-background-color: #8333e6;-fx-background-radius: 5" onAction="#clickSetButton" HBox.hgrow="ALWAYS"/>
     </HBox>

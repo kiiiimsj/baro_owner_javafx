@@ -13,6 +13,8 @@ import com.google.gson.Gson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -68,10 +70,12 @@ public class OrderHistoryController implements Initializable {
     Preferences preferences = Preferences.userRoot();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("init");
         search_hbox.setPrefWidth(LayoutSize.ORDER_HISTORY_TOP_AREA_WIDTH);
         configuration();
     }
     private void configuration() {
+//        search_by_phone
         noDataDialog = new NoDataDialog();
         String pattern = "yyyy-MM-dd";
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
@@ -101,23 +105,19 @@ public class OrderHistoryController implements Initializable {
         look_up_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(clickSearch) {
-                    search_by_phone.setText("");
+                if(!search_by_phone.getText().toString().equals("")) {
+                    getOrderCompleteListByPhone(search_by_phone.getText());
+                }else {
+                    getOrderCompleteListByDate();
                 }
-                getOrderCompleteListByDate();
-            }
-        });
-        button_search_by_phone.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                clickSearch = true;
-                getOrderCompleteListByDate();
+//                search_by_phone.setText("");
             }
         });
         see_done.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 clickSeeDoneButton = true;
+
                 getOrderCompleteListByDate();
 
             }
@@ -131,7 +131,60 @@ public class OrderHistoryController implements Initializable {
             }
         });
     }
+    public void getOrderCompleteListByPhone(String phone){
+        if(start_date_picker.getValue() == null && end_date_picker.getValue() == null) {
+            return;
+        }
+        final int store_id = preferences.getInt("store_id", 0);
+        try{
+            URL url = new URL("http://3.35.180.57:8080/OrderCompleteListByDateAndPhone.do");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("POST");
+            http.setRequestProperty("Content-Type","application/json;utf-8");
+            http.setRequestProperty("Accept","application/json");
+            http.setDoOutput(true);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("store_id", store_id);
+            jsonObject.put("start_date", start_date_picker.getValue());
+            jsonObject.put("end_date", end_date_picker.getValue());
+            jsonObject.put("phone", phone);
+
+            OutputStream os = http.getOutputStream();
+
+            byte[] input = jsonObject.toString().getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer bf = new StringBuffer();
+
+            while((line = br.readLine()) != null) {
+                bf.append(line);
+            }
+            br.close();
+
+            System.out.println("response" + bf.toString());
+            if(new JSONObject(bf.toString()).getBoolean("result")){
+                search_hbox.setVisible(true);
+                parsingCompleteList(bf.toString());
+            }else {
+                dailySales.setVisible(false);
+                search_hbox.setVisible(false);
+                totalCount.setVisible(false);
+                noDataDialog.call();
+            }
+
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void getOrderCompleteListByDate() {
+        System.out.println("reload");
         if(start_date_picker.getValue() == null && end_date_picker.getValue() == null) {
             return;
         }
@@ -208,15 +261,15 @@ public class OrderHistoryController implements Initializable {
         for (int i = 0; i < orderList.orders.size(); i++) {
 
             Order order = orderList.orders.get(i);
-            if(clickSearch) {
-                if(search_by_phone.getText().length() != 0) {
-                    if(!orderList.orders.get(i).phone.equals(searchByPhone(search_by_phone.getText()))) {
-                        continue;
-                    }
-                }else {
-                    clickSearch = false;
-                }
-            }
+//            if(clickSearch) {
+//                if(search_by_phone.getText().length() != 0) {
+//                    if(!orderList.orders.get(i).phone.equals(searchByPhone(search_by_phone.getText()))) {
+//                        continue;
+//                    }
+//                }else {
+//                    clickSearch = false;
+//                }
+//            }
 
             Label orderStateBox = new Label(GetState.getState(order.order_state));
             orderStateBox.setPrefSize(80, 50);
@@ -269,13 +322,13 @@ public class OrderHistoryController implements Initializable {
             Label phoneText = new Label("고객번호 : "+order.phone);
             Label receiptIdText = new Label("영수증번호 : " +order.receipt_id);
 
-            Label discountText = new Label("할인액 : "+order.discount_price+"");
+            Label discountText = new Label("할인액 : "+order.discount_price+"원");
             if(order.discount_price != 0 ) {
                 discountText.setVisible(true);
             }else {
                 discountText.setVisible(false);
             }
-            Label discountRateText = new Label("바로할인액 : " + ((int)(order.total_price * (order.discount_rate / 100.0))) +"");
+            Label discountRateText = new Label("바로할인액 : " + ((int)(order.total_price * (order.discount_rate / 100.0))) +"원");
             if(order.discount_rate != 0) {
                 discountRateText.setVisible(true);
             }else {
@@ -283,11 +336,11 @@ public class OrderHistoryController implements Initializable {
             }
             HBox totalPriceHBox = new HBox();
             Label totalPriceLabel = new Label("총 액 : ");
-            Text totalPriceText = new Text (order.total_price+"");
+            Text totalPriceText = new Text (order.total_price+"원");
             Label totalPriceDiscountRateText;
 
             if(order.discount_rate != 0) {
-                totalPriceDiscountRateText = new Label(" > "+((order.total_price - (int)(order.total_price * (order.discount_rate / 100.0))) - order.discount_price)+"");
+                totalPriceDiscountRateText = new Label(" > "+((order.total_price - (int)(order.total_price * (order.discount_rate / 100.0))) - order.discount_price)+"원");
                 totalPriceDiscountRateText.setStyle("-fx-font-size: 20pt; ");
                 totalPriceText.setStrikethrough(true);
                 totalPriceHBox.getChildren().addAll(totalPriceLabel, totalPriceText, totalPriceDiscountRateText);
@@ -376,17 +429,34 @@ public class OrderHistoryController implements Initializable {
         if(!orderDetailParsing.result || orderDetailParsing.orders == null) {
             return;
         }
-        makeDetail(orderDetailParsing, order);
+        makeDetail(orderDetailParsing, order, cell);
     }
-    private void makeDetail(OrderDetailParsing orderDetailParsing, Order order) {
+    private void makeDetail(OrderDetailParsing orderDetailParsing, Order order, HBox cell) {
         try {
-            FXMLLoader loader = new FXMLLoader(Class.forName("com.baro.controllers.orderDetail.OrderDetailsController").getResource("/orderDetails.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetails.fxml"));
             Parent parent = loader.load();
             OrderDetailsController detailcontroller = loader.<OrderDetailsController>getController();
 
             detailcontroller.withOutButton = true;
             detailcontroller.setData(orderDetailParsing ,order);
             detailcontroller.configureLeftUI();
+            detailcontroller.getChangeToCancel().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    System.out.println("cancel");
+                    if (newValue) {
+                        System.out.println("cancel_new_value_true");
+                        ((Label)((HBox)(cell.getChildren().get(0))).getChildren().get(2)).setText("취소");
+                        String doneStr = see_done.getText();
+                        String cancelStr =see_cancel.getText();
+                        int doneCount = Integer.parseInt(doneStr.substring(2, doneStr.indexOf("건")));
+                        int cancelCount = Integer.parseInt(cancelStr.substring(2, doneStr.indexOf("건")));
+                        see_done.setText("완료\n"+doneCount+"건");
+                        see_cancel.setText("취소\n"+cancelCount+ "건");
+                    }
+                    System.out.println("cancel_new_value_false");
+                }
+            });
             Scene scene = new Scene(parent);
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -394,7 +464,7 @@ public class OrderHistoryController implements Initializable {
             //stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
