@@ -284,8 +284,8 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
     public void clickSettingTimes(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/SettingTimer.fxml"));
-            Stage stage = new Stage(StageStyle.UTILITY);
-            stage.initModality(Modality.WINDOW_MODAL);
+            Stage stage = new Stage(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(Main.getPrimaryStage());
             stage.setTitle("시간 설정");
             Parent parent = loader.load();

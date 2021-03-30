@@ -66,7 +66,7 @@ public class LayoutSize {
     /**
      * Order History Attribute Size
      **/
-    public static int ORDER_HISTORY_TOP_AREA_WIDTH = 580;
+    public static int ORDER_HISTORY_TOP_AREA_WIDTH = 180;
     /**
      * Statistics Attribute Size
      **/

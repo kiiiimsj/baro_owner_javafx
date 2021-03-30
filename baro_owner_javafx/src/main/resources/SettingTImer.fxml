@@ -11,9 +11,23 @@
 
 
 <?import javafx.geometry.Insets?>
-<AnchorPane fx:controller="com.baro.controllers.SettingTimerController" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-style="-fx-background-color: #3d3d3d">
-      <GridPane prefHeight="300" prefWidth="500.0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10" hgap="10" vgap="10">
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<VBox fx:controller="com.baro.controllers.SettingTimerController" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            style="-fx-background-color: #3d3d3d; -fx-border-color: gray;-fx-border-width: 1">
+    <padding>
+        <Insets left="10" right="10"/>
+    </padding>
+    <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d"  maxHeight="Infinity" minHeight="-Infinity" minWidth="-Infinity">
+        <padding>
+            <Insets top="10" bottom="10" right="10"/>
+        </padding>
+        <FontAwesomeIconView fx:id="close" glyphName="CLOSE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
+            <HBox.margin>
+                <Insets top="7"/>
+            </HBox.margin>
+        </FontAwesomeIconView>
+    </HBox>
+      <GridPane prefHeight="300" prefWidth="500.0" hgap="10" vgap="10">
         <columnConstraints>
           <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
@@ -36,7 +50,10 @@ style="-fx-background-color: #3d3d3d">
             <Button fx:id="button60" prefWidth="Infinity" prefHeight="Infinity" mnemonicParsing="false" text="60분" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" onAction="#add60"
                     style="-fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
       </GridPane>
-        <VBox prefWidth="500" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.leftAnchor="10">
+        <VBox prefWidth="500" alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets bottom="10"/>
+            </padding>
             <HBox prefWidth="500" alignment="TOP_CENTER">
                 <Label text="예상 제조 시간 :" style="-fx-font-family: 'Noto Sans CJK KR Regular'; -fx-font-size: 20pt; -fx-text-fill: white"/>
                 <Label fx:id="time" text="0" alignment="CENTER" contentDisplay="CENTER" prefWidth="40.0" textAlignment="CENTER" underline="true"
@@ -47,7 +64,7 @@ style="-fx-background-color: #3d3d3d">
                     <Insets bottom="10"/>
                 </HBox.margin>
             </HBox>
-            <HBox prefWidth="500">
+            <HBox prefWidth="500" alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
                 <Button prefWidth="250" mnemonicParsing="false" text="제조 시작" onAction="#orderAccept"
                         style="-fx-text-fill: white; -fx-background-color: #8333e6; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-font-size: 20pt">
                     <HBox.margin>
@@ -60,4 +77,4 @@ style="-fx-background-color: #3d3d3d">
         </VBox>
 
 
-</AnchorPane>
+</VBox>
