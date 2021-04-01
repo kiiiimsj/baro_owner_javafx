@@ -209,11 +209,11 @@ public class OrderListController implements DiscountRateController.ClickClose, D
             InternetConnectDialog internetConnectDialog = new InternetConnectDialog();
             internetConnectDialog.call(reload);
         }
-        GetDiscountRate();
+        getDiscountRate();
         configureOrderListView();
         store_discount_rate.setText(discountRate+"%");
     }
-    private void GetDiscountRate() {
+    private void getDiscountRate() {
         try {
             URL url = new URL("http://3.35.180.57:8080/GetStoreDiscount.do?store_id="+store_id);
             URLConnection con = url.openConnection();
@@ -635,11 +635,12 @@ public class OrderListController implements DiscountRateController.ClickClose, D
 
     @Override
     public void clickSet() {
-        if(preferences.getInt("new_discount_rate", -1) != -1) {
-            GetDiscountRate();
+        int newDiscountRate = preferences.getInt("new_discount_rate", -1);
+        if(newDiscountRate != -1) {
+            getDiscountRate();
             new_store_discount_rate.setVisible(true);
             arrow_right.setVisible(true);
-            new_store_discount_rate.setText(discountRate+"%");
+            new_store_discount_rate.setText(newDiscountRate+"%");
         }else {
             new_store_discount_rate.setVisible(false);
             arrow_right.setVisible(false);

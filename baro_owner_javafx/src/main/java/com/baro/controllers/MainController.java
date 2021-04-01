@@ -347,11 +347,12 @@ public class MainController implements OrderListController.MoveToSetting{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/order_list.fxml"));
             Parent contentView = loader.load();
 
-            DateConverter.IS_TIMER_THREAD_START = true;
             orderListController = loader.<OrderListController>getController();
             orderListController.moveToSetting = this::moveSetting;
             orderListController.reload = reload;
+
             DateConverter.fifteenTimerStart(orderListController.baro_discount_timer, orderListController);
+
             orderList = orderListController.orderList;
             returnOrderListWhenApplicationClose.returnOrderList(orderList);
 
@@ -370,14 +371,12 @@ public class MainController implements OrderListController.MoveToSetting{
         try {
             if(tab.getId().equals("order_listTab")) {
                 orderListController.configureOrderListView();
-                DateConverter.IS_TIMER_THREAD_START = true;
-                DateConverter.fifteenTimerStart(orderListController.baro_discount_timer, orderListController);
             }else {
                 containerPane.getChildren().clear();
                 System.out.println("getId" + tab.getId().substring(0, tab.getId().indexOf("Tab")));
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/"+tab.getId().substring(0, tab.getId().indexOf("Tab"))+".fxml"));
                 Parent contentView = loader.load();
-                DateConverter.fifteenTimerStop();
+//                DateConverter.fifteenTimerStop();
 
                 containerPane.getChildren().add(contentView);
                 AnchorPane.setTopAnchor(contentView, 0.0);

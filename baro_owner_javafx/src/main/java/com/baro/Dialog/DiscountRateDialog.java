@@ -99,7 +99,7 @@ public class DiscountRateDialog implements Initializable {
     public void configureBottom() {
         switch (buttonType) {
             case CHANGE_DISCOUNT_RATE:
-                dialog_content.setText("할인률을 변경하시겠습니까?.");
+                dialog_content.setText("할인률을 변경하시겠습니까?\n변경된 할인률은 다음 15분에 적용됩니다.");
                 break;
         }
         no.setOnAction(new EventHandler<ActionEvent>() {
