@@ -181,7 +181,7 @@ public class DateConverter {
                     String secondString = DateConverter.pad(2, '0', calendar.get(Calendar.SECOND) + "");
                     try {
                         Thread.sleep(1000);
-                        final int minuteFinal = 1 - (Integer.parseInt(minuteString) % 2);
+                        final int minuteFinal = 14 - (Integer.parseInt(minuteString) % 15);
                         ;
                         final int secondFinal = 59 - Integer.parseInt(secondString);
 
