@@ -125,45 +125,10 @@ public class DiscountRateController implements Initializable, DiscountRateDialog
     public void CHANGE_DISCOUNT_RATE() {
         int newDiscountRate = Integer.parseInt(setNewDiscountRate.getText());
         preferences.putInt("new_discount_rate", newDiscountRate);
-        try {
-            URL url = new URL("http://3.35.180.57:8080/SetStoreDiscount.do");
-            URLConnection con = url.openConnection();
-            HttpURLConnection http = (HttpURLConnection) con;
-            http.setRequestMethod("POST");
-            http.setRequestProperty("Content-Type", "application/json;utf-8");
-            http.setRequestProperty("Accept", "application/json");
-            http.setDoOutput(true);
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("store_id", storeId);
-            jsonObject.put("discount_rate", newDiscountRate);
-            OutputStream os = http.getOutputStream();
 
-            byte[] input = jsonObject.toString().getBytes("utf-8");
-            os.write(input, 0, input.length);
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String line;
-            StringBuffer bf = new StringBuffer();
 
-            while ((line = br.readLine()) != null) {
-                bf.append(line);
-            }
-            br.close();
-
-            System.out.println("response" + bf.toString());
-            if(GetBool.getBool(bf.toString())) {
-                clickClose.clickSet();
-                Stage stage = (Stage) setButton.getScene().getWindow();
-                stage.close();
-            }else {
-
-            }
-        }
-        catch(MalformedURLException e){
-            e.printStackTrace();
-        } catch(ProtocolException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        }
+        clickClose.clickSet();
+        Stage stage = (Stage) setButton.getScene().getWindow();
+        stage.close();
     }
 }

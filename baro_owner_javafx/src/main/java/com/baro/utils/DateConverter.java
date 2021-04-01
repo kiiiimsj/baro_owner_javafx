@@ -2,8 +2,15 @@ package com.baro.utils;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.*;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,6 +18,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.*;
+import java.util.prefs.Preferences;
 
 public class DateConverter {
     public interface TimerReset{
@@ -162,6 +170,7 @@ public class DateConverter {
         return sb.toString();
     }
     public static void fifteenTimerStart(Label timerLabel, TimerReset timerReset) {
+        IS_TIMER_THREAD_START = true;
         new Thread((new Runnable() {
             @Override
             public void run() {
@@ -176,9 +185,14 @@ public class DateConverter {
                         ;
                         final int secondFinal = 59 - Integer.parseInt(secondString);
 
+                        if(minuteFinal == 0 && secondFinal <= 5) {
+                            changeDiscountRate();
+                        }
+
                         if (minuteFinal == 0 && secondFinal == 1) {
                             timerReset.timerReset();
                         }
+
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
@@ -195,6 +209,52 @@ public class DateConverter {
     }
     public static void fifteenTimerStop() {
         IS_TIMER_THREAD_START = false;
+    }
+    private static void changeDiscountRate() {
+        Preferences preferences = Preferences.userRoot();
+        int getNewDiscountRate = preferences.getInt("new_discount_rate", 0);
+        int storeId = preferences.getInt("store_id", 0);
+        if(storeId == 0 || getNewDiscountRate == -1) {
+            return;
+        }
+        try {
+            URL url = new URL("http://3.35.180.57:8080/SetStoreDiscount.do");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("POST");
+            http.setRequestProperty("Content-Type", "application/json;utf-8");
+            http.setRequestProperty("Accept", "application/json");
+            http.setDoOutput(true);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("store_id", storeId);
+            jsonObject.put("discount_rate", getNewDiscountRate);
+            OutputStream os = http.getOutputStream();
+
+            byte[] input = jsonObject.toString().getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer bf = new StringBuffer();
+
+            while ((line = br.readLine()) != null) {
+                bf.append(line);
+            }
+            br.close();
+
+            System.out.println("response" + bf.toString());
+            if(GetBool.getBool(bf.toString())) {
+                preferences.putInt("new_discount_rate", -1);
+            }else {
+
+            }
+        }
+        catch(MalformedURLException e){
+            e.printStackTrace();
+        } catch(ProtocolException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
     }
     public static void test30Thread(Label timerLabel, TimerReset timerReset) {
         new Thread(new Runnable() {
