@@ -257,7 +257,7 @@ public class StatisticController implements Initializable {
                 daily_vbox.setVisible(true);
                 total_price_vbox.setVisible(true);
             }else {
-                noDataDialog.call();
+                noDataDialog.call(new JSONObject(bf.toString()).getString("message"));
                 day_sell_button.setVisible(false);
                 menu_sell_button.setVisible(false);
                 daily_vbox.setVisible(false);
@@ -339,8 +339,12 @@ public class StatisticController implements Initializable {
      **************************************************************************/
     private void parsingStatisticMenuData(String jsonToString) {
         statisticMenuParsing = new Gson().fromJson(jsonToString, StatisticMenuParsing.class);
-        setMenuStatisticData();
-
+        if(statisticMenuParsing.menuStatisticsList == null || statisticMenuParsing.menuStatisticsList.size() == 0) {
+            noDataDialog = new NoDataDialog();
+            noDataDialog.call("데이터가 존재하지 않습니다.");
+        }else {
+            setMenuStatisticData();
+        }
     }
 
 
@@ -403,8 +407,14 @@ public class StatisticController implements Initializable {
      **************************************************************************/
     private void parsingStatisticData(String toString) {
         statisticParsing = new Gson().fromJson(toString, StatisticsParsing.class);
-        setStatisticData();
-        setDailySalesStatisticData();
+        if(statisticParsing.statistics.size() == 0 || statisticParsing.statistics == null) {
+            noDataDialog = new NoDataDialog();
+            noDataDialog.call("데이터가 존재하지 않습니다.");
+        }
+        else {
+            setStatisticData();
+            setDailySalesStatisticData();
+        }
     }
 
 

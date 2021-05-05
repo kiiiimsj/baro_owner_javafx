@@ -224,7 +224,7 @@ public class OrderHistoryController implements Initializable {
                 dailySales.setVisible(false);
                 search_hbox.setVisible(false);
                 totalCount.setVisible(false);
-                noDataDialog.call();
+                noDataDialog.call(new JSONObject(bf.toString()).getString("message"));
             }
         }
         catch (MalformedURLException e) {
@@ -243,9 +243,6 @@ public class OrderHistoryController implements Initializable {
         }
         Collections.reverse(orderList.orders);
         dailySales.setVisible(true);
-        if(dailySales.getItems().size() != 0) {
-            dailySales.getItems().clear();
-        }
 
         if(orderList.orders.size() == 0) {
             HBox empty = new HBox();
@@ -253,6 +250,11 @@ public class OrderHistoryController implements Initializable {
             emptyLabel.setStyle("-fx-font-size: 30px");
             empty.getChildren().add(emptyLabel);
             dailySales.getItems().add(empty);
+            return;
+        }
+
+        if(dailySales.getItems().size() != 0) {
+            dailySales.getItems().clear();
         }
 
         int doneCount = 0;
@@ -448,13 +450,15 @@ public class OrderHistoryController implements Initializable {
                         System.out.println("cancel_new_value_true");
                         ((Label)((HBox)(cell.getChildren().get(0))).getChildren().get(2)).setText("취소");
                         String doneStr = see_done.getText();
-                        String cancelStr =see_cancel.getText();
+                        String cancelStr = see_cancel.getText();
                         int doneCount = Integer.parseInt(doneStr.substring(2, doneStr.indexOf("건")));
                         int cancelCount = Integer.parseInt(cancelStr.substring(2, doneStr.indexOf("건")));
                         see_done.setText("완료\n"+doneCount+"건");
                         see_cancel.setText("취소\n"+cancelCount+ "건");
+                    }else {
+                        System.out.println("cancel_new_value_false");
                     }
-                    System.out.println("cancel_new_value_false");
+
                 }
             });
             Scene scene = new Scene(parent);

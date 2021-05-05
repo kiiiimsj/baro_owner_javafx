@@ -110,7 +110,7 @@ public class NoDataDialog implements Initializable {
         });
     }
     public void configureBottom() {
-        if(content.equals("")) {
+        if(content == null || content.equals("")) {
             dialog_content.setText("해당 기간동안의\n데이터가 없습니다");
         }else {
             if(content.length() > 10) {

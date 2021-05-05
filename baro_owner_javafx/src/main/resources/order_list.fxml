@@ -82,7 +82,10 @@
             </HBox>
     <VBox fx:id="no_data" alignment="CENTER" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="100" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10"
           visible="false" managed="false" pickOnBounds="false"
-          style="-fx-background-color: #3d3d3d;-fx-background-radius: 5; -fx-border-color: white;-fx-border-width: 2;-fx-border-radius: 5">
-        <Label alignment="CENTER" textAlignment="CENTER" text="주문내역이 없습니다." style="-fx-font-size: 30pt;-fx-text-fill: white;"/>
+          style="-fx-background-color:#3d3d3d;-fx-background-radius: 5; -fx-border-color: white;-fx-border-width: 2;-fx-border-radius: 5">
+<!--        <HBox prefWidth="300" style="-fx-background-color: #3d3d3d" pickOnBounds="false"/>-->
+<!--        <HBox prefWidth="Infinity" style="-fx-background-color: #3d3d3d" pickOnBounds="false">-->
+            <Label alignment="CENTER" textAlignment="CENTER" text="주문내역이 없습니다." style="-fx-font-size: 30pt;-fx-text-fill: white;"/>
+<!--        </HBox>-->
     </VBox>
 </AnchorPane>
