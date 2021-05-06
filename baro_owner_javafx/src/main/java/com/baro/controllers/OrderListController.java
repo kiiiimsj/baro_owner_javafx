@@ -340,7 +340,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                 parsingOrders(bf.toString());
                 getPageCount();
                 if (orderList.orders.size() < ONEPAGEORDER){
-                    setList(0, orderList.orders.size() % ONEPAGEORDER);
+                    setList(0, (orderList.orders.size()-1) % ONEPAGEORDER);
                 }else{
                     setList( orderList.orders.size() - 1 - ONEPAGEORDER,orderList.orders.size() - 1);
                 }
@@ -360,13 +360,15 @@ public class OrderListController implements DiscountRateController.ClickClose, D
 
     private void parsingOrders(String toString) {
         orderList = new Gson().fromJson(toString, OrderList.class);
-        for (int i = 0; i < orderList.orders.size(); i++) {
-            if(!preferences.get(orderList.orders.get(i).receipt_id, "").equals("")) {
-                String receiptId = preferences.get(orderList.orders.get(i).receipt_id, "");
-                for (int j = 0; j < orderList.orders.size(); j++) {
-                    if (orderList.orders.get(j).getReceipt_id().equals(receiptId)) {
-                        String time = preferences.get(orderList.orders.get(i).receipt_id + "time", "");
-                        orderList.orders.get(i).setCompleteTime(time);
+        if(orderList.orders.size() != 0) {
+            for (int i = 0; i < orderList.orders.size(); i++) {
+                if(!preferences.get(orderList.orders.get(i).receipt_id, "").equals("")) {
+                    String receiptId = preferences.get(orderList.orders.get(i).receipt_id, "");
+                    for (int j = 0; j < orderList.orders.size(); j++) {
+                        if (orderList.orders.get(j).getReceipt_id().equals(receiptId)) {
+                            String time = preferences.get(orderList.orders.get(i).receipt_id + "time", "");
+                            orderList.orders.get(i).setCompleteTime(time);
+                        }
                     }
                 }
             }
@@ -493,8 +495,9 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         }else {
             paging_ui.setVisible(true);
         }
-        childContainer.getChildren().remove(0,childContainer.getChildren().size());
-        for (int i = endIndex; i > startIndex; i--) {
+
+        childContainer.getChildren().remove(0, childContainer.getChildren().size());
+        for (int i = endIndex; i >= startIndex; --i) {
             HBox hBox = makeCell(i);
             childContainer.getChildren().add(hBox);
         }
