@@ -497,7 +497,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         }
 
         childContainer.getChildren().remove(0, childContainer.getChildren().size());
-        for (int i = endIndex; i >= startIndex; --i) {
+        for (int i = endIndex; i > startIndex; --i) {
             HBox hBox = makeCell(i);
             childContainer.getChildren().add(hBox);
         }
