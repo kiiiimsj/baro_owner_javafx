@@ -497,7 +497,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         }
 
         childContainer.getChildren().remove(0, childContainer.getChildren().size());
-        for (int i = endIndex; i >= startIndex; --i) {
+        for (int i = endIndex; i > startIndex; --i) {
             HBox hBox = makeCell(i);
             childContainer.getChildren().add(hBox);
         }
@@ -658,7 +658,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
             try {
                 popup = new Popup();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/popUp.fxml"));
-                AnchorPane parent = loader.load();
+                VBox parent = loader.load();
                 controller = loader.<PopUpController>getController();
                 popup.getContent().add(parent);
                 popup.setX(Screen.getScreens().get(0).getBounds().getMaxX()-popup.getWidth()-1);

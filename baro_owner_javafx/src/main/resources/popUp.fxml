@@ -7,32 +7,25 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: white" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.PopUpController">
-   <children>
-      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="400.0" spacing="50.0">
+<VBox prefHeight="200.0" prefWidth="400.0" spacing="40" style="-fx-background-color: white;-fx-font-family: 'Noto Sans CJK KR Regular'; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-width: 2; -fx-border-color: white" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.PopUpController">
+      <Label maxWidth="Infinity" alignment="CENTER" style="-fx-background-color: #8333e6; -fx-font-size: 18; -fx-background-radius: 5 5 0 0; -fx-text-fill: white" text="BARO">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
+      </Label>
+      <HBox alignment="CENTER" minHeight="0.0" minWidth="0.0" style="-fx-font-size: 16">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-color: #8333e6;" text="BARO" textFill="WHITE" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="10.0" top="10.0" />
-               </padding>
-            </Label>
-            <HBox alignment="CENTER" minHeight="0.0" minWidth="0.0">
-      
-               <children>
-                  <Label text="현재 접수되지 않은 주문이 " />
-                  <Label fx:id="count" text="1" />
-                  <Label text=" 건 있습니다" />
-               </children>
-            </HBox>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#toTopPostion" text="확 인" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets left="100.0" right="100.0" />
-               </VBox.margin>
-            </Button>
+            <Label text="현재 접수되지 않은 주문이 "/>
+            <Label fx:id="count" text="1" />
+            <Label text=" 건 있습니다" />
          </children>
-      </VBox>
-   </children>
-</AnchorPane>
+      </HBox>
+      <Button maxWidth="Infinity" alignment="CENTER" mnemonicParsing="false" onAction="#toTopPostion" text="확 인" style="-fx-background-color: #8333e6; -fx-text-fill: white; -fx-font-size: 18" VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets left="100.0" right="100.0" />
+         </VBox.margin>
+      </Button>
+</VBox>
