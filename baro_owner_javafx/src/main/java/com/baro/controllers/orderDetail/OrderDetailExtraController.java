@@ -30,15 +30,15 @@ public class OrderDetailExtraController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         col1.setHgrow(Priority.ALWAYS);
-        col1.setMinWidth(LayoutSize.ORDER_MENUS_WIDTH / 3.0);
+        col1.setMaxWidth(LayoutSize.ORDER_MENUS_WIDTH / 3.0);
 
         col2.setHgrow(Priority.ALWAYS);
         col2.setHalignment(HPos.CENTER);
-        col2.setMinWidth(LayoutSize.ORDER_MENUS_WIDTH / 3.0);
+        col2.setMaxWidth(LayoutSize.ORDER_MENUS_WIDTH / 3.0);
 
         col3.setHgrow(Priority.ALWAYS);
         col3.setHalignment(HPos.RIGHT);
-        col3.setMinWidth(LayoutSize.ORDER_MENUS_WIDTH / 3.0);
+        col3.setMaxWidth(LayoutSize.ORDER_MENUS_WIDTH / 3.0);
 
         row1.setVgrow(Priority.ALWAYS);
 
