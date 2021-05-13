@@ -26,8 +26,8 @@ public class OrderDetailMenuController implements Initializable {
 
     public void configureUI(){
         System.out.println("menu size : " + LayoutSize.ORDER_MENUS_WIDTH);
-        menu_layout.setMinWidth(LayoutSize.ORDER_MENUS_WIDTH);
-        menu_content.setMinWidth(LayoutSize.ORDER_MENUS_WIDTH);
+        menu_layout.setMaxWidth(LayoutSize.ORDER_MENUS_WIDTH);
+        menu_content.setMaxWidth(LayoutSize.ORDER_MENUS_WIDTH);
         System.out.println("get menu size : " + menu_layout.getPrefWidth());
 
         for (int i = 0; i < data.orders.size(); i++) {
