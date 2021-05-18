@@ -36,11 +36,8 @@ public class Main extends Application implements MainController.ReturnOrderListW
         super.init();
         System.setProperty("prism.lcdtext", "false");
 
-        Font.loadFont(getClass().getResourceAsStream("/fonts/IBMPlexSansKR-Bold.otf"), 10);
-        Font.loadFont(getClass().getResourceAsStream("/fonts/IBMPlexSansKR-Regular.otf"), 10);
-        Font.loadFont(getClass().getResourceAsStream("/fonts/IBMPlexSansKR-Medium.otf"), 10);
-
-
+        Font.loadFont(getClass().getResourceAsStream("/fonts/IBMPlexSansKR-Bold.woff"), 10);
+        Font.loadFont(getClass().getResourceAsStream("/fonts/IBMPlexSansKR-Regular.woff"), 10);
     }
     @Override
     public void start(Stage primaryStage) throws Exception{
