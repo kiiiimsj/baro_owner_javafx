@@ -146,11 +146,11 @@ public class OrderListController implements DiscountRateController.ClickClose, D
             isOpenBtn.setSelected(true);
 
 //            isOpenBtn.setText("영업종료 하기");
-//            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
+//            isOpenBtn.setStyle("-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'IBM Plex Sans KR'");
         } else {
             isOpenBtn.setSelected(false);
 //            isOpenBtn.setText("영업게시 하기");
-//            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
+//            isOpenBtn.setStyle("-fx-background-color: #8333e6; -fx-text-fill: #ffffff; -fx-font-size: 20pt; -fx-font-family: 'IBM Plex Sans KR'");
         }
 
 

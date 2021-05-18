@@ -38,41 +38,41 @@
           <RowConstraints minHeight="100.0" prefHeight="100.0" vgrow="ALWAYS" />
         </rowConstraints>
             <Button fx:id="button1" prefWidth="Infinity" prefHeight="Infinity" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="1분" GridPane.halignment="CENTER" onAction="#add1"
-            style="-fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
+            style="-fx-font-size: 20pt; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
             <Button fx:id="button3" prefWidth="Infinity" prefHeight="Infinity"  mnemonicParsing="false" text="3분" GridPane.columnIndex="1" GridPane.halignment="CENTER" onAction="#add3"
-                    style="-fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
+                    style="-fx-font-size: 20pt; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
             <Button fx:id="button5" prefWidth="Infinity" prefHeight="Infinity" mnemonicParsing="false" text="5분" GridPane.columnIndex="2" GridPane.halignment="CENTER" onAction="#add5"
-                    style="-fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
+                    style="-fx-font-size: 20pt; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
             <Button fx:id="button10" prefWidth="Infinity" prefHeight="Infinity" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" text="10분" GridPane.halignment="CENTER" GridPane.rowIndex="1" onAction="#add10"
-                    style="-fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
+                    style="-fx-font-size: 20pt; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
             <Button fx:id="button30" prefWidth="Infinity" prefHeight="Infinity" mnemonicParsing="false" text="30분" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" onAction="#add30"
-                    style="-fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
+                    style="-fx-font-size: 20pt; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
             <Button fx:id="button60" prefWidth="Infinity" prefHeight="Infinity" mnemonicParsing="false" text="60분" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" onAction="#add60"
-                    style="-fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
+                    style="-fx-font-size: 20pt; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white; -fx-background-color: #8333e6; -fx-background-radius: 5px"/>
       </GridPane>
         <VBox prefWidth="500" alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
             <padding>
                 <Insets bottom="10"/>
             </padding>
             <HBox prefWidth="500" alignment="TOP_CENTER">
-                <Label text="예상 제조 시간 :" style="-fx-font-family: 'Noto Sans CJK KR Regular'; -fx-font-size: 20pt; -fx-text-fill: white"/>
+                <Label text="예상 제조 시간 :" style="-fx-font-family: 'IBM Plex Sans KR'; -fx-font-size: 20pt; -fx-text-fill: white"/>
                 <Label fx:id="time" text="0" alignment="CENTER" contentDisplay="CENTER" prefWidth="40.0" textAlignment="CENTER" underline="true"
-                       style="-fx-font-family: 'Noto Sans CJK KR Regular'; -fx-font-size: 20pt; -fx-text-fill: white"/>
+                       style="-fx-font-family: 'IBM Plex Sans KR'; -fx-font-size: 20pt; -fx-text-fill: white"/>
                 <Label text="분"
-                       style="-fx-font-family: 'Noto Sans CJK KR Regular'; -fx-font-size: 20pt; -fx-text-fill: white"/>
+                       style="-fx-font-family: 'IBM Plex Sans KR'; -fx-font-size: 20pt; -fx-text-fill: white"/>
                 <HBox.margin>
                     <Insets bottom="10"/>
                 </HBox.margin>
             </HBox>
             <HBox prefWidth="500" alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
                 <Button prefWidth="250" mnemonicParsing="false" text="제조 시작" onAction="#orderAccept"
-                        style="-fx-text-fill: white; -fx-background-color: #8333e6; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-font-size: 20pt">
+                        style="-fx-text-fill: white; -fx-background-color: #8333e6; -fx-font-family: 'IBM Plex Sans KR'; -fx-font-size: 20pt">
                     <HBox.margin>
                         <Insets right="20"/>
                     </HBox.margin>
                 </Button>
                 <Button fx:id="reset" prefWidth="250" mnemonicParsing="false" text="시간 초기화" onAction="#resetTimer"
-                        style="-fx-font-size: 20pt; -fx-background-color: #8333e6; -fx-text-fill: white; -fx-font-family: 'Noto Sans CJK KR Regular'"/>
+                        style="-fx-font-size: 20pt; -fx-background-color: #8333e6; -fx-text-fill: white; -fx-font-family: 'IBM Plex Sans KR'"/>
             </HBox>
         </VBox>
 

@@ -1,16 +1,16 @@
 /*!** {*!*/
-/*!*    -fx-font-family: "Noto Sans CJK KR Regular";*!*/
+/*!*    -fx-font-family: "IBM Plex Sans KR";*!*/
 /*!*    -fx-font-size: 25px;*!*/
 /*!*}*!*/
 Label {
-    -fx-font-family: "Noto Sans CJK KR Regular";
+    -fx-font-family: "IBM Plex Sans KR";
     -fx-font-size: 25px;
 }
 Button {
-    -fx-font-family: "Noto Sans CJK KR Regular";
+    -fx-font-family: "IBM Plex Sans KR";
     -fx-font-size: 25px;
 }
 Label.label-left{
-    -fx-font-family: "Noto Sans CJK KR Regular";
+    -fx-font-family: "IBM Plex Sans KR";
     -fx-font-size: 20px;
 }

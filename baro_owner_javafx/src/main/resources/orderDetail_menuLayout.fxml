@@ -7,7 +7,7 @@
 <VBox   fx:id="menu_layout"
         xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="com.baro.controllers.orderDetail.OrderDetailMenuController"
-        style="-fx-font-family: 'Noto Sans CJK KR Regular';-fx-text-fill: white;-fx-background-color: white">
+        style="-fx-font-family: 'IBM Plex Sans KR';-fx-text-fill: white;-fx-background-color: white">
     <GridPane style="-fx-background-color: white" >
         <padding>
             <Insets top="20" left="20" right="20"/>

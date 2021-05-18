@@ -33,8 +33,8 @@
       </FontAwesomeIconView>
    </HBox>
    <VBox minWidth="-Infinity" maxWidth="Infinity" alignment="CENTER">
-      <Text text="주문을 바로잡다" fx:id="subtext" textAlignment="CENTER" style="-fx-text-fill: #8333e6; " />
-      <Text text="BARO" fx:id="baro_logo" textAlignment="CENTER" style="-fx-text-fill: #8333e6"/>
+      <Text text="주문을 바로잡다" fx:id="subtext" textAlignment="CENTER" />
+      <Text text="BARO" fx:id="baro_logo" textAlignment="CENTER"/>
    </VBox>
    <VBox prefHeight="300.0" prefWidth="300.0">
       <padding>
@@ -47,12 +47,12 @@
       <VBox>
          <spacing>20</spacing>
 
-         <Label text="아이디" prefWidth="80" style="-fx-font-size: 20px; -fx-text-fill: #8333e6;-fx-font-family: 'Noto Sans CJK KR Regular'">
+         <Label text="아이디" prefWidth="80" style="-fx-font-size: 20px; -fx-text-fill: #8333e6;-fx-font-family: 'IBM Plex Sans KR'">
             <padding>
                <Insets right="10" left="10" bottom="10" top="20"/>
             </padding>
          </Label>
-         <Label text="비밀번호" prefWidth="100" style="-fx-font-size: 20px; -fx-text-fill: #8333e6;-fx-font-family: 'Noto Sans CJK KR Regular'">
+         <Label text="비밀번호" prefWidth="100" style="-fx-font-size: 20px; -fx-text-fill: #8333e6;-fx-font-family: 'IBM Plex Sans KR'">
             <padding>
                <Insets right="10" left="10" bottom="10" top="10"/>
             </padding>
@@ -64,12 +64,12 @@
          <padding>
             <Insets right="10" left="10" bottom="10" top="10"/>
          </padding>
-         <TextField fx:id="phone_tf" style="-fx-font-size: 20px;-fx-font-family: 'Noto Sans CJK KR Regular'">
+         <TextField fx:id="phone_tf" style="-fx-font-size: 20px;-fx-font-family: 'IBM Plex Sans KR'">
             <padding>
                <Insets right="10" left="10" bottom="10" top="10"/>
             </padding>
          </TextField>
-         <PasswordField fx:id="password_tf" style="-fx-font-size: 20px;-fx-font-family: 'Noto Sans CJK KR Regular'">
+         <PasswordField fx:id="password_tf" style="-fx-font-size: 20px;-fx-font-family: 'IBM Plex Sans KR'">
             <padding>
                <Insets right="10" left="10" bottom="10" top="10"/>
             </padding>
@@ -79,13 +79,13 @@
 
    </VBox>
    <JFXCheckBox fx:id="save_id_pw" mnemonicParsing="false" text="아이디/비밀번호 저장" onAction="#saveUserInfo"
-                style="-fx-font-size: 20px; -fx-text-fill: #8333e6;-fx-font-family: 'Noto Sans CJK KR Regular'">
+                style="-fx-font-size: 20px; -fx-text-fill: #8333e6;-fx-font-family: 'IBM Plex Sans KR'">
       <padding>
          <Insets left="10" bottom="20"/>
       </padding>
    </JFXCheckBox>
    <Button fx:id="login_btn" alignment="CENTER" mnemonicParsing="false" text="로그인"
-           style="-fx-font-size: 40; -fx-background-color: #8333e6; -fx-text-fill: white; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-font-smoothing-type: true;"
+           style="-fx-font-size: 40; -fx-background-color: #8333e6; -fx-text-fill: white; -fx-font-family: 'IBM Plex Sans KR'; -fx-font-smoothing-type: true;"
            maxWidth="Infinity" onAction="#loginAction">
       <VBox.margin>
          <Insets left="10" right="10" bottom="10"/>

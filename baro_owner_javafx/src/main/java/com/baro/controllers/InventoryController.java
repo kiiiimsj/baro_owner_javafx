@@ -156,9 +156,9 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
                         Label menuInfo = new Label(menu.menu_info);
                         Label menuPrice = new Label(menu.menu_defaultprice + "원");
 
-                        menuName.setStyle("-fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
-                        menuInfo.setStyle("-fx-font-size: 15pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
-                        menuPrice.setStyle("-fx-font-size: 20pt; -fx-font-family: 'Noto Sans CJK KR Regular'");
+                        menuName.setStyle("-fx-font-size: 20pt; -fx-font-family: 'IBM Plex Sans KR'");
+                        menuInfo.setStyle("-fx-font-size: 15pt; -fx-font-family: 'IBM Plex Sans KR'");
+                        menuPrice.setStyle("-fx-font-size: 20pt; -fx-font-family: 'IBM Plex Sans KR'");
                         JFXToggleButton toggleButton = new JFXToggleButton();
                         toggleButton.setText("판매중");
                         toggleButton.setStyle("-fx-font-size: 20; -fx-text-fill: forestgreen;");
