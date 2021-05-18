@@ -34,9 +34,13 @@ public class Main extends Application implements MainController.ReturnOrderListW
     @Override
     public void init() throws Exception {
         super.init();
-        Font.loadFont(Main.class.getResource("/fonts/NotoSansCJKkr-Thin.otf").toExternalForm(), 10);
-        Font.loadFont(Main.class.getResource("/fonts/NotoSansCJKkr-Regular.otf").toExternalForm(), 10);
-        Font.loadFont(Main.class.getResource("/fonts/NotoSansCJKkr-Bold.otf").toExternalForm(), 10);
+        System.setProperty("prism.lcdtext", "false");
+
+        Font.loadFont(getClass().getResourceAsStream("/fonts/IBMPlexSansKR-Bold.otf"), 10);
+        Font.loadFont(getClass().getResourceAsStream("/fonts/IBMPlexSansKR-Regular.otf"), 10);
+        Font.loadFont(getClass().getResourceAsStream("/fonts/IBMPlexSansKR-Medium.otf"), 10);
+
+
     }
     @Override
     public void start(Stage primaryStage) throws Exception{

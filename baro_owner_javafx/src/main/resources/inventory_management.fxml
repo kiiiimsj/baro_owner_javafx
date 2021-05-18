@@ -16,6 +16,6 @@
       fx:controller="com.baro.controllers.InventoryController"
 >
         <JFXTabPane fx:id="categoryTabPane" stylesheets="css/tab_pane.css" />
-        <GridPane fx:id="menuList_header" prefHeight="50" style="-fx-font-family: 'Noto Sans CJK KR Regular'"/>
+        <GridPane fx:id="menuList_header" prefHeight="50" style="-fx-font-family: 'IBM Plex Sans KR'"/>
         <ListView fx:id="menuList" VBox.vgrow="SOMETIMES" stylesheets="css/list_view.css"/>
 </VBox>

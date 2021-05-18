@@ -17,84 +17,84 @@
         <HBox fx:id="print_info_combo_box" visible="false" VBox.vgrow="ALWAYS">
             <VBox HBox.hgrow="ALWAYS" spacing="10">
                 <HBox>
-                    <Label text="프린트 명" prefWidth="250" fx:id="insert_print_name_text" style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white">
+                    <Label text="프린트 명" prefWidth="250" fx:id="insert_print_name_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white">
                         <VBox.margin>
                             <Insets top="10" bottom="10"/>
                         </VBox.margin>
                     </Label>
-                    <TextField fx:id="insert_print_name_field" style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: black">
+                    <TextField fx:id="insert_print_name_field" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: black">
                         <VBox.margin>
                             <Insets bottom="10"/>
                         </VBox.margin>
                     </TextField>
                 </HBox>
                 <HBox>
-                    <Label text="포트선택" prefWidth="250" fx:id="select_com_port_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white">
+                    <Label text="포트선택" prefWidth="250" fx:id="select_com_port_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white">
                         <VBox.margin>
                             <Insets top="10" bottom="10"/>
                         </VBox.margin>
                     </Label>
-                    <ComboBox fx:id="select_com_port_combo"  style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: black">
+                    <ComboBox fx:id="select_com_port_combo"  style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: black">
                         <VBox.margin>
                             <Insets bottom="10"/>
                         </VBox.margin>
                     </ComboBox>
                 </HBox>
                 <HBox>
-                    <Label text="데이터 비트(D)" prefWidth="250" fx:id="select_data_bit_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white;">
+                    <Label text="데이터 비트(D)" prefWidth="250" fx:id="select_data_bit_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;">
                         <VBox.margin>
                             <Insets top="10" bottom="10"/>
                         </VBox.margin>
                     </Label>
-                    <ComboBox fx:id="select_baud_rate_combo"   style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: black">
+                    <ComboBox fx:id="select_baud_rate_combo"   style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: black">
                         <VBox.margin>
                             <Insets bottom="10"/>
                         </VBox.margin>
                     </ComboBox>
                 </HBox>
                 <HBox>
-                    <Label text="비트/초(B)" prefWidth="250" fx:id="select_baud_rate_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white">
+                    <Label text="비트/초(B)" prefWidth="250" fx:id="select_baud_rate_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white">
                         <VBox.margin>
                             <Insets top="10" bottom="10"/>
                         </VBox.margin>
                     </Label>
-                    <ComboBox fx:id="select_data_bit_combo"  style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: black">
+                    <ComboBox fx:id="select_data_bit_combo"  style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: black">
                         <VBox.margin>
                             <Insets bottom="10"/>
                         </VBox.margin>
                     </ComboBox>
                 </HBox>
                 <HBox>
-                    <Label text="패리티(P)" prefWidth="250" fx:id="select_parity_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white">
+                    <Label text="패리티(P)" prefWidth="250" fx:id="select_parity_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white">
                         <VBox.margin>
                             <Insets top="10" bottom="10"/>
                         </VBox.margin>
                     </Label>
-                    <ComboBox fx:id="select_parity_combo"  style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: black">
+                    <ComboBox fx:id="select_parity_combo"  style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: black">
                         <VBox.margin>
                             <Insets bottom="10"/>
                         </VBox.margin>
                     </ComboBox>
                 </HBox>
                 <HBox>
-                    <Label text="정지 비트(S)" prefWidth="250" fx:id="select_stop_bit_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white">
+                    <Label text="정지 비트(S)" prefWidth="250" fx:id="select_stop_bit_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white">
                         <VBox.margin>
                             <Insets top="10" bottom="10"/>
                         </VBox.margin>
                     </Label>
-                    <ComboBox fx:id="select_stop_bit_combo"  style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: black">
+                    <ComboBox fx:id="select_stop_bit_combo"  style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: black">
                         <VBox.margin>
                             <Insets bottom="10"/>
                         </VBox.margin>
                     </ComboBox>
                 </HBox>
                 <HBox>
-                    <Label text="흐름 제어(F)" prefWidth="250" fx:id="select_flow_controller_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white">
+                    <Label text="흐름 제어(F)" prefWidth="250" fx:id="select_flow_controller_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white">
                         <VBox.margin>
                             <Insets top="10" bottom="10"/>
                         </VBox.margin>
                     </Label>
-                    <ComboBox fx:id="select_flow_controller_combo"  style="-fx-font-size: 25px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: black">
+                    <ComboBox fx:id="select_flow_controller_combo"  style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: black">
                         <VBox.margin>
                             <Insets bottom="10"/>
                         </VBox.margin>
@@ -108,15 +108,15 @@
                 <Label />
             </VBox>
             <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
-                <Button fx:id="set_main_print" text="주 프린터로 설정" style="-fx-font-size: 20px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white;-fx-background-color: #8333e6"/>
+                <Button fx:id="set_main_print" text="주 프린터로 설정" style="-fx-font-size: 20px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;-fx-background-color: #8333e6"/>
             </HBox>
         </HBox>
     </VBox>
     <HBox spacing="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
-        <Button fx:id="save_print" text="프린트 설정 저장하기" style="-fx-font-size: 20px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white;-fx-background-color: #8333e6"/>
-        <Button fx:id="delete_print" text="프린트 삭제하기" style="-fx-font-size: 20px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white;-fx-background-color: #8333e6"/>
+        <Button fx:id="save_print" text="프린트 설정 저장하기" style="-fx-font-size: 20px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;-fx-background-color: #8333e6"/>
+        <Button fx:id="delete_print" text="프린트 삭제하기" style="-fx-font-size: 20px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;-fx-background-color: #8333e6"/>
         <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-            <Button fx:id="test_print" text="프린트 테스트" style="-fx-font-size: 20px; -fx-font-family: 'Noto Sans CJK KR Regular'; -fx-text-fill: white;-fx-background-color: #8333e6"/>
+            <Button fx:id="test_print" text="프린트 테스트" style="-fx-font-size: 20px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;-fx-background-color: #8333e6"/>
         </HBox>
     </HBox>
 </AnchorPane>

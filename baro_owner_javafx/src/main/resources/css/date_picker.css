@@ -1,7 +1,7 @@
 .jfx-date-picker .text-field {
     -fx-font-size: 11pt;
     -fx-text-fill: white;
-    -fx-font-family: 'Noto Sans CJK KR Thin';
+    -fx-font-family: 'IBM Plex Sans KR';
 }
 .jfx-date-picker > .arrow-button > .jfx-svg-glyph{
     -fx-background-color: white;

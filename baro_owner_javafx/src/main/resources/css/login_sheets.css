@@ -1,11 +1,11 @@
 #subtext {
     -fx-font-size: 20px;
-    -fx-font-family: 'Noto Sans CJK KR Regular';
+    -fx-font-family: 'IBM Plex Sans KR';
     -fx-fill: #8333e6;
 }
 #baro_logo {
     -fx-font-size: 50px;
-    -fx-font-family: 'Noto Sans CJK KR Bold';
+    -fx-font-family: 'IBM Plex Sans KR Bold';
     -fx-fill: #8333e6;
 }
 .jfx-check-box {

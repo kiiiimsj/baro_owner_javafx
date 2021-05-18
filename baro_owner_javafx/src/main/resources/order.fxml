@@ -17,11 +17,11 @@
       fx:controller="com.baro.controllers.OrderController"
       style="-fx-background-insets: 5; -fx-background-color: rgba(255, 255, 255, 0.5);
         -fx-background-color: #3d3d3d; -fx-effect: dropshadow(gaussian, #ffffff, 5, 0, 0, 0);
-      -fx-font-family: 'Noto Sans CJK KR Regular'">
+      -fx-font-family: 'IBM Plex Sans KR'">
    <children>
       <VBox HBox.hgrow="ALWAYS">
          <children>
-            <Label fx:id="customer" style="-fx-font-size: 11pt; -fx-text-fill: white" />
+            <Label fx:id="customer" style="-fx-font-size: 10pt; -fx-text-fill: white" />
             <HBox prefHeight="0.0" spacing="10.0">
                <children>
                   <Label fx:id="order_count" text="메뉴 1개" style="-fx-font-size: 11pt; -fx-text-fill: white"/>

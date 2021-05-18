@@ -21,12 +21,12 @@
 .axis-label {
     -fx-text-fill: white;
     -fx-font-size: 15pt;
-    -fx-font-family: 'Noto Sans CJK KR Regular';
+    -fx-font-family: 'IBM Plex Sans KR';
 }
 .axis {
     -fx-font-size: 10pt;
     -fx-tick-label-fill: white;
-    -fx-font-family: 'Noto Sans CJK KR Regular';
+    -fx-font-family: 'IBM Plex Sans KR';
 }
 .chart-series-line {
     -fx-font-size: 9pt;

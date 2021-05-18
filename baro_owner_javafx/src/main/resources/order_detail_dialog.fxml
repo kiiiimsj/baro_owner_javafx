@@ -21,7 +21,7 @@
             </padding>
         </HBox>
         <HBox>
-            <Label fx:id="dialog_content" style="-fx-font-size: 12pt; -fx-text-fill: #8333e6;-fx-font-family: 'Noto Sans CJK KR Regular'"
+            <Label fx:id="dialog_content" style="-fx-font-size: 12pt; -fx-text-fill: #8333e6;-fx-font-family: 'IBM Plex Sans KR'"
                    VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity" alignment="CENTER" textAlignment="JUSTIFY">
                 <padding>
                     <Insets top="30"/>
@@ -31,8 +31,8 @@
     </VBox>
     <HBox AnchorPane.rightAnchor="5" AnchorPane.leftAnchor="5" AnchorPane.bottomAnchor="5" spacing="10">
         <Button fx:id="no" text="취소" maxWidth="Infinity" alignment="BOTTOM_CENTER" HBox.hgrow="ALWAYS"
-                style="-fx-font-family: 'Noto Sans CJK KR Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 15pt; -fx-text-fill: white"/>
+                style="-fx-font-family: 'IBM Plex Sans KR';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 15pt; -fx-text-fill: white"/>
         <Button fx:id="yes" text="확인" maxWidth="Infinity" alignment="BOTTOM_CENTER" HBox.hgrow="ALWAYS"
-                style="-fx-font-family: 'Noto Sans CJK KR Regular';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 15pt; -fx-text-fill: white"/>
+                style="-fx-font-family: 'IBM Plex Sans KR';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 15pt; -fx-text-fill: white"/>
     </HBox>
 </AnchorPane>
