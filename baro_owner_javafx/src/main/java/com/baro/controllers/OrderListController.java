@@ -1,6 +1,7 @@
 package com.baro.controllers;
 
 import com.baro.Dialog.InternetConnectDialog;
+import com.baro.Dialog.NoDataDialog;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.JsonParsing.OrderList;
@@ -121,11 +122,12 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         prev_tab.setPrefWidth((LayoutSize.ORDER_LIST_WIDTH / 3.0)  - 5);
         next_tab.setPrefWidth((LayoutSize.ORDER_LIST_WIDTH / 3.0)  - 5);
 
-        orderListSideContainer.setMinWidth(LayoutSize.INSIDE_PANE_WIDTH);
-        orderListSideContainer.setMinHeight(LayoutSize.INSIDE_PANE_HEIGHT);
-
         childContainer.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
         childContainer.setPrefHeight(LayoutSize.ORDER_LIST_HEIGHT);
+        childContainer.setVgap(3.0);
+
+        orderListSideContainer.setMinWidth(LayoutSize.INSIDE_PANE_WIDTH);
+        orderListSideContainer.setMinHeight(LayoutSize.INSIDE_PANE_HEIGHT);
 
         discount_rate_height.setPrefHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
         try {
@@ -398,6 +400,9 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                             Parent parent = loader.load();
                             orderDetailsContainer.getChildren().add(parent);
                             OrderDetailsController detailcontroller = loader.<OrderDetailsController>getController();
+
+                            AnchorPane.setBottomAnchor(parent, 0.0);
+
                             detailcontroller.setData(details,controller.orderData);
                             detailcontroller.configureLeftUI();
                             detailcontroller.getChangeToCancel().addListener(new ChangeListener<Boolean>() {
@@ -435,6 +440,8 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                                 @Override
                                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                                     //orderDetailsContainer.getScene().getWindow();
+                                    NoDataDialog noPrint = new NoDataDialog();
+                                    noPrint.call("주 프린터가 설정되어있지 않습니다.\n프린터 설정으로 이동합니다.");
                                     moveToSetting.moveSetting();
                                 }
                             });

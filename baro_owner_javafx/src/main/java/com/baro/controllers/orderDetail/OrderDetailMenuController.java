@@ -73,9 +73,9 @@ public class OrderDetailMenuController implements Initializable {
             menuDefaultPrice = new Text( orderDetail.menu_defaultprice+"원");
 
             menuCell.addRow(0, menuNameText, menuCountText, menuDefaultPrice);
-            menuNameText.setStyle("-fx-font-size: 15pt");
-            menuCountText.setStyle("-fx-font-size: 15pt");
-            menuDefaultPrice.setStyle("-fx-font-size: 15pt");
+            menuNameText.setStyle("-fx-font-size: 12pt");
+            menuCountText.setStyle("-fx-font-size: 12pt");
+            menuDefaultPrice.setStyle("-fx-font-size: 12pt");
             menu_content.getChildren().add(menuCell);
             AddChilds(orderDetail);
         }

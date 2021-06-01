@@ -1,9 +1,30 @@
 #categoryTabPane .tab {
+    -fx-background-color: #8D45E7;
     -fx-background-radius: 0;
-    -fx-padding: 5 10 10 10;
+    -fx-padding: 0 5 5 0;
+    -fx-effect: null;
+}
+#categoryTabPane .tab:pressed{
+    -fx-effect: none;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-animated: false;
+
+}
+#categoryTabPane {
+    -fx-effect: null;
+}
+#categoryTabPane .tab-label:pressed {
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: null;
+}
+#categoryTabPane .tab:filled {
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
 }
 #categoryTabPane .tab-label {
     -fx-text-fill: white;
-    -fx-font-size: 25px;
+    -fx-font-size: 20px;
     -fx-font-family: 'IBM Plex Sans KR';
 }

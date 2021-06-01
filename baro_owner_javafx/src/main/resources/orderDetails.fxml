@@ -4,14 +4,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<VBox fx:id="base" stylesheets="css/order_detail.css" xmlns="http://javafx.com/javafx/8.0.171"
+<?import javafx.scene.shape.Line?>
+<AnchorPane fx:id="base" stylesheets="css/order_detail.css" xmlns="http://javafx.com/javafx/8.0.291"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baro.controllers.orderDetail.OrderDetailsController"
             pickOnBounds="false"
 >
-    <HBox fx:id="top_bar" visible="false" pickOnBounds="false" managed="false"
-          maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d;">
+    <HBox fx:id="top_bar" visible="false" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0" alignment="TOP_RIGHT"
+          maxWidth="Infinity" spacing="15" style="-fx-background-color: #3d3d3d;">
         <padding>
-            <Insets top="10" bottom="10" right="10"/>
+            <Insets top="10" right="10"/>
         </padding>
         <FontAwesomeIconView fx:id="close" glyphName="CLOSE" style="-fx-fill: white;-fx-font-size: 20pt" textAlignment="CENTER">
             <HBox.margin>
@@ -22,43 +23,38 @@
     <padding>
         <Insets left="10" right="10"/>
     </padding>
-    <VBox spacing="10" pickOnBounds="false">
+    <VBox spacing="10" pickOnBounds="false" AnchorPane.leftAnchor="3" AnchorPane.bottomAnchor="5" AnchorPane.topAnchor="90">
         <!-- 영업중, 영업종료 토글 버튼 클릭이 막혀서 따로 크기 설정-->
-        <HBox fx:id="top_area" pickOnBounds="false" spacing="10">
-            <Button fx:id="cancelBtn"
-                    onAction="#clickCancel" text="결제취소"
-                    style="-fx-text-fill: white; -fx-background-color: #8333e6"/>
-        </HBox>
-        <!--      <SplitPane fx:id="splitPane" dividerPositions="0.5" prefHeight="600.0" prefWidth="1200.0" >-->
+        <!--      <SplitPane fx:id="splitPane" dividerPositions="0.5" prefHeight="600.0" prefWidth="1300.0" >-->
         <!--        <items>-->
-        <HBox fx:id="info_area" spacing="10" VBox.vgrow="ALWAYS">
-            <VBox spacing="10" style="-fx-background-color: #3d3d3d; -fx-background-radius: 5px;">
-                <VBox fx:id="info_box" style="-fx-background-color: white; -fx-background-radius: 5px;">
+        <HBox fx:id="info_area" spacing="10" VBox.vgrow="ALWAYS" pickOnBounds="false">
+            <VBox spacing="10" style="-fx-background-color: #3d3d3d; -fx-background-radius: 5px;" pickOnBounds="false">
+                <VBox fx:id="info_box" style="-fx-background-color: white; -fx-background-radius: 5px;" pickOnBounds="false">
                     <padding>
-                        <Insets right="20" top="20" left="20"/>
+                        <Insets right="10" left="10"/>
                     </padding>
                     <HBox>
-                        <Label styleClass="label-left" text="고객번호 :" style="-fx-font-size: 15pt"/>
-                        <Label fx:id="phoneLabel" styleClass="label-left" text="010" style="-fx-font-size: 15pt"/>
+                        <Label styleClass="label-left" text="고객번호 :"/>
+                        <Label fx:id="phoneLabel" styleClass="label-left" text="010"/>
                     </HBox>
                     <HBox>
-                        <Label styleClass="label-left" text="주문시간 :" style="-fx-font-size: 15pt"/>
-                        <Label fx:id="dateLabel" styleClass="label-left" text="010" style="-fx-font-size: 15pt"/>
+                        <Label styleClass="label-left" text="주문시간 :"/>
+                        <Label fx:id="dateLabel" styleClass="label-left" text="010" />
                     </HBox>
                     <HBox>
                         <VBox.margin>
                             <Insets top="30.0"/>
                         </VBox.margin>
-                        <Label styleClass="label-left" text="합계 :" style="-fx-font-size: 15pt"/>
-                        <Label fx:id="totalPriceLabel" styleClass="label-left" text="010" style="-fx-font-size: 15pt"/>
+                        <Label styleClass="label-left" text="합계 :" />
+                        <Label fx:id="totalPriceLabel" styleClass="label-left" text="010" />
                     </HBox>
                     <HBox>
-                        <Label styleClass="label-left" text="바로할인액 :" style="-fx-font-size: 15pt"/>
-                        <Label fx:id="discountRatePriceLabel" styleClass="label-left" text="010" style="-fx-font-size: 15pt"/>
+                        <Label styleClass="label-left" text="바로할인액 :" />
+                        <Label fx:id="discountRatePriceLabel" styleClass="label-left" text="010" />
                     </HBox>
                     <HBox>
-                        <Label styleClass="label-left" text="쿠폰 :" style="-fx-font-size: 15pt"/>
-                        <Label fx:id="discountPriceLabel" styleClass="label-left" text="010" style="-fx-font-size: 15pt"/>
+                        <Label styleClass="label-left" text="쿠폰 :" />
+                        <Label fx:id="discountPriceLabel" styleClass="label-left" text="010" />
                     </HBox>
                     <HBox prefHeight="1" style="-fx-background-color: black;">
                         <VBox.margin>
@@ -67,7 +63,7 @@
                     </HBox>
 
                     <HBox >
-                        <Label fx:id="finalPriceLabel" styleClass="label-left" text="결제 금액 :" style="-fx-font-size: 15pt"/>
+                        <Label fx:id="finalPriceLabel" styleClass="label-left" text="결제 금액 :" />
                     </HBox>
                 </VBox>
 
@@ -75,8 +71,8 @@
                     <padding>
                         <Insets right="20" left="20" top="20"/>
                     </padding>
-                    <Label styleClass="label-left" text="요청 사항" style="-fx-font-size: 15pt"/>
-                    <Label fx:id="requestLabel" styleClass="label-left" text="010" style="-fx-font-size: 15pt" VBox.vgrow="ALWAYS"/>
+                    <Label styleClass="label-left" text="요청 사항"/>
+                    <Label fx:id="requestLabel" styleClass="label-left" text="010" VBox.vgrow="ALWAYS"/>
                 </VBox>
             </VBox>
             <ScrollPane fx:id="receipt_preview_scroll" style="-fx-background-radius: 5px;-fx-background-color: white" stylesheets="css/scroll.css" >
@@ -85,7 +81,7 @@
                 </padding>
             </ScrollPane>
         </HBox>
-        <GridPane fx:id="button_area" hgap="10" maxWidth="Infinity" alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
+        <GridPane fx:id="button_area" hgap="10" VBox.vgrow="ALWAYS" alignment="BOTTOM_LEFT" stylesheets="css/vbox_hover_highlight.css">
             <columnConstraints>
                 <ColumnConstraints fx:id="col1" hgrow="ALWAYS"/>
                 <ColumnConstraints hgrow="ALWAYS" halignment="CENTER"/>
@@ -93,19 +89,10 @@
             <rowConstraints>
                 <RowConstraints valignment="TOP"/>
             </rowConstraints>
-            <children>
-                <Button fx:id="printButton" GridPane.columnIndex="0" GridPane.rowIndex="0" maxWidth="Infinity" onAction="#clickPrint"
-                        style="-fx-font-family: 'IBM Plex Sans KR';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 25pt; -fx-text-fill: white"
-                        text="영수증 인쇄">
-                </Button>
-                <Button fx:id="setTime" onAction="#clickSettingTimes" GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="Infinity"
-                        style="-fx-font-family: 'IBM Plex Sans KR';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 25pt; -fx-text-fill: white"
-                        text="시간 설정">
-                </Button>
-                <Button fx:id="completeBtn" onAction="#clickDone" text="완료처리"
-                        GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="Infinity"
-                        style="-fx-font-family: 'IBM Plex Sans KR';-fx-background-radius: 5px; -fx-background-color: #8333e6; -fx-font-size: 25pt; -fx-text-fill: white"/>
-            </children>
+            <Button fx:id="cancelBtn" onAction="#clickCancel" text="결제취소" GridPane.columnIndex="0" GridPane.rowIndex="0" maxWidth="Infinity"/>
+            <Button fx:id="printButton" GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="Infinity" onAction="#clickPrint" text="영수증 인쇄"/>
+            <Button fx:id="setTime" onAction="#clickSettingTimes" GridPane.columnIndex="2" GridPane.rowIndex="0" maxWidth="Infinity" text="시간 설정"/>
+            <Button fx:id="completeBtn" onAction="#clickDone" text="완료처리" GridPane.columnIndex="2" GridPane.rowIndex="0" maxWidth="Infinity"/>
         </GridPane>
     </VBox>
-</VBox>
+</AnchorPane>

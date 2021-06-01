@@ -1,45 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.TilePane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.VBox?>
-
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <AnchorPane fx:id="orderListSideContainer" stylesheets="css/order_list_sheets.css"
-            xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns="http://javafx.com/javafx/8.0.291"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.baro.controllers.OrderListController"
             style="-fx-font-family: 'IBM Plex Sans KR'; -fx-background-color: #3d3d3d;">
             <!--  480  -->
-            <HBox fx:id="discount_rate_height" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="10" spacing="10">
-                <padding>
-                    <Insets left="10.0" right="10.0" />
-                </padding>
-                <VBox fx:id="discount_rate_set" style="-fx-background-color: #8333e6;-fx-background-radius: 5px" alignment="CENTER" stylesheets="css/label_hover.css">
+            <HBox fx:id="discount_rate_height" AnchorPane.topAnchor="5" AnchorPane.rightAnchor="20" spacing="10" minWidth="480" maxWidth="500">
+                <VBox fx:id="discount_rate_set" style="-fx-background-color: #8333e6;-fx-background-radius: 5px" alignment="CENTER" stylesheets="css/vbox_hover_highlight.css" HBox.hgrow="ALWAYS">
                     <padding>
                         <Insets left="10" right="10"/>
                     </padding>
-                    <HBox spacing="8">
-                        <Label text="BARO 할인률 설정" style="-fx-font-size: 15pt; -fx-text-fill: white;-fx-font-weight: bold;" />
-                        <Label fx:id="baro_discount_timer" text="15:00" style="-fx-font-size: 15pt; -fx-text-fill: white;-fx-font-weight: bold;"/>
+                    <HBox spacing="8" alignment="CENTER" >
+                        <Label text="BARO 할인률 설정" style="-fx-font-size: 15pt; -fx-text-fill: white;-fx-font-weight: bold;"/>
+                        <Label fx:id="baro_discount_timer" text="15:00" style="-fx-font-size: 13pt; -fx-text-fill: white;-fx-font-weight: bold;"/>
                     </HBox>
                     <HBox  style="-fx-background-color: white;-fx-background-radius: 5px" alignment="CENTER">
-                        <Label text="현재 할인률 : " style="-fx-font-size: 13pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;" alignment="CENTER"/>
-                        <Label fx:id="store_discount_rate" style="-fx-font-size: 13pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;"/>
-                        <Label fx:id="arrow_right" visible="false" text=">" style="-fx-font-size: 13pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;"/>
-                        <Label fx:id="new_store_discount_rate" visible="false" style="-fx-font-size: 13pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;"/>
+                        <Label text="현재 할인률 : " style="-fx-font-size: 15pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;" alignment="CENTER"/>
+                        <Label fx:id="store_discount_rate" style="-fx-font-size: 15pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;"/>
+                        <Label fx:id="arrow_right" visible="false" text=">" style="-fx-font-size: 15pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;"/>
+                        <Label fx:id="new_store_discount_rate" visible="false" style="-fx-font-size: 15pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;"/>
                     </HBox>
                 </VBox>
                 <HBox alignment="CENTER_RIGHT">
@@ -52,7 +36,7 @@
                            text="영업중" HBox.hgrow="ALWAYS" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-font-weight: bold"/>
                 </HBox>
             </HBox>
-            <HBox AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" pickOnBounds="false">
+            <HBox AnchorPane.leftAnchor="8" AnchorPane.topAnchor="5" AnchorPane.bottomAnchor="0" pickOnBounds="false">
                 <VBox>
                     <!-- 안쓰는것 같아서 주석처리 -->
                     <!--<TilePane fx:id="orderListContainer" hgap="10" layoutY="80.0" prefWidth="1150.0" vgap="10">-->
@@ -61,21 +45,15 @@
                     <!-- prefHeight 737 에서 변경 -->
                     <TilePane fx:id="childContainer" style="-fx-background-color: #3d3d3d"/>
                     <!--layoutY 780 -> 700 변경 -->
-                    <HBox fx:id="paging_ui" visible="false" prefHeight="100" spacing="5" >
-                        <Label fx:id="pagingLabel" alignment="CENTER"
-                               style="-fx-font-size: 13pt; -fx-text-fill: white; -fx-background-color: #3d3d3d;-fx-font-family: 'IBM Plex Sans KR'"/>
-                        <Button fx:id="prev_tab" alignment="CENTER" mnemonicParsing="false" onAction="#tapPrevPage" text="&lt;"
-                                style="-fx-background-color: #3d3d3d;-fx-background-radius: 5px; -fx-border-radius: 5px;-fx-border-color: white; -fx-text-fill: white">
-                            <font>
-                                <Font size="30.0"/>
-                            </font>
-                        </Button>
-                        <Button fx:id="next_tab" alignment="CENTER" mnemonicParsing="false" onAction="#tapNextPage" text="&gt;"
-                                style="-fx-background-color: #3d3d3d;-fx-background-radius: 5px; -fx-border-radius: 5px;-fx-border-color: white; -fx-text-fill: white">
-                            <font>
-                                <Font size="30.0"/>
-                            </font>
-                        </Button>
+                    <HBox fx:id="paging_ui" visible="false" spacing="5"  alignment="TOP_RIGHT">
+                        <Label fx:id="pagingLabel" alignment="CENTER" textAlignment="CENTER"
+                               style="-fx-font-size: 12pt; -fx-text-fill: white; -fx-background-color: #3d3d3d;-fx-font-family: 'IBM Plex Sans KR'">
+                            <padding>
+                                <Insets top="10"/>
+                            </padding>
+                        </Label>
+                        <Button fx:id="prev_tab" alignment="CENTER" onAction="#tapPrevPage" text="&lt;" stylesheets="css/vbox_hover_highlight.css"/>
+                        <Button fx:id="next_tab" alignment="CENTER" onAction="#tapNextPage" text="&gt;" stylesheets="css/vbox_hover_highlight.css"/>
                     </HBox>
                 </VBox>
                 <AnchorPane fx:id="orderDetailsContainer" pickOnBounds="false"/>
@@ -85,7 +63,7 @@
         <AnchorPane>
             <HBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
                     prefWidth="400" prefHeight="110" style="-fx-background-color: #3d3d3d; -fx-background-radius: 5; -fx-border-color: white;-fx-border-width: 2 2 0 2;-fx-border-radius: 5 0 0 0" pickOnBounds="false"/>
-            <HBox prefWidth="462" prefHeight="110" AnchorPane.rightAnchor="0"  style="-fx-background-color: #ff00000;-fx-border-color: white;-fx-border-width: 0 0 2 2;-fx-border-radius: 0 0 0 0"/>
+            <HBox prefWidth="462" prefHeight="110" AnchorPane.rightAnchor="0"  style="-fx-border-color: white;-fx-border-width: 0 0 2 2;-fx-border-radius: 0 0 0 0"/>
             <HBox AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="110"
                     prefWidth="Infinity" prefHeight="630" style="-fx-background-color: #3d3d3d; -fx-background-radius: 5;-fx-border-width: 0 2 2 2;-fx-border-color: white;-fx-border-radius: 0 0 5 5" pickOnBounds="false" alignment="CENTER">
                 <Label alignment="CENTER" textAlignment="CENTER" text="주문내역이 없습니다." style="-fx-font-size: 30pt;-fx-text-fill: white;"/>

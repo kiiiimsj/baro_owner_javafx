@@ -192,23 +192,24 @@ public class ReceiptPrint implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
-    public void startPrint() {
+    public boolean startPrint() {
         bottom_area.setVisible(false);
         print.setVisible(false);
 
-        setSpinner();
+        if(checkMainPrint()) {
+            return true;
+        }
+        return false;
     }
-
 
 
     /***************************************************************************
      *
-     * 스피너 클릭 이벤트 및 저장된 preferences 확인
+     * main print preferences에서 setting 가져오기
      *
      **************************************************************************/
-    public void setSpinner() {
+    public boolean checkMainPrint() {
         if(!preferences.get("setMainPrint", "").equals("") ) {
-
             String getPortName = preferences.get("setMainPortName", "");
             int getBaudRate = preferences.getInt("setMainBaudRate", -1);
             int getDataBit = preferences.getInt("setMainDataBit", -1);
@@ -223,77 +224,87 @@ public class ReceiptPrint implements Initializable {
 //            String getFlowControll = preferences.get("saveFlowControll", "");
 
             if(!getPortName.equals("") && getBaudRate != 0 && getDataBit != 0
-            && !getParity.equals("") && !getStopBit.equals("") && !getFlowControll.equals("")) {
+                    && !getParity.equals("") && !getStopBit.equals("") && !getFlowControll.equals("")) {
                 try {
                     printReceipt(getPortName, getBaudRate, getDataBit, getParity, getStopBit, getFlowControll);
                 } catch (DocumentException | IOException e) {
                     e.printStackTrace();
                 }
+                return true;
             }
         }
-        System.out.println("setSpinner1");
-        makePortList.add("선택");
-        if (SerialPort.getCommPorts().length != 0 ) {
-            for (SerialPort port: SerialPort.getCommPorts()) {
-                makePortList.add(port.getSystemPortName());
-            }
-            ObservableList<String> list = FXCollections.observableList(makePortList);
-            select_com_port_combo.setItems(list);
-        }
-        select_com_port_combo.setValue("선택");
+        return false;
+    }
+
+    /***************************************************************************
+     *
+     * 스피너 클릭 이벤트 및 저장된 preferences 확인
+     *
+     **************************************************************************/
+    public void setSpinner() {
+//        makePortList.add("선택");
+//        if (SerialPort.getCommPorts().length != 0 ) {
+//            for (SerialPort port: SerialPort.getCommPorts()) {
+//                makePortList.add(port.getSystemPortName());
+//            }
+//            ObservableList<String> list = FXCollections.observableList(makePortList);
+//            select_com_port_combo.setItems(list);
+//        }
+//        select_com_port_combo.setValue("선택");
 
 
-        ObservableList<Integer> list = FXCollections.observableList(makeBaudRateList);
-        select_baud_rate_combo.setItems(list);
-
-        ObservableList<Integer> list2 = FXCollections.observableList(makeDataBit);
-        select_data_bit_combo.setItems(list2);
-
-        ObservableList<String> list3 = FXCollections.observableList(makeParity);
-        select_parity_combo.setItems(list3);
-
-        ObservableList<String> list4 = FXCollections.observableList(makeStopBit);
-        select_stop_bit_combo.setItems(list4);
-
-        ObservableList<String> list5 = FXCollections.observableList(makeFlowController);
-        select_flow_controller_combo.setItems(list5);
+//        ObservableList<Integer> list = FXCollections.observableList(makeBaudRateList);
+//        select_baud_rate_combo.setItems(list);
+//
+//        ObservableList<Integer> list2 = FXCollections.observableList(makeDataBit);
+//        select_data_bit_combo.setItems(list2);
+//
+//        ObservableList<String> list3 = FXCollections.observableList(makeParity);
+//        select_parity_combo.setItems(list3);
+//
+//        ObservableList<String> list4 = FXCollections.observableList(makeStopBit);
+//        select_stop_bit_combo.setItems(list4);
+//
+//        ObservableList<String> list5 = FXCollections.observableList(makeFlowController);
+//        select_flow_controller_combo.setItems(list5);
         
-        this_port_okay.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(event.getEventType() == ActionEvent.ACTION) {
-                    System.out.println("buttonClick");
-                    if(select_com_port_combo.getValue().equals("선택")) {
+//        this_port_okay.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                if(event.getEventType() == ActionEvent.ACTION) {
+//                    System.out.println("buttonClick");
+//                    if(select_com_port_combo.getValue().equals("선택")) {
+//
+//                    }else {
+//                        //port_device_name.setText();
+//                        bottom_area.setVisible(true);
+//                        print.setVisible(true);
+//                    }
+//                }
+//            }
+//        });
 
-                    }else {
-                        //port_device_name.setText();
-                        bottom_area.setVisible(true);
-                        print.setVisible(true);
-                    }
-                }
-            }
-        });
-        select_baud_rate_combo.setValue(9600);
-        select_data_bit_combo.setValue(8);
-        select_parity_combo.setValue("없음");
-        select_stop_bit_combo.setValue("1");
-        select_flow_controller_combo.setValue("DSR");
+//        select_baud_rate_combo.setValue(9600);
+//        select_data_bit_combo.setValue(8);
+//        select_parity_combo.setValue("없음");
+//        select_stop_bit_combo.setValue("1");
+//        select_flow_controller_combo.setValue("DSR");
 
-        print.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(event.getEventType() == ActionEvent.ACTION) {
-                    try {
-                        System.out.println(select_com_port_combo.getValue() + " : " +select_baud_rate_combo.getValue() + " : " + select_data_bit_combo.getValue());
-                        printReceipt(select_com_port_combo.getValue(), select_baud_rate_combo.getValue(), select_data_bit_combo.getValue()
-                        ,select_parity_combo.getValue(), select_stop_bit_combo.getValue(), select_flow_controller_combo.getValue());
-
-                    } catch (DocumentException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+//        print.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                if(event.getEventType() == ActionEvent.ACTION) {
+//                    try {
+//                        System.out.println(select_com_port_combo.getValue() + " : " +select_baud_rate_combo.getValue() + " : " + select_data_bit_combo.getValue());
+//                        printReceipt(select_com_port_combo.getValue(), select_baud_rate_combo.getValue(), select_data_bit_combo.getValue()
+//                        ,select_parity_combo.getValue(), select_stop_bit_combo.getValue(), select_flow_controller_combo.getValue());
+//
+//                    } catch (DocumentException | IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
     }
 
 
@@ -522,11 +533,11 @@ public class ReceiptPrint implements Initializable {
         printOutput.write(content.toString().getBytes("EUC-KR"));
 
         printOutput.write(TXT_NORMAL);
-        printOutput.write(TXT_ALIGN_RT);
+        printOutput.write(TXT_ALIGN_LT);
         printOutput.write(texTitleText.toString().getBytes("EUC-KR"));
 
         printOutput.write(TXT_4SQUARE);
-        printOutput.write(TXT_ALIGN_RT);
+        printOutput.write(TXT_ALIGN_LT);
         printOutput.write(totalTitleText.toString().getBytes("EUC-KR"));
 
         printOutput.write(TXT_NORMAL);
@@ -539,7 +550,5 @@ public class ReceiptPrint implements Initializable {
         printOutput.flush();
         printOutput.close();
         serialPort.closePort();
-
-        System.out.println("serialPort close " +serialPort.isOpen() + "");
     }
 }

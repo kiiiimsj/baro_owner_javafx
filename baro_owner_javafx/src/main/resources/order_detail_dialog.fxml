@@ -12,16 +12,17 @@
         xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.baro.Dialog.OrderDetailDialog"
-            style="-fx-border-color: gray;-fx-border-width: 1"
+            stylesheets="css/vbox_hover_highlight.css"
+            style="-fx-border-color: gray;-fx-border-width: 1;-fx-background-color: #3d3d3d"
             >
     <VBox AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0" maxHeight="Infinity">
-        <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d">
+        <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #282828">
             <padding>
                 <Insets top="10" bottom="10" right="10"/>
             </padding>
         </HBox>
         <HBox>
-            <Label fx:id="dialog_content" style="-fx-font-size: 12pt; -fx-text-fill: #8333e6;-fx-font-family: 'IBM Plex Sans KR'"
+            <Label fx:id="dialog_content" style="-fx-font-size: 12pt; -fx-text-fill: white;-fx-font-family: 'IBM Plex Sans KR'"
                    VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity" alignment="CENTER" textAlignment="JUSTIFY">
                 <padding>
                     <Insets top="30"/>
