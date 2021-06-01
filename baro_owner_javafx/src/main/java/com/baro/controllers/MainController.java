@@ -109,6 +109,7 @@ public class MainController implements OrderListController.MoveToSetting{
         main_page_stack_pane.setPrefHeight(LayoutSize.MAIN_PAGE_HEIGHT);
         main_page_stack_pane.setPrefWidth(LayoutSize.MAIN_PAGE_WIDTH);
 
+
         store_id = preferences.get("store_id", null);
         System.out.println("store_id" + store_id);
 
@@ -292,7 +293,6 @@ public class MainController implements OrderListController.MoveToSetting{
             public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
                 switch (observable.getValue().getId()) {
                     case "order_listTab":
-                        System.out.println("dowhat");
                         configureTab(order_listTab, orderListSideContainer);
                         break;
                     case "inventory_managementTab":
@@ -357,6 +357,7 @@ public class MainController implements OrderListController.MoveToSetting{
             returnOrderListWhenApplicationClose.returnOrderList(orderList);
 
             containerPane.getChildren().add(contentView);
+
             AnchorPane.setTopAnchor(contentView, 0.0);
             AnchorPane.setBottomAnchor(contentView, 0.0);
             AnchorPane.setRightAnchor(contentView, 0.0);
@@ -377,8 +378,8 @@ public class MainController implements OrderListController.MoveToSetting{
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/"+tab.getId().substring(0, tab.getId().indexOf("Tab"))+".fxml"));
                 Parent contentView = loader.load();
 //                DateConverter.fifteenTimerStop();
-
                 containerPane.getChildren().add(contentView);
+
                 AnchorPane.setTopAnchor(contentView, 0.0);
                 AnchorPane.setBottomAnchor(contentView, 0.0);
                 AnchorPane.setRightAnchor(contentView, 0.0);

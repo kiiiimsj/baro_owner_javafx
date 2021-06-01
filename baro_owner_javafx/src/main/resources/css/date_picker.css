@@ -1,5 +1,5 @@
 .jfx-date-picker .text-field {
-    -fx-font-size: 11pt;
+    -fx-font-size: 10pt;
     -fx-text-fill: white;
     -fx-font-family: 'IBM Plex Sans KR';
 }
@@ -10,4 +10,9 @@
     -fx-pref-height:1;
     -fx-translate-y: -10;
     -fx-background-color: white;
+}
+.jfx-date-picker{}
+
+.jfx-date-picker .spinner-label {
+    -fx-font-size: 14.0;
 }

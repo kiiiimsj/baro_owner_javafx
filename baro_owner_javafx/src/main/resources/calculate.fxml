@@ -15,7 +15,7 @@
         <padding>
             <Insets top="20" left="40" right="20"/>
         </padding>
-        <Label fx:id="week_sum_money_label"  alignment="TOP_LEFT" style="-fx-font-size: 40px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;-fx-background-color: #8333e6;-fx-background-radius: 10px">
+        <Label fx:id="week_sum_money_label"  alignment="TOP_LEFT" style="-fx-font-size: 22pt; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;-fx-background-color: #8333e6;-fx-background-radius: 10px">
             <padding>
                 <Insets top="20" bottom="20" left="20" right="20"/>
             </padding>
@@ -28,10 +28,10 @@
                 <padding>
                     <Insets bottom="40"/>
                 </padding>
-                <Label text="총 결제 금액 " prefWidth="500" style="-fx-font-size: 30px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;
-        -fx-background-color: #8333e6; -fx-background-radius: 10px 10px 0px 0px;">
+                <Label text="총 결제 금액 " prefWidth="500" style="-fx-font-size: 15pt; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;
+        -fx-background-color: #8333e6; -fx-background-radius: 10 10 0 0;">
                     <padding>
-                        <Insets top="20" bottom="20"/>
+                        <Insets top="20" bottom="20" left="20" right="20"/>
                     </padding>
                 </Label>
                 <Label fx:id="this_week_total_price" prefWidth="500" style="-fx-background-color: white;-fx-background-radius: 0 0 10 10">
@@ -45,10 +45,10 @@
                 <padding>
                     <Insets bottom="40" left="40"/>
                 </padding>
-                <Label text="총 쿠폰 금액 " prefWidth="500"  style="-fx-font-size: 30px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;
+                <Label text="총 쿠폰 금액 " prefWidth="500"  style="-fx-font-size: 15pt; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;
         -fx-background-color: #8333e6; -fx-background-radius: 10px 10px 0px 0px;">
                     <padding>
-                        <Insets top="20" bottom="20"/>
+                        <Insets top="20" bottom="20" left="20" right="20"/>
                     </padding>
                 </Label>
 
@@ -62,10 +62,10 @@
                 <padding>
                     <Insets bottom="40" left="40"/>
                 </padding>
-                <Label text="BARO 할인 금액 " prefWidth="500"  style="-fx-font-size: 30px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;
+                <Label text="BARO 할인 금액 " prefWidth="500"  style="-fx-font-size: 15pt; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;
         -fx-background-color: #8333e6; -fx-background-radius: 10px 10px 0px 0px;">
                     <padding>
-                        <Insets top="20" bottom="20"/>
+                        <Insets top="20" bottom="20" left="20" right="20"/>
                     </padding>
                 </Label>
 
@@ -78,7 +78,7 @@
         </HBox>
 
         <VBox alignment="CENTER_LEFT" >
-           <Label text="입금 받을 금액: "  prefWidth="1500"  style="-fx-font-size: 30px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;
+           <Label text="입금 받을 금액: "  prefWidth="1500"  style="-fx-font-size: 25pt; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;
         -fx-background-color: #8333e6; -fx-background-radius: 10px 10px 0px 0px;">
                <padding>
                    <Insets top="20" bottom="20" left="20" right="20"/>

@@ -11,12 +11,13 @@
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.baro.controllers.DiscountRateController"
+            stylesheets="css/vbox_hover_highlight.css"
             prefHeight="280.0" prefWidth="300.0"
             style="-fx-background-color: #3d3d3d; -fx-border-color: gray;-fx-border-width: 1" spacing="10">
     <padding>
         <Insets top="10" bottom="10" left="10" right="10"/>
     </padding>
-    <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d"  maxHeight="Infinity" minHeight="-Infinity" minWidth="-Infinity">
+    <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #282828"  maxHeight="Infinity" minHeight="-Infinity" minWidth="-Infinity">
         <padding>
             <Insets top="10" bottom="10" right="10"/>
         </padding>

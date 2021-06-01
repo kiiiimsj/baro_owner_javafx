@@ -14,57 +14,37 @@
 <?import com.jfoenix.controls.JFXListView?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
+            stylesheets="css/vbox_hover_highlight.css"
             fx:controller="com.baro.controllers.OrderHistoryController">
-    <VBox fx:id="content_vbox" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-        <HBox>
-            <padding>
-                <Insets bottom="10" left="10" right="10"/>
-            </padding>
-            <HBox fx:id="search_hbox" visible="false">
-                <spacing>10</spacing>
-                <Button fx:id="see_done" style="-fx-background-color: rgb(0,230,0); -fx-text-fill: white; -fx-font-size: 11pt" textAlignment="CENTER" HBox.hgrow="ALWAYS"/>
-                <Button fx:id="see_cancel" style="-fx-background-color: rgb(255,69,0); -fx-text-fill: white; -fx-font-size: 11pt" textAlignment="CENTER" HBox.hgrow="ALWAYS"/>
+    <VBox fx:id="content_vbox" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" spacing="10">
+        <HBox spacing="10">
+            <HBox fx:id="search_hbox" visible="false" spacing="10">
+                <padding>
+                    <Insets bottom="10" left="10" right="10"/>
+                </padding>
+                <Button fx:id="see_done" style="-fx-background-color: rgb(0,230,0); -fx-text-fill: white; -fx-font-size: 11pt; -fx-font-family: 'IBM Plex Sans KR'" textAlignment="CENTER" HBox.hgrow="ALWAYS"
+                        minWidth="-Infinity" maxWidth="Infinity"/>
+                <Button fx:id="see_cancel" style="-fx-background-color: rgb(255,69,0); -fx-text-fill: white; -fx-font-size: 11pt; -fx-font-family: 'IBM Plex Sans KR'" textAlignment="CENTER" HBox.hgrow="ALWAYS"
+                        minWidth="-Infinity" maxWidth="Infinity"/>
 <!--                <Button fx:id="button_search_by_phone" text="검색" style="-fx-font-size: 13pt;-fx-text-fill: white; -fx-background-color: #8333e6">-->
 <!--                    <HBox.margin>-->
 <!--                        <Insets top="15"/>-->
 <!--                    </HBox.margin>-->
 <!--                </Button>-->
             </HBox>
-            <HBox HBox.hgrow="ALWAYS">
-                <Label text="휴대폰:" style="-fx-font-size: 12pt;-fx-text-fill: white;" prefWidth="60">
-                    <HBox.margin>
-                        <Insets top="20" />
-                    </HBox.margin>
-                </Label>
-                <TextField fx:id="search_by_phone" style="-fx-font-size: 10pt">
-                    <HBox.margin>
-                        <Insets left="10" right="10" top="20"/>
-                    </HBox.margin>
-                </TextField>
-
-                <JFXDatePicker fx:id="start_date_picker" prefHeight="50" stylesheets="css/date_picker.css">
-                    <HBox.margin>
-                        <Insets top="15" />
-                    </HBox.margin>
-                </JFXDatePicker>
-                <Label text="-" textAlignment="CENTER" style="-fx-font-size: 18;-fx-text-fill: white;">
-                    <HBox.margin>
-                        <Insets right="10" top="20" />
-                    </HBox.margin>
-                </Label>
-                <JFXDatePicker fx:id="end_date_picker" prefHeight="50" stylesheets="css/date_picker.css" >
-                    <HBox.margin>
-                        <Insets top="15" />
-                    </HBox.margin>
-                </JFXDatePicker>
-                <JFXButton fx:id="look_up_button" text="조회" prefWidth="150" maxWidth="Infinity" style="-fx-font-size: 12pt;-fx-text-fill: white; -fx-background-color: #8333e6">
-                    <HBox.margin>
-                        <Insets top="15"/>
-                    </HBox.margin>
-                </JFXButton>
+            <HBox spacing="10">
+                <padding>
+                    <Insets right="20"/>
+                </padding>
+                <Label text="휴대폰:" minWidth="-Infinity" maxWidth="Infinity" style="-fx-font-size: 10pt;-fx-text-fill: white;"/>
+                <TextField fx:id="search_by_phone" style="-fx-font-size: 10pt" HBox.hgrow="ALWAYS"/>
+                <JFXDatePicker fx:id="start_date_picker" stylesheets="css/date_picker.css" HBox.hgrow="ALWAYS"/>
+                <Label text="-" textAlignment="CENTER" style="-fx-font-size: 18;-fx-text-fill: white;" HBox.hgrow="ALWAYS"/>
+                <JFXDatePicker fx:id="end_date_picker" stylesheets="css/date_picker.css" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="look_up_button" text="조회" style="-fx-font-size: 12pt;-fx-text-fill: white; -fx-background-color: #8333e6" minWidth="-Infinity" maxWidth="Infinity"/>
             </HBox>
         </HBox>
-        <JFXListView fx:id="dailySales" VBox.vgrow="ALWAYS" stylesheets="css/list_view.css" visible="false"/>
+        <ListView fx:id="dailySales" VBox.vgrow="ALWAYS" stylesheets="css/list_view.css" visible="false"/>
     </VBox>
     <Label fx:id="totalCount" visible="false" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="15" style="-fx-font-size: 20pt; -fx-text-fill: white; -fx-background-color: rgba(131, 51, 230, 0.8); -fx-background-radius: 10px;">
         <padding>

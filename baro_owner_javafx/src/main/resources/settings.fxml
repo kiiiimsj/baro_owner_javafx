@@ -10,6 +10,7 @@
 <?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
+            stylesheets="css/vbox_hover_highlight.css"
             fx:controller="com.baro.controllers.SettingController">
     <VBox AnchorPane.rightAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10" spacing="20">
         <Label text="저장된 프린터" style="-fx-text-fill: white; -fx-font-size: 20px"/>
@@ -64,12 +65,16 @@
                         </VBox.margin>
                     </ComboBox>
                 </HBox>
+                <HBox HBox.hgrow="ALWAYS">
+                    <Button fx:id="set_main_print" text="주 프린터로 설정" style="-fx-font-size: 20px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;-fx-background-color: #8333e6"/>
+                </HBox>
+
                 <HBox>
-                    <Label text="패리티(P)" prefWidth="250" fx:id="select_parity_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white">
-                        <VBox.margin>
-                            <Insets top="10" bottom="10"/>
-                        </VBox.margin>
-                    </Label>
+<!--                    <Label text="패리티(P)" prefWidth="250" fx:id="select_parity_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white">-->
+<!--                        <VBox.margin>-->
+<!--                            <Insets top="10" bottom="10"/>-->
+<!--                        </VBox.margin>-->
+<!--                    </Label>-->
                     <ComboBox fx:id="select_parity_combo"  style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: black">
                         <VBox.margin>
                             <Insets bottom="10"/>
@@ -77,11 +82,11 @@
                     </ComboBox>
                 </HBox>
                 <HBox>
-                    <Label text="정지 비트(S)" prefWidth="250" fx:id="select_stop_bit_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white">
-                        <VBox.margin>
-                            <Insets top="10" bottom="10"/>
-                        </VBox.margin>
-                    </Label>
+<!--                    <Label text="정지 비트(S)" prefWidth="250" fx:id="select_stop_bit_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white">-->
+<!--                        <VBox.margin>-->
+<!--                            <Insets top="10" bottom="10"/>-->
+<!--                        </VBox.margin>-->
+<!--                    </Label>-->
                     <ComboBox fx:id="select_stop_bit_combo"  style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: black">
                         <VBox.margin>
                             <Insets bottom="10"/>
@@ -89,11 +94,11 @@
                     </ComboBox>
                 </HBox>
                 <HBox>
-                    <Label text="흐름 제어(F)" prefWidth="250" fx:id="select_flow_controller_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white">
-                        <VBox.margin>
-                            <Insets top="10" bottom="10"/>
-                        </VBox.margin>
-                    </Label>
+<!--                    <Label text="흐름 제어(F)" prefWidth="250" fx:id="select_flow_controller_combo_text" style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white">-->
+<!--                        <VBox.margin>-->
+<!--                            <Insets top="10" bottom="10"/>-->
+<!--                        </VBox.margin>-->
+<!--                    </Label>-->
                     <ComboBox fx:id="select_flow_controller_combo"  style="-fx-font-size: 25px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: black">
                         <VBox.margin>
                             <Insets bottom="10"/>
@@ -107,9 +112,6 @@
                 </padding>
                 <Label />
             </VBox>
-            <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
-                <Button fx:id="set_main_print" text="주 프린터로 설정" style="-fx-font-size: 20px; -fx-font-family: 'IBM Plex Sans KR'; -fx-text-fill: white;-fx-background-color: #8333e6"/>
-            </HBox>
         </HBox>
     </VBox>
     <HBox spacing="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">

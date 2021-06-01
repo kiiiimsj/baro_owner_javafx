@@ -19,23 +19,24 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.ScrollPane?>
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171"
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.291"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.baro.controllers.StatisticController"
             stylesheets="css/statistics.css">
-    <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+    <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10"
+          stylesheets="css/vbox_hover_highlight.css">
         <spacing>10</spacing>
         <padding>
             <Insets top="10" />
         </padding>
-        <HBox alignment="CENTER_RIGHT">
-            <HBox HBox.hgrow="ALWAYS" maxWidth="Infinity" spacing="10">
-                <Button fx:id="day_sell_button" mnemonicParsing="false" HBox.hgrow="ALWAYS" visible="false"
-                        style="-fx-background-color: #8333e6; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 20" text="기간별 매출"/>
-                <Button fx:id="menu_sell_button" mnemonicParsing="false" HBox.hgrow="ALWAYS" visible="false"
-                        style="-fx-background-color: #8333e6; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 20" text="메뉴별 매출"/>
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <HBox spacing="10">
+                <Button fx:id="day_sell_button" visible="false"
+                        style="-fx-background-color: #8333e6; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 15pt" text="기간별 매출"/>
+                <Button fx:id="menu_sell_button" visible="false"
+                        style="-fx-background-color: #8333e6; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 15pt" text="메뉴별 매출"/>
             </HBox>
-            <JFXDatePicker fx:id="start_date_picker" prefHeight="50" stylesheets="css/date_picker.css" style="-fx-font-size: 15">
+            <JFXDatePicker fx:id="start_date_picker" stylesheets="css/date_picker.css" style="-fx-font-size: 15" >
 <!--                <HBox.margin>-->
 <!--                    <Insets top="15" />-->
 <!--                </HBox.margin>-->
@@ -45,12 +46,12 @@
                     <Insets left="10" right="10"/>
                 </HBox.margin>
             </Label>
-            <JFXDatePicker fx:id="end_date_picker" prefHeight="50" stylesheets="css/date_picker.css" style="-fx-font-size: 15">
+            <JFXDatePicker fx:id="end_date_picker" stylesheets="css/date_picker.css" style="-fx-font-size: 15">
 <!--                <HBox.margin>-->
 <!--                    <Insets top="15" />-->
 <!--                </HBox.margin>-->
             </JFXDatePicker>
-            <Button fx:id="look_up_button" alignment="CENTER" text="조회" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-background-color: #8333e6">
+            <Button fx:id="look_up_button" minWidth="-Infinity" maxWidth="Infinity" alignment="CENTER" text="조회" style="-fx-font-size: 15pt;-fx-text-fill: white; -fx-background-color: #8333e6">
                 <HBox.margin>
                     <Insets right="10"/>
                 </HBox.margin>

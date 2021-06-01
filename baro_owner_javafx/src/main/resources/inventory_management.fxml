@@ -12,10 +12,9 @@
 <VBox xmlns="http://javafx.com/javafx"
       fx:id="base"
       xmlns:fx="http://javafx.com/fxml"
-      prefHeight="900.0" prefWidth="1150.0"
       fx:controller="com.baro.controllers.InventoryController"
 >
         <JFXTabPane fx:id="categoryTabPane" stylesheets="css/tab_pane.css" />
-        <GridPane fx:id="menuList_header" prefHeight="50" style="-fx-font-family: 'IBM Plex Sans KR'"/>
+        <GridPane fx:id="menuList_header" prefHeight="40" style="-fx-font-size:18pt;-fx-font-family: 'IBM Plex Sans KR'"/>
         <ListView fx:id="menuList" VBox.vgrow="SOMETIMES" stylesheets="css/list_view.css"/>
 </VBox>

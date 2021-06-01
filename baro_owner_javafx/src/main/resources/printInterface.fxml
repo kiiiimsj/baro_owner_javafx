@@ -36,21 +36,21 @@
                         <padding>
                                 <Insets left="10" right="10" bottom="10"/>
                         </padding>
-                        <Label text="패리티(P)"   prefWidth="100"/>
+<!--                        <Label text="패리티(P)"   prefWidth="100"/>-->
                         <ComboBox fx:id="select_parity_combo" prefWidth="300"/>
                 </HBox>
                 <HBox alignment="CENTER">
                         <padding>
                                 <Insets left="10" right="10" bottom="10"/>
                         </padding>
-                        <Label text="정지 비트(S)"   prefWidth="100"/>
+<!--                        <Label text="정지 비트(S)"   prefWidth="100"/>-->
                         <ComboBox fx:id="select_stop_bit_combo" prefWidth="300"/>
                 </HBox>
                 <HBox alignment="CENTER">
                         <padding>
                                 <Insets left="10" right="10" bottom="10"/>
                         </padding>
-                        <Label text="흐름 제어(F)"  prefWidth="100"/>
+<!--                        <Label text="흐름 제어(F)"  prefWidth="100"/>-->
                         <ComboBox fx:id="select_flow_controller_combo" prefWidth="300"/>
                 </HBox>
         </VBox>

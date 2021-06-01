@@ -26,16 +26,16 @@ public class LayoutSize {
     /**
      * Main Attribute Size
      */
-    public static int TOP_BAR_HEIGHT = 80;
+    public static int TOP_BAR_HEIGHT = 70; //80
 
-    public static int LOGIN_PAGE_WIDTH = 500;
+    public static int LOGIN_PAGE_WIDTH = 400; //500
     public static int LOGIN_PAGE_HEIGHT = 580;
 
-    public static int MAIN_PAGE_WIDTH = 1000;
-    public static int MAIN_PAGE_HEIGHT = 800;
+    public static int MAIN_PAGE_WIDTH = 800; //1000
+    public static int MAIN_PAGE_HEIGHT = 730; //800
 
-    public static int MAIN_TAB_PANE_WIDTH = 120;
-    public static int MAIN_TAB_PANE_HEIGHT = 120;
+    public static int MAIN_TAB_PANE_WIDTH = 100;
+    public static int MAIN_TAB_PANE_HEIGHT = 110;
 
     public static int INSIDE_PANE_WIDTH = MAIN_PAGE_WIDTH - MAIN_TAB_PANE_WIDTH;
     //padding 20
@@ -44,12 +44,10 @@ public class LayoutSize {
     /**
      * Order List Attribute Size
      **/
-    public static int ORDER_LIST_WIDTH = 250;
-    public static int ORDER_LIST_HEIGHT = 630;
+    public static int ORDER_LIST_WIDTH = 180;
+    public static int ORDER_LIST_HEIGHT = 610;
 
-    public static int ORDER_LIST_ORDER_CELL_HEIGHT = 95;
-
-    public static int ORDER_CELL_ORDER_TIME_WIDTH = 70;
+    public static int ORDER_LIST_ORDER_CELL_HEIGHT = 30;
 
     public static int ORDER_LIST_TOP_AREA_HEIGHT = 80;
     public static int ORDER_LIST_BOTTOM_AREA_HEIGHT = 120;
@@ -58,11 +56,11 @@ public class LayoutSize {
 
     public static int ORDER_DETAIL_CANCEL_BUTTON_WIDTH = INSIDE_PANE_WIDTH - ORDER_LIST_WIDTH - ORDER_LIST_TOP_AREA_HBOX_WIDTH;
 
-    public static int ORDER_DETAIL_WIDTH = INSIDE_PANE_WIDTH - ORDER_LIST_WIDTH;
+    public static int ORDER_DETAIL_WIDTH = INSIDE_PANE_WIDTH - ORDER_LIST_WIDTH - 15; //padding 15
     public static int ORDER_DETAIL_HEIGHT = INSIDE_PANE_HEIGHT;
 
-    public static int ORDER_MENUS_WIDTH = ORDER_DETAIL_WIDTH / 2;
-    public static int BOTTOM_BUTTON_WIDTH = 269;
+    public static int ORDER_MENUS_WIDTH = (ORDER_DETAIL_WIDTH / 2) - 5;
+    public static int BOTTOM_BUTTON_WIDTH = ORDER_DETAIL_WIDTH;
     /**
      * Order History Attribute Size
      **/

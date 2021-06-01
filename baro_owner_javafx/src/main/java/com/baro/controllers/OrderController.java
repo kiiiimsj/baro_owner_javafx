@@ -32,8 +32,6 @@ public class OrderController implements Initializable{
     @FXML
     private Label price;
     @FXML
-    private StackPane timeTable;
-    @FXML
     private HBox shell;
     @FXML
     public Label timeLabel;
@@ -49,10 +47,9 @@ public class OrderController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         shell.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
-        timeLabel.setPrefWidth(LayoutSize.ORDER_CELL_ORDER_TIME_WIDTH);
     }
     public void configureUI() {
-        customer.setText("고객번호 "+orderData.phone);
+        customer.setText("고객번호 : "+orderData.phone);
         order_count.setText("메뉴 " + orderData.order_count + "개 |");
 
         if(orderData.discount_rate != 0 ){

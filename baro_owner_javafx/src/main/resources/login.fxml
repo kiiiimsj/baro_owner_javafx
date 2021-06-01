@@ -10,9 +10,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <VBox fx:id="base" stylesheets="css/login_sheets.css"
-      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/8.0.291" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.baro.controllers.LoginController" >
-   <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #3d3d3d">
+   <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #282828">
       <padding>
          <Insets top="10" bottom="10" right="10"/>
       </padding>
@@ -84,8 +84,7 @@
          <Insets left="10" bottom="20"/>
       </padding>
    </JFXCheckBox>
-   <Button fx:id="login_btn" alignment="CENTER" mnemonicParsing="false" text="로그인"
-           style="-fx-font-size: 40; -fx-background-color: #8333e6; -fx-text-fill: white; -fx-font-family: 'IBM Plex Sans KR'; -fx-font-smoothing-type: true;"
+   <Button fx:id="login_btn" alignment="CENTER" mnemonicParsing="false" text="로그인" stylesheets="css/vbox_hover_highlight.css"
            maxWidth="Infinity" onAction="#loginAction">
       <VBox.margin>
          <Insets left="10" right="10" bottom="10"/>

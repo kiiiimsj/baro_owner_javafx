@@ -32,28 +32,48 @@
 /*!*.list-cell:filled:selected {*!*/
 /*!*    -fx-text-fill: red;*!*/
 /*!*}*!*/
-/*!*.list-cell:filled:selected:focused, .list-cell:filled:selected {*!*/
-/*!*    -fx-background-color: white;*!*/
-/*!*}*!*/
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #3d3d3d;
+    -fx-text-fill: white;
+}
+.list-cell:filled:selected:focused .label {
+    -fx-text-fill: white;
+}
+
+.list-cell:filled:selected:focused > HBox > VBox > HBox > StackPane > HBox {
+    -fx-border-color: white;
+}
+.list-cell > HBox > VBox > HBox > StackPane > HBox {
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: black;
+}
 /*!*.list-cell-row:filled:hover {*!*/
 /*!*    -fx-background-color: #8D45E7;*!*/
 /*!*    -fx-text-fill: -fx-text-inner-color;*!*/
 /*!*}*!*/
-.list-view {
-    -fx-selection-bar : white;
-}
+
 /*.cell:focused {*/
-/*    -fx-text-fill: black;*/
+/*    -fx-background-color: #3d3d3d;*/
+/*    -fx-text-fill: white;*/
+/*    -fx-border-width: 1;*/
 /*}*/
 /*.list-cell:filled:selected:focused, .list-cell:filled:selected {*/
 /*    -fx-background-color: white;*/
 /*    -fx-text-fill: black;*/
 /*}*/
+
+.list-view {
+    -fx-selection-bar : white;
+    -fx-padding: -7 0 0 0;
+}
 .list-cell:odd {
+    -fx-padding: 10;
     -fx-background-color: white;
     -fx-text-fill: black;
 }
+
 .list-cell:even {
+    -fx-padding: 10;
     -fx-background-color: white;
     -fx-text-fill: black;
 }
@@ -63,7 +83,7 @@
 }
 .list-cell {
     -fx-border-width: 0 0 2 0;
-    -fx-border-color: gray;
+    -fx-border-color: #3d3d3d;
 }
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track{
@@ -119,4 +139,17 @@
     -fx-background-color :derive(#8D45E7,10.0%);
     -fx-background-insets : 2.0, 0.0, 0.0;
     -fx-background-radius : 2.0em;
+}
+
+#menuList .scroll-bar:horizontal {
+    -fx-padding: -7;
+    -fx-opacity: 0;
+    -fx-scale-x: 0;
+    -fx-scale-y: 0;
+}
+#dailySales .scroll-bar:horizontal {
+    -fx-padding: -7;
+    -fx-opacity: 0;
+    -fx-scale-x: 0;
+    -fx-scale-y: 0;
 }

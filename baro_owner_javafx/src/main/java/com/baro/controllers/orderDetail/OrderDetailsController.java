@@ -5,6 +5,7 @@ import com.baro.Dialog.PrintReceiptDialog;
 import com.baro.JsonParsing.Order;
 import com.baro.JsonParsing.OrderDetailParsing;
 import com.baro.Printer.ReceiptPrint;
+import com.baro.controllers.SettingController;
 import com.baro.controllers.SettingTimerController;
 import com.baro.utils.DateConverter;
 import com.baro.utils.LayoutSize;
@@ -46,7 +47,7 @@ import java.util.prefs.Preferences;
 public class OrderDetailsController implements Initializable, OrderDetailDialog.OrderDetailDialogInterface, PrintReceiptDialog.ButtonClick {
     public Button cancelBtn;
     public GridPane button_area;
-    public VBox base;
+    public AnchorPane base;
     public HBox top_area;
     public Label discountRatePriceLabel;
     public VBox info_box;
@@ -108,11 +109,15 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
         orderDetailDialog = new OrderDetailDialog();
 
         base.setMinHeight(LayoutSize.ORDER_DETAIL_HEIGHT);
+        base.setMaxWidth(LayoutSize.ORDER_DETAIL_WIDTH);
 
-        cancelBtn.setMinHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
+//        top_area.prefWidthProperty().bind(base.prefWidthProperty());
+//        top_area.prefHeightProperty().bind(base.prefHeightProperty());
+//
+//        cancelBtn.prefWidthProperty().bind(top_area.prefWidthProperty());
+//        cancelBtn.prefHeightProperty().bind(top_area.prefHeightProperty());
+
         cancelBtn.setMinWidth(LayoutSize.ORDER_DETAIL_CANCEL_BUTTON_WIDTH);
-
-        top_area.setPrefHeight(LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT);
         col1.setMaxWidth(LayoutSize.BOTTOM_BUTTON_WIDTH);
 
         receipt_preview_scroll.setMinHeight(LayoutSize.ORDER_DETAIL_HEIGHT - LayoutSize.ORDER_LIST_TOP_AREA_HEIGHT- LayoutSize.ORDER_LIST_BOTTOM_AREA_HEIGHT);
@@ -511,7 +516,6 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
 
     @Override
     public void click() {
-
         try {
             print_fxml_loader = new FXMLLoader(getClass().getResource("/printInterface.fxml"));
             printParent = print_fxml_loader.load();
@@ -528,8 +532,7 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
 
         print.makeReceiptString(data, order);
 
-        if(!preferences.get("setMainPortName", "").equals("")) {
-            print.startPrint();
+        if(checkSavePrint() && print.startPrint()) {
             needToSettingMainPrint.set(false);
         } else {
             needToSettingMainPrint.set(true);
@@ -553,4 +556,15 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
             }
         });
     }
+
+    public boolean checkSavePrint() {
+        for (int i = 0; i < 5 ; i++) {
+            System.out.println("savePrintName : "+ preferences.get("savePrintName"+i+"", ""));
+            if(!preferences.get("savePrintName"+i+"", "").equals("")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

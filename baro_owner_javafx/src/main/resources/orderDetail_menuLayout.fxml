@@ -5,7 +5,7 @@
 
 <?import javafx.geometry.Insets?>
 <VBox   fx:id="menu_layout"
-        xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+        xmlns="http://javafx.com/javafx/8.0.291" xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="com.baro.controllers.orderDetail.OrderDetailMenuController"
         style="-fx-font-family: 'IBM Plex Sans KR';-fx-text-fill: white;-fx-background-color: white">
     <GridPane style="-fx-background-color: white" >
@@ -20,10 +20,10 @@
         <rowConstraints>
             <RowConstraints vgrow="ALWAYS"/>
         </rowConstraints>
-        <Label text="메뉴명" style="-fx-font-size: 15pt;-fx-text-fill: black" GridPane.columnIndex="0"/>
-        <Label text="수량" style="-fx-font-size: 15pt;-fx-text-fill: black" GridPane.columnIndex="1"
+        <Label text="메뉴명" style="-fx-font-size: 12pt;-fx-text-fill: black" GridPane.columnIndex="0"/>
+        <Label text="수량" style="-fx-font-size: 12pt;-fx-text-fill: black" GridPane.columnIndex="1"
                textAlignment="CENTER"/>
-        <Label text="금액" style="-fx-font-size: 15pt;-fx-text-fill: black" GridPane.columnIndex="2"/>
+        <Label text="금액" style="-fx-font-size: 12pt;-fx-text-fill: black" GridPane.columnIndex="2"/>
     </GridPane>
     <HBox prefHeight="1" style="-fx-background-color: #3d3d3d;" maxWidth="Infinity"/>
     <VBox fx:id="menu_content" VBox.vgrow="ALWAYS" style="-fx-background-color: white">

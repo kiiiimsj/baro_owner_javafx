@@ -5,6 +5,7 @@ import com.baro.JsonParsing.Category;
 import com.baro.JsonParsing.CategoryParsing;
 import com.baro.JsonParsing.Menu;
 import com.baro.JsonParsing.MenuParsing;
+import com.baro.utils.LayoutSize;
 import com.google.gson.Gson;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTabPane;
@@ -20,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import org.json.JSONObject;
@@ -35,7 +37,7 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
 
     public GridPane menuList_header;
     public VBox base;
-    @FXML private JFXTabPane categoryTabPane;
+    @FXML private TabPane categoryTabPane;
     @FXML private ListView<GridPane> menuList;
     Preferences preferences = Preferences.userRoot();
 
@@ -51,6 +53,7 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
     RowConstraints row1 = new RowConstraints();
     RowConstraints row2 = new RowConstraints();
 
+    public final int GRID_COL_WIDTH = (int)(LayoutSize.INSIDE_PANE_WIDTH /3) - 5; //scroll bar 잘리는 현상 - 5
     private int lastSelectedIndex;
     @FXML
     @Override
@@ -64,22 +67,26 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
 
     private void setMenuListHeader() {
         col1.setHgrow(Priority.ALWAYS);
-        col1.setMaxWidth(base.getPrefWidth()/3);
+        col1.setMaxWidth(GRID_COL_WIDTH);
+        col1.setMinWidth(GRID_COL_WIDTH);
+        col1.setHalignment(HPos.CENTER);
 
         col2.setHgrow(Priority.ALWAYS);
         col2.setHalignment(HPos.CENTER);
-        col2.setMaxWidth(base.getPrefWidth()/3);
+        col2.setMaxWidth(GRID_COL_WIDTH);
+        col2.setMinWidth(GRID_COL_WIDTH);
 
         col3.setHgrow(Priority.ALWAYS);
         col3.setHalignment(HPos.CENTER);
-        col3.setMaxWidth(base.getPrefWidth()/3);
+        col3.setMaxWidth(GRID_COL_WIDTH);
+        col3.setMinWidth(GRID_COL_WIDTH);
 
         row1.setVgrow(Priority.ALWAYS);
 
         row2.setVgrow(Priority.NEVER);
         row2.setMaxHeight(20);
 
-        menuList_header.getColumnConstraints().add(0, col2);
+        menuList_header.getColumnConstraints().add(0, col1);
         menuList_header.getColumnConstraints().add(1, col2);
         menuList_header.getColumnConstraints().add(2, col3);
         menuList_header.getRowConstraints().add(0, row1);
@@ -137,6 +144,7 @@ public class InventoryController implements Initializable, InventoryDialog.Inven
         menuParsing = new Gson().fromJson(toString, MenuParsing.class);
 
         setCategoryClickEvent();
+
 
         categoryTabPane.getSelectionModel().select(1);
         categoryTabPane.getSelectionModel().select(0);

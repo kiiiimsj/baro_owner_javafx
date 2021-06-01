@@ -1,5 +1,6 @@
 package com.baro.controllers;
 
+import com.baro.Dialog.NoDataDialog;
 import com.baro.Dialog.PrintDialog;
 import com.baro.Printer.ReceiptPrint;
 import com.baro.utils.LayoutSize;
@@ -10,13 +11,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -26,7 +30,11 @@ import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 public class SettingController implements Initializable, PrintDialog.PrintDialogInterface {
-
+    public enum ADD_PRINT {
+        NAME_EX,
+        NO_NAME,
+        NO_PB
+    }
 
     Preferences preferences = Preferences.userRoot();
     private ArrayList<Integer> makeDataBit = new ArrayList<Integer>() {{
@@ -124,42 +132,70 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
 //                }
             }
         }
-        select_com_port_combo.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
-        select_baud_rate_combo.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
-        select_data_bit_combo.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
-        select_parity_combo.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
-        select_stop_bit_combo.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
-        select_flow_controller_combo.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
-        insert_print_name_field.setPrefWidth(LayoutSize.COMBO_BOX_WIDTH);
-        ObservableList<String> portList = FXCollections.observableList(makePortList);
-        select_com_port_combo.setItems(portList);
-        ObservableList<Integer> baudRateList = FXCollections.observableList(makeBaudRateList);
-        select_baud_rate_combo.setItems(baudRateList);
-        ObservableList<Integer> dataBitList = FXCollections.observableList(makeDataBit);
-        select_data_bit_combo.setItems(dataBitList);
-        ObservableList<String> parityList = FXCollections.observableList(makeParity);
-        select_parity_combo.setItems(parityList);
-        ObservableList<String> stopBitList = FXCollections.observableList(makeStopBit);
-        select_stop_bit_combo.setItems(stopBitList);
-        ObservableList<String> flowList = FXCollections.observableList(makeFlowController);
-        select_flow_controller_combo.setItems(flowList);
+        select_com_port_combo.setPrefWidth(         LayoutSize.COMBO_BOX_WIDTH);
+        select_baud_rate_combo.setPrefWidth(        LayoutSize.COMBO_BOX_WIDTH);
+        select_data_bit_combo.setPrefWidth(         LayoutSize.COMBO_BOX_WIDTH);
+        insert_print_name_field.setPrefWidth(       LayoutSize.COMBO_BOX_WIDTH);
+
+        ObservableList<String> portList         = FXCollections.observableList(makePortList);
+        ObservableList<Integer> baudRateList    = FXCollections.observableList(makeBaudRateList);
+        ObservableList<Integer> dataBitList     = FXCollections.observableList(makeDataBit);
+
+
+        select_com_port_combo.setItems(         portList);
+        select_baud_rate_combo.setItems(        baudRateList);
+        select_data_bit_combo.setItems(         dataBitList);
+
+        select_parity_combo.setVisible(false);
+        select_stop_bit_combo.setVisible(false);
+        select_flow_controller_combo.setVisible(false);
+        
+        select_parity_combo.setPrefWidth(           LayoutSize.COMBO_BOX_WIDTH);
+        select_stop_bit_combo.setPrefWidth(         LayoutSize.COMBO_BOX_WIDTH);
+        select_flow_controller_combo.setPrefWidth(  LayoutSize.COMBO_BOX_WIDTH);
+        ObservableList<String> parityList       = FXCollections.observableList(makeParity);
+        ObservableList<String> stopBitList      = FXCollections.observableList(makeStopBit);
+        ObservableList<String> flowList         = FXCollections.observableList(makeFlowController);
+        select_parity_combo.setItems(           parityList);
+        select_stop_bit_combo.setItems(         stopBitList);
+        select_flow_controller_combo.setItems(  flowList);
 
         setEvent();
     }
+
     public void setPrintList() {
-        if(save_print_grid_pane.getChildren().size() != 0) {
+        if(save_print_grid_pane.getChildren().size() != 0 || save_print_grid_pane.getChildren() != null) {
             save_print_grid_pane.getChildren().removeAll();
+            save_print_grid_pane.getChildren().clear();
         }
         for (int i = 0; i < 5 ; i++) {
             System.out.println("savePrintName : "+ preferences.get("savePrintName"+i+"", ""));
             final int index = i;
             if(!preferences.get("savePrintName"+i+"", "").equals("")) {
-                save_print_grid_pane.getChildren().add(index, modifyPrint(index));
+                if(preferences.get("setMainPrint", "").equals(preferences.get("savePrintName"+i+"", ""))) {
+                    AnchorPane main = new AnchorPane();
+                    main.setStyle("-fx-background-color: #3d3d3d");
+                    Label mainLabel = new Label("주 프린터");
+                    mainLabel.setStyle("-fx-font-size: 15px;-fx-background-color: #8333e6;-fx-text-fill: white;-fx-background-radius: 5px;-fx-padding: 2");
+
+                    main.getChildren().addAll(modifyPrint(index), mainLabel);
+                    AnchorPane.setTopAnchor(mainLabel, -10.0);
+                    AnchorPane.setRightAnchor(mainLabel, -10.0);
+
+                    AnchorPane.setTopAnchor(modifyPrint(index), 0.0);
+                    AnchorPane.setRightAnchor(modifyPrint(index), 0.0);
+                    AnchorPane.setLeftAnchor(modifyPrint(index), 0.0);
+
+                    save_print_grid_pane.getChildren().add(index, main);
+                }else {
+                    save_print_grid_pane.getChildren().add(index, modifyPrint(index));
+                }
             }else {
                 save_print_grid_pane.getChildren().add(index, addNewPrint(index));
             }
         }
     }
+
     public Label modifyPrint(final int index) {
         Label print = new Label(preferences.get("savePrintName"+index+"", ""));
         print.setMinWidth(LayoutSize.PRINT_LABEL_WIDTH);
@@ -171,12 +207,20 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
             public void handle(MouseEvent event) {
                 print.setStyle("-fx-text-fill: white;-fx-background-color: gray;-fx-font-size: 20px;-fx-background-radius: 5px");
                 System.out.println("PrintOld : " + oldValueLabelIndex);
-                System.out.println("Print : " + index);
+                System.out.println(save_print_grid_pane.getChildren().get(oldValueLabelIndex).getClass().toString());
                 if(oldValueLabelIndex != index) {
-                    save_print_grid_pane
-                            .getChildren()
-                            .get(oldValueLabelIndex)
-                            .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 20px;-fx-background-radius: 5px");
+                    if(save_print_grid_pane.getChildren().get(oldValueLabelIndex).getClass().toString().equals("class javafx.scene.layout.AnchorPane")) {
+                        System.out.println(save_print_grid_pane.getChildren().get(oldValueLabelIndex).getClass());
+                        ((AnchorPane)save_print_grid_pane.getChildren().get(oldValueLabelIndex))
+                                .getChildren()
+                                .get(0)
+                                .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 20px;-fx-background-radius: 5px");
+                    }else {
+                        save_print_grid_pane
+                                .getChildren()
+                                .get(oldValueLabelIndex)
+                                .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 20px;-fx-background-radius: 5px");
+                    }
                 }
                 oldValueLabelIndex = index;
 
@@ -187,9 +231,11 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
                 test_print.setVisible(true);
 
                 insert_print_name_field.setText(preferences.get("savePrintName"+index+"", ""));
+
                 select_com_port_combo.setValue(preferences.get("savePortName"+index+"", ""));
                 select_baud_rate_combo.setValue(preferences.getInt("saveBaudRate"+index+"", -1));
                 select_data_bit_combo.setValue(preferences.getInt("saveDataBit"+index+"", -1));
+
                 select_parity_combo.setValue(preferences.get("saveParity"+index+"", ""));
                 select_stop_bit_combo.setValue(preferences.get("saveStopBit"+index+"",""));
                 select_flow_controller_combo.setValue(preferences.get("saveFlowControll"+index+"",""));
@@ -222,16 +268,23 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
                 System.out.println("noPrintOld : " + oldValueLabelIndex);
                 System.out.println("noPrint : " + index);
                 if(oldValueLabelIndex != index) {
-                    save_print_grid_pane
-                            .getChildren()
-                            .get(oldValueLabelIndex)
-                            .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 20px;-fx-background-radius: 5px");
+                    if(save_print_grid_pane.getChildren().get(oldValueLabelIndex).getClass().toString().equals("class javafx.scene.layout.AnchorPane")) {
+                        System.out.println(save_print_grid_pane.getChildren().get(oldValueLabelIndex).getClass());
+                        ((AnchorPane)save_print_grid_pane.getChildren().get(oldValueLabelIndex))
+                                .getChildren()
+                                .get(0)
+                                .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 20px;-fx-background-radius: 5px");
+                    }else {
+                        save_print_grid_pane
+                                .getChildren()
+                                .get(oldValueLabelIndex)
+                                .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 20px;-fx-background-radius: 5px");
+                    }
                 }
                 oldValueLabelIndex = index;
 
                 print_info_combo_box.setVisible(true);
                 save_print.setVisible(true);
-
                 set_main_print.setVisible(false);
                 delete_print.setVisible(false);
                 test_print.setVisible(false);
@@ -255,7 +308,6 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
     }
 
     private void deleteMainPrint() {
-        System.out.println("deleteMain");
         preferences.put("setMainPrint", "");
         preferences.put("setMainPortName", "");
         preferences.putInt("setMainBaudRate", -1);
@@ -270,7 +322,7 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
             @Override
             public void handle(ActionEvent event) {
                 testPrint(select_com_port_combo.getValue(), select_baud_rate_combo.getValue(), select_data_bit_combo.getValue()
-                        ,select_parity_combo.getValue(), select_stop_bit_combo.getValue(), select_flow_controller_combo.getValue());
+                        ,"없음", "1", "없음");
             }
         });
         set_main_print.setOnAction(new EventHandler<ActionEvent>() {
@@ -380,9 +432,11 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
         preferences.put("savePortName"+index+"", select_com_port_combo.getValue());
         preferences.putInt("saveBaudRate"+index+"", select_baud_rate_combo.getValue());
         preferences.putInt("saveDataBit"+index+"", select_data_bit_combo.getValue());
-        preferences.put("saveParity"+index+"", select_parity_combo.getValue());
-        preferences.put("saveStopBit"+index+"",select_stop_bit_combo.getValue());
-        preferences.put("saveFlowControll"+index+"",select_flow_controller_combo.getValue());
+
+        preferences.put("saveParity"+index+"", "없음");
+        preferences.put("saveStopBit"+index+"", "1");
+        preferences.put("saveFlowControll"+index+"", "없음");
+
         save_print_grid_pane.getChildren().remove(index);
         save_print_grid_pane.getChildren().add(index, modifyPrint(index));
     }
@@ -395,18 +449,26 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
         delete_print.setVisible(false);
         set_main_print.setVisible(false);
         test_print.setVisible(false);
-        preferences.put("savePrintName"+index+"", insert_print_name_field.getText());
-        preferences.put("savePortName"+index+"", select_com_port_combo.getValue());
-        preferences.putInt("saveBaudRate"+index+"", select_baud_rate_combo.getValue());
-        preferences.putInt("saveDataBit"+index+"", select_data_bit_combo.getValue());
-        preferences.put("saveParity"+index+"", select_parity_combo.getValue());
-        preferences.put("saveStopBit"+index+"",select_stop_bit_combo.getValue());
-        preferences.put("saveFlowControll"+index+"",select_flow_controller_combo.getValue());
+
+        if(checkName(insert_print_name_field.getText())) {
+            preferences.put("savePrintName"+index+"", insert_print_name_field.getText());
+            preferences.put("savePortName"+index+"", select_com_port_combo.getValue());
+            preferences.putInt("saveBaudRate"+index+"", select_baud_rate_combo.getValue());
+            preferences.putInt("saveDataBit"+index+"", select_data_bit_combo.getValue());
+
+            preferences.put("saveParity"+index+"", "없음");
+            preferences.put("saveStopBit"+index+"", "1");
+            preferences.put("saveFlowControll"+index+"", "없음");
 //                        save_print_grid_pane.getChildren().remove(index);
 //                        save_print_grid_pane.add(addPrint(index), index, 0);
-        save_print_grid_pane.getChildren().remove(index);
-        save_print_grid_pane.getChildren().add(index, modifyPrint(index));
-
+            save_print_grid_pane.getChildren().remove(index);
+            save_print_grid_pane.getChildren().add(index, modifyPrint(index));
+        }else {
+            save_print_grid_pane
+                    .getChildren()
+                    .get(index)
+                    .setStyle("-fx-text-fill: gray;-fx-background-color: white;-fx-font-size: 20px;-fx-background-radius: 5px");
+        }
         System.out.println("passThrough");
     }
 
@@ -417,18 +479,28 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
         delete_print.setVisible(false);
         set_main_print.setVisible(false);
         test_print.setVisible(false);
-        preferences.put("savePrintName"+index+"", "");
-        preferences.put("savePortName"+index+"", "");
-        preferences.putInt("saveBaudRate"+index+"", -1);
-        preferences.putInt("saveDataBit"+index+"", -1);
-        preferences.put("saveParity"+index+"", "");
-        preferences.put("saveStopBit"+index+"","");
-        preferences.put("saveFlowControll"+index+"","");
-        save_print_grid_pane.getChildren().remove(index);
-        save_print_grid_pane.getChildren().add(index, addNewPrint(index));
+
         if(preferences.get("setMainPrint", "").equals( preferences.get("savePrintName"+index+"",""))) {
             deleteMainPrint();
         }
+//        preferences.put("savePrintName"+index+"", "");
+//        preferences.put("savePortName"+index+"", "");
+//        preferences.putInt("saveBaudRate"+index+"", -1);
+//        preferences.putInt("saveDataBit"+index+"", -1);
+//        preferences.put("saveParity"+index+"", "");
+//        preferences.put("saveStopBit"+index+"","");
+//        preferences.put("saveFlowControll"+index+"","");
+
+        preferences.remove("savePrintName"+index+"");
+        preferences.remove("savePortName"+index+"");
+        preferences.remove("saveBaudRate"+index+"");
+        preferences.remove("saveDataBit"+index+"");
+        preferences.remove("saveParity"+index+"");
+        preferences.remove("saveStopBit"+index+"");
+        preferences.remove("saveFlowControll"+index+"");
+
+        save_print_grid_pane.getChildren().remove(index);
+        save_print_grid_pane.getChildren().add(index, addNewPrint(index));
     }
 
     @Override
@@ -437,13 +509,29 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
         preferences.put("setMainPortName", select_com_port_combo.getValue());
         preferences.putInt("setMainBaudRate", select_baud_rate_combo.getValue());
         preferences.putInt("setMainDataBit", select_data_bit_combo.getValue());
-        preferences.put("setMainParity", select_parity_combo.getValue());
-        preferences.put("setMainStopBit",select_stop_bit_combo.getValue());
-        preferences.put("setMainFlowControll",select_flow_controller_combo.getValue());
+        preferences.put("setMainParity", "없음");
+        preferences.put("setMainStopBit","1");
+        preferences.put("setMainFlowControll","없음");
+        setPrintList();
     }
 
     @Override
     public void DEL_MAIN(int index) {
 
+    }
+    public boolean checkName(String name) {
+        NoDataDialog nameInVaild = new NoDataDialog();
+        for (int i = 0; i < 5; i++) {
+            final int index = i;
+            if(name.trim().equals("")) {
+                nameInVaild.call("공백은 이름으로 설정이 불가합니다.");
+                return false;
+            }
+            if(preferences.get("savePrintName"+index+"", "").equals(name)) {
+                nameInVaild.call("같은 이름의 설정이 존재합니다.");
+                return false;
+            }
+        }
+        return true;
     }
 }

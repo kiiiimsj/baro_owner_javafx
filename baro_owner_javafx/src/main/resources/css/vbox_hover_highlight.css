@@ -1,0 +1,45 @@
+#login_btn {
+    -fx-font-size: 30pt;
+    -fx-background-color: #8333e6;
+    -fx-text-fill: white;
+    -fx-font-family: 'IBM Plex Sans KR';
+    -fx-font-smoothing-type: true;
+}
+#prev_tab, #next_tab {
+    -fx-font-family: "IBM Plex Sans KR";
+    -fx-font-size: 15pt;
+    -fx-background-radius: 5px;
+    -fx-background-color: #8333e6;
+    -fx-text-fill: white;
+}
+#cancelBtn, #printButton, #setTime, #completeBtn {
+    -fx-font-family: "IBM Plex Sans KR";
+    -fx-font-size: 20pt;
+    -fx-background-radius: 5px;
+    -fx-background-color: #8333e6;
+    -fx-text-fill: white;
+}
+
+Button:hover {
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+    -fx-border-width: 1;
+    -fx-border-insets: -1;
+}
+#discount_rate_set:hover {
+    -fx-border-color: rgba(255, 255, 255, 1);
+    -fx-border-radius: 5;
+    -fx-border-width: 1;
+    -fx-border-insets: -1;
+}
+#order:hover {
+    -fx-border-color: rgba(255, 255, 255, 1);
+    -fx-border-radius: 5;
+    -fx-border-width: 1;
+    -fx-border-insets: -1;
+}
+#login_btn:hover {
+    -fx-border-color: #3d3d3d;
+    -fx-border-width: 2;
+    -fx-border-insets: -2;
+}

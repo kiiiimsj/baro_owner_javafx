@@ -19,11 +19,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -51,8 +53,8 @@ public class OrderHistoryController implements Initializable {
     public TextField search_by_phone;
     public JFXDatePicker start_date_picker;
     public JFXDatePicker end_date_picker;
-    public JFXButton look_up_button;
-    public JFXListView<HBox> dailySales;
+    public Button look_up_button;
+    public ListView<HBox> dailySales;
     public Button button_search_by_phone;
     public HBox search_hbox;
     public VBox content_vbox;
@@ -317,8 +319,6 @@ public class OrderHistoryController implements Initializable {
 
             VBox menuContent = new VBox();
             menuContent.setSpacing(5);
-            menuContent.setMinWidth(500);
-            menuContent.setMaxWidth(500);
             menuContent.setAlignment(Pos.BASELINE_LEFT);
 
             Label phoneText = new Label("고객번호 : "+order.phone);
@@ -338,17 +338,23 @@ public class OrderHistoryController implements Initializable {
             }
             HBox totalPriceHBox = new HBox();
             Label totalPriceLabel = new Label("총 액 : ");
-            Text totalPriceText = new Text (order.total_price+"원");
+            Label totalPriceText = new Label(order.total_price+"원");
+            HBox line = new HBox();
+//            line.setStyle("-fx-border-color: black;-fx-border-width: 0 0 2 0");
+            StackPane strikeThrough = new StackPane();
+            strikeThrough.getChildren().addAll(totalPriceText, line);
+            StackPane.setMargin(line, new Insets(0, 0, 20, 0));
+
             Label totalPriceDiscountRateText;
 
             if(order.discount_rate != 0) {
                 totalPriceDiscountRateText = new Label(" > "+((order.total_price - (int)(order.total_price * (order.discount_rate / 100.0))) - order.discount_price)+"원");
                 totalPriceDiscountRateText.setStyle("-fx-font-size: 20pt; ");
-                totalPriceText.setStrikethrough(true);
-                totalPriceHBox.getChildren().addAll(totalPriceLabel, totalPriceText, totalPriceDiscountRateText);
+//                totalPriceText.setStrikethrough(true);
+                totalPriceHBox.getChildren().addAll(totalPriceLabel, strikeThrough, totalPriceDiscountRateText);
             }
             else {
-                totalPriceText.setStrikethrough(false);
+//                totalPriceText.setStrikethrough(false);
                 totalPriceHBox.getChildren().addAll(totalPriceLabel, totalPriceText);
             }
             menuContent.getChildren().addAll(receiptIdText, phoneText, discountRateText, discountText, totalPriceHBox);
