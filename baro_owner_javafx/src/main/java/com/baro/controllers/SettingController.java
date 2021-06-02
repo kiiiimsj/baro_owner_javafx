@@ -404,18 +404,18 @@ public class SettingController implements Initializable, PrintDialog.PrintDialog
             printOutput.write(ReceiptPrint.SET_WIDTH_57_203DPI);
             printOutput.write(ReceiptPrint.TXT_FONT_A);
             printOutput.write(ReceiptPrint.TXT_2WIDTH);
-            printOutput.write(ReceiptPrint.TXT_ALIGN_LT);
+            printOutput.write(ReceiptPrint.TXT_ALIGN_CT);
             printOutput.write(textString1.getBytes("EUC-KR"));
 
             printOutput.write(ReceiptPrint.TXT_NORMAL);
-            printOutput.write(ReceiptPrint.TXT_ALIGN_CT);
+            printOutput.write(ReceiptPrint.TXT_ALIGN_LT);
             printOutput.write(textString2.getBytes("EUC-KR"));
             printOutput.write(textString3.getBytes("EUC-KR"));
             printOutput.write(textString4.getBytes("EUC-KR"));
             printOutput.write(textString5.getBytes("EUC-KR"));
             printOutput.write(textString6.getBytes("EUC-KR"));
 
-            printOutput.write("\n\n\n".getBytes("EUC-KR"));
+            printOutput.write("\n\n\n\n\n\n\n\n\n".getBytes("EUC-KR"));
             printOutput.write(ReceiptPrint.PAPER_FULL_CUT);
             printOutput.flush();
             printOutput.close();
