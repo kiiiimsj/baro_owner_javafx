@@ -12,11 +12,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<VBox fx:controller="com.baro.controllers.SettingTimerController" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.291" xmlns:fx="http://javafx.com/fxml/1"
+<VBox fx:controller="com.baro.controllers.SettingTimerController" prefHeight="500.0" xmlns="http://javafx.com/javafx/8.0.291" xmlns:fx="http://javafx.com/fxml/1"
             style="-fx-background-color: #3d3d3d; -fx-border-color: gray;-fx-border-width: 1">
-    <padding>
-        <Insets left="10" right="10"/>
-    </padding>
     <HBox fx:id="top_bar" maxWidth="Infinity" spacing="15" alignment="TOP_RIGHT" style="-fx-background-color: #282828"  maxHeight="Infinity" minHeight="-Infinity" minWidth="-Infinity">
         <padding>
             <Insets top="10" bottom="10" right="10"/>
@@ -28,6 +25,9 @@
         </FontAwesomeIconView>
     </HBox>
       <GridPane prefHeight="300" prefWidth="500.0" hgap="10" vgap="10">
+          <padding>
+              <Insets left="10" right="10"/>
+          </padding>
         <columnConstraints>
           <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
@@ -65,6 +65,9 @@
                 </HBox.margin>
             </HBox>
             <HBox prefWidth="500" alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
+                <padding>
+                    <Insets left="10" right="10"/>
+                </padding>
                 <Button prefWidth="250" mnemonicParsing="false" text="제조 시작" onAction="#orderAccept"
                         style="-fx-text-fill: white; -fx-background-color: #8333e6; -fx-font-family: 'IBM Plex Sans KR'; -fx-font-size: 20pt">
                     <HBox.margin>

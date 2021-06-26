@@ -188,7 +188,7 @@ public class DateConverter {
         }
         return sb.toString();
     }
-    public static void fifteenTimerStart(Label timerLabel, TimerReset timerReset) {
+    public static void onHourTimerStart(Label timerLabel, TimerReset timerReset) {
         IS_TIMER_THREAD_START = true;
         new Thread((new Runnable() {
             @Override
@@ -200,7 +200,7 @@ public class DateConverter {
                     String secondString = DateConverter.pad(2, '0', calendar.get(Calendar.SECOND) + "");
                     try {
                         Thread.sleep(1000);
-                        final int minuteFinal = 14 - (Integer.parseInt(minuteString) % 15);
+                        final int minuteFinal = 59 - (Integer.parseInt(minuteString) % 60);
                         ;
                         final int secondFinal = 59 - Integer.parseInt(secondString);
 

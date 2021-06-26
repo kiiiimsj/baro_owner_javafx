@@ -17,7 +17,7 @@
                     </padding>
                     <HBox spacing="8" alignment="CENTER" >
                         <Label text="BARO 할인률 설정" style="-fx-font-size: 15pt; -fx-text-fill: white;-fx-font-weight: bold;"/>
-                        <Label fx:id="baro_discount_timer" text="15:00" style="-fx-font-size: 13pt; -fx-text-fill: white;-fx-font-weight: bold;"/>
+                        <Label fx:id="baro_discount_timer" text="60:00" style="-fx-font-size: 13pt; -fx-text-fill: white;-fx-font-weight: bold;"/>
                     </HBox>
                     <HBox  style="-fx-background-color: white;-fx-background-radius: 5px" alignment="CENTER">
                         <Label text="현재 할인률 : " style="-fx-font-size: 15pt; -fx-text-fill: #8333e6;-fx-font-weight: bold;" alignment="CENTER"/>
