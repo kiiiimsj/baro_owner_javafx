@@ -27,14 +27,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft_17;
-import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
 
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.prefs.Preferences;
@@ -351,7 +347,7 @@ public class MainController implements OrderListController.MoveToSetting{
             orderListController.moveToSetting = this::moveSetting;
             orderListController.reload = reload;
 
-            DateConverter.fifteenTimerStart(orderListController.baro_discount_timer, orderListController);
+            DateConverter.onHourTimerStart(orderListController.baro_discount_timer, orderListController);
 
             orderList = orderListController.orderList;
             returnOrderListWhenApplicationClose.returnOrderList(orderList);
