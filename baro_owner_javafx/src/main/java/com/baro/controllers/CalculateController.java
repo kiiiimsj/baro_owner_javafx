@@ -72,7 +72,7 @@ public class CalculateController implements Initializable {
 
     private void setCalCulateText(String jsonString) {
         //LocalDate.now().minus().DateTimeFormatter.ofPattern("MM/dd"))
-        week_sum_money_label.setText("일주일 ("+DateConverter.getFirstDayOfWeek().format(DateTimeFormatter.ofPattern("MM/dd"))+"(월)"+
+        week_sum_money_label.setText("한달 ("+DateConverter.getFirstDayOfMonth().format(DateTimeFormatter.ofPattern("MM/dd"))+"("+DateConverter.nameOfFirstDayMonth().charAt(0)+")"+
                 " ~ "+ LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd")) + "(" + DateConverter.nameOfToday().charAt(0) + ") )" + " 정산금액");
 
         couponPrice = new JSONObject(jsonString.toString()).getInt("coupon_price");

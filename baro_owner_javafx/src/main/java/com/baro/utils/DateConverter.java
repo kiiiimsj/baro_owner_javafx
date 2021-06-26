@@ -105,6 +105,10 @@ public class DateConverter {
         LocalDate mondayDate = LocalDate.now().with(WeekFields.of(Locale.FRANCE).getFirstDayOfWeek());
         return mondayDate;
     }
+    public static LocalDate getFirstDayOfMonth() {
+        LocalDate firstDay = LocalDate.now().withDayOfMonth(1);
+        return firstDay;
+    }
 
 
     public static String nameOfToday() {
@@ -114,6 +118,21 @@ public class DateConverter {
         Calendar cal = Calendar.getInstance();
         int day = cal.get(Calendar.DAY_OF_WEEK);
         String nameOfDay = weekdays[day];
+
+        return nameOfDay;
+    }
+    public static String nameOfFirstDayMonth() {
+        LocalDate date = LocalDate.now().withDayOfMonth(1);
+        String nameOfDay = "";
+        DateFormatSymbols dfs = new DateFormatSymbols(Locale.KOREA);
+        String weekdays[] = dfs.getWeekdays();
+
+        if(date.getDayOfWeek().getValue() == 7) {
+            nameOfDay = weekdays[1];
+        }else {
+            //화요일이 월요일로 찍히는 버그 + 1 씩해줌.
+            nameOfDay = weekdays[date.getDayOfWeek().getValue() + 1];
+        }
 
         return nameOfDay;
     }
