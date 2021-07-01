@@ -119,16 +119,17 @@ public class OrderDetailDialog implements Initializable {
         yes.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                Stage stage = (Stage)top_bar.getScene().getWindow();
                 switch (buttonType) {
                     case ORDER_CANCEL:
                         orderDetailDialogInterface.ORDER_CANCEL();
+                        stage.close();
                         break;
                     case ORDER_COMPLETE:
                         orderDetailDialogInterface.ORDER_COMPLETE();
+                        stage.close();
                         break;
                 }
-                Stage stage = (Stage)top_bar.getScene().getWindow();
-                stage.close();
             }
         });
     }

@@ -358,8 +358,16 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
 
             if (result) {
                 System.out.println("성공");
+                if(withOutButton) {
+                    Stage st = (Stage)cancelBtn.getScene().getWindow();
+                    st.close();
+                }
             }else{
                 System.out.println("실패");
+                if(withOutButton) {
+                    Stage st = (Stage)cancelBtn.getScene().getWindow();
+                    st.close();
+                }
             }
         }
         catch (MalformedURLException e) {
@@ -458,6 +466,10 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
                 sendCustomerMessage();
             }else{
                 System.out.println("실패");
+                if(withOutButton) {
+                    Stage st = (Stage)cancelBtn.getScene().getWindow();
+                    st.close();
+                }
             }
         }
         catch (MalformedURLException e) {
