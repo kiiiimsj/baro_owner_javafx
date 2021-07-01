@@ -64,6 +64,7 @@ public class OrderHistoryController implements Initializable {
 
     private StringConverter dateConverter;
     private OrderDetailParsing orderDetailParsing;
+    private OrderDetailsController detailcontroller;
 
     private boolean clickSearch = false;
     private boolean clickSeeDoneButton = false;
@@ -443,7 +444,7 @@ public class OrderHistoryController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderDetails.fxml"));
             Parent parent = loader.load();
-            OrderDetailsController detailcontroller = loader.<OrderDetailsController>getController();
+            detailcontroller = loader.<OrderDetailsController>getController();
 
             detailcontroller.withOutButton = true;
             detailcontroller.setData(orderDetailParsing ,order);

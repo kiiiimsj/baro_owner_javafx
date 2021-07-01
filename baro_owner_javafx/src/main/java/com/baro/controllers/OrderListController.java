@@ -430,7 +430,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                                 @Override
                                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                                     if (newValue) {
-//                                        orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
+                                        orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
                                         orderList.orders.remove(index);
                                         whenDelete();
                                     }
