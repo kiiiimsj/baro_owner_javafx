@@ -63,7 +63,8 @@
         <AnchorPane>
             <HBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
                     prefWidth="180" prefHeight="110" style="-fx-background-color: #FFFFFF00; -fx-background-radius: 5; -fx-border-color: white;-fx-border-width: 2 2 0 2;-fx-border-radius: 5 0 0 0" pickOnBounds="false"/>
-            <HBox prefWidth="502" prefHeight="110" AnchorPane.rightAnchor="0"  style="-fx-border-color: white;-fx-border-width: 0 0 2 2;-fx-border-radius: 0 0 0 0"/>
+            <HBox prefWidth="502" prefHeight="110" AnchorPane.rightAnchor="0" pickOnBounds="false"
+                  style="-fx-border-color: white;-fx-border-width: 0 0 2 2;-fx-border-radius: 0 0 0 0"/>
             <HBox AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="110"
                     prefWidth="Infinity" prefHeight="630" style="-fx-background-color: #3d3d3d; -fx-background-radius: 5;-fx-border-width: 0 2 2 2;-fx-border-color: white;-fx-border-radius: 0 0 5 5" pickOnBounds="false" alignment="CENTER">
                 <Label alignment="CENTER" textAlignment="CENTER" text="주문내역이 없습니다." style="-fx-font-size: 30pt;-fx-text-fill: white;"/>
