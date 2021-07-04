@@ -153,7 +153,6 @@ public class SettingTimerController implements Initializable {
                 changeToAccept.set(true);
                 System.out.println("inTimer: " + timeInt);
                 sendCustomerMessage(timeInt);
-                System.out.println("성공");
             }else{
                 System.out.println("실패");
             }

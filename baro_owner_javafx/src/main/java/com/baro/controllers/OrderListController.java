@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -38,10 +39,11 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 
-public class OrderListController implements DiscountRateController.ClickClose, DateConverter.TimerReset {
+public class OrderListController implements DiscountRateController.ClickClose, DateConverter.TimerReset, Initializable {
 
     public Label new_store_discount_rate;
     public Label arrow_right;
@@ -70,47 +72,8 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         });
     }
 
-    public interface MoveToSetting {
-        void moveSetting();
-    }
-
-    public Label store_discount_rate;
-    public VBox discount_rate_set;
-    @FXML
-    private JFXToggleButton isOpenBtn;
-    @FXML
-    private TilePane childContainer;
-    @FXML
-    private Label pagingLabel;
-    @FXML
-    private AnchorPane orderDetailsContainer;
-    private WebSocketClient webSocketClient;
-
-    public static OrderList orderList = new OrderList();
-    public static int lastSelectedTabIndex = 0;
-    public final static int ONEPAGEORDER = 7; // 한 페이지에 들어가는 갯수
-    public static int CURRNETPAGE = 1; // 현재 페이지
-    public static int ENTIREPAGE = 1; // 전체페이지 수
-    public static Boolean LASTPAGEFULL = false; // 마지막페이지가 가득찼냐
-
-    public MoveToSetting moveToSetting;
-    int orderIndex = 0;
-    int discountRate = 0;
-
-    private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
-    public InternetConnectDialog.Reload reload;
-
-    String store_id;
-    Preferences preferences = Preferences.userRoot();
-    AlarmPopUp popUp = new AlarmPopUp();
-    String isOpen = preferences.get("is_open", "");
-
-    MediaPlayer player;
-
-    /// Life cycle
-    @FXML
-    public void initialize() {
-        System.out.println("call OrderList");
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         paging_ui.setPrefWidth(LayoutSize.ORDER_LIST_WIDTH);
         paging_ui.setPrefHeight(LayoutSize.ORDER_LIST_ORDER_CELL_HEIGHT);
 
@@ -215,6 +178,44 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         configureOrderListView();
         store_discount_rate.setText(discountRate+"%");
     }
+
+    public interface MoveToSetting {
+        void moveSetting();
+    }
+
+    public Label store_discount_rate;
+    public VBox discount_rate_set;
+    @FXML
+    private JFXToggleButton isOpenBtn;
+    @FXML
+    private TilePane childContainer;
+    @FXML
+    private Label pagingLabel;
+    @FXML
+    private AnchorPane orderDetailsContainer;
+    private WebSocketClient webSocketClient;
+
+    public static OrderList orderList = new OrderList();
+    public static int lastSelectedTabIndex = 0;
+    public final static int ONEPAGEORDER = 7; // 한 페이지에 들어가는 갯수
+    public static int CURRNETPAGE = 1; // 현재 페이지
+    public static int ENTIREPAGE = 1; // 전체페이지 수
+    public static Boolean LASTPAGEFULL = false; // 마지막페이지가 가득찼냐
+
+    public MoveToSetting moveToSetting;
+    int orderIndex = 0;
+    int discountRate = 0;
+
+    private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
+    public InternetConnectDialog.Reload reload;
+
+    String store_id;
+    Preferences preferences = Preferences.userRoot();
+    AlarmPopUp popUp = new AlarmPopUp();
+    String isOpen = preferences.get("is_open", "");
+
+    MediaPlayer player;
+
     private void getDiscountRate() {
         try {
             URL url = new URL("http://3.35.180.57:8080/GetStoreDiscount.do?store_id="+store_id);
@@ -238,7 +239,6 @@ public class OrderListController implements DiscountRateController.ClickClose, D
             boolean result = getBool(bf.toString());
             ;
             if (result) {
-                System.out.println("성공");
                 discountRate = new JSONObject(bf.toString()).getInt("discount_rate");
             } else {
                 System.out.println("실패");
@@ -342,7 +342,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                 parsingOrders(bf.toString());
                 getPageCount();
                 if (orderList.orders.size() < ONEPAGEORDER){
-                    setList(0, (orderList.orders.size()-1) % ONEPAGEORDER);
+                    setList(0, (orderList.orders.size() - 1 ) % ONEPAGEORDER);
                 }else{
                     setList( orderList.orders.size() - 1 - ONEPAGEORDER,orderList.orders.size() - 1);
                 }
@@ -366,12 +366,14 @@ public class OrderListController implements DiscountRateController.ClickClose, D
             for (int i = 0; i < orderList.orders.size(); i++) {
                 if(!preferences.get(orderList.orders.get(i).receipt_id, "").equals("")) {
                     String receiptId = preferences.get(orderList.orders.get(i).receipt_id, "");
+
                     for (int j = 0; j < orderList.orders.size(); j++) {
                         if (orderList.orders.get(j).getReceipt_id().equals(receiptId)) {
                             String time = preferences.get(orderList.orders.get(i).receipt_id + "time", "");
                             orderList.orders.get(i).setCompleteTime(time);
                         }
                     }
+
                 }
             }
         }
@@ -480,10 +482,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         String hourString   = DateConverter.pad(2, '0', calendar.get(Calendar.HOUR)   == 0 ? "12" : calendar.get(Calendar.HOUR) + "");
         String minuteString = DateConverter.pad(2, '0', calendar.get(Calendar.MINUTE) + "");
 
-
-        System.out.println("time " + time);
         int setMinute = Integer.parseInt(minuteString) + time;
-        System.out.println("minStr " + minuteString + " minInt" + setMinute);
 
         int ifOverSixty = setMinute/60;
         if(setMinute > 60 ) {
@@ -504,7 +503,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         }
 
         childContainer.getChildren().remove(0, childContainer.getChildren().size());
-        for (int i = endIndex; i > startIndex; --i) {
+        for (int i = endIndex; i >= startIndex; --i) {
             HBox hBox = makeCell(i);
             childContainer.getChildren().add(hBox);
         }
@@ -534,7 +533,6 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         }
     });
     private void connect() throws NoRouteToHostException{
-        System.out.println("aaa");
         URI uri;
 
         try {

@@ -106,10 +106,6 @@ public class LoginController implements Initializable {
         String id = phone_tf.getText();
         String owner_pass = password_tf.getText();
 
-        System.out.println("phone1" + id);
-        System.out.println("pass1" + owner_pass);
-
-       System.out.println("로그인 버튼 클릭!!");
        try{
            URL url = new URL("http://3.35.180.57:8080/OwnerLogin.do");
            URLConnection con = url.openConnection();
