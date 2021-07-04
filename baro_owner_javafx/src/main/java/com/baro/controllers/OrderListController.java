@@ -493,17 +493,22 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         return DateConverter.pad(2, '0', setHour+"") + ":" +DateConverter.pad(2, '0', setMinute+"")+ " 까지";
     }
     private void setList(int startIndex,int endIndex) {
+        System.out.println(startIndex);
+        System.out.println(endIndex);
         System.out.println("setList");
         if(orderList.orders.size() == 0) {
             System.out.println("noData");
             no_data.setVisible(true);
             no_data.setManaged(true);
         }else {
+            no_data.setVisible(false);
             paging_ui.setVisible(true);
         }
 
         childContainer.getChildren().remove(0, childContainer.getChildren().size());
         for (int i = endIndex; i >= startIndex; --i) {
+            if(i < 0 ) continue;
+            System.out.println(i);
             HBox hBox = makeCell(i);
             childContainer.getChildren().add(hBox);
         }
@@ -731,7 +736,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                 }
             }
         }else {
-            setList((orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER - ONEPAGEORDER,(orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER );
+            setList((orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER - ONEPAGEORDER, (orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER );
         }
     }
 }
