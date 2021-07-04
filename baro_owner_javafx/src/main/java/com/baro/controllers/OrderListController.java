@@ -203,7 +203,6 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     public static Boolean LASTPAGEFULL = false; // 마지막페이지가 가득찼냐
 
     public MoveToSetting moveToSetting;
-    int orderIndex = 0;
     int discountRate = 0;
 
     private SimpleIntegerProperty notReadedOrder = new SimpleIntegerProperty();
@@ -381,7 +380,6 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     }
 
     private HBox makeCell(int index) {
-        orderIndex = index;
         HBox hBox = null;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/order.fxml"));
@@ -411,7 +409,8 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                                 @Override
                                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                                     if (newValue) {
-                                        orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
+                                        System.out.println("order cancel size : " + orderDetailsContainer.getChildren().size());
+                                        orderDetailsContainer.getChildren().remove(index);
                                         orderList.orders.remove(index);
                                         whenDelete();
                                     }
@@ -432,7 +431,7 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                                 @Override
                                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                                     if (newValue) {
-                                        orderDetailsContainer.getChildren().remove(0,orderDetailsContainer.getChildren().size());
+                                        orderDetailsContainer.getChildren().remove(index);
                                         orderList.orders.remove(index);
                                         whenDelete();
                                     }
@@ -493,17 +492,22 @@ public class OrderListController implements DiscountRateController.ClickClose, D
         return DateConverter.pad(2, '0', setHour+"") + ":" +DateConverter.pad(2, '0', setMinute+"")+ " 까지";
     }
     private void setList(int startIndex,int endIndex) {
+        System.out.println("when remove startIndex : " + startIndex);
+        System.out.println("when remove endIndex : " + endIndex);
         System.out.println("setList");
         if(orderList.orders.size() == 0) {
             System.out.println("noData");
             no_data.setVisible(true);
             no_data.setManaged(true);
         }else {
+            no_data.setVisible(false);
             paging_ui.setVisible(true);
         }
-
+        System.out.println("when remove childContainer size : " + childContainer.getChildren().size());
         childContainer.getChildren().remove(0, childContainer.getChildren().size());
         for (int i = endIndex; i >= startIndex; --i) {
+            if(i < 0 ) continue;
+            System.out.println("for i index : " + i);
             HBox hBox = makeCell(i);
             childContainer.getChildren().add(hBox);
         }
@@ -590,10 +594,11 @@ public class OrderListController implements DiscountRateController.ClickClose, D
                                 if (orderList.orders.size() % ONEPAGEORDER != 0 ) {
                                     setList(-1,(orderList.orders.size()-1) % ONEPAGEORDER);
                                 }else{
-                                    setList(-1,ONEPAGEORDER-1);
+                                    setList(-1, ONEPAGEORDER-1);
+//                                    setList(-1, orderList.orders.size() - 1);
                                 }
                             }else{
-                                setList((orderList.orders.size()-1) - CURRNETPAGE * ONEPAGEORDER,(orderList.orders.size()-1) - CURRNETPAGE * ONEPAGEORDER + ONEPAGEORDER);
+                                setList((orderList.orders.size()-1) - CURRNETPAGE * ONEPAGEORDER, (orderList.orders.size()-1) - CURRNETPAGE * ONEPAGEORDER + ONEPAGEORDER);
                             }
                             int temp = notReadedOrder.get() + 1;
                             notReadedOrder.set(temp);
@@ -720,18 +725,26 @@ public class OrderListController implements DiscountRateController.ClickClose, D
     }
     public void whenDelete(){
         getPageCount();
-        if (CURRNETPAGE == 1 && ENTIREPAGE == 1){
+        System.out.println(CURRNETPAGE + " : " + ENTIREPAGE);
+        if (CURRNETPAGE == 0 && ENTIREPAGE == 0){
+            System.out.println("CURRENT PAGE, ENTIREPAGE 1");
             if (orderList.orders.size() % ONEPAGEORDER != 0 ) {
+                System.out.println("ONEPAGE OVER");
                 setList(-1,(orderList.orders.size()-1) % ONEPAGEORDER);
+//                setList(-1, orderList.orders.size()-1);
             }else{
+                System.out.println("ONEPAGE NOT OVER");
                 if (orderList.orders.size() == 0 ){
                     //아무것도안함
                 }else {
+                    System.out.println("SIZE NOT 0");
                     setList(-1, ONEPAGEORDER - 1);
+//                    setList(-1, orderList.orders.size()-1);
                 }
             }
         }else {
-            setList((orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER - ONEPAGEORDER,(orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER );
+            System.out.println("CURRENT PAGE, ENTIREPAGE non 1");
+            setList((orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER - ONEPAGEORDER, (orderList.orders.size()-1) - (CURRNETPAGE - 1) * ONEPAGEORDER );
         }
     }
 }

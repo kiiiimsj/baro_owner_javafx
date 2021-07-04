@@ -416,7 +416,7 @@ public class ReceiptPrint implements Initializable {
         }
         texTitleText.append("-------------------------------------\n")
                 .append("할인액 : ")
-                .append( orderInfo.total_price - (int)(orderInfo.total_price - ( orderInfo.total_price  *  (orderInfo.discount_rate / 100.0) )) )
+                .append( orderInfo.total_price  *  (orderInfo.discount_rate / 100.0) )
                 .append("\n")
                 .append("쿠폰 : ")
                 .append(orderInfo.discount_price)
