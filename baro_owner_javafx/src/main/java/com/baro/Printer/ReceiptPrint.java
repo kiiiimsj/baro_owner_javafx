@@ -416,7 +416,8 @@ public class ReceiptPrint implements Initializable {
         }
         texTitleText.append("-------------------------------------\n")
                 .append("할인액 : ")
-                .append((orderInfo.total_price * 100 / (100 - orderInfo.discount_rate)) - orderInfo.total_price +"\n")
+                .append( orderInfo.total_price - (int)(orderInfo.total_price - ( orderInfo.total_price  *  (orderInfo.discount_rate / 100.0) )) )
+                .append("\n")
                 .append("쿠폰 : ")
                 .append(orderInfo.discount_price)
                 .append("원")
@@ -436,6 +437,8 @@ public class ReceiptPrint implements Initializable {
         /**
          * CUT_PAPER시 너무 빠르게 잘려 내용이 잘리는 이슈 - 개행문자 추가로 영수증 내용 위로 올림
          * **/
+        System.out.println(headerContent.toString() + orderGetTextContent.toString() +  orderGetTextContent.toString() +
+                customerPhone.toString() + content.toString() + texTitleText.toString() + totalTitleText.toString() + customerRequest.toString());
     }
 
 

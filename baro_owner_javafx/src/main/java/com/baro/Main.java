@@ -96,7 +96,6 @@ public class Main extends Application implements MainController.ReturnOrderListW
     //================================================================
     //websocket
     private void connect() {
-        System.out.println("aaa");
         URI uri;
         try {
             uri = new URI("ws://3.35.180.57:8080/websocket");
@@ -137,7 +136,6 @@ public class Main extends Application implements MainController.ReturnOrderListW
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println("call stop");
                     for (int i = 0; i < orderList.orders.size(); i++) {
                         if (orderList.orders.get(i).completeTime != null && !orderList.orders.get(i).completeTime.equals("")) {
                             preferences.put(orderList.orders.get(i).receipt_id, orderList.orders.get(i).receipt_id);
