@@ -357,13 +357,11 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
             boolean result = getRequestSuccess(bf.toString());
 
             if (result) {
-                System.out.println("성공");
                 if(withOutButton) {
                     Stage st = (Stage)cancelBtn.getScene().getWindow();
                     st.close();
                 }
             }else{
-                System.out.println("실패");
                 if(withOutButton) {
                     Stage st = (Stage)cancelBtn.getScene().getWindow();
                     st.close();
@@ -461,11 +459,9 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
             boolean result = getRequestSuccess(bf.toString());
 
             if (result) {
-                System.out.println("성공");
                 changeToCancel.set(true);
                 sendCustomerMessage();
             }else{
-                System.out.println("실패");
                 if(withOutButton) {
                     Stage st = (Stage)cancelBtn.getScene().getWindow();
                     st.close();
@@ -510,7 +506,6 @@ public class OrderDetailsController implements Initializable, OrderDetailDialog.
             boolean result = getRequestSuccess(bf.toString());
 
             if (result) {
-                System.out.println("성공");
                 changeToDone.set(true);
                 sendCustomerDoneMessage();
             }else{

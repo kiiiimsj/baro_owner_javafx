@@ -97,17 +97,14 @@ public class MainController implements OrderListController.MoveToSetting{
     Preferences preferences = Preferences.userRoot();
     public MainController(ReturnOrderListWhenApplicationClose returnOrderListWhenApplicationClose) {
         this.returnOrderListWhenApplicationClose = returnOrderListWhenApplicationClose;
-        System.out.println("first");
     }
     @FXML
     public void initialize() {
-        System.out.println("second");
         main_page_stack_pane.setPrefHeight(LayoutSize.MAIN_PAGE_HEIGHT);
         main_page_stack_pane.setPrefWidth(LayoutSize.MAIN_PAGE_WIDTH);
 
 
         store_id = preferences.get("store_id", null);
-        System.out.println("store_id" + store_id);
 
         configureSideView();
         configureTopBar();
@@ -243,7 +240,6 @@ public class MainController implements OrderListController.MoveToSetting{
             boolean result = getBool(bf.toString());
 
             if (result) {
-                System.out.println("성공");
                 if(isFromClose) {
 //                    Stage stage = (Stage)main_page_stack_pane.getScene().getWindow();
 //                    stage.close();
@@ -338,7 +334,6 @@ public class MainController implements OrderListController.MoveToSetting{
     }
     //이미지경로 넣기 위한 title 뒤에 String iconPath 뺏음
     private void preConfigureTabForOrderList(Tab tab, AnchorPane containerPane) {
-        System.out.println("preConfigureTabForOrderList ");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/order_list.fxml"));
             Parent contentView = loader.load();

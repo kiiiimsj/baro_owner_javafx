@@ -194,7 +194,7 @@ public class DateConverter {
             @Override
             public void run() {
                 while (IS_TIMER_THREAD_START) {
-                    System.out.println("TIMER_THREAD : " + IS_TIMER_THREAD_START);
+//                    System.out.println("TIMER_THREAD : " + IS_TIMER_THREAD_START);
                     Calendar calendar = GregorianCalendar.getInstance();
                     String minuteString = DateConverter.pad(2, '0', calendar.get(Calendar.MINUTE) + "");
                     String secondString = DateConverter.pad(2, '0', calendar.get(Calendar.SECOND) + "");
