@@ -454,14 +454,16 @@ public class OrderHistoryController implements Initializable {
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     System.out.println("cancel");
                     if (newValue) {
-                        System.out.println("cancel_new_value_true");
-                        ((Label)((HBox)(cell.getChildren().get(0))).getChildren().get(2)).setText("취소");
-                        String doneStr = see_done.getText();
-                        String cancelStr = see_cancel.getText();
-                        int doneCount = Integer.parseInt(doneStr.substring(2, doneStr.indexOf("건")));
-                        int cancelCount = Integer.parseInt(cancelStr.substring(2, doneStr.indexOf("건")));
-                        see_done.setText("완료\n"+doneCount+"건");
-                        see_cancel.setText("취소\n"+cancelCount+ "건");
+//                        System.out.println("cancel_new_value_true");
+//                        ((Label)((VBox)(cell.getChildren().get(0))).getChildren().get(2)).setText("취소");
+//                        String doneStr = see_done.getText();
+//                        String cancelStr = see_cancel.getText();
+//                        System.out.println(doneStr);
+//                        int doneCount = Integer.parseInt(doneStr.substring(3, doneStr.indexOf("건")));
+//                        int cancelCount = Integer.parseInt(cancelStr.substring(3, doneStr.indexOf("건")));
+//                        see_done.setText("완료\n"+(doneCount++)+"건");
+//                        see_cancel.setText("취소\n"+(cancelCount--)+ "건");
+                        getOrderCompleteListByDate();
                     }else {
                         System.out.println("cancel_new_value_false");
                     }
